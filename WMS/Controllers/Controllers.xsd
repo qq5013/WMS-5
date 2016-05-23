@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<xsd:schema name="Controllers.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <xsd:element name="AuthController">
+  </xsd:element>
+  
+  <xsd:element name="BaseController">
+   <xsd:annotation>
+    <xsd:documentation>
+             #endregion
+    </xsd:documentation>
+   </xsd:annotation>
+   <xsd:element name="WmsDc" type="WMSDcDataContext"/>
+   <xsd:element name="Rm" type="ResultMessage"/>
+   <xsd:element name="UsrId" type="String"/>
+   <xsd:element name="LoginInfo" type="LoginInfo"/>
+   <xsd:element name="Mdlid" type="String"/>
+   <xsd:element name="Mdldes" type="String"/>
+   <xsd:element name="Log" type="Log"/>
+  </xsd:element>
+  
+  <xsd:element name="RecievController">
+   <xsd:annotation>
+    <xsd:documentation>
+     &lt;summary&gt;
+     收货单模块
+     &lt;/summary&gt;
+    </xsd:documentation>
+   </xsd:annotation>
+  </xsd:element>
+  
+  <xsd:element name="UpShelfController">
+   <xsd:annotation>
+    <xsd:documentation>
+     &lt;summary&gt;
+     上架模块
+     &lt;/summary&gt;
+     public ActionResult MdfyCangWei(String wsmno, String 
+    </xsd:documentation>
+   </xsd:annotation>
+  </xsd:element>
+
+</xsd:schema>

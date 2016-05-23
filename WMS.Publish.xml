@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<publishData>
+  <publishProfile publishUrl="D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMSDispatch" deleteExistingFiles="False" ftpAnonymousLogin="False" ftpPassiveMode="True" msdeploySite="" msdeploySiteID="" msdeployRemoteSitePhysicalPath="" msdeployAllowUntrustedCertificate="False" msdeploySkipExtraFilesOnServer="True" msdeployMarkAsApp="False" profileName="配置文件1" publishMethod="FileSystem" replaceMatchingFiles="True" userName="" savePWD="False" userPWD="" SelectedForPublish="True">
+    <file relUrl="Web.config" publishTime="03/06/2016 17:58:22" />
+    <file relUrl="bin/WMS.pdb" publishTime="03/06/2016 17:58:22" />
+    <file relUrl="bin/WMS.dll" publishTime="03/06/2016 17:58:22" />
+    <file relUrl="bin/System.Web.Mvc.dll" publishTime="02/17/2010 08:24:14" />
+    <file relUrl="bin/System.Web.Services.dll" publishTime="03/18/2010 19:31:26" />
+    <file relUrl="bin/System.Web.Routing.dll" publishTime="03/18/2010 19:31:26" />
+    <file relUrl="bin/System.Web.Mvc.xml" publishTime="02/17/2010 08:22:24" />
+    <file relUrl="bin/zh-Hans/System.Web.Mvc.resources.dll" publishTime="03/29/2010 17:36:52" />
+    <file relUrl="Views/Web.config" publishTime="10/20/2015 16:13:57" />
+    <file relUrl="bin/WMS.XML" publishTime="03/06/2016 17:58:22" />
+    <file relUrl="Global.asax" publishTime="10/20/2015 16:13:57" />
+    <file relUrl="bin/System.Web.dll" publishTime="03/18/2010 19:31:26" />
+    <file relUrl="Default.aspx" publishTime="02/24/2016 08:58:37" />
+    <file relUrl="Views/Base/Index.aspx" publishTime="02/16/2016 17:06:47" />
+  </publishProfile>
+</publishData>

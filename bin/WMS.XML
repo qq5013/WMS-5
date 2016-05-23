@@ -1,0 +1,3139 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WMS</name>
+    </assembly>
+    <members>
+        <member name="T:WMS.MvcApplication">
+            <summary>
+            应用程序类
+            </summary>
+        </member>
+        <member name="M:WMS.MvcApplication.RegisterRoutes(System.Web.Routing.RouteCollection)">
+            <summary>
+            注册路由
+            </summary>
+            <param name="routes"></param>
+        </member>
+        <member name="M:WMS.MvcApplication.Application_Start">
+            <summary>
+            应用起始接口
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.RetCangController">
+            <summary>
+            返仓模块
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.SsnController">
+            <summary>
+            Session状态相关的数据, 提供登录后需要的基础数据的访问接口
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.AuthController">
+            <summary>
+            身份验证服务
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.BaseController">
+            <summary>
+            业务基础类
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.WmsDc">
+            <summary>
+            数据操作上下文
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.Rm">
+            <summary>
+            请求结果描述
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.UsrId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.LoginInfo">
+            <summary>
+            用户登录信息
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.Mdlid">
+            <summary>
+            模块ID
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.Mdldes">
+            <summary>
+            模块名称
+            </summary>
+        </member>
+        <member name="F:WMS.Controllers.BaseController.Log">
+            <summary>
+            日志操作对象
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.Init(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化Controller
+            </summary>
+            <param name="requestContext"></param>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化Initialize
+            </summary>
+            <param name="requestContext"></param>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.ReturnResult">
+            <summary>
+            公共返回函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.ReturnResult(System.String,System.String)">
+            <summary>
+            公共返回函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RInfo(System.String)">
+            <summary>
+            返回警告信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RErr(System.String)">
+            <summary>
+            返回错误信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RSucc(System.String,System.Object)">
+            <summary>
+            返回成功信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RNoData(System.String)">
+            <summary>
+            返回未找到信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RReturnResult">
+            <summary>
+            公共返回函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RReturnResult(System.String,System.String)">
+            <summary>
+            公共返回函数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RRInfo(System.String)">
+            <summary>
+            返回警告信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RRErr(System.String)">
+            <summary>
+            返回错误信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RRSucc(System.String,System.Object)">
+            <summary>
+            返回成功信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RRNoData(System.String)">
+            <summary>
+            返回未找到信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AuthController.CheckLogin">
+            <summary>
+            检查是否登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AuthController.GetLoginInfoByUsrId(System.String)">
+            <summary>
+            根据USRID,得到登录信息
+            </summary>
+            <param name="UsrId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AuthController.SetDefSavdptid(System.String)">
+            <summary>
+            设置默认配送
+            </summary>
+            <param name="savdptid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AuthController.Login(System.String,System.String)">
+            <summary>
+            登录
+            </summary>
+            <param name="usrid">帐号</param>
+            <param name="pwd">密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AuthController.Logout">
+            <summary>
+            退出登录
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetSvrDateTime">
+            <summary>
+            得到服务器时间
+            </summary>
+            <returns></returns>
+        </member>
+        <!-- 对于成员“M:WMS.Controllers.SsnController.GetGdsQtyInBarcode(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeComm(System.String)">
+            <summary>
+            得到仓位商品数量
+            </summary>
+            <param name="barcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeCommTphy(System.String)">
+            <summary>
+            得到仓位商品数量
+            </summary>
+            <param name="barcode"></param>
+            <param name="isTphy">是否是托盘还原</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsInBarcode(System.String)">
+            <summary>
+            得到仓位的商品
+            </summary>
+            <param name="barcode">仓位编码</param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeTphy(System.String)">
+            <summary>
+            得到仓位的商品(托盘还原)
+            </summary>
+            <param name="barcode">仓位编码</param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetAGdsInBarcode(System.String,System.String,System.String)">
+            <summary>
+            得到仓位的商品
+            </summary>
+            <param name="barcode">仓位编码</param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.SsnController.IsSameLogin(System.String)">
+            <summary>
+            是否是同一个登录员工
+            </summary>
+            <param name="empid">员工工号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPwrQus">
+            <summary>
+            得到有权限的分区
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPwrStores">
+            <summary>
+            得到配送中心的权限
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPwrDpts">
+            <summary>
+            得到有商品区的权限部门
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPwrDptsDt">
+            <summary>
+            得到有商品区的权限部门(堆头)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPwrDptsTh">
+            <summary>
+            得到有商品区的权限部门(退货)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPwrSavdpts">
+            <summary>
+            得到商品库和残损库的权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetQusInfo(System.String)">
+            <summary>
+            得到分区数据权限信息
+            </summary>
+            <param name="pwrFlg">权限控制标志（GetY()表示控制权限,null/GetN()表示不控制权限）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsByGdsidPrvid(System.String,System.String)">
+            <summary>
+            根据供应商和货号查询(残损库的商品)
+            </summary>
+            <param name="gdsid">货号/条码/商品名称 查询参数</param>
+            <param name="prvid">供应商编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsStoreQtyByGdsid(System.String,System.String)">
+            <summary>
+            查询商品对应每个仓位的信息
+            </summary>
+            <param name="gdsid">商品货号</param>
+            <param name="gdstype">商品类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.Psbz(System.String)">
+            <summary>
+            配送播种
+            </summary>
+            <param name="dat">配送日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.Ndbz(System.String)">
+            <summary>
+            内调播种
+            </summary>
+            <param name="dat">配送日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.Wxbz(System.String)">
+            <summary>
+            外销播种
+            </summary>
+            <param name="dat">配送日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.MdPwd(System.String,System.String)">
+            <summary>
+            修改密码
+            </summary>
+            <param name="oldPwd">原密码</param>
+            <param name="pwd">新密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsidByGdsidOrBcd(System.String)">
+            <summary>
+            根据货号或者商品编码得到商品的货号
+            </summary>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetDptByDptid(System.String)">
+            <summary>
+            根据分店编号返回分店信息
+            </summary>
+            <param name="dptid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGds(System.String)">
+            <summary>
+            返回商品基础信息
+            </summary>
+            <param name="schInfo">货号/条码/商品名称 查询参数</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetABcdByGdsid1(System.String)">
+            <summary>
+            不判断13位
+            </summary>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetBcdByGdsid(System.String)">
+            <summary>
+            得到Bcd信息
+            </summary>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsByGdsid(System.String)">
+            <summary>
+            返回商品基础信息
+            </summary>
+            <param name="gdsid">货号/条码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsPkg(System.String)">
+            <summary>
+            得到商品的包装
+            </summary>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPrv(System.String)">
+            <summary>
+            获取供应商信息
+            </summary>
+            <param name="prvid">供应商编号、供应商名称</param>
+            <returns>ResultMessage对象</returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetBarcodeByGdsid(System.String,System.String)">
+            <summary>
+            根据货号得到仓位(残损)
+            </summary>
+            <param name="savdptid"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetRelateDpt(System.String)">
+            <summary>
+            根据区位码得到关联部门编码
+            </summary>
+            <param name="qu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetRealteQu(System.String,System.String)">
+            <summary>
+            根据dptid查找区位
+            </summary>
+            <param name="qu">区位码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsType">
+            <summary>
+            得到商品类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetSavdptsByStore(System.String)">
+            <summary>
+            通过配送中心得到库信息
+            </summary>
+            <param name="storeid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetNewBllNo(System.String,System.String)">
+            <summary>
+            得到新的收货号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.SetNewBllNo(System.String,System.String)">
+            <summary>
+            设置新单号
+            </summary>
+            <param name="bllid"></param>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.MakeNewBllNo(System.String,System.String,System.Func{System.String,WMS.ResultMessage})">
+            <summary>
+            制新单
+            </summary>
+            <param name="savdptid">仓库</param>
+            <param name="bllid">需要制单的单号</param>
+            <param name="func">新建后</param>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetCurrentFscprdid">
+            <summary>
+            得到当期会计期间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetCurrentDay">
+            <summary>
+            得到当前日期
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetPrevDay">
+            <summary>
+            得到昨天
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetNextDay">
+            <summary>
+            得到明天
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetCurrentDate">
+            <summary>
+            得到当前日期和时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetMinCengByTongdao(System.String,System.String,System.String)">
+            <summary>
+            得到最小层
+            </summary>
+            <param name="savdptid"></param>
+            <param name="qu"></param>
+            <param name="tongdao"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetSavdpts">
+            <summary>
+            得到配送信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetLosRsn">
+            <summary>
+            报损原因
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.GetRcbakrsn">
+            <summary>
+            返仓原因
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.HasQtyInBarcode(System.String,System.String,System.String)">
+            <summary>
+            判断仓位里面是否有库存
+            </summary>
+            <param name="barcode">仓位</param>
+            <param name="gdsid">商品货号</param>
+            <param name="gdstype">商品类型</param>
+            <returns></returns>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.qus">
+            <summary>
+            登录后区域数据权限
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.spqus">
+            <summary>
+            商品区
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.dtqus">
+            <summary>
+            堆头区
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.thqus">
+            <summary>
+            退货损区
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.dpts">
+            <summary>
+            登录后部门商品区的数据权限
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.savdpts">
+            <summary>
+            得到商品库和残损库的数据权限
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.SsnController.stores">
+            <summary>
+            得到配送中心的权限
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.#ctor">
+            <summary>
+            返仓模块构造函数
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.GetRetBlls(System.String,System.String,System.String)">
+            <summary>
+            返回会计期间的返仓单
+            </summary>
+            <param name="fscprdid">会计期间</param>
+            <param name="dptid">分店编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.GetRetBllDetails(System.String)">
+            <summary>
+            返仓单明细
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.DlRetBllDetail(System.String,System.String)">
+            <summary>
+            删除单据明细
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.DlRetBlls(System.String)">
+            <summary>
+            整单删除
+            </summary>
+            <param name="wmsnos"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.AdRetBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            返仓单明细增加        
+            </summary>
+            <param name="bllno">单号</param>
+            <param name="dptid">分店编码</param>
+            <param name="gdsids">货号/条码（数组）</param>
+            <param name="hndno">手工单号</param>
+            <param name="qtys">数量（数组）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.HasNotAlrdyHndno(System.String)">
+            <summary>
+            手工单号是否还没有使用
+            </summary>
+            <param name="hndno">手工单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.GetCsQus">
+            <summary>
+            得到退货区
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.MkRetBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            返仓单制单
+            </summary>
+            <param name="dptid">分店编码</param>
+            <param name="gdsids">货号/条码（数组）</param>
+            <param name="gdsids">手工单号</param>
+            <param name="qtys">数量（数组）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.MdARetBll(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改返仓单（单品修改）
+            </summary>        
+            <param name="bllno">要修改的单号</param>
+            <param name="gdsids">货号/条码（数组）</param>
+            <param name="qtys">数量（数组）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.MdRetBll(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改返仓单（整单修改）
+            </summary>        
+            <param name="bllno">要修改的单号</param>
+            <param name="gdsids">货号/条码（数组）</param>
+            <param name="qtys">数量（数组）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetCangController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            返仓查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">返仓单单号/手工单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <param name="mkr">制单人</param>
+            <param name="rcvdptid">分店编码</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.PWRAttribute">
+            <summary>
+            权限属性
+            </summary>
+        </member>
+        <member name="P:WMS.PWRAttribute.Pwrid">
+            <summary>
+            权限的ID
+            </summary>
+        </member>
+        <member name="P:WMS.PWRAttribute.pwrdes">
+            <summary>
+            权限的描述
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.AdjustInRecievController">
+            <summary>
+            内调收货单接口
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.GetPurchaseByPrv(System.String)">
+            <summary>
+            根据配送中心编码提取内调单
+            </summary>
+            <param name="prvid">配送中心编码</param>
+            <returns>ResultMessage对象</returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.GetWmsbll(System.String)">
+            <summary>
+            得到仓储单查询
+            </summary>
+            <param name="wmsno">单据号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.FindCurrDayRcvBlls(System.String)">
+            <summary>
+            查找当天的收货单
+            </summary>
+            <param name="day">查询日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.GetRecievBll(System.String)">
+            <summary>
+            得到收货单
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.GenerateRecievBlls(System.String)">
+            <summary>
+            生成收货单
+            </summary>
+            <param name="odrnos">订单编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.FindUnAdtRecievBll(System.Char,System.String,System.String,System.String)">
+            <summary>
+            查到未审核单据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.GenerateRecievBll(System.String)">
+            <summary>
+            生成收货单
+            </summary>
+            <param name="odrno">订单编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.SuggestBarcode(System.String,System.Action{WMS.Models.wms_cangwei})">
+            <summary>
+            推荐仓位
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.BokReciev(System.String)">
+            <summary>
+            登帐收货单
+            </summary>
+            <param name="wmsno">收货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.GetEmptyBarcodeByQu(System.String)">
+            <summary>
+            得到空仓号
+            </summary>
+            <param name="q">区位编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.ListTpByGdsid(System.String,System.String,System.String)">
+            <summary>
+            得到托盘商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            确认商品收货 
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="gdsid">商品编码</param>
+            <param name="gdstypes">单据商品序号</param>
+            <param name="qtys">实收数量</param>
+            <param name="tpcodes">托盘码</param>
+            <param name="pkgids">包装ID</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.MdfyRecievGdsType(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改收货单商品类型
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            收货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号/内调订单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <param name="barcode">供应商编号</param>
+            <param name="barcode">业务库编码</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.ResultMessage">
+            <summary>
+            返回统一对象
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.RESULTMESSAGE_SUCCESS">
+            <summary>
+            返回成功
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.RESULTMESSAGE_INFO">
+            <summary>
+            返回警告
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.RESULTMESSAGE_ERRORS">
+            <summary>
+            返回错误
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.RESULTMESSAGE_NOTLOGIN">
+            <summary>
+            返回未登录
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.RESULTMESSAGE_NODATA">
+            <summary>
+            未找到数据
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.RESULTMESSAGE_DEALTHREAD">
+            <summary>
+            牺牲品
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.resultCode">
+            <summary>
+            返回码
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.resultDesc">
+            <summary>
+            返回信息描述
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.paginationObj">
+            <summary>
+            分页信息
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.resultObject">
+            <summary>
+            返回的对象
+            </summary>
+        </member>
+        <member name="F:WMS.ResultMessage.extObject">
+            <summary>
+            扩展返回对象
+            </summary>
+        </member>
+        <member name="P:WMS.ResultMessage.ResultCode">
+            <summary>
+            返回码
+            </summary>
+        </member>
+        <member name="P:WMS.ResultMessage.ResultDesc">
+            <summary>
+            返回码描述
+            </summary>
+        </member>
+        <member name="P:WMS.ResultMessage.ResultObject">
+            <summary>
+            返回的对象
+            </summary>
+        </member>
+        <member name="P:WMS.ResultMessage.ExtObject">
+            <summary>
+            扩展返回对象
+            </summary>
+        </member>
+        <member name="F:WMS.Default.form1">
+            <summary>
+            form1 控件。
+            </summary>
+            <remarks>
+            自动生成的字段。
+            若要进行修改，请将字段声明从设计器文件移到代码隐藏文件。
+            </remarks>
+        </member>
+        <member name="T:WMS.Controllers.WxBoZController">
+            <summary>
+            外销播种
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.ChkHasAdt(WMS.Models.wms_bzmst)">
+            <summary>
+            检查wmsno的单号是否已经审核
+            </summary>
+            <param name="bzmst">主单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.BokBozBllGds(System.String,System.String,System.String,System.String,System.Double,System.Nullable{System.Int32})">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="stkouno">配送单单号</param>
+            <param name="gdsid">商品货号</param>      
+            <param name="rcvdptid">发送分店</param>
+            <param name="qty">实际播种数量</param>
+            <param name="rcdidx">配送中单据中的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.GetBoZBllSummary(System.String)">
+            <summary>
+            播种单摘要信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.GetBoZBllTop20(System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.GetBoZBllByGdsid(System.String,System.String)">
+            <summary>
+            根据商品条码和拣货单号查找播种单
+            </summary>
+            <param name="gdsid">条码/货号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.GetCurrBoZBll">
+            <summary>
+            根据日程查询播种批次单据
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.WxBoZController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.CsBozController">
+            <summary>
+            残损播种模块
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.ChkHasAdt(WMS.Models.wms_bzmst)">
+            <summary>
+            检查wmsno的单号是否已经审核
+            </summary>
+            <param name="bzmst">主单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.BokBozBllGds(System.String,System.String,System.String,System.String,System.Double,System.Nullable{System.Int32})">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="stkouno">配送单单号</param>
+            <param name="gdsid">商品货号</param>      
+            <param name="rcvdptid">发送分店</param>
+            <param name="qty">实际播种数量</param>
+            <param name="rcdidx">配送中单据中的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.GetBoZBllSummary(System.String)">
+            <summary>
+            播种单摘要信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.GetBoZBllTop20List(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.GetBoZBllTop20(System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.GetBoZBllByGdsid(System.String,System.String)">
+            <summary>
+            根据商品条码和拣货单号查找播种单
+            </summary>
+            <param name="gdsid">条码/货号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.GetCurrBoZBll">
+            <summary>
+            根据日程查询播种批次单据
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsBozController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            播种查询
+            </summary>
+            <param name="bllid">播种单据类型(206配送、501外销、内调112)</param>
+            <param name="dat">发货日期</param>
+            <param name="boci">播种波次</param>
+            <param name="gdsid">商品货号</param>
+            <param name="rcvdptid">收货部门</param>
+            <param name="busid">车次号</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.RecievController">
+            <summary>
+            收货单模块（整单收货）
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.GetPurchaseByPrv(System.String)">
+            <summary>
+            根据供应商提取采购订单
+            </summary>
+            <param name="prvid">供应商编码</param>
+            <returns>ResultMessage对象</returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.GetWmsbll(System.String)">
+            <summary>
+            得到仓储单查询
+            </summary>
+            <param name="wmsno">单据号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.FindUnRcvBllsByFscprdid(System.String)">
+            <summary>
+            得到会计期间未审核的单据
+            </summary>
+            <param name="fscprdid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.FindCurrDayRcvBlls(System.String)">
+            <summary>
+            查找当天的收货单
+            </summary>
+            <param name="day">查询日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.GetRecievBll(System.String)">
+            <summary>
+            得到收货单
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.GenerateRecievBlls(System.String)">
+            <summary>
+            生成收货单
+            </summary>
+            <param name="odrnos">订单编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.FindUnAdtRecievBll(System.Char,System.String,System.String,System.String)">
+            <summary>
+            查到未审核单据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.GenerateRecievBll(System.String)">
+            <summary>
+            生成收货单
+            </summary>
+            <param name="odrno">订单编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.SuggestBarcode(System.String,System.Action{WMS.Models.wms_cangwei})">
+            <summary>
+            推荐仓位
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.RecievController.BokReciev(System.String)">
+            <summary>
+            登帐收货单
+            </summary>
+            <param name="wmsno">收货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.GetEmptyBarcodeByQu(System.String)">
+            <summary>
+            得到空仓号
+            </summary>
+            <param name="q">区位编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.ListTpByGdsid(System.String,System.String,System.String)">
+            <summary>
+            得到托盘商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            确认商品收货 
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="gdsid">商品编码</param>
+            <param name="gdstypes">单据商品序号</param>
+            <param name="qtys">实收数量</param>
+            <param name="tpcodes">托盘码</param>
+            <param name="pkgids">包装ID</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+            如果 qtys,tpcodes,pkgids 不传参，就修改实收数量为0
+        </member>
+        <member name="M:WMS.Controllers.RecievController.MdfyRecievGdsType(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改收货单商品类型
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            收货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号/采购订单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <param name="barcode">供应商编号</param>
+            <param name="barcode">业务库编码</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.NotLoginException">
+            <summary>
+            未登录例外
+            </summary>
+        </member>
+        <member name="P:WMS.NotLoginException.Message">
+            <summary>
+            例外说明
+            </summary>
+        </member>
+        <member name="T:WMS.ReRequestException">
+            <summary>
+            重复提交
+            </summary>
+        </member>
+        <member name="P:WMS.ReRequestException.Message">
+            <summary>
+            例外说明
+            </summary>
+        </member>
+        <member name="T:WMS.HasNonPwrException">
+            <summary>
+            没有权限例外
+            </summary>
+        </member>
+        <member name="P:WMS.HasNonPwrException.Message">
+            <summary>
+            例外说明
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.GetCurrBoci">
+            <summary>
+            得到当天的波次
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.ChkHasAdt(WMS.Models.wms_bzmst)">
+            <summary>
+            检查wmsno的单号是否已经审核
+            </summary>
+            <param name="bzmst">主单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.BokBozBllGds(System.String,System.String,System.String,System.String,System.Double,System.Nullable{System.Int32},System.String)">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="stkouno">配送单单号</param>
+            <param name="gdsid">商品货号</param>      
+            <param name="rcvdptid">发送分店</param>
+            <param name="qty">实际播种数量</param>
+            <param name="rcdidx">配送中单据中的序号</param>
+            <param name="checi">车次</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.GetBoZBllSummary(System.String,System.String)">
+            <summary>
+            播种单摘要信息
+            </summary>
+            <param name="wmsno"></param>
+            <param name="checi"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.GetBoZBllTop20List(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.GetBoZBllTop20(System.String,System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno">播种单号</param>
+            <param name="checi">堆(A、B、C...eg.)</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.GetBoZBllByGdsid(System.String,System.String,System.String)">
+            <summary>
+            根据商品条码和拣货单号查找播种单
+            </summary>
+            <param name="gdsid">条码/货号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.GetCurrBoZBll">
+            <summary>
+            根据日程查询播种批次单据
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedBozController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            播种查询
+            </summary>
+            <param name="bllid">播种单据类型(206配送、501外销、内调112)</param>
+            <param name="dat">发货日期</param>
+            <param name="boci">播种波次</param>
+            <param name="gdsid">商品货号</param>
+            <param name="rcvdptid">收货部门</param>
+            <param name="busid">车次号</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.BoZController">
+            <summary>
+            播种模块
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.ChkHasAdt(WMS.Models.wms_bzmst)">
+            <summary>
+            检查wmsno的单号是否已经审核
+            </summary>
+            <param name="bzmst">主单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.BokBozBllGds(System.String,System.String,System.String,System.String,System.Double,System.Nullable{System.Int32})">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="stkouno">配送单单号</param>
+            <param name="gdsid">商品货号</param>      
+            <param name="rcvdptid">发送分店</param>
+            <param name="qty">实际播种数量</param>
+            <param name="rcdidx">配送中单据中的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.GetBoZBllSummary(System.String)">
+            <summary>
+            播种单摘要信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.GetBoZBllTop20List(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.GetBoZBllTop20(System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.GetBoZBllByGdsid(System.String,System.String)">
+            <summary>
+            根据商品条码和拣货单号查找播种单
+            </summary>
+            <param name="gdsid">条码/货号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.GetCurrBoZBll">
+            <summary>
+            根据日程查询播种批次单据
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BoZController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            播种查询
+            </summary>
+            <param name="bllid">播种单据类型(206配送、501外销、内调112)</param>
+            <param name="dat">发货日期</param>
+            <param name="boci">播种波次</param>
+            <param name="gdsid">商品货号</param>
+            <param name="rcvdptid">收货部门</param>
+            <param name="busid">车次号</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.AdjustOutBozController">
+            <summary>
+            仓库内调出库播种
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.ChkHasAdt(WMS.Models.wms_bzmst)">
+            <summary>
+            检查wmsno的单号是否已经审核
+            </summary>
+            <param name="bzmst">主单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.BokBozBllGds(System.String,System.String,System.String,System.String,System.Double,System.Nullable{System.Int32})">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="stkouno">配送单单号</param>
+            <param name="gdsid">商品货号</param>      
+            <param name="rcvdptid">发送分店</param>
+            <param name="qty">实际播种数量</param>
+            <param name="rcdidx">配送中单据中的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.GetBoZBllSummary(System.String,System.String)">
+            <summary>
+            播种单摘要信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.GetBoZBllTop20(System.String,System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.GetBoZBllByGdsid(System.String,System.String,System.String)">
+            <summary>
+            根据商品条码和拣货单号查找播种单
+            </summary>
+            <param name="gdsid">条码/货号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.GetCurrBoZBll">
+            <summary>
+            根据日程查询播种批次单据
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustOutBozController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Common.GetRealteQuResult">
+            <summary>
+            GetRealteQu 返回类型
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.qu">
+            <summary>
+            区位码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.dptid">
+            <summary>
+            部门编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.savdptid">
+            <summary>
+            配送商品库编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.savdptdes">
+            <summary>
+            配送商品库名称
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.storetypeid">
+            <summary>
+            配送类型定义
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.savstoreid">
+            <summary>
+            配送仓库编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.GetRealteQuResult.savstoredes">
+            <summary>
+            配送仓库名称
+            </summary>
+        </member>
+        <member name="T:WMS.Common.WmsBllGds">
+            <summary>
+            单据商品类型
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Wmsbll.mst">
+            <summary>
+            单据主表
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Wmsbll.prv">
+            <summary>
+            主表对应的供应商
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Wmsbll.dptdes">
+            <summary>
+            业务部门
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Wmsbll.dtl">
+            <summary>
+            单据明细表
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Wmsbll.gds">
+            <summary>
+            明细对应的商品基础表
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Wmsbll.dtls">
+            <summary>
+            整合明细
+            </summary>
+        </member>
+        <member name="T:WMS.Common.LoginInfo">
+            <summary>
+            登录信息
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.Usrid">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.LoginDtm">
+            <summary>
+            登录时间
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.UsrName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DefStoreid">
+            <summary>
+            默认配送中心编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DefStoredes">
+            <summary>
+            默认配送中心名称
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DefSavdptid">
+            <summary>
+            默认所属商品库配送编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DefSavdptdes">
+            <summary>
+            默认所属商品库配送名称
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DefCsSavdptid">
+            <summary>
+            默认所属残损库配送编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DefCsSavdptdes">
+            <summary>
+            默认所属残损库配送名称
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.SavDptids">
+            <summary>
+            所属分区
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.SavStoreids">
+            <summary>
+            所属配送
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.DatPwrs">
+            <summary>
+            权限分区关联类
+            </summary>
+        </member>
+        <member name="P:WMS.Common.LoginInfo.EmpPwrs">
+            <summary>
+            模块权限表
+            </summary>
+        </member>
+        <member name="T:WMS.Common.Store">
+            <summary>
+            配送中心
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Store.Storeid">
+            <summary>
+            配送中心编码
+            </summary>
+        </member>
+        <member name="P:WMS.Common.Store.Storedes">
+            <summary>
+            配送中心名称
+            </summary>
+        </member>
+        <member name="T:WMS.Log">
+            <summary>
+            日志类
+            </summary>
+        </member>
+        <member name="M:WMS.Log.i(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            日志记录
+            </summary>
+            <param name="man"></param>
+            <param name="mdlid"></param>
+            <param name="wmsno"></param>
+            <param name="bllid"></param>
+            <param name="actid"></param>
+            <param name="brief"></param>
+            <param name="qu"></param>
+            <param name="savdptid"></param>
+        </member>
+        <member name="P:WMS.Log.WmsDc">
+            <summary>
+            数据上下文
+            </summary>
+        </member>
+        <member name="P:WMS.Log.man">
+            <summary>
+            记录人
+            </summary>
+        </member>
+        <member name="P:WMS.Log.mdlid">
+            <summary>
+            模块名称
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.WmsSet">
+            <summary>
+            设置表重新定义
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.SelectedRetrieveController.GetRetrieveBll(System.String,System.String,System.String)">
+            <summary>
+            得到当前日期的拣货单
+            </summary>
+            <param name="bdat">开始时间</param>
+            <param name="edat">结束时间</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedRetrieveController.GetRetriveBllDtl(System.String,System.String)">
+            <summary>
+            得到拣货单明细
+            </summary>
+            <param name="wmsno">拣货单号</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double)">
+            <summary>
+            捡货单商品审核
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>
+            <param name="qty">单据商品序号</param>
+            <param name="qty">实收数量</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedRetrieveController.BokRetrieve(System.String)">
+            <summary>
+            捡货单审核
+            </summary>
+            <param name="wmsno">捡货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedRetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            拣货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="bllid">单据类型</param>
+            <param name="barcode">仓位编码</param>
+            <param name="bkr">拣货确认人</param>
+            <param name="gdsid">商品编码</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.AddGdsController">
+            <summary>
+            补货模块
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.AddGdsController.GetCurDayBll">
+            <summary>
+            获取当天的补货模块
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AddGdsController.GetBlldtl(System.String)">
+            <summary>
+            得到单号对应的明细信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AddGdsController.AddAdj(System.String,System.Int32,System.String,System.String,System.String,System.Double,System.String,System.Double)">
+            <summary>
+            增加补货明细
+            </summary>
+            <param name="wmsno"></param>
+            <param name="rcdidx"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <param name="outbarcode"></param>
+            <param name="outqty"></param>
+            <param name="inbarcode"></param>
+            <param name="inqty"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.UrlEncodeRoute">
+            <summary>
+            权限检查路由
+            </summary>
+        </member>
+        <member name="M:WMS.UrlEncodeRoute.GetRouteData(System.Web.HttpContextBase)">
+            <summary>
+            得到当前路由
+            </summary>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.UrlEncodeRoute.GetVirtualPath(System.Web.Routing.RequestContext,System.Web.Routing.RouteValueDictionary)">
+            <summary>
+            得到虚拟路径
+            </summary>
+            <param name="requestContext"></param>
+            <param name="values"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.RetrieveController">
+            <summary>
+            捡货单模块    
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RetrieveController.GetRetrieveBll(System.String,System.String,System.String)">
+            <summary>
+            得到当前日期的拣货单
+            </summary>
+            <param name="bdat">开始时间</param>
+            <param name="edat">结束时间</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetrieveController.GetRetriveBllDtl(System.String,System.String)">
+            <summary>
+            得到拣货单明细
+            </summary>
+            <param name="wmsno">拣货单号</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double)">
+            <summary>
+            捡货单商品审核
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>
+            <param name="qty">单据商品序号</param>
+            <param name="qty">实收数量</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+        </member>
+        <member name="M:WMS.Controllers.RetrieveController.BokRetrieve(System.String)">
+            <summary>
+            捡货单审核
+            </summary>
+            <param name="wmsno">捡货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            拣货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="bllid">单据类型</param>
+            <param name="barcode">仓位编码</param>
+            <param name="bkr">拣货确认人</param>
+            <param name="gdsid">商品编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.HqApkServicesController.HqlsAppDn(System.String,System.String,System.String)">
+            <summary>
+            程序升级地址
+            </summary>
+            <param name="apk">程序的名称</param>
+            <param name="version">程序版本</param>
+        </member>
+        <member name="M:WMS.Controllers.HqApkServicesController.Version(System.String)">
+            <summary>
+            得到APK的版本信息
+            </summary>
+            <param name="apk">程序的名称</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.RecievOneByOneController">
+            <summary>
+            收货模块(边收边上架)
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            确认商品收货 
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="gdsid">商品编码</param>
+            <param name="gdstypes">单据商品序号</param>
+            <param name="qtys">实收数量</param>
+            <param name="tpcodes">托盘码</param>
+            <param name="pkgids">包装ID</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+            如果 qtys,tpcodes,pkgids 不传参，就修改实收数量为0
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.RDoActByRcvbll(System.String,System.String,System.String,System.Func{System.String,WMS.ResultMessage})">
+            <summary>
+            通过上架单执行函数
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="savdptid">配送编码</param>
+            <param name="func">需要执行的函数</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.DoActByRcvbll(System.String,System.String,System.String,System.Func{System.String,WMS.ResultMessage})">
+            <summary>
+            通过上架单执行函数
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="savdptid">配送编码</param>
+            <param name="func">需要执行的函数</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            收货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号/采购订单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <param name="barcode">供应商编号</param>
+            <param name="barcode">业务库编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetPurchaseByPrv(System.String)">
+            <summary>
+            根据供应商提取采购订单
+            </summary>
+            <param name="prvid">供应商编码</param>
+            <returns>ResultMessage对象</returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetWmsbll(System.String)">
+            <summary>
+            得到仓储单查询
+            </summary>
+            <param name="wmsno">单据号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.FindCurrDayRcvBlls(System.String)">
+            <summary>
+            查找当天的收货单
+            </summary>
+            <param name="day">查询日期</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetRecievBll(System.String)">
+            <summary>
+            得到收货单
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GenerateRecievBlls(System.String)">
+            <summary>
+            生成收货单
+            </summary>
+            <param name="odrnos">订单编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.FindUnAdtRecievBll(System.Char,System.String,System.String,System.String)">
+            <summary>
+            查到未审核单据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GenerateRecievBll(System.String)">
+            <summary>
+            生成收货单
+            </summary>
+            <param name="odrno">订单编号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.SuggestBarcode(System.String,System.Action{WMS.Models.wms_cangwei})">
+            <summary>
+            推荐仓位
+            </summary>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.BokReciev(System.String)">
+            <summary>
+            登帐收货单
+            </summary>
+            <param name="wmsno">收货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetEmptyBarcodeByQu(System.String)">
+            <summary>
+            得到空仓号
+            </summary>
+            <param name="q">区位编码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.ListTpByGdsid(System.String,System.String,System.String)">
+            <summary>
+            得到托盘商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.DelAgdsFrmTpcode(System.String,System.String,System.String,System.String,System.Int32,System.Int32)">
+            <summary>
+            删除托盘中的商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="tpcode"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <param name="rcdidx"></param>
+            <param name="rcdidxtp"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.MdAgdsFrmTpcode(System.String,System.String,System.String,System.String,System.Int32,System.Int32,System.Double)">
+            <summary>
+            修改托盘中的商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="tpcode"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype">需要修改的类型</param>
+            <param name="rcdidx"></param>
+            <param name="rcdidxtp"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.ListTpByWsmno(System.String)">
+            <summary>
+            得到收货单的托盘信息和推荐仓位信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.BokRecievByTp(System.String,System.String)">
+            <summary>
+            确认托盘
+            </summary>
+            <param name="wmsno">收货单</param>
+            <param name="tpcode">托盘码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetMaxIdxTp(System.String,System.String,System.Int32)">
+            <summary>
+            得到审核的托盘该商品的最大序号
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.AdGdsByTps(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            确认商品收货
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsids"></param>
+            <param name="gdstypes"></param>
+            <param name="qtys"></param>
+            <param name="tpcode"></param>
+            <param name="pkgids"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.AddUpShelfDtlAndSuggestBarcode(System.String,System.String,System.String,System.String,System.String,System.Double,System.String,System.String)">
+            <summary>
+            增加上货单明细，并推荐仓位
+            </summary>
+            <param name="bllno"></param>
+            <param name="gdsid"></param>
+            <param name="pkgid"></param>
+            <param name="iqty"></param>
+            <param name="gdstype"></param>
+            <param name="tpcode"></param>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.SuggestABarcodeByTpcode(System.String,System.String,System.String)">
+            <summary>
+            推荐仓位
+            </summary>
+            <param name="wmsno">上架单单号</param>
+            <param name="gdsid"></param>
+            <param name="p"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetGdsByWmsnoAndTpcode(System.String,System.String)">
+            <summary>
+            通过wmsno和tpcode得到商品信息
+            </summary>
+            <param name="wmsno"></param>
+            <param name="tpcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.AdGdsByTp(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            确认商品收货 
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="gdsid">商品编码</param>
+            <param name="gdstype">单据商品序号</param>
+            <param name="qtys">实收数量</param>
+            <param name="tpcode">托盘码</param>
+            <param name="pkgid">包装ID</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+            如果 qtys,tpcodes,pkgids 不传参，就修改实收数量为0
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.DlGdsByTp(System.String,System.String)">
+            <summary>
+            托盘删除
+            </summary>
+            <param name="wmsno"></param>
+            <param name="tpcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.GetGdsByTpcode(System.String,System.String,System.String)">
+            <summary>
+            得到托盘上商品的信息（未审核前）
+            </summary>
+            <param name="wmsno"></param>
+            <param name="tpcode"></param>
+            <param name="bokdat"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.InstAGdsTp(System.String,System.String,System.String,System.String,System.String,System.Double,WMS.Models.wms_bllmst)">
+            <summary>
+            插入一条托盘记录
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <param name="tpcode"></param>
+            <param name="pkgid"></param>
+            <param name="iqty"></param>
+            <param name="mst"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RecievOneByOneController.MdfyRecievGdsType(System.String,System.String,System.String,System.String)">
+            <summary>
+            修改收货单商品类型
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.ProfitOrLossController">
+            <summary>
+            损溢单
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.#ctor">
+            <summary>
+            损溢单构造函数
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.GetBllsByFscprdid(System.String)">
+            <summary>
+            得到会计期间的损溢单
+            </summary>
+            <param name="fscprdid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.HasCkBll(System.String,System.String,System.String)">
+            <summary>
+            损溢当天是否有损溢单据
+            </summary>
+            <param name="boci"></param>
+            <param name="qu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.MkPrftOLssBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新制损溢单
+            </summary>
+            <param name="barcodes">仓位编码</param>
+            <param name="gdsids">货号</param>
+            <param name="gdstypes">商品类型</param>
+            <param name="qtys">损溢数量（正为溢，负为损）</param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.DlPrftOLssBllDtl(System.String,System.String,System.Int32)">
+            <summary>
+            损溢单明细删除
+            </summary>
+            <param name="wmsno">损溢单单号</param>
+            <param name="gdsid">货号</param>
+            <param name="rcdidx">序号</param>
+            <returns></returns>        
+            
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.DlPrftOLssBll(System.String)">
+            <summary>
+            删除损溢单
+            </summary>
+            <param name="wmsno">损溢单单号</param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.MdAPrftOLss(System.String,System.String,System.String,System.String,System.Int32,System.Double,System.String)">
+            <summary>
+            修改损溢单
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="gdstype"></param>
+            <param name="newbarcode">新仓位码</param>
+            <param name="rcdidx"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.AdPrftOLsses(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            增加损溢单商品(批量)
+            </summary>
+            <param name="wmsno">损溢单单号</param>
+            <param name="barcodes">仓位信息</param>
+            <param name="gdsids">要损溢的货号</param>
+            <param name="gdstypes">商品类型</param>
+            <param name="qtys">商品数量</param>
+            <param name="rsn"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.AdPrftOLss(System.String,System.String,System.String,System.String,System.Double,System.String)">
+            <summary>
+            增加损溢单商品
+            </summary>
+            <param name="wmsno">损溢单单号</param>
+            <param name="barcode">仓位信息</param>
+            <param name="gdsid">要损溢的货号</param>        
+            <param name="gdstype">商品类型</param>
+            <param name="qty">商品数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.MdPrftOLssBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            修改损溢单
+            </summary>
+            <param name="wmsno">损溢单单号</param>
+            <param name="barcodes">仓位信息</param>
+            <param name="gdsids">要损溢的货号</param>        
+            <param name="gdstypes">商品类型</param>
+            <param name="qtys">商品数量</param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.GetPrftOLssBllDtl(System.String)">
+            <summary>
+            得到损溢单明细
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.GetPrftOLssBll(System.String)">
+            <summary>
+            得到损溢单主单
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>
+            
+        </member>
+        <member name="M:WMS.Controllers.ProfitOrLossController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            损溢查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.AdjustBarcodeController">
+            <summary>
+            仓位调整
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.#ctor">
+            <summary>
+            仓位调整
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdtAdjBll_bak(System.String)">
+            <summary>
+            仓位调整单审核
+            </summary>
+            <param name="wmsno">仓位调整单单号</param>
+            <returns></returns>
+            todo: 审核仓位调整单还原
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.MkAdjBll(System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整单制单
+            </summary>
+            <param name="oldbarcodes">原仓位</param>
+            <param name="gdsids">调整货号</param>
+            <param name="qtys">调整数量</param>
+            <param name="newbarcodes">调整到仓位</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.BokOldBarcodeGdsid(System.String,System.String,System.Int32)">
+            <summary>
+            确认旧商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="rcdidx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdAdjBarcode(System.String,System.String,System.Int32,System.String,System.Double)">
+            <summary>
+            调整新仓位
+            </summary>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">调整的货号</param>
+            <param name="rcdidx">调整的序号</param>
+            <param name="newbarcode">新仓位编码</param>
+            <param name="qty">调整数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.HasPwrAdjDiffQu(System.String,System.String)">
+            <summary>
+            跨区调整单据时，判断是否有权限
+            </summary>
+            <param name="oldqu"></param>
+            <param name="newbarcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.DlAdjBll(System.String)">
+            <summary>
+            删除仓位调整单
+            </summary>
+            <param name="wmsno">仓位调整单单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdOldBarcodes(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新增需要调整的仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdOldBarcode(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新增需要调整的仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.DlOldBarcode(System.String,System.String,System.Int32)">
+            <summary>
+            删除旧仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.SuggestBarcodeAdjBll(System.String,System.String)">
+            <summary>
+            得到推荐仓位
+            </summary>
+            <param name="gdsid">商品编码</param>
+            <param name="oldbarcode">原仓位</param>
+            <param name="oldbarcode">推荐到那个分区</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.DlNewBarcode(System.String,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            删除新仓位
+            </summary>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">调整的货号</param>
+            <param name="rcdidx">调整的序号</param>
+            <param name="newbarcode">调整到的新仓位</param>
+            <param name="tprcdidx">调整到的新仓位的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.GetAdjBll(System.String)">
+            <summary>
+            得到会计期间的调整单单
+            </summary>
+            <param name="fscprdid">会计期间</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.GetAdjDtlBll(System.String)">
+            <summary>
+            得到调整单商品明细
+            </summary>
+            <param name="wmsno">返仓单单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.GetNewBarcode(System.String,System.String,System.Int32)">
+            <summary>
+            得到商品新调整仓位的信息
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.UpShelfController">
+            <summary>
+            上架模块（整单上架）
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化Initialize
+            </summary>
+            <param name="requestContext"></param>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.GetCurrentDayUpShelf">
+            <summary>
+            得到当天的上架单
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.GetCurrentDayUpShelfDetail">
+            <summary>
+            得到当天上架单明细
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.GetUpBllDtlByBarcode(System.String,System.String)">
+            <summary>
+            得到上架单托盘明细
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.GetUpBllDtl(System.String)">
+            <summary>
+            得到上架单明细
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.CheckCangwei(System.String,System.String,System.String,System.String)">
+            <summary>
+            扫描仓位码和托盘码，确定上架是否正确
+            </summary>
+            <param name="wmsno">上架单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="newbarcode">修改的仓位码</param>
+            <param name="tpcode">托盘码</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.AuditUpShelf(System.String)">
+            <summary>
+            审核上架单
+            </summary>
+            <param name="wmsno">上架单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.UpShelfController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            上架查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.SelectedBozController">
+            <summary>
+            勾单播种
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.ChkHasAdt(WMS.Models.wms_bzmst)">
+            <summary>
+            检查wmsno的单号是否已经审核
+            </summary>
+            <param name="bzmst">主单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.BokBozBllGds(System.String,System.String,System.String,System.Double)">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="stkouno">配送单单号</param>
+            <param name="gdsid">商品货号</param>      
+            <param name="rcvdptid">发送分店</param>
+            <param name="qty">实际播种数量</param>
+            <param name="rcdidx">配送中单据中的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.GetBoZBllSummary(System.String)">
+            <summary>
+            播种单摘要信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.GetBoZBllTop20List(System.String,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.GetBoZBllTop20(System.String)">
+            <summary>
+            选择未播种的20条记录
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.GetBoZBllByGdsid(System.String,System.String)">
+            <summary>
+            根据商品条码和拣货单号查找播种单
+            </summary>
+            <param name="wmsno">播种单单号</param>
+            <param name="gdsid">条码/货号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.GetCurrBoZBll">
+            <summary>
+            根据日程查询播种批次单据
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SelectedBozController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            播种查询
+            </summary>
+            <param name="bllid">播种单据类型(206配送、501外销、内调112)</param>
+            <param name="dat">发货日期</param>
+            <param name="boci">播种波次</param>
+            <param name="gdsid">商品货号</param>
+            <param name="rcvdptid">收货部门</param>
+            <param name="busid">车次号</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.CsRetrieveController">
+            <summary>
+            残损捡货单模块
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.CsRetrieveController.GetRetrieveBll(System.String,System.String,System.String)">
+            <summary>
+            得到当前日期的拣货单
+            </summary>
+            <param name="bdat">开始时间</param>
+            <param name="edat">结束时间</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsRetrieveController.GetRetriveBllDtl(System.String,System.String)">
+            <summary>
+            得到拣货单明细
+            </summary>
+            <param name="wmsno">拣货单号</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double)">
+            <summary>
+            捡货单商品审核
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>
+            <param name="qty">单据商品序号</param>
+            <param name="qty">实收数量</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+        </member>
+        <member name="M:WMS.Controllers.CsRetrieveController.BokRetrieve(System.String)">
+            <summary>
+            捡货单审核
+            </summary>
+            <param name="wmsno">捡货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CsRetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            拣货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="bllid">单据类型</param>
+            <param name="barcode">仓位编码</param>
+            <param name="bkr">拣货确认人</param>
+            <param name="gdsid">商品编码</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.ORD_STATUS">
+            <summary>
+            采购订单状态
+            </summary>
+        </member>
+        <member name="F:WMS.ORD_STATUS.UNAUDIT">
+            <summary>
+            未审核
+            </summary>
+        </member>
+        <member name="F:WMS.ORD_STATUS.AUDIT">
+            <summary>
+            已审核
+            </summary>
+        </member>
+        <member name="F:WMS.ORD_STATUS.RETURN_BLL_SUCCESS">
+            <summary>
+            转单成功
+            </summary>
+        </member>
+        <member name="F:WMS.ORD_STATUS.NORMAL_DISABLE">
+            <summary>
+            正常订单作废
+            </summary>
+        </member>
+        <member name="T:WMS.WMSConst">
+            <summary>
+            常数类型
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_RELATEDPT">
+            <summary>
+            分区部门关联
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_BLLTYPE">
+            <summary>
+            单据类型
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_RETRIEVETYPE">
+            <summary>
+            拣货方式
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_GOODSTYPE">
+            <summary>
+            商品类型
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_SPECIALSTORE">
+            <summary>
+            特殊业务库
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_QUSET">
+            <summary>
+            区位定义
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_STORETYPEDEFIND">
+            <summary>
+            仓库类型定义
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.SET_TYPE_ENABLEDPT">
+            <summary>
+            允许启用的部门
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.GDS_TYPE_NORMAL">
+            <summary>
+            正常商品
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.GDS_TYPE_GIFT">
+            <summary>
+            赠品
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.GDS_TYPE_SPECIAL_GIFT">
+            <summary>
+            促销包装
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_PURCHASE">
+            <summary>
+            采购订单
+            </summary>        
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_INNERADJ">
+            <summary>
+            内调单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_REVIECEBLL">
+            <summary>
+            收货单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_UPBLL">
+            <summary>
+            上架单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_ADDGDSBLL">
+            <summary>
+            补货单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_DISPATCH">
+            <summary>
+            配送单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_WXDISPATCH">
+            <summary>
+            外销单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_RETRIEVE">
+            <summary>
+            捡货单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_FRUITRETRIEVE">
+            <summary>
+            摘果播种捡货单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_RETRIEVE_PROFIT_LOSS">
+            <summary>
+            捡货单损溢单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_INVENTORY_CHECK">
+            <summary>
+            盘点单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_ADJUSTQTY">
+            <summary>
+            库存调整单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_BZ">
+            <summary>
+            播种单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_RETCANG">
+            <summary>
+            返仓单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_ADJCANG">
+            <summary>
+            仓位调整单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_PROFITORLOSS">
+            <summary>
+            损溢单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.BLL_TYPE_RETPRV">
+            <summary>
+            返厂单
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.KC_FLG_HASQTY">
+            <summary>
+            有库存
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.KC_FLG_NONQTY">
+            <summary>
+            无库存
+            </summary>
+        </member>
+        <member name="F:WMS.WMSConst.MDL_NAME_RECIEV">
+            <summary>
+            收货模块
+            </summary>
+        </member>
+        <member name="T:WMS.Controllers.RetPrvController">
+            <summary>
+            返厂单
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.#ctor">
+            <summary>
+            返厂单构造函数
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.GetBllsByFscprdid(System.String)">
+            <summary>
+            得到会计期间的返厂单
+            </summary>
+            <param name="fscprdid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.MkRetPrvBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新制返厂单
+            </summary>
+            <param name="prvid">供应商编号</param>
+            <param name="barcodes">仓位编码</param>
+            <param name="gdsids">货号</param>
+            <param name="gdstypes">商品类型</param>
+            <param name="qtys">损溢数量（正为溢，负为损）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.DlRetPrvBllDtl(System.String,System.String,System.Int32,System.String)">
+            <summary>
+            返厂单明细删除
+            </summary>
+            <param name="wmsno">返厂单单号</param>
+            <param name="gdsid">货号</param>
+            <param name="rcdidx">序号</param>
+            <param name="isMd">是否修改(为y，标志正在修改，为n,表示只有一条记录就删除主单)</param>
+            <returns></returns> 
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.DlRetPrvBll(System.String)">
+            <summary>
+            删除返厂单
+            </summary>
+            <param name="wmsno">返厂单单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.MdARetPrv(System.String,System.String,System.Int32,System.Double)">
+            <summary>
+            修改返厂单
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.AdRetPrvs(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新增返厂单商品
+            </summary>
+            <param name="wmsno">返厂单单号</param>
+            <param name="barcodes">仓位信息</param>
+            <param name="gdsids">要损溢的货号</param>        
+            <param name="gdstypes">商品类型</param>
+            <param name="qtys">商品数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.AdRetPrv(System.String,System.String,System.String,System.String,System.Double)">
+            <summary>
+            新增返厂单商品
+            </summary>
+            <param name="wmsno">返厂单单号</param>
+            <param name="barcode">仓位信息</param>
+            <param name="gdsid">要损溢的货号</param>        
+            <param name="gdstype">商品类型</param>
+            <param name="qty">商品数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.MdRetPrvBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            修改返厂单
+            </summary>
+            <param name="wmsno">返厂单单号</param>
+            <param name="barcodes">仓位信息</param>
+            <param name="gdsids">要损溢的货号</param>        
+            <param name="gdstypes">商品类型</param>
+            <param name="qtys">商品数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.GetRetPrvBllDtl(System.String)">
+            <summary>
+            得到返厂单明细
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.GetRetPrvBll(System.String)">
+            <summary>
+            得到返厂单主单
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetPrvController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            退厂查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.FruitPickingRetrieveController">
+            <summary>
+            摘果播种拣货
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.ImmBz(System.String)">
+            <summary>
+            是否立即播种
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.GetCheciByWmsno(System.String)">
+            <summary>
+            得到车次信息
+            </summary>
+            <param name="wmsno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.GetDptByWmsnoAndCheci(System.String,System.String)">
+            <summary>
+            得到车次下面的配送分店信息
+            </summary>
+            <param name="wmsno"></param>
+            <param name="checi"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.GetRetrieveBll(System.String,System.String,System.String)">
+            <summary>
+            得到当前日期的拣货单
+            </summary>
+            <param name="bdat">开始时间</param>
+            <param name="edat">结束时间</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.GetRetriveBllDtl(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            得到拣货单明细
+            </summary>
+            <param name="wmsno">拣货单号</param>
+            <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <param name="checi">车次</param>
+            <param name="rcvdptid">收货分店</param>
+            <param name="srt">排序（A顺序/D倒序）</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double,System.String)">
+            <summary>
+            捡货单商品审核
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>
+            <param name="gdstype">商品类型</param>
+            <param name="qty">实收数量</param>
+            <param name="rcvdptid">收货分店</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieve(System.String)">
+            <summary>
+            捡货单审核
+            </summary>
+            <param name="wmsno">捡货单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            拣货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="bllid">单据类型</param>
+            <param name="barcode">仓位编码</param>
+            <param name="bkr">拣货确认人</param>
+            <param name="gdsid">商品编码</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.InvCkController">
+            <summary>
+            盘点单模块
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetBarcodesByBoci(System.String)">
+            <summary>
+            得到要盘点,并且有权限的barcode
+            </summary>
+            <param name="boci">盘点波次</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.HasChecked(WMS.Models.wms_cangdtl_105)">
+            <summary>
+            是否已经盘过点了
+            </summary>
+            <param name="d"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetBllsByFscprdid(System.String)">
+            <summary>
+            得到会计期间的盘点单
+            </summary>
+            <param name="fscprdid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.MkInvCkBll(System.String,System.String)">
+            <summary>
+            新制盘点单
+            </summary>
+            <param name="boci">盘点抄账单单号（wms_cang_105里面times=1的单据）</param>
+            <param name="qu">分区</param>
+            /*, String barcodes, String gdsids, String gdstypes, String qtys*/
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.IsInSetQu(System.String,System.String)">
+            <summary>
+            判断分区是否在设置分区内
+            </summary>
+            <param name="boci"></param>
+            <param name="qu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.HasCkBll(System.String,System.String)">
+            <summary>
+            盘点当天是否有盘点单据
+            </summary>
+            <param name="boci"></param>
+            <param name="qu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.DlInvCkBllDtl(System.String,System.String,System.Int32)">
+            <summary>
+            盘点单明细删除
+            </summary>
+            <param name="wmsno">盘点单单号</param>
+            <param name="gdsid">货号</param>
+            <param name="rcdidx">序号</param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.MdInvCkBllDtl(System.String,System.String,System.Int32,System.Double)">
+            <summary>
+            盘点单明细修改
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.DlInvCkBll(System.String)">
+            <summary>
+            删除盘点单
+            </summary>
+            <param name="wmsno">盘点单单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.InstInvCkBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新增盘点单
+            </summary>
+            <param name="wmsno">盘点单单号</param>
+            <param name="barcodes">仓位信息</param>
+            <param name="gdsids">要盘点的货号（gdsid=1为空仓位的货号）</param>        
+            <param name="gdstypes">商品类型(空仓位的gdstype=50)</param>
+            <param name="qtys">商品数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.HasChecked(System.String,System.String,System.String,System.String)">
+            <summary>
+            是否已经盘过点了
+            </summary>
+            <param name="boci">盘点批次</param>
+            <param name="barcode">区位码</param>
+            <param name="gdsid">货号</param>
+            <param name="gdstype">商品类型</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetInvCkBllDtl(System.String)">
+            <summary>
+            得到盘点单明细
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetInvCkBll(System.String)">
+            <summary>
+            得到盘点单主单
+            </summary>
+            <param name="wmsno">单号</param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetInvBociByFscprdid(System.String,System.String)">
+            <summary>
+            得到要盘点的批次
+            </summary>
+            <param name="fscprdid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetInvsByBoci(System.String,System.String)">
+            <summary>
+            根据盘点波次单据查找该单据下的盘点单
+            </summary>
+            <param name="boci">盘点波次</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetUnAdtDtlTop20(System.String)">
+            <summary>
+            未确认的TOP20条
+            </summary>
+            <param name="boci"></param>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.GetDtlByBarcode(System.String,System.String)">
+            <summary>
+            通过仓位得到商品明细
+            </summary>
+            <param name="boci"></param>
+            <param name="barcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.CancelAdtDtl(System.String,System.String,System.Int32)">
+            <summary>
+            取消复核盘点明细
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.AdtInvChkDtl(System.String,System.String,System.Int32)">
+            <summary>
+            复核盘点明细
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.AdtInvChk(System.String)">
+            <summary>
+            复核盘点单
+            </summary>
+            <param name="wmsno">盘点单</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.InvCkController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            盘点查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <param name="mkr">制单人</param>
+            <param name="isAdt">是否已经审核</param>
+            <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.CheckedRetrieveController">
+            <summary>
+            分货拣货
+            done:1、得到当天的波次；
+            done:2、选择波次对应的checi；
+            done:3、列出该checi对应的商品拣货
+            done:4、拣货确认时修改wms_cutgds中的ckr, chkflg, chkdat,qty；
+            done:5、拣货确认时，发现数量小于应拣货数量，要循环扣除对应的stkotdtl里面的qty
+            </summary>    
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.SetModuleInfo">
+            <summary>
+            设置模块信息
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.GetCurrBoci">
+            <summary>
+            得到当天的波次
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.GetCurrBociSummary(System.String)">
+            <summary>
+            统计信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.GetCheciByGds(System.String,System.String,System.String)">
+            <summary>
+            列出应的商品分货该checi对
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.GetGdsByCheci(System.String,System.String,System.String,System.String)">
+            <summary>
+            列出该checi对应的商品分货
+            </summary>        
+            <param name="wmsno"></param>
+            <param name="bllid"></param>
+            <param name="bocino"></param>
+            <param name="clsid"></param>
+            <param name="checi"></param>
+            <returns></returns>        
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.BokRetrieve(System.String,System.String,System.String,System.String,System.String,System.String,System.Double)">
+            <summary>
+            确认商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="bllid"></param>
+            <param name="bocino"></param>
+            <param name="clsid"></param>
+            <param name="checi"></param>
+            <param name="gdsid"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.CheckedRetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            分货查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="bllid">单据类型</param>
+            <param name="barcode">仓位编码</param>
+            <param name="bkr">分货确认人</param>
+            <param name="gdsid">商品编码</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

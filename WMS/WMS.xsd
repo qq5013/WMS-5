@@ -1,0 +1,278 @@
+<?xml version = "1.0" encoding="UTF-8"?>
+<xsd:schema name="WMS.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <xsd:element name="MvcApplication">
+  </xsd:element>
+  
+  <xsd:element name="Log">
+   <xsd:element name="WmsDc" type="WMSDcDataContext"/>
+   <xsd:element name="man" type="String"/>
+   <xsd:element name="mdlid" type="String"/>
+  </xsd:element>
+  
+  <xsd:element name="ResultMessage">
+   <xsd:element name="RESULTMESSAGE_SUCCESS" type="String"/>
+   <xsd:element name="RESULTMESSAGE_INFO" type="String"/>
+   <xsd:element name="RESULTMESSAGE_ERRORS" type="String"/>
+   <xsd:element name="RESULTMESSAGE_NOTLOGIN" type="String"/>
+   <xsd:element name="resultCode" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      返回码
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="ResultCode" type="String"/>
+   <xsd:element name="resultDesc" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      返回信息描述
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="ResultDesc" type="String"/>
+   <xsd:element name="paginationObj" type="Pagination"/>
+   <xsd:element name="PaginationObj" type="Pagination"/>
+   <xsd:element name="resultObject" type="Object">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      返回的对象
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="ResultObject" type="Object"/>
+   <xsd:element name="extObject" type="Object">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      扩展返回对象
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="ExtObject" type="Object"/>
+  </xsd:element>
+  
+  <xsd:element name="Pagination">
+   <xsd:element name="recordCount" type="xsd:int"/>
+   <xsd:element name="RecordCount" type="xsd:int"/>
+   <xsd:element name="pageCount" type="xsd:int"/>
+   <xsd:element name="PageCount" type="xsd:int"/>
+   <xsd:element name="pageid" type="xsd:int"/>
+   <xsd:element name="Pageid" type="xsd:int"/>
+   <xsd:element name="pageSize" type="xsd:int"/>
+   <xsd:element name="PageSize" type="xsd:int"/>
+  </xsd:element>
+  
+  <xsd:element name="ORD_STATUS">
+   <xsd:annotation>
+    <xsd:documentation>
+     &lt;summary&gt;
+     订单状态
+     &lt;/summary&gt;
+    </xsd:documentation>
+   </xsd:annotation>
+   <xsd:element name="UNAUDIT" type="xsd:int">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      未审核
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="AUDIT" type="xsd:int">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      已审核
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="RETURN_BLL_SUCCESS" type="xsd:int">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      转单成功
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="NORMAL_DISABLE" type="xsd:int">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      正常订单作废
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+  </xsd:element>
+  
+  <xsd:element name="WMSConst">
+   <xsd:annotation>
+    <xsd:documentation>
+     &lt;summary&gt;
+     常数类型
+     &lt;/summary&gt;
+             #endregion
+    </xsd:documentation>
+   </xsd:annotation>
+   <xsd:element name="BLL_TYPE_PURCHASE" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      
+              #region BLL_TYPE（订单类型）
+      &lt;summary&gt;
+      采购订单
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="BLL_TYPE_REVIECEBLL" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      收货单
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="BLL_TYPE_UPBLL" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      上架单
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="SET_TYPE_RELATEDPT" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+              #endregion
+              #region SET_TYPE（设置类型）
+      &lt;summary&gt;
+      分区部门关联
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="SET_TYPE_BLLTYPE" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      单据类型
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="SET_TYPE_RETRIEVETYPE" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      拣货方式
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="SET_TYPE_GOODSTYPE" type="string">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      商品类型
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="SET_TYPE_QUDEF" type="string">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      区位定义
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="SET_TYPE_SPECIALSTORE" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      特殊业务库
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="GDS_TYPE_NORMAL" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+              #endregion
+              #region GDS_TYPE(商品类型)
+      &lt;summary&gt;
+      正常商品
+      &lt;/summary&gt;
+      正常商品
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="GDS_TYPE_GIFT" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      赠品
+      &lt;/summary&gt;
+      赠品
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="GDS_TYPE_SPECIAL_GIFT" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      促销包装
+      &lt;/summary&gt;
+      促销包装
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="KC_FLG_HASQTY" type="char">
+    <xsd:annotation>
+     <xsd:documentation>
+              #endregion
+              #region KC_FLG(有无库存,0无库存，1有库存)
+      &lt;summary&gt;
+      有库存
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="KC_FLG_NONQTY" type="char">
+    <xsd:annotation>
+     <xsd:documentation>
+      &lt;summary&gt;
+      无库存
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+   <xsd:element name="MDL_NAME_RECIEV" type="String">
+    <xsd:annotation>
+     <xsd:documentation>
+              #endregion
+              #region MDL_NAME(模块名称)
+      &lt;summary&gt;
+      收货模块
+      &lt;/summary&gt;
+     </xsd:documentation>
+    </xsd:annotation>
+   </xsd:element>
+  </xsd:element>
+
+</xsd:schema>

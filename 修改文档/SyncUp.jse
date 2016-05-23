@@ -1,0 +1,34 @@
+var len = WScript.Arguments.length;
+var MySite=new ActiveXObject("CuteFTPPro.TEConnection");
+
+MySite.Host = "192.10.200.7";
+MySite.Protocol = "FTPS_IMPLICIT";
+MySite.Port = 2121;
+MySite.Retries = 30;
+MySite.Delay = 30;
+MySite.MaxConnections = 4;
+MySite.TransferType = "AUTO";
+MySite.DataChannel = "PORT";
+MySite.ClearCommandChannel = false;
+MySite.ClearDataConnection = false;
+MySite.AutoRename = "OFF";
+
+MySite.Login = "hqweb";
+MySite.Password = "<123Ab~!&*>";
+MySite.SocksInfo = "";
+MySite.ProxyInfo = "";
+
+MySite.Connect();
+var Rdir = "";
+
+Rdir = (WScript.Arguments[0]=="Debug") ? "/WMSTest/bin/WMS.dll" : "/WMS/bin/WMS.dll";
+Rdir = "/WMSTest/bin/WMS.dll";
+//Rdir = "/WMS/bin/WMS.dll";
+
+try{
+	MySite.RemoteRemove(Rdir);
+}catch(e){}
+	MySite.Upload("D:\\快盘\\mycode\\hongqiapk\\services\\WMS\\WMS\\WMS\\bin\\WMS.dll", Rdir);
+MySite.Disconnect();
+
+//WScript.echo("更新完成");

@@ -1,0 +1,11 @@
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\WMS.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\WMS.pdb
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\obj\Debug\WMS.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\obj\Debug\WMS.pdb
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.Mvc.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.Routing.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.Services.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.Mvc.xml
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\zh-Hans\System.Web.Mvc.resources.dll
+D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\WMS.XML

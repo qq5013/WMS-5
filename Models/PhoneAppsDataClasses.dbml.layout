@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="PhoneAppsDataClasses">
+  <DataContextMoniker Name="/PhoneAppsDataClassesDataContext" />
+  <nestedChildShapes>
+    <classShape Id="fc647203-cad8-4e9b-b8fe-144a909fcc11" absoluteBounds="2, 1.625, 2, 2.5266442871093751">
+      <DataClassMoniker Name="/PhoneAppsDataClassesDataContext/ApkInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c2387607-9fac-4492-849e-1affe2238b17" absoluteBounds="2.015, 2.085, 1.9700000000000002, 1.966644287109375" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="906f9b1f-4b33-46e5-92aa-ce3df78515ba" absoluteBounds="5.875, 3, 2, 1.5715458170572916">
+      <DataClassMoniker Name="/PhoneAppsDataClassesDataContext/ApkPermission" />
+      <nestedChildShapes>
+        <elementListCompartment Id="fb2cfa1f-b660-4557-8bc7-58d86a77a589" absoluteBounds="5.89, 3.46, 1.9700000000000002, 1.0115458170572915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4 : 3.57582214355469); (5.875 : 3.57582214355469)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PhoneAppsDataClassesDataContext/ApkInfo/ApkInfo_ApkPermission" />
+      <nodes>
+        <classShapeMoniker Id="fc647203-cad8-4e9b-b8fe-144a909fcc11" />
+        <classShapeMoniker Id="906f9b1f-4b33-46e5-92aa-ce3df78515ba" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="1d038e47-2a24-4285-91f2-b59e2e484f63" absoluteBounds="5.625, 1.125, 2, 1.5715458170572916">
+      <DataClassMoniker Name="/PhoneAppsDataClassesDataContext/ApkDebugInfo" />
+      <nestedChildShapes>
+        <elementListCompartment Id="937a95af-172e-4c8e-a457-15b65decf710" absoluteBounds="5.64, 1.585, 1.9700000000000002, 1.0115458170572915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4 : 2.16077290852865); (5.625 : 2.16077290852865)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PhoneAppsDataClassesDataContext/ApkInfo/ApkInfo_ApkDebugInfo" />
+      <nodes>
+        <classShapeMoniker Id="fc647203-cad8-4e9b-b8fe-144a909fcc11" />
+        <classShapeMoniker Id="1d038e47-2a24-4285-91f2-b59e2e484f63" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="f4704313-02b3-45c0-9a4a-cf8697d00768" absoluteBounds="1.75, 5, 2, 1.5715458170572916">
+      <DataClassMoniker Name="/PhoneAppsDataClassesDataContext/ApkPermission1" />
+      <nestedChildShapes>
+        <elementListCompartment Id="65129f78-e481-422a-831d-4605a8bbcdc5" absoluteBounds="1.7650000000000001, 5.46, 1.9700000000000002, 1.0115458170572915" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.875 : 4.15164428710938); (2.875 : 5)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/PhoneAppsDataClassesDataContext/ApkInfo/ApkInfo_ApkPermission1" />
+      <nodes>
+        <classShapeMoniker Id="fc647203-cad8-4e9b-b8fe-144a909fcc11" />
+        <classShapeMoniker Id="f4704313-02b3-45c0-9a4a-cf8697d00768" />
+      </nodes>
+    </associationConnector>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

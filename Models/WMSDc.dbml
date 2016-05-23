@@ -1,0 +1,1367 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="test_newshop" Class="WMSDcDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=192.10.200.1;Initial Catalog=test_newshop;Persist Security Info=True;User ID=app" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="newshopConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.wms_blldtl" Member="wms_blldtl">
+    <Type Name="wms_blldtl">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="preqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_bllmst" Member="wms_bllmst">
+    <Type Name="wms_bllmst">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hndbllno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="tongdao" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="huojia" Type="System.String" DbType="VarChar(5)" CanBeNull="true" />
+      <Column Name="odrdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="arvdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnknewbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnknewno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnknewbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_bzmst" Member="wms_bzmst">
+    <Type Name="wms_bzmst">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="cusid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="times" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(16)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_set" Member="wms_set">
+    <Type Name="wms_set">
+      <Column Name="setid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="setdes" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="type" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="typedes" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="val1" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="val2" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="val3" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="isvld" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.prv" Member="prv">
+    <Type Name="prv">
+      <Column Name="prvid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvclsid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="prvdes" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="pwd" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="srtcde" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="bnk" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="taxno" Type="System.String" DbType="VarChar(18)" CanBeNull="true" />
+      <Column Name="actno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="idno" Type="System.String" DbType="VarChar(18)" CanBeNull="true" />
+      <Column Name="ldr" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="adr" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="pstcde" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+      <Column Name="lnkpsn" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="tel" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="mobtel" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="bbcal" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="eml" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="ispg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="isct" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="addrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="isstp" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="rctusedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="iscrdful" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="entpkd" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="proxydat" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.odr" Member="odr">
+    <Type Name="odr">
+      <Column Name="odrno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hndbllno" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="odrcls" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkr" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="odrdat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="arvdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="arvloc" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="ordstu" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="stktpid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="istel" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="taxflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="lnkctno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="zdflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="shflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bzflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="zddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.dtapwr" Member="dtapwr">
+    <Type Name="dtapwr">
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="empid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.emppwr" Member="emppwr">
+    <Type Name="emppwr">
+      <Column Name="empid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="mdlid" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="pwrid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.emp" Member="emp">
+    <Type Name="emp" Id="ID1">
+      <Column Name="empid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="eduid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="totid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="tilid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="empdes" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="pwd" Type="System.String" DbType="VarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="sex" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="btd" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="idno" Type="System.String" DbType="VarChar(18)" CanBeNull="true" />
+      <Column Name="adr" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="tel" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="eml" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="mobtel" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="bbcal" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="isstp" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="rctusedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="clsflg" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="gxyy" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.dpt" Member="dpt">
+    <Type Name="dpt">
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dptdes" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="ldr" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="adr1" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="tel" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="prtdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="lvl" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="isend" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="isbizcls" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="invactcls" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="ispg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bllnopre" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="regflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="isstp" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="rctusedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="isover" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="adr" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.bizdep" Member="bizdep">
+    <Type Name="bizdep">
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="depid" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="isrs" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="shppre" Type="System.Int16" DbType="SmallInt NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.pkg" Member="pkg">
+    <Type Name="pkg">
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="pkgdes" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="cnvrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="salprc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="iscseorspt" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="mbrprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="spc" Type="System.String" DbType="Char(24)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.gds" Member="gds">
+    <Type Name="gds">
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="clsid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsdes" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="srtcde" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsno" Type="System.String" DbType="Char(16)" CanBeNull="true" />
+      <Column Name="spc" Type="System.String" DbType="VarChar(24) NOT NULL" CanBeNull="false" />
+      <Column Name="texture" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="bsepkg" Type="System.String" DbType="VarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="bnd" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="mftloc" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="mftfct" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="vldday" Type="System.Int16" DbType="SmallInt" CanBeNull="true" />
+      <Column Name="taxrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="saltaxrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="rfnprc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="rfntaxprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salprc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="discctrl" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="authorno" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="wslprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="isclsgds" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="isunngds" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="istaxlbr" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="salprcckr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="prcchkdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="udtpsn" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="isstpsal" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="isstp" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="rctusedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="mbrprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="isnew" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="isendgds" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="insurcls" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="curcydes" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="model" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="isscrip" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="gdsmodel" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="isgagtru" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="feeitmid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="manclsid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="ismedi" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="isimport" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="isinject" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="trprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="lowtrprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="engdes" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="issnctrl" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="qsno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="vlddayflg" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Column Name="weightflg" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+      <Association Name="gds_stkindtl" Member="stkindtl" ThisKey="gdsid" OtherKey="gdsid" Type="stkindtl" />
+      <Association Name="gds_cpngds" Member="cpngds" ThisKey="gdsid" OtherKey="gdsid" Type="cpngds" Cardinality="One" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_gdsbs" Member="wms_gdsbs">
+    <Type Name="wms_gdsbs">
+      <Column Name="actid" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="srcbllno" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="srcrcdidx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fscprdid" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="empid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="actdat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="dbtcrt" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_log" Member="wms_log">
+    <Type Name="wms_log">
+      <Column Name="actid" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="logdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="logman" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="logmdl" Type="System.String" DbType="VarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="logact" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="wmsno" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.odrdtl" Member="odrdtl">
+    <Type Name="odrdtl">
+      <Column Name="odrno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgtaxprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="prc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="amt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxprc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="patamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="stkinqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="stkinamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="stlqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="stlamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bthprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="brfdtl" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="isnew" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="arcid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="refuqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cwgdsbs" Member="wms_cwgdsbs">
+    <Type Name="wms_cwgdsbs">
+      <Column Name="actid" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangwei" Member="wms_cangwei">
+    <Type Name="wms_cangwei">
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="tongdao" Type="System.String" DbType="VarChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="huojia" Type="System.String" DbType="VarChar(5) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ceng" Type="System.String" DbType="VarChar(1) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cang" Type="System.String" DbType="VarChar(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="VarChar(25) NOT NULL" CanBeNull="false" />
+      <Column Name="isvld" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="tjflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="tpflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="kcflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_bll" Member="wms_bll">
+    <Type Name="wms_bll">
+      <Column Name="fscprdid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nowvlu" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.bcd" Member="bcd">
+    <Type Name="bcd">
+      <Column Name="bcd" Member="bcd1" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="clrdes" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="szedes" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="udtpsn" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="bcd2" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_bzdtl" Member="wms_bzdtl">
+    <Type Name="wms_bzdtl">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="cusid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="busid" Type="System.String" DbType="Char(10) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stkot" Member="stkot">
+    <Type Name="stkot">
+      <Column Name="stkouno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hndbllno" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="cusid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="sdr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="stkotdat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkodrno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnkivcno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnkshpno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnkdlvno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="zddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="zdflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="zdtimes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="bzflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="wmsbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Association Name="stkot_stkotdtl" Member="stkotdtl" ThisKey="stkouno" OtherKey="stkouno" Type="stkotdtl" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stkotdtl" Member="stkotdtl">
+    <Type Name="stkotdtl">
+      <Column Name="stkouno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="indepid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgsalprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="prc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="dct" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="amt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxprc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="patamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="salprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="orisalprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bthprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="stotcstprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="stotcstamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="prccls" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="brfdtl" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="bzflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="bzr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bzdat" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Association Name="stkot_stkotdtl" Member="stkot" AccessModifier="Internal" ThisKey="stkouno" OtherKey="stkouno" Type="stkot" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stklst" Member="stklst">
+    <Type Name="stklst">
+      <Column Name="stkouno" Type="System.String" DbType="VarChar(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_sendbill" Member="wms_sendbill">
+    <Type Name="wms_sendbill">
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.cus" Member="cus">
+    <Type Name="cus">
+      <Column Name="cusid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="cusclsid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="cusdes" Type="System.String" DbType="VarChar(40) NOT NULL" CanBeNull="false" />
+      <Column Name="pwd" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="srtcde" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="bnk" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="actno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="taxno" Type="System.String" DbType="VarChar(18)" CanBeNull="true" />
+      <Column Name="idno" Type="System.String" DbType="VarChar(18)" CanBeNull="true" />
+      <Column Name="ldr" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="adr1" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="pstcde" Type="System.String" DbType="VarChar(6)" CanBeNull="true" />
+      <Column Name="lnkpsn" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="tel" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="fax" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="mobtel" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="bbcal" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="eml" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="shploc" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="crtlvlamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ispg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="aprto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="isjm" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="isstp" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="rctusedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="area" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salaprto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="mctarea" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="adr" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="psarea" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="prccustclsid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_pdset" Member="wms_pdset">
+    <Type Name="wms_pdset">
+      <Column Name="actid" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="pdno" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="fscprd" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="pddat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="pdstart" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="pdover" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="peisong" Type="System.String" DbType="NChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(200) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.mctct" Member="mctct">
+    <Type Name="mctct">
+      <Column Name="ctno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hdnctno" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="purchcls" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="tsclsid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="pngpayid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="sgndptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkr" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="ctsigndat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="enldat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="disdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="isvld" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="stlprd" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="dutrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="btnamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pgdsamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="paycshdct" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="stlmctdct" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="cttxt" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="istaxbll" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="isrsv" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Association Name="mctct_mctdtl" Member="mctdtl" ThisKey="ctno" OtherKey="ctno" Type="mctdtl" />
+    </Type>
+  </Table>
+  <Table Name="dbo.mctdtl" Member="mctdtl">
+    <Type Name="mctdtl">
+      <Column Name="ctno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="supprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="maxsupprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="unisalprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="dutrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="stopin" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="gdsno" Type="System.String" DbType="Char(16)" CanBeNull="true" />
+      <Column Name="dlvgdsid" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="ntsupprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ntmsupprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="ctgdscls" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="mctct_mctdtl" Member="mctct" ThisKey="ctno" OtherKey="ctno" Type="mctct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.sivc" Member="sivc">
+    <Type Name="sivc">
+      <Column Name="sivcno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="nteno" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="cusid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="blkflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="ivcdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="payeedat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="shpdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="trdcls" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="pcr" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="pcradr" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="pcrtel" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="tstadr" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkodrno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnkshpno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnkstkinno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="zdflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="zddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="zdtimes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="bzflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="wmsbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="wmsno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Association Name="sivc_sivcdtl" Member="sivcdtl" ThisKey="sivcno" OtherKey="sivcno" Type="sivcdtl" />
+    </Type>
+  </Table>
+  <Table Name="dbo.sivcdtl" Member="sivcdtl">
+    <Type Name="sivcdtl">
+      <Column Name="sivcno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="indepid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgoriprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="dct" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="pkgsalprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="prc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="amt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxprc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="taxamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="patamt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bthprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="gdr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="isdisc" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="yf" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="bthno" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="dlvprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="bzflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bzr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bzdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Association Name="sivc_sivcdtl" Member="sivc" ThisKey="sivcno" OtherKey="sivcno" Type="sivc" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.losrsn" Member="losrsn">
+    <Type Name="losrsn">
+      <Column Name="losrsnid" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="losrsndes" Type="System.String" DbType="Char(24) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.rcbakrsn" Member="rcbakrsn">
+    <Type Name="rcbakrsn">
+      <Column Name="rcbakrsnid" Type="System.String" DbType="Char(2) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcbakrsndes" Type="System.String" DbType="Char(24)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stkin" Member="stkin">
+    <Type Name="stkin">
+      <Column Name="stkinno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="hndbllno" Type="System.String" DbType="VarChar(16)" CanBeNull="true" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(6) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="rcv" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="stkindat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkodrno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="lnkivcno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="stktpid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="taxflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="sft_branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="drtdpt" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="outzdflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="inzdflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="outflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="inflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="outwmsbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="inwmsbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="outwmsno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="inwmsno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="indat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="outdat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="inzddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="outzddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Association Name="stkin_stkindtl" Member="stkindtl" ThisKey="stkinno" OtherKey="stkinno" Type="stkindtl" />
+    </Type>
+  </Table>
+  <Table Name="dbo.stkindtl" Member="stkindtl">
+    <Type Name="stkindtl">
+      <Column Name="stkinno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="outdepid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="duepkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="dueqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="pkgtaxprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="prc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="amt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="patamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salprcamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="dlvprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="dlvamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="saltaxrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="orisalprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bthprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="stllnkno" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="stllnkidx" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="bthno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="brfdtl" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="stincstprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="stincstamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="taxflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="ctno" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="arcid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="bthamt" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="bzflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bzr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="bzdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Association Name="gds_stkindtl" Member="gds" ThisKey="gdsid" OtherKey="gdsid" Type="gds" IsForeignKey="true" />
+      <Association Name="stkin_stkindtl" Member="stkin" ThisKey="stkinno" OtherKey="stkinno" Type="stkin" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.sftdtl" Member="sftdtl">
+    <Type Name="sftdtl">
+      <Column Name="stkinno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="sft_dptout" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="sft_sdtout" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="sft_depout" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="sft_sdr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_pdsetdtl" Member="wms_pdsetdtl">
+    <Type Name="wms_pdsetdtl">
+      <Column Name="pdno" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="idx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="tongdao" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="huojia" Type="System.String" DbType="VarChar(5) NOT NULL" CanBeNull="false" />
+      <Column Name="ceng" Type="System.String" DbType="VarChar(1) NOT NULL" CanBeNull="false" />
+      <Column Name="cang" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangdtl_109" Member="wms_cangdtl_109">
+    <Type Name="wms_cangdtl_109">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="oldbarcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="brfdtl" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangdtl_110" Member="wms_cangdtl_110">
+    <Type Name="wms_cangdtl_110">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="oldbarcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangdtl_111" Member="wms_cangdtl_111">
+    <Type Name="wms_cangdtl_111">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="oldbarcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="brfdtl" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangdtl_105" Member="wms_cangdtl_105">
+    <Type Name="wms_cangdtl_105">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="oldbarcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.gdsbs" Member="gdsbs">
+    <Type Name="gdsbs">
+      <Column Name="actid" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="srcbllno" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="srcrcdidx" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="fscprdid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="depid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="empid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="actdat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="dbtcrt" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="prc" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="amt" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="mctortrust" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="dlvprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.branchsavdpt" Member="branchsavdpt">
+    <Type Name="branchsavdpt">
+      <Column Name="savdptid" Type="System.String" DbType="VarChar(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.dtrlog" Member="dtrlog">
+    <Type Name="dtrlog">
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllno" Type="System.String" DbType="Char(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cutgds" Member="wms_cutgds">
+    <Type Name="wms_cutgds">
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="bocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="clsid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="checi" Type="System.String" DbType="VarChar(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="VarChar(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="preqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_bzcnv" Member="wms_bzcnv">
+    <Type Name="wms_bzcnv">
+      <Column Name="savdptid" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="fscprdid" Type="System.String" DbType="Char(6) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="sndtmd" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="dptid" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="rcvdptid" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="wmsbllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="wmsno" Type="System.String" DbType="Char(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllno" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="clsid" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangdtl" Member="wms_cangdtl">
+    <Type Name="wms_cangdtl">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="oldbarcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="losreason" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.shopstore" Member="shopstore">
+    <Type Name="shopstore">
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="branchid" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.psSndGds_dpt_dtl" Member="psSndGds_dpt_dtl">
+    <Type Name="psSndGds_dpt_dtl">
+      <Column Name="dh" Type="System.String" DbType="Char(16) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(4) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="orid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="busid" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="lnkflg" Type="System.String" DbType="VarChar(1)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cang" Member="wms_cang">
+    <Type Name="wms_cang">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnkno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="mkedat2" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cang_111" Member="wms_cang_111">
+    <Type Name="wms_cang_111">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnkno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="mkedat2" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cang_105" Member="wms_cang_105">
+    <Type Name="wms_cang_105">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnkno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="mkedat2" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cang_109" Member="wms_cang_109">
+    <Type Name="wms_cang_109">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnkno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="mkedat2" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cang_110" Member="wms_cang_110">
+    <Type Name="wms_cang_110">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnkno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="mkedat2" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_blltp" Member="wms_blltp">
+    <Type Name="wms_blltp">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidxtp" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13)" CanBeNull="true" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.v_wms_pkg" Member="v_wms_pkg">
+    <Type Name="v_wms_pkg">
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgdes" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="cnvrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cang_115" Member="wms_cang_115">
+    <Type Name="wms_cang_115">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="prvid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2) NOT NULL" CanBeNull="false" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="lnkbocino" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbocidat" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="opr" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="brief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="lnkbllid" Type="System.String" DbType="Char(3)" CanBeNull="true" />
+      <Column Name="lnkno" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Column Name="lnkbrief" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="mkedat2" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_cangdtl_115" Member="wms_cangdtl_115">
+    <Type Name="wms_cangdtl_115">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="oldbarcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="barcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgid" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="pkgqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2) NOT NULL" CanBeNull="false" />
+      <Column Name="bthno" Type="System.String" DbType="Char(20) NOT NULL" CanBeNull="false" />
+      <Column Name="vlddat" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bcd" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="tpcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="bkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="bokflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="bokdat" Type="System.String" DbType="Char(14) NOT NULL" CanBeNull="false" />
+      <Column Name="preqty" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="losreason" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(6)" CanBeNull="true" />
+      <Column Name="checi" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_addgds" Member="wms_addgds">
+    <Type Name="wms_addgds">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="dptid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="times" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="mkr" Type="System.String" DbType="Char(8) NOT NULL" CanBeNull="false" />
+      <Column Name="mkedat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="ckr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="chkflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="chkdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_addgdsdtl" Member="wms_addgdsdtl">
+    <Type Name="wms_addgdsdtl">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="lowqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="safeqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="qty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="qtyper" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="safeflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_addgdsadj" Member="wms_addgdsadj">
+    <Type Name="wms_addgdsadj">
+      <Column Name="wmsno" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="bllid" Type="System.String" DbType="Char(3) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="relrcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="rcdidx" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="gdstype" Type="System.String" DbType="Char(2)" CanBeNull="true" />
+      <Column Name="outbarcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="outqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="inbarcode" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="inqty" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
+      <Column Name="adjr" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="adjdat" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_boci" Member="wms_boci">
+    <Type Name="wms_boci">
+      <Column Name="savdptid" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="sndtmd" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="dh" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="clsid" Type="System.String" DbType="VarChar(10) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="jhflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.view_pssndgds" Member="view_pssndgds">
+    <Type Name="view_pssndgds">
+      <Column Name="dh" Type="System.String" DbType="Char(16) NOT NULL" CanBeNull="false" />
+      <Column Name="dqdes" Type="System.String" DbType="Char(100) NOT NULL" CanBeNull="false" />
+      <Column Name="dptid" Type="System.String" DbType="Char(4) NOT NULL" CanBeNull="false" />
+      <Column Name="savdptid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="sndtmd" Type="System.String" DbType="Char(10)" CanBeNull="true" />
+      <Column Name="weekd" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="rcvdptid" Type="System.String" DbType="Char(4) NOT NULL" CanBeNull="false" />
+      <Column Name="orid" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="busid" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="clsid" Type="System.String" DbType="Char(4)" CanBeNull="true" />
+      <Column Name="jhflg" Type="System.Char" DbType="Char(1) NOT NULL" CanBeNull="false" />
+      <Column Name="qu" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.cpngds" Member="cpngds">
+    <Type Name="cpngds">
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="newgdsid" Type="System.String" DbType="Char(13) NOT NULL" CanBeNull="false" />
+      <Column Name="udtdtm" Type="System.String" DbType="Char(14)" CanBeNull="true" />
+      <Column Name="printflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="printdtm" Type="System.String" DbType="VarChar(14)" CanBeNull="true" />
+      <Column Name="salprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="empid" Type="System.String" DbType="Char(8)" CanBeNull="true" />
+      <Column Name="prcflag" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Column Name="weightflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
+      <Association Name="gds_cpngds" Member="gds" ThisKey="gdsid" OtherKey="gdsid" Type="gds" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.fnGetBigProLssBll" Method="fnGetBigProLssBll" IsComposable="true">
+    <Parameter Name="savdptid" Type="System.String" DbType="VarChar(8)" />
+    <Parameter Name="dptid" Type="System.String" DbType="VarChar(8)" />
+    <Parameter Name="fscprdid" Type="System.String" DbType="VarChar(4)" />
+    <Return Type="System.String" />
+  </Function>
+  <Function Name="dbo.get_wms_sy_dtl" Method="get_wms_sy_dtl">
+    <Parameter Name="fscprdid" Type="System.String" DbType="VarChar(4)" />
+    <Parameter Name="bllno" Type="System.String" DbType="VarChar(16)" />
+    <Parameter Name="dptid" Type="System.String" DbType="VarChar(5)" />
+    <Parameter Name="savdptid" Type="System.String" DbType="VarChar(6)" />
+    <Parameter Name="gdsid" Type="System.String" DbType="VarChar(13)" />
+    <Parameter Name="qty" Type="System.Double" DbType="Float" />
+    <Parameter Name="ret" Type="System.Boolean" DbType="Bit" Direction="InOut" />
+    <ElementType IdRef="ID1" />
+  </Function>
+  <Function Name="dbo.get_wms_sy_bllno" Method="get_wms_sy_bllno">
+    <Parameter Name="fscprdid" Type="System.String" DbType="VarChar(4)" />
+    <Parameter Name="dptid" Type="System.String" DbType="VarChar(4)" />
+    <Parameter Name="savdptid" Type="System.String" DbType="VarChar(4)" />
+    <ElementType Name="get_wms_sy_bllnoResult">
+      <Column Name="" Member="Column1" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SuggestBarcode" Method="SuggestBarcode">
+    <Parameter Name="wmsno" Type="System.String" DbType="VarChar(20)" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.f_get_bthprc" Method="f_get_bthprc" IsComposable="true">
+    <Parameter Name="fscprdid" Type="System.String" DbType="VarChar(4)" />
+    <Parameter Name="depid" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="gdsid" Type="System.String" DbType="VarChar(14)" />
+    <ElementType Name="f_get_bthprcResult">
+      <Column Name="prvid" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="prc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="taxrto" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="salprc" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="demo" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.get_bllno" Method="get_bllno">
+    <Parameter Name="fscprdid" Type="System.String" DbType="VarChar(4)" />
+    <Parameter Name="bllclsid" Type="System.String" DbType="VarChar(2)" />
+    <Parameter Name="caclsid" Type="System.String" DbType="VarChar(3)" />
+    <Parameter Name="bllno" Type="System.String" DbType="VarChar(20)" Direction="InOut" />
+    <ElementType Name="get_bllnoResult">
+      <Column Name="bllno" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>

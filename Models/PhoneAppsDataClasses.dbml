@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="PhoneApps" Class="PhoneAppsDataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=192.10.200.11;Initial Catalog=PhoneApps;Persist Security Info=True;User ID=Hqls#phone#app" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="PhoneAppsConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.ApkInfo" Member="ApkInfo">
+    <Type Name="ApkInfo">
+      <Column Name="appname" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="versionname" Type="System.String" DbType="VarChar(50) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="versioncode" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="package" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="minSdkVersion" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="targetSdkVersion" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="sdkUpdateTime" Type="System.String" DbType="VarChar(30)" CanBeNull="true" />
+      <Column Name="updateTime" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="apk" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="ApkInfo_ApkPermission" Member="ApkPermission" ThisKey="appname,versionname" OtherKey="appname,versionname" Type="ApkPermission" />
+      <Association Name="ApkInfo_ApkDebugInfo" Member="ApkDebugInfo" ThisKey="appname,versionname" OtherKey="appname,versionname" Type="ApkDebugInfo" />
+      <Association Name="ApkInfo_ApkPermission1" Member="ApkPermission1" ThisKey="appname,versionname" OtherKey="appname,versionname" Type="ApkPermission1" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ApkPermission" Member="ApkPermission">
+    <Type Name="ApkPermission">
+      <Column Name="actid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="appname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="versionname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="permission" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Association Name="ApkInfo_ApkPermission" Member="ApkInfo" ThisKey="appname,versionname" OtherKey="appname,versionname" Type="ApkInfo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ApkDebugInfo" Member="ApkDebugInfo">
+    <Type Name="ApkDebugInfo">
+      <Column Name="actid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="appname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="versionname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="DebugItem" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="ApkInfo_ApkDebugInfo" Member="ApkInfo" ThisKey="appname,versionname" OtherKey="appname,versionname" Type="ApkInfo" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ApkPermission" Member="ApkPermission1">
+    <Type Name="ApkPermission1">
+      <Column Name="actid" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="appname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="versionname" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="permission" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Association Name="ApkInfo_ApkPermission1" Member="ApkInfo" ThisKey="appname,versionname" OtherKey="appname,versionname" Type="ApkInfo" IsForeignKey="true" />
+    </Type>
+  </Table>
+</Database>
