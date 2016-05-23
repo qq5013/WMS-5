@@ -42,6 +42,7 @@ namespace WMS.Controllers
                 return RInfo("参数数量不一致");
             }
             int i=0;
+            int i1 = 1;
 
             string qu = null;
             foreach (String s in oldbarcode)
