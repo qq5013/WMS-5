@@ -42,9 +42,19 @@ namespace WMS.Controllers
                 return RInfo("参数数量不一致");
             }
             int i=0;
-            
+
+            string qu = null;
             foreach (String s in oldbarcode)
             {
+                //判断是否是一个分区
+                if (!string.IsNullOrEmpty(qu) && qu!=s.Substring(0,2))
+                {
+                    return RInfo("商品不在同一个分区");
+                }
+                if (string.IsNullOrEmpty(qu))
+                {
+                    qu = s.Substring(0, 2);
+                }                
                 //判断仓位是否存在
                 if (!IsExistBarcode(s))
                 {
@@ -199,7 +209,7 @@ namespace WMS.Controllers
                 gdsbs.prvid = "";
                 gdsbs.qty = ag.qty;
                 gdsbs.qu = ag.qu;
-                gdsbs.savdptid = mst.savdptid;
+                gdsbs.savdptid = GetSavdptidByQu(ag.qu);
                 gdsbs.vlddat = "";
                 //如果没有就增加库存
                 wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
@@ -211,7 +221,7 @@ namespace WMS.Controllers
                 }else{
                     egdsbs.qty += gdsbs.qty;
                 }
-                WmsDc.SubmitChanges();
+                //WmsDc.SubmitChanges();
             }
             #endregion 增加帐表库存
 
@@ -252,7 +262,7 @@ namespace WMS.Controllers
                 {
                     egdsbs.qty -= gdsbs.qty;
                 }
-                WmsDc.SubmitChanges();
+                //WmsDc.SubmitChanges();
             }
             #endregion 减少帐表库存
 
@@ -361,7 +371,7 @@ namespace WMS.Controllers
                         sin.depid = WmsDc.bizdep.Where(e => e.savdptid.Trim() == dp.newsavdptid.Trim()
                             && e.dptid.Trim() == dp.newdptid.Trim()).Select(e => e.depid.Trim()).FirstOrDefault();
                         sin.prvid = "";
-                        sin.mkr = LoginInfo.Usrid;
+                        sin.mkr = mst.ckr;
                         sin.mkedat = GetCurrentDay();
                         sin.ckr = "";
                         sin.chkflg = GetN();
@@ -369,10 +379,10 @@ namespace WMS.Controllers
                         sin.bkr = "";
                         sin.bokflg = GetN();
                         sin.bokdat = "";
-                        sin.opr = LoginInfo.Usrid;
+                        sin.opr = mst.mkr;
                         sin.rcv = "";
                         sin.stkindat = "";
-                        sin.brief = "";
+                        sin.brief = "WMS系统调仓导入";
                         sin.lnkodrno = "";
                         sin.lnkivcno = "";
                         sin.mctortrust = '0';
@@ -429,11 +439,16 @@ namespace WMS.Controllers
                         sindtl.pkgtaxprc = bthprc.taxprc;
                         sindtl.qty = dp.newqty;
                         sindtl.prc = sindtl.pkgprc;
-                        sindtl.amt = sindtl.qty*sindtl.prc;
+                        sindtl.amt = Math.Round(sindtl.qty * sindtl.prc.Value, 2, MidpointRounding.AwayFromZero);
                         sindtl.taxrto = bthprc.taxrto;
-                        sindtl.taxamt = bthprc.taxprc * sindtl.qty - bthprc.prc * sindtl.qty;
+                        //sindtl.taxamt = Math.Round( (bthprc.taxprc.Value * sindtl.qty - bthprc.prc.Value * sindtl.qty) , 2, MidpointRounding.AwayFromZero); 
+                        ///算法就是这样的
+                        ///周胖胖 2016/5/23 14:54:34
+                        ///反正最终出来的结果就是
+                        ///taxamt=prc*taxrto*qty
+                        sindtl.taxamt = Math.Round(bthprc.prc.Value * bthprc.taxrto.Value * sindtl.qty, 2, MidpointRounding.AwayFromZero);
                         sindtl.taxprc = bthprc.taxprc;
-                        sindtl.patamt = bthprc.taxprc * sindtl.qty;
+                        sindtl.patamt = Math.Round(bthprc.taxprc.Value * sindtl.qty, 2, MidpointRounding.AwayFromZero);
                         sindtl.salprc = dpts.Where(e=>e.gdsid.Trim()==dp.gdsid.Trim()).Select(e=>e.salprc).FirstOrDefault() ;
                         sindtl.salprcamt = sindtl.salprc * dp.newqty;
                         sindtl.dlvprc = null;
@@ -446,7 +461,7 @@ namespace WMS.Controllers
                         sindtl.stllnkidx = null;
                         sindtl.bthno = null;
                         sindtl.vlddat = null;
-                        sindtl.bcd = null;
+                        sindtl.bcd = dp.bcd;
                         sindtl.brfdtl = null;
                         sindtl.stincstprc = null;
                         sindtl.stincstamt = null;
@@ -935,6 +950,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid
                          && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && barcode.Substring(0, 2) == e.qu
                          select e;
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
