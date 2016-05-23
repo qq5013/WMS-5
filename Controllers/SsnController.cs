@@ -277,6 +277,7 @@ namespace WMS.Controllers
                       into joinBcd
                       from e3 in joinBcd.DefaultIfEmpty()
                       where e.barcode == barcode
+                      && e.qu == e.barcode.Substring(0,2)
                       //&& dpts.Contains(e1.dptid.Trim())
                       group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1 } into g
                       select new
@@ -341,6 +342,7 @@ namespace WMS.Controllers
                       into joinBcd
                       from e3 in joinBcd.DefaultIfEmpty()
                       where e.barcode == barcode
+                      && e.qu == e.barcode.Substring(0, 2)
                       //&& dpts.Contains(e1.dptid.Trim())
                       group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1 } into g
                       select new
