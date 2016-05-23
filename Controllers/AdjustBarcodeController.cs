@@ -603,7 +603,7 @@ namespace WMS.Controllers
         {
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where //e.mkr == LoginInfo.Usrid && 
+                         where e.mkr == LoginInfo.Usrid && 
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
             var arrqrymst = qrymst.ToArray();
@@ -678,7 +678,7 @@ namespace WMS.Controllers
             }
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where //e.mkr == LoginInfo.Usrid && 
+                         where e.mkr == LoginInfo.Usrid && 
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
             var arrqrymst = qrymst.ToArray();
@@ -836,9 +836,10 @@ namespace WMS.Controllers
         {
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid
-                         && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         where e.mkr == LoginInfo.Usrid  &&
+                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
+            
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
@@ -950,10 +951,11 @@ namespace WMS.Controllers
 
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid
-                         && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         where e.mkr == LoginInfo.Usrid                         && 
+                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          && barcode.Substring(0, 2) == e.qu
                          select e;
+            
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG //&& e.barcode == barcode
@@ -1050,9 +1052,10 @@ namespace WMS.Controllers
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid
-                         && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         where e.mkr == LoginInfo.Usrid &&
+                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
+            
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG                         
@@ -1231,9 +1234,10 @@ namespace WMS.Controllers
 
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid
-                         && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         where e.mkr == LoginInfo.Usrid  &&
+                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
+            
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
@@ -1297,7 +1301,7 @@ namespace WMS.Controllers
                          where qus.Contains(e.qu.Trim())
                              && e.mkedat.Substring(2, 4) == fscprdid && e.chkflg == GetN()     /// 刘启杰说的
                              //&& e.mkedat.Substring(0, 8) == GetCurrentDay()               /// 周熙说的
-                         && e.mkr == LoginInfo.Usrid
+                         //&& e.mkr == LoginInfo.Usrid
                          && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select new
                          {
@@ -1310,7 +1314,20 @@ namespace WMS.Controllers
                              e.chkdat,
                              mkrdes = e2.empdes,
                              e.qu
-                         };
+                         };  
+
+            //todo : 判断是否有审核权限，如果有就显示全部未审核的和自己做的单子
+            var qry = from e in LoginInfo.EmpPwrs
+                      where e.mdlid.Trim() == "wms_back" && e.pwrid.Trim() == WMSConst.WMS_BACK_仓位调整审核
+                      && e.empid.Trim() == LoginInfo.Usrid.Trim()
+                      select e;
+            //如果没有审核权限，就只能看自己没有审核的
+            if (qry.Count() == 0)
+            {
+                qrymst = qrymst.Where(e => e.mkr == LoginInfo.Usrid);
+            }
+
+
             var arrqrymst = qrymst.ToArray();
 
             if (arrqrymst.Length <= 0)
@@ -1337,10 +1354,21 @@ namespace WMS.Controllers
         public ActionResult GetAdjDtlBll(String wmsno)
         {            
             var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid
-                         && qus.Contains(e.qu.Trim())
+                         where // e.mkr == LoginInfo.Usrid                         && 
+                         qus.Contains(e.qu.Trim())
                          && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
+            //todo : 判断是否有审核权限，如果有就显示全部未审核的和自己做的单子
+            var qry = from e in LoginInfo.EmpPwrs
+                      where e.mdlid.Trim() == "wms_back" && e.pwrid.Trim() == WMSConst.WMS_BACK_仓位调整审核
+                      && e.empid.Trim() == LoginInfo.Usrid.Trim()
+                      select e;
+            //如果没有审核权限，就只能看自己没有审核的
+            if (qry.Count() == 0)
+            {
+                qrymst = qrymst.Where(e => e.mkr == LoginInfo.Usrid);
+            }
+
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid                         
@@ -1459,10 +1487,20 @@ namespace WMS.Controllers
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid
-                         && qus.Contains(e.qu.Trim())
+                         where //e.mkr == LoginInfo.Usrid &&
+                         qus.Contains(e.qu.Trim())
                          && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
+            //todo : 判断是否有审核权限，如果有就显示全部未审核的和自己做的单子
+            var qry = from e in LoginInfo.EmpPwrs
+                      where e.mdlid.Trim() == "wms_back" && e.pwrid.Trim() == WMSConst.WMS_BACK_仓位调整审核
+                      && e.empid.Trim() == LoginInfo.Usrid.Trim()
+                      select e;
+            //如果没有审核权限，就只能看自己没有审核的
+            if (qry.Count() == 0)
+            {
+                qrymst = qrymst.Where(e => e.mkr == LoginInfo.Usrid);
+            }
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
