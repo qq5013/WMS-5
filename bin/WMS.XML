@@ -2180,13 +2180,13 @@
             仓位调整
             </summary>
         </member>
-        <member name="M:WMS.Controllers.AdjustBarcodeController.AdtAdjBll_bak(System.String)">
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdtAdjBll(System.String)">
             <summary>
             仓位调整单审核
             </summary>
             <param name="wmsno">仓位调整单单号</param>
             <returns></returns>
-            todo: 审核仓位调整单还原
+            done: 审核仓位调整单还原
         </member>
         <member name="M:WMS.Controllers.AdjustBarcodeController.MkAdjBll(System.String,System.String,System.String,System.String)">
             <summary>

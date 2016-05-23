@@ -98,8 +98,8 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="wmsno">仓位调整单单号</param>
         /// <returns></returns>
-        /// todo: 审核仓位调整单还原
-        public ActionResult AdtAdjBll_bak(String wmsno)
+        /// done: 审核仓位调整单还原
+        public ActionResult AdtAdjBll(String wmsno)
         {
             /*
              * 仓位调整审核步骤
