@@ -110,6 +110,7 @@ namespace WMS.Controllers
         /// <param name="wmsno">仓位调整单单号</param>
         /// <returns></returns>
         /// done: 审核仓位调整单还原
+        [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整审核, pwrdes = "仓位调整审核")]
         public ActionResult AdtAdjBll(String wmsno)
         {
             /*
@@ -163,10 +164,10 @@ namespace WMS.Controllers
                 return RInfo("您无权审核该单据");
             }
             //判断该单据是否审核
-            //if (mst.chkflg == GetY())
-            //{
-            //    return RInfo("该单据已经审核，请不要重复审核");
-            //}
+            if (mst.chkflg == GetY())
+            {
+                return RInfo("该单据已经审核，请不要重复审核");
+            }
             //判断是否有明细数据权限
             if (dtls.Length == 0)
             {
