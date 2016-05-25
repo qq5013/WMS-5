@@ -237,7 +237,7 @@ namespace WMS.Controllers
             {
                 wms_cangwei oldCw = null;
                 //如果旧仓位不为空，就需要查询出就仓位，以便修改其仓位托盘tpflg标志
-                if (!string.IsNullOrEmpty(barcode))
+                if (!string.IsNullOrEmpty(barcode.Trim()))
                 {
                     //判断仓位码是否有效                                
                     if (!IsExistBarcode(barcode))
@@ -260,6 +260,24 @@ namespace WMS.Controllers
                 var qrydtl = GetCangDtl(wmsno)
                              .Where(e => e.barcode.Trim() == barcode.Trim() && e.tpcode.Trim() == tpcode.Trim());
                 var arrqrydtl = qrydtl.ToArray();
+                // 判断明细的分区是否是同一个分区，而且newbarcode的分区也在商品的分区内
+                string initQu = null;
+                foreach (wms_cangdtl dtl in arrqrydtl)
+                {
+                    string gdsqu = GetQuByGdsid(dtl.gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                    if (string.IsNullOrEmpty(initQu))
+                    {
+                        initQu = gdsqu;
+                    }
+                    if (initQu != gdsqu)
+                    {
+                        return RInfo("该托盘下的商品不属于同一分区，请检查");
+                    }
+                }
+                if (initQu != newbarcode.Substring(0, 2))
+                {
+                    return RInfo("仓位不在商品所在的区域");
+                }
 
                 #region 有效性检查
                 //检查单号是否有效            
@@ -290,7 +308,7 @@ namespace WMS.Controllers
                 //查看新仓位是否不为推荐仓位
                 wms_cangwei cw = null;
                 if (!String.IsNullOrEmpty(newbarcode) && barcode.Trim() != newbarcode.Trim())
-                {
+                {    
                     cw = GetCangWei(newbarcode);
                     if (cw == null)
                     {
@@ -305,9 +323,9 @@ namespace WMS.Controllers
                     {
                         return RInfo("你无权操作仓位" + newbarcode + "所在的区");
                     }
-                    if (cw.tjflg == GetY())
+                    if (oldCw != null && cw.tjflg == GetY())
                     {
-                        return RInfo("调整仓位" + newbarcode + "为推荐仓位，不能修改");
+                        return RInfo("调整仓位" + newbarcode + "为推荐仓位，不能使用");
                     }
                     //修改新仓位标记tpflg=GetY()
                     cw.tpflg = GetY();

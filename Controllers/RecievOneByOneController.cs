@@ -1502,7 +1502,7 @@ namespace WMS.Controllers
 
             //判断相同托盘是否有barcode，如果有就不用推荐，copy到新的上架单里面
             String sBarcode = null;
-            wms_cangdtl sameTpcode = dtls.Where(e => e.tpcode == tpcode && (e.barcode != "" && e.barcode != null)).FirstOrDefault();
+            wms_cangdtl sameTpcode = dtls.Where(e => e.tpcode == tpcode && (e.barcode != "" && e.barcode != null) && e.bokflg=='n').FirstOrDefault();
             if (sameTpcode != null)
             {
                 sBarcode = sameTpcode.barcode;
@@ -1605,29 +1605,38 @@ namespace WMS.Controllers
                                    select 1).Any()                                                                                    //* 把当天所有的wms_cangdtl里面的单据类型为102的给我排除掉
                               orderby e.ceng, e.barcode                                                                               //*
                               select e).FirstOrDefault();                                                                             //*
-            if (cw1.barcode != cw.barcode)
+            if (cw1 != null && cw != null)
             {
-                d(wmsno, WMSConst.BLL_TYPE_UPBLL, "rnd=" + iRnd + ",idx=1,"
-                                        + ",barcode=" + cw1.barcode + ",isvld=" + cw1.isvld + ",kcflg=" + cw1.kcflg + ",tjflg=" + cw1.tjflg + ",tpflg=" + cw1.tpflg, "", qu, savdptid);
-            }
-            else
-            {
-                d(wmsno, WMSConst.BLL_TYPE_UPBLL, "rnd=" + iRnd + ",idx=1,"
-                                        + ",barcode=" + cw1.barcode + ",isvld=" + cw1.isvld + ",kcflg=" + cw1.kcflg + ",tjflg=" + cw1.tjflg + ",tpflg=" + cw1.tpflg, "", qu, savdptid);
+                if (cw1.barcode != cw.barcode)
+                {
+                    d(wmsno, WMSConst.BLL_TYPE_UPBLL, "rnd=" + iRnd + ",idx=1,"
+                                            + ",barcode=" + cw1.barcode + ",isvld=" + cw1.isvld + ",kcflg=" + cw1.kcflg + ",tjflg=" + cw1.tjflg + ",tpflg=" + cw1.tpflg, "", qu, savdptid);
+                }
+                else
+                {
+                    d(wmsno, WMSConst.BLL_TYPE_UPBLL, "rnd=" + iRnd + ",idx=1,"
+                                            + ",barcode=" + cw1.barcode + ",isvld=" + cw1.isvld + ",kcflg=" + cw1.kcflg + ",tjflg=" + cw1.tjflg + ",tpflg=" + cw1.tpflg, "", qu, savdptid);
+                }
             }
             
             // 未找到仓位
-            if (cw == null) { return null; }
-            cw.tpflg = GetY();            
+            if (cw != null) { cw.tpflg = GetY(); }            
 
             try
             {
                 WmsDc.SubmitChanges();
 
-                d(wmsno, WMSConst.BLL_TYPE_UPBLL, "rnd=" + iRnd + ",idx=2,"
-                                        + ",barcode=" + cw.barcode + ",isvld=" + cw.isvld + ",kcflg=" + cw.kcflg + ",tjflg=" + cw.tjflg + ",tpflg=" + cw.tpflg, "", qu, savdptid);
+                if (cw != null)
+                {
+                    d(wmsno, WMSConst.BLL_TYPE_UPBLL, "rnd=" + iRnd + ",idx=2,"
+                                            + ",barcode=" + cw.barcode + ",isvld=" + cw.isvld + ",kcflg=" + cw.kcflg + ",tjflg=" + cw.tjflg + ",tpflg=" + cw.tpflg, "", qu, savdptid);
 
-                return cw.barcode;
+                    return cw.barcode;
+                }
+                else
+                {
+                    return "";
+                }
             }
             catch (Exception ex)
             {
@@ -1914,6 +1923,11 @@ namespace WMS.Controllers
             if (idxDtlTp != null)
             {
                 iTpIdx = idxDtlTp.rcdidxtp + 1;
+            }
+            // 同一张收货单不允许有和已确认收货商品相同的托盘
+            if (WmsDc.wms_blltp.Where(e => e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL && e.bokflg == GetY() && e.tpcode == tpcode).Any())
+            {
+                return RRInfo("该托盘码已使用");
             }
             //同一个商品同一个托盘 同一个类型 不应该重复
             if (qryDtlTp.Where(e => e.gdsid == gdsid && e.gdstype == gdstype && e.tpcode == tpcode).Any())
