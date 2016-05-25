@@ -308,7 +308,7 @@ namespace WMS.Controllers
                 //查看新仓位是否不为推荐仓位
                 wms_cangwei cw = null;
                 if (!String.IsNullOrEmpty(newbarcode) && barcode.Trim() != newbarcode.Trim())
-                {
+                {  
                     cw = GetCangWei(newbarcode);
                     if (cw == null)
                     {
