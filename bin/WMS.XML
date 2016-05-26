@@ -217,10 +217,9 @@
         </member>
         <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeCommTphy(System.String)">
             <summary>
-            得到仓位商品数量
+            得到仓位商品数量(托盘还原)
             </summary>
-            <param name="barcode"></param>
-            <param name="isTphy">是否是托盘还原</param>
+            <param name="barcode"></param>       
             <returns></returns>
         </member>
         <member name="M:WMS.Controllers.SsnController.GetGdsInBarcode(System.String)">
@@ -2179,6 +2178,16 @@
             <summary>
             仓位调整
             </summary>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.GetCanUnionBarcode(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            查询可以合并的仓位
+            </summary>
+            <param name="savdptid"></param>
+            <param name="qu"></param>
+            <param name="mkedat"></param>
+            <param name="qty"></param>
+            <returns></returns>
         </member>
         <member name="M:WMS.Controllers.AdjustBarcodeController.AdtAdjBll(System.String)">
             <summary>

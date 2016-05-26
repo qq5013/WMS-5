@@ -343,6 +343,12 @@ namespace WMS.Controllers
             {
                 return RNoData("未找到主单信息");
             }
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByDptid(mst.dptid, LoginInfo.DefStoreid);
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
             //2.查看内调单据是否已经转过为收货单
             var qryshd = from e in WmsDc.wms_bllmst
                          where e.bllid == WMSConst.BLL_TYPE_REVIECEBLL
@@ -1016,6 +1022,13 @@ namespace WMS.Controllers
         public ActionResult MdfyRecievGdsType(String wmsno, String gdsid, String gdstype, String newgdstype)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (gdsid == null)
             {
                 return RInfo("货号无效！");

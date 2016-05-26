@@ -56,6 +56,13 @@ namespace WMS.Controllers
         public ActionResult BokBozBllGds(String wmsno, String stkouno, String rcvdptid, String gdsid, double qty, int? rcdidx)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (gdsid == null)
             {
                 return RInfo("货号无效！");

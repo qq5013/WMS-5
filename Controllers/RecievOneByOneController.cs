@@ -47,6 +47,13 @@ namespace WMS.Controllers
         public ActionResult BokRecievGds(String wmsno, String gdsid, String gdstypes, String qtys, String tpcodes, String pkgids)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (gdsid == null)
             {
                 return RInfo("货号无效！");
@@ -671,6 +678,12 @@ namespace WMS.Controllers
                     //得到登录仓库所在部门的区位码
                     GetRealteQuResult realte = GetRealteQu(odr.mst.dptid, LoginInfo.DefSavdptid);
                     bllmst.qu = realte.qu;
+                    //正在生成拣货单，请稍候重试
+                    string quRetrv = bllmst.qu;
+                    if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                    {
+                        return RRInfo("正在生成拣货单，请稍候重试");
+                    }
                     /*bllmst.tongdao = odr.mst.tongdao;
                     bllmst.huojia = odr.mst.huojia;*/
                     bllmst.odrdat = odr.mst.odrdat;
@@ -865,6 +878,12 @@ namespace WMS.Controllers
             // 得到主单
             #region 得到收货单主单
             wms_bllmst mst = GetMst(wmsno);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
             if(mst==null){
                 return RNoData("未找到收货单");
             }
@@ -1135,6 +1154,13 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult DelAgdsFrmTpcode(string wmsno, String tpcode, String gdsid, string gdstype, int rcdidx, int rcdidxtp)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //得到托盘
             wms_blltp[] blltps = GetTp(wmsno);
             if (blltps.Length == 0)
@@ -1171,6 +1197,13 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult MdAgdsFrmTpcode(string wmsno, String tpcode, String gdsid, string gdstype, int rcdidx, int rcdidxtp, double qty)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //得到托盘
             wms_blltp[] blltps = GetTp(wmsno);
             if (blltps.Length == 0)
@@ -1260,6 +1293,12 @@ namespace WMS.Controllers
                 wms_blltp[] dtltpcode = qryDtlTpCode.ToArray();
                 wms_blltp[] dtltp = qryDtlTp.ToArray();
                 if (mst == null) { return RNoData("未找到单据信息"); }
+                //正在生成拣货单，请稍候重试
+                string quRetrv = mst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
                 if (dtltpcode == null || dtltpcode.Length == 0) { return RNoData("未找到托盘明细信息"); }
                 if (mst.chkflg == GetY()) { return RInfo("该单据已经审核,不能重复审核"); }
                 if (qryDtlTpCode.Where(e => e.bokflg == GetY()).Any()) { return RInfo("托盘“" + qryDtlTp.First().tpcode + "”已经确定,不能重复确定"); }
@@ -1703,6 +1742,13 @@ namespace WMS.Controllers
         public ActionResult AdGdsByTp(String wmsno, String gdsid, String gdstype, String qty, String tpcode, String pkgid)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (gdsid == null)
             {
                 return RInfo("货号无效！");
@@ -1806,6 +1852,12 @@ namespace WMS.Controllers
             if (mst == null)
             {
                 return RNoData("未找到收货单");
+            }
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
             }
             if (!qus.Contains(mst.qu) || !savdpts.Contains(mst.savdptid.Trim()))
             {
@@ -1983,6 +2035,12 @@ namespace WMS.Controllers
         public ActionResult MdfyRecievGdsType(String wmsno, String gdsid, String gdstype, String newgdstype)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
             if (gdsid == null)
             {
                 return RInfo("货号无效！");

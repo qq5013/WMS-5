@@ -285,6 +285,12 @@ namespace WMS.Controllers
                 {
                     return RNoData("单号无效");
                 }
+                //正在生成拣货单，请稍候重试
+                string quRetrv = cang.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
 
                 //检查是否已经审核
                 if (cang.chkflg == GetY())
@@ -439,6 +445,12 @@ namespace WMS.Controllers
             if (cang==null)
             {
                 return RNoData("单号无效");
+            }
+            //正在生成拣货单，请稍候重试
+            string quRetrv = cang.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
             }
 
             //检查是否已经审核            

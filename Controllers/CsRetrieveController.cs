@@ -288,6 +288,13 @@ namespace WMS.Controllers
                     return ReturnResult();
                 }
                 wms_cang mst = arrmst[0];
+                //正在生成拣货单，请稍候重试
+                string quRetrv = mst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
+
                 wms_cangdtl dtl = arrdtl[0];
                 //是否捡货单已经审核
                 if (mst.chkflg == GetY())
@@ -685,6 +692,13 @@ namespace WMS.Controllers
                     return ReturnResult();
                 }
                 wms_cang mst = arrmst[0];
+                //正在生成拣货单，请稍候重试
+                string quRetrv = mst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
+
                 foreach (wms_cangdtl d in arrdtl)
                 {
                     //是否捡货单商品已经审核

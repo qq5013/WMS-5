@@ -105,6 +105,54 @@ namespace WMS.Controllers
 
 
         /// <summary>
+        /// 查询可以合并的仓位
+        /// </summary>
+        /// <param name="savdptid"></param>
+        /// <param name="qu"></param>
+        /// <param name="mkedat"></param>
+        /// <param name="qty"></param>
+        /// <returns></returns>
+        public ActionResult GetCanUnionBarcode(string savdptid, string qu, string mkedat, int qty)
+        {
+ 
+            String sql = @"declare @savdptid varchar(6),@qu varchar(6),@mkedat varchar(14),@qty int
+
+                            select @savdptid='" + savdptid + @"'
+                            select @qu='" + qu + @"'
+                            select @mkedat='" + mkedat + @"'
+                            select @qty=" + qty + @"
+
+                            select b.barcode,b.zheng,b.ling,b.zong from wms_cangwei a
+
+                            join (select barcode,sum(zheng) zheng,sum(ling) ling,sum(zong) zong
+                            from
+                            (select barcode,gdsid,
+                            floor(sum(qty)/(select max(cnvrto)  from pkg where pkg.gdsid=wms_cwgdsbs.gdsid)) zheng,
+                            convert(integer,sum(qty))% convert(integer,(select max(cnvrto)  from pkg where pkg.gdsid=wms_cwgdsbs.gdsid )) ling,
+                            sum(qty) zong
+                            from wms_cwgdsbs where savdptid=@savdptid and qu=@qu and qty>0 group by barcode,gdsid) a
+                            group by barcode) b on a.barcode=b.barcode
+
+                            where a.savdptid=@savdptid and a.qu=@qu and a.tjflg='y' and a.barcode not in
+                            (
+                            select barcode from wms_cangdtl,wms_cang where wms_cang.wmsno=wms_cangdtl.wmsno and wms_cang.bllid=wms_cangdtl.bllid
+				                            and wms_cang.savdptid=@savdptid and wms_cang.qu=@qu and wms_cang.bllid='103' and wms_cang.mkedat>='" + mkedat + @"'
+                            union all
+                            select barcode from wms_cangdtl_115,wms_cang_115 where wms_cang_115.wmsno=wms_cangdtl_115.wmsno and wms_cang_115.bllid=wms_cangdtl_115.bllid
+				                            and wms_cang_115.savdptid=@savdptid and wms_cang_115.qu=@qu and wms_cang_115.bllid='115' and wms_cang_115.mkedat>='" + mkedat + @"'
+                            union all
+                            select barcode from wms_bllmst,wms_blldtl where wms_bllmst.wmsno=wms_blldtl.wmsno and wms_bllmst.bllid=wms_blldtl.bllid
+				                            and wms_bllmst.savdptid=@savdptid and wms_bllmst.qu=@qu and wms_bllmst.bllid='108' and wms_bllmst.mkedat>='" + mkedat + @"'
+                            )
+
+                            and b.zheng<=@qty
+                            order by b.barcode";
+            IEnumerable<GetCanUnionBarcodeRet> obj = WmsDc.ExecuteQuery<GetCanUnionBarcodeRet>(sql);
+            
+            return RSucc("成功", obj);
+        }
+
+        /// <summary>
         /// 仓位调整单审核
         /// </summary>
         /// <param name="wmsno">仓位调整单单号</param>
@@ -125,6 +173,12 @@ namespace WMS.Controllers
              * 8.插入sftdtl表
              */
             wms_bllmst mst = GetAdjMst(wmsno);
+            //正在生成拣货单，请稍候重试            
+            if (DoingRetrieve(LoginInfo.DefStoreid, mst.qu))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             wms_blldtl[] dtls = GetAdjDtls(wmsno);
             wms_blltp[] tps = (from e in WmsDc.wms_blltp
                                where e.wmsno == wmsno.Trim()
@@ -522,6 +576,13 @@ namespace WMS.Controllers
             String[] barcode = oldbarcodes.Split(',');
             String qu = barcode[0].Substring(0, 2);
             String savdptid = GetSavdptidByQu(qu);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             return MakeNewBllNo(savdptid, WMSConst.BLL_TYPE_ADJCANG, (bllno) =>
             {
                 //检查并创建明细
@@ -601,6 +662,13 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult BokOldBarcodeGdsid(String wmsno, String gdsid, int rcdidx)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid && 
@@ -669,8 +737,16 @@ namespace WMS.Controllers
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult AdAdjBarcode(String wmsno, String gdsid, int rcdidx, String newbarcode, double qty)
-        {           
+        {                       
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //判断仓位是否存在
             if (!IsExistBarcode(newbarcode))
             {
@@ -833,7 +909,7 @@ namespace WMS.Controllers
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult DlAdjBll(String wmsno)
-        {
+        {            
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid  &&
@@ -863,6 +939,14 @@ namespace WMS.Controllers
             {
                 return RInfo("制单人" + arrqrymst[0].mkr + "和登录人" + LoginInfo.Usrid + "不同，不能操作");
             }
+
+            //正在生成拣货单，请稍候重试
+            string quRetrv = arrqrymst[0].qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             WmsDc.wms_blltp.DeleteAllOnSubmit(qrytpdtl);            
             WmsDc.wms_blldtl.DeleteAllOnSubmit(arrqrydtl);
             WmsDc.wms_bllmst.DeleteAllOnSubmit(arrqrymst);
@@ -937,6 +1021,14 @@ namespace WMS.Controllers
         public ActionResult AdOldBarcode(String wmsno, String barcode, String gdsid, String gdstype, String qty)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //判断gdsid和barcode是否是一个区
             String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
             if ( !qu.Contains(barcode.Substring(0, 2)) )
@@ -1050,6 +1142,13 @@ namespace WMS.Controllers
         public ActionResult DlOldBarcode(String wmsno, String gdsid, int rcdidx)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //检查是否存在单据
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid &&
@@ -1226,6 +1325,13 @@ namespace WMS.Controllers
         public ActionResult DlNewBarcode(String wmsno, String gdsid, int rcdidx, String newbarcode, int tprcdidx)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //判断仓位是否存在
             if (!IsExistBarcode(newbarcode))
             {
@@ -1576,5 +1682,13 @@ namespace WMS.Controllers
             }
             return RSucc("成功", arrqrymst);
         }
+    }
+
+    public class GetCanUnionBarcodeRet
+    {
+        public String barcode;
+        public double? zheng;
+        public int? ling;
+        public double? zong;        
     }
 }

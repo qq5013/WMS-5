@@ -230,6 +230,12 @@ namespace WMS.Controllers
                 return RNoData("未找到单据信息");
             }
             wms_cang_109 mst = arrqrymst[0];
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
             if (mst.chkflg==GetY())
             {
                 return RInfo("单据已经审核，不允许修改");
@@ -292,6 +298,13 @@ namespace WMS.Controllers
                     if (arrqrymst.Length > 0)
                     {
                         wms_cang_109 mst = arrqrymst[0];
+                        //正在生成拣货单，请稍候重试
+                        string quRetrv = mst.qu;
+                        if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                        {
+                            return RInfo("正在生成拣货单，请稍候重试");
+                        }
+
                         if (mst.chkflg == GetY())
                         {
                             sInfo += mst.wmsno + "单据已经审核，不能删除\r\n";
@@ -341,6 +354,13 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_返仓制单, pwrdes = "返仓制单")]
         public ActionResult AdRetBll(String bllno, String dptid, String hndno, String gdsids, String qtys, String rsns)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByDptid(dptid, LoginInfo.DefStoreid);
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //检查是否有残损库权限
             if (String.IsNullOrEmpty(LoginInfo.DefCsSavdptid))
             {
@@ -581,6 +601,12 @@ namespace WMS.Controllers
                     mst.savdptid = LoginInfo.DefCsSavdptid;
                     mst.prvid = "";
                     mst.qu = qu;
+                    //正在生成拣货单，请稍候重试
+                    string quRetrv = mst.qu;
+                    if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                    {
+                        return RRInfo("正在生成拣货单，请稍候重试");
+                    }
                     mst.rcvdptid = dptid;
                     mst.times = "1";
                     mst.lnkbocino = "";
@@ -656,6 +682,13 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_返仓制单, pwrdes = "返仓制单")]
         public ActionResult MdARetBll(String bllno, String gdsid, String qty, String rsn)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //拆分货号，数量
             JsonResult jr = (JsonResult)_MkParam(gdsid, qty, rsn);
             ResultMessage rm = (ResultMessage)jr.Data;
@@ -679,6 +712,7 @@ namespace WMS.Controllers
                 return RNoData("返仓单未找到");
             }
             wms_cang_109 mst = arrqrymst[0];
+
             //查询返仓单明细
             var qrydtl = from e in WmsDc.wms_cangdtl_109
                          join e1 in qrymst on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
@@ -808,6 +842,13 @@ namespace WMS.Controllers
                 return RNoData("返仓单未找到");
             }
             wms_cang_109 mst = arrqrymst[0];
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //查询返仓单明细
             var qrydtl = from e in WmsDc.wms_cangdtl_109
                          join e1 in qrymst on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }

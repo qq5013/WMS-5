@@ -223,7 +223,14 @@ namespace WMS.Controllers
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_分货确认, pwrdes = "分货确认")]
         public ActionResult BokRetrieve(String wmsno, String bllid, String bocino, String clsid, String checi, String gdsid, double qty)
-        {            
+        {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             //得到wms_cutgds
             var qry = from e in WmsDc.wms_cutgds
                       join e1 in WmsDc.gds on e.gdsid equals e1.gdsid

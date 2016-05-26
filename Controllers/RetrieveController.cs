@@ -483,6 +483,13 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
         public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, double qty)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             using (TransactionScope scop = new TransactionScope())
             {
                 //检索主表、明细表
@@ -978,6 +985,12 @@ namespace WMS.Controllers
                     return ReturnResult();
                 }
                 wms_cang mst = arrmst[0];
+                //正在生成拣货单，请稍候重试
+                string quRetrv = mst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
                 foreach (wms_cangdtl d in arrdtl)
                 {
                     //是否捡货单商品已经审核

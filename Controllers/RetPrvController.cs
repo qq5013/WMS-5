@@ -229,6 +229,12 @@ namespace WMS.Controllers
                 mst.savdptid = LoginInfo.DefCsSavdptid;
                 mst.prvid = prvid;                
                 mst.qu = dtls[0].barcode.Substring(0,2);
+                //正在生成拣货单，请稍候重试
+                string quRetrv = mst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RRInfo("正在生成拣货单，请稍候重试");
+                }
                 mst.rcvdptid = "";
                 mst.times = "1";
                 mst.lnkbocino = "";
@@ -299,6 +305,13 @@ namespace WMS.Controllers
         [PWR(Pwrid=WMSConst.WMS_BACK_退厂制单, pwrdes="退厂制单")]
         public ActionResult DlRetPrvBllDtl(String wmsno, String gdsid, int rcdidx, String isMd)
         {
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             isMd = String.IsNullOrEmpty(isMd) ? "n" : "y";
             //检查单号是否存在
             var qrymst = from e in WmsDc.wms_cang_110
@@ -381,6 +394,12 @@ namespace WMS.Controllers
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
             if (!qus.Contains(mst.qu.Trim()))
             {
                 return RInfo("你没有该区域的权限");
@@ -442,6 +461,13 @@ namespace WMS.Controllers
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (!qus.Contains(mst.qu.Trim()))
             {
                 return RInfo("你没有该区域的权限");
@@ -576,6 +602,13 @@ namespace WMS.Controllers
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (!qus.Contains(mst.qu.Trim()))
             {
                 return RInfo("你没有该区域的权限");
@@ -698,6 +731,13 @@ namespace WMS.Controllers
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
+            //正在生成拣货单，请稍候重试
+            string quRetrv = mst.qu;
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (!qus.Contains(mst.qu.Trim()))
             {
                 return RInfo("你没有该区域的权限");

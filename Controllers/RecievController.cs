@@ -417,6 +417,13 @@ namespace WMS.Controllers
                     //得到登录仓库所在部门的区位码
                     GetRealteQuResult realte = GetRealteQu(odr.mst.dptid, LoginInfo.DefSavdptid);
                     bllmst.qu = realte.qu;
+                    //正在生成拣货单，请稍候重试
+                    string quRetrv = bllmst.qu;
+                    if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                    {
+                        return RRInfo("正在生成拣货单，请稍候重试");
+                    }
+
                     /*bllmst.tongdao = odr.mst.tongdao;
                     bllmst.huojia = odr.mst.huojia;*/
                     bllmst.odrdat = odr.mst.odrdat;
@@ -626,6 +633,13 @@ namespace WMS.Controllers
                     return Rm;
                 }
                 wms_bllmst bllmst = arrqry[0];
+                //正在生成拣货单，请稍候重试
+                string quRetrv = bllmst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RRInfo("正在生成拣货单，请稍候重试");
+                }
+
                 //审核人是否是制单人
                 /*if (IsSameLogin(bllmst.mkr))
                 {
@@ -930,6 +944,13 @@ namespace WMS.Controllers
         public ActionResult BokRecievGds(String wmsno, String gdsid, String gdstypes,  String qtys, String tpcodes, String pkgids)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (gdsid == null)
             {
                 return RInfo("货号无效！");
@@ -1143,6 +1164,13 @@ namespace WMS.Controllers
         public ActionResult MdfyRecievGdsType(String wmsno, String gdsid, String gdstype, String newgdstype)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //正在生成拣货单，请稍候重试
+            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            {
+                return RInfo("正在生成拣货单，请稍候重试");
+            }
+
             if (gdsid == null)
             {
                 return RInfo("货号无效！");

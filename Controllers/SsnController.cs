@@ -324,10 +324,9 @@ namespace WMS.Controllers
         }
 
         /// <summary>
-        /// 得到仓位商品数量
+        /// 得到仓位商品数量(托盘还原)
         /// </summary>
-        /// <param name="barcode"></param>
-        /// <param name="isTphy">是否是托盘还原</param>
+        /// <param name="barcode"></param>       
         /// <returns></returns>
         public GdsInBarcode[] GetGdsQtyInBarcodeCommTphy(String barcode)
         {            
@@ -636,6 +635,25 @@ namespace WMS.Controllers
                 dpts = dpts.Where(e => arrqry.Contains(e.Trim())).ToArray();
             }            
             return dpts;
+        }
+
+        /// <summary>
+        /// 分区是否在生成拣货单
+        /// </summary>
+        /// <param name="storeid"></param>
+        /// <param name="qu"></param>
+        /// <returns></returns>
+        protected Boolean DoingRetrieve(String storeid, String qu)
+        {
+            var qry = from e in WmsDc.wms_set
+                      where e.isvld == 'y' && e.val3 == storeid.Trim() && e.val2 == qu.Trim()
+                      select e;
+            wms_set st = qry.FirstOrDefault();
+            if (st != null)
+            {
+                return st.val1 == "y";
+            }
+            return false;
         }
 
         /// <summary>
@@ -2873,6 +2891,23 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
 
             return arrqry;
+        }
+
+        protected String GetQuByDptid(String dptid, String storeid)
+        {
+            var qry = from e in WmsDc.wms_set
+                      join e1 in WmsDc.wms_set on new { qu = e.val1, savdptid = e.val3, setid="006" } equals new { qu = e1.val1, savdptid = e1.val3, e1.setid }
+                      join e2 in WmsDc.wms_set on new { savdptid = e1.val3, setid = "008" } equals new { savdptid = e2.val1, e2.setid }                      
+                      where e.setid == "001" && e2.val3 == storeid.Trim()
+                      && e.val2 == dptid.Trim()
+                      && e.isvld == 'y' && e1.isvld == 'y' && e2.isvld == 'y'                      
+                      select e;
+            wms_set st = qry.FirstOrDefault();
+            if (st != null)
+            {
+                return st.val1;
+            }
+            return null;
         }
 
         protected String[] GetQuByGdsid(String gdsid, String storeid)

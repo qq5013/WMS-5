@@ -391,6 +391,14 @@ namespace WMS.Controllers
         {
             using (TransactionScope scop = new TransactionScope())
             {
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
+
+
                 //判断是否为散货，不是散货qty不允许为小数
                 if(!(from e in WmsDc.cpngds where e.gdsid == gdsid select 1).Any()){
                     if (qty.ToString().IndexOf(".") > 0)
@@ -406,6 +414,7 @@ namespace WMS.Controllers
                              select e;
                 var arrmst = qrymst.ToArray();
                 wms_cang_115 mst = arrmst[0];
+                
 
                 //如果是206的单据，同一个商品的最后一条确认完后就不能再修改
                 var qryallbygdsidN1 = from e in WmsDc.wms_cangdtl_115
@@ -914,6 +923,13 @@ namespace WMS.Controllers
                     return ReturnResult();
                 }
                 wms_cang_115 mst = arrmst[0];
+                //正在生成拣货单，请稍候重试
+                string quRetrv = mst.qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
+
                 foreach (wms_cangdtl_115 d in arrdtl)
                 {
                     //是否捡货单商品已经审核

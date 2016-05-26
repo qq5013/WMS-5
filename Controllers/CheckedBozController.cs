@@ -100,6 +100,13 @@ namespace WMS.Controllers
                 //d(wmsno, WMSConst.BLL_TYPE_DISPATCH, "审核播种商品", "wmsno=" + wmsno + "&stkouno=" + stkouno + "&rcvdptid=" + rcvdptid + "&gdsid=" + gdsid + "&qty=" + qty + "&rcdidx=" + rcdidx + "&checi=" + checi, "", "");
 
                 gdsid = GetGdsidByGdsidOrBcd(gdsid);
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("正在生成拣货单，请稍候重试");
+                }
+
                 if (gdsid == null)
                 {
                     return RInfo("货号无效！");
