@@ -25,19 +25,19 @@ namespace WMS.Controllers
         {
             if (gdsids == null)
             {
-                return RInfo("货号参数为空");
+                return RInfo( "I0324" );
             }
             if (qtys == null)
             {
-                return RInfo("数量参数为空");
+                return RInfo( "I0325" );
             }
             if (gdstypes == null)
             {
-                return RInfo("商品类型参数为空");
+                return RInfo( "I0326" );
             }
             if (oldbarcodes == null)
             {
-                return RInfo("原仓位码类型参数为空");
+                return RInfo( "I0327" );
             }
             String[] oldbarcode = oldbarcodes.Split(',');
             String[] gdsid = gdsids.Split(',');
@@ -49,7 +49,7 @@ namespace WMS.Controllers
                 && (oldbarcode.Length != qty.Length)
                 && (oldbarcode.Length != gdstype.Length))
             {
-                return RInfo("参数数量不一致");
+                return RInfo( "I0328" );
             }
             int i = 0;
             foreach (String s in oldbarcode)
@@ -59,19 +59,19 @@ namespace WMS.Controllers
                     //判断分区是否有效
                     if (!IsExistBarcode(s))
                     {
-                        return RInfo("仓位码" + s.Trim() + "无效");
+                        return RInfo( "I0329",s.Trim()  );
                     }
 
                     //判断gdsid和barcode是不是在一个区
                     String[] qu = GetQuByGdsid(gdsid[i], LoginInfo.DefStoreid);
                     if (qu == null)
                     {
-                        return RInfo("未找到该商品分区信息,或你无分区权限");
-                        //return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", s.Substring(0, 2)) + "]内");
+                        return RInfo("未找到该商品分区信息,或你无分区权限", "I0330");
+                        //return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", s.Substring(0, 2)) + "]内", "I0331");
                     }
                     if (!qu.Contains(s.Substring(0, 2)))
                     {
-                        return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", qu) + "]内");
+                        return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", qu) + "]内", "I0332");
                     }
 
                     wms_cangdtl_110 dtl = new wms_cangdtl_110();
@@ -85,7 +85,7 @@ namespace WMS.Controllers
                     double fQty = 0;
                     if (!double.TryParse(qty[i], out fQty))
                     {
-                        return RInfo(gdsid[i] + "数量：" + qty[i] + "格式化出错");
+                        return RInfo( "I0333",gdsid[i],qty[i]  );
                     }                    
                     dtl.qty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
@@ -96,7 +96,7 @@ namespace WMS.Controllers
                     ResultMessage rm = (ResultMessage)jr.Data;
                     if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
                     {
-                        return RInfo(gdsid[i] + "商品条码不正确");
+                        return RInfo( "I0334",gdsid[i] );
                     }
                     bcd[] b = (bcd[])rm.ResultObject;
                     dtl.bcd = b[0].bcd1;                    
@@ -109,7 +109,7 @@ namespace WMS.Controllers
                 }
             }
 
-            return RSucc("成功", lstDtl.ToArray());
+            return RSucc("成功", lstDtl.ToArray(), "S0148");
         }
 
         /// <summary>
@@ -180,10 +180,10 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("该会计期间未找到有返厂单");
+                return RNoData("N0158");
             }
 
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0149");
         }
 
         /// <summary>
@@ -198,11 +198,20 @@ namespace WMS.Controllers
         [PWR(Pwrid=WMSConst.WMS_BACK_退厂制单, pwrdes="退厂制单")]
         public ActionResult MkRetPrvBll(String prvid, String barcodes, String gdsids, String gdstypes, String qtys)
         {
-            return MakeNewBllNo(LoginInfo.DefCsSavdptid, WMSConst.BLL_TYPE_RETPRV, (bllno) =>
+            //检查并创建明细
+            JsonResult jr = (JsonResult)_MakeParam("", barcodes, gdsids, gdstypes, qtys);
+            ResultMessage rm = (ResultMessage)jr.Data;
+            if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+            {
+                return jr;
+            }
+            wms_cangdtl_110[] dtls1 = (wms_cangdtl_110[])rm.ResultObject;
+            string qu = dtls1[0].barcode.Substring(0, 2);
+            return MakeNewBllNo(LoginInfo.DefCsSavdptid, qu,  WMSConst.BLL_TYPE_RETPRV, (bllno) =>
             {
                 //检查并创建明细
-                JsonResult jr = (JsonResult)_MakeParam(bllno, barcodes, gdsids, gdstypes, qtys);
-                ResultMessage rm = (ResultMessage)jr.Data;
+                jr = (JsonResult)_MakeParam(bllno, barcodes, gdsids, gdstypes, qtys);
+                rm = (ResultMessage)jr.Data;
                 if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
                 {
                     return rm;
@@ -216,9 +225,8 @@ namespace WMS.Controllers
                 if (arrqryprv.Length <= 0)
                 {
                     rm.ResultObject = null;
-                    rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                    rm.ResultDesc = "供应商编号不正确";
-                    return rm;
+                    return RRNoData("N0241");
+
                 }
 
                 //创建主表
@@ -229,12 +237,12 @@ namespace WMS.Controllers
                 mst.savdptid = LoginInfo.DefCsSavdptid;
                 mst.prvid = prvid;                
                 mst.qu = dtls[0].barcode.Substring(0,2);
-                //正在生成拣货单，请稍候重试
-                string quRetrv = mst.qu;
-                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-                {
-                    return RRInfo("正在生成拣货单，请稍候重试");
-                }
+                ////正在生成拣货单，请稍候重试
+                //string quRetrv = mst.qu;
+                //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                //{
+                //    return RRInfo( "I0335" );
+                //}
                 mst.rcvdptid = "";
                 mst.times = "1";
                 mst.lnkbocino = "";
@@ -261,10 +269,8 @@ namespace WMS.Controllers
                     //如果 需调整数量 > 可调数量
                     if (d.qty > ktqty)
                     {
-                        rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                        rm.ResultDesc = "需要调整的数量" + d.qty + "大于可调整数量" + ktqty;
-                        rm.ResultObject = null;
-                        return rm;
+                        return RRNoData("N0242" ,d.qty.ToString()  ,ktqty.ToString());
+
                     }                    
                 }  
 
@@ -274,20 +280,13 @@ namespace WMS.Controllers
                 try
                 {
                     WmsDc.SubmitChanges();
-                    rm.ResultCode = ResultMessage.RESULTMESSAGE_SUCCESS;
-                    rm.ResultDesc = "成功";
-                    rm.ResultObject = mst;
-                    return rm;
+                    return RRSucc("成功", mst, "S0221");
+
                 }
                 catch (Exception ex)
                 {                    
-                    rm.ResultCode = ResultMessage.RESULTMESSAGE_ERRORS;
-                    rm.ResultDesc = ex.Message;
-                    if (ex.Message.IndexOf("牺牲品") > 0)
-                    {
-                        rm.ResultCode = ResultMessage.RESULTMESSAGE_DEALTHREAD;
-                        rm.ResultDesc = "数据提交异常，请重新提交";
-                    }
+                    return RRErr(ex.Message, "E0069");
+
                     rm.ResultObject = null;
                     return rm;
                 }
@@ -305,12 +304,12 @@ namespace WMS.Controllers
         [PWR(Pwrid=WMSConst.WMS_BACK_退厂制单, pwrdes="退厂制单")]
         public ActionResult DlRetPrvBllDtl(String wmsno, String gdsid, int rcdidx, String isMd)
         {
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            ////正在生成拣货单，请稍候重试
+            //string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0336" );
+            //}
 
             isMd = String.IsNullOrEmpty(isMd) ? "n" : "y";
             //检查单号是否存在
@@ -329,23 +328,23 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0159");
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0337" );
             }
             //检查单号是否已经审核
             if (mst.chkflg == GetY())
             {
-                return RInfo("单据已经审核，不能修改");
+                return RInfo( "I0338" );
             }
             //是否是同一个人制单
             if (!IsSameLogin(mst.mkr))
             {
-                return RInfo("制单人" + mst.mkr + "和登录人" + LoginInfo.Usrid + "不同，不能操作");
+                return RInfo( "I0339",mst.mkr ,LoginInfo.Usrid  );
             }
             //删除单据明细
             int iDtlCnt = arrqrydtl.Length;
@@ -360,11 +359,11 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
-                return RSucc("成功", null);
+                return RSucc("成功", null, "S0150");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0044");
             }       
         }
 
@@ -390,29 +389,29 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0160");
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
-            //正在生成拣货单，请稍候重试
-            string quRetrv = mst.qu;
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            ////正在生成拣货单，请稍候重试
+            //string quRetrv = mst.qu;
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0340" );
+            //}
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0341" );
             }
             //检查单号是否已经审核
             if (mst.chkflg == GetY())
             {
-                return RInfo("单据已经审核，不能修改");
+                return RInfo( "I0342" );
             }
             //是否是同一个人制单
             if (!IsSameLogin(mst.mkr))
             {
-                return RInfo("制单人"+mst.mkr+"和登录人"+LoginInfo.Usrid+"不同，不能操作");
+                return RInfo( "I0343",mst.mkr,LoginInfo.Usrid );
             }
             //删除单据明细
             WmsDc.wms_cangdtl_110.DeleteAllOnSubmit(arrqrydtl);
@@ -423,11 +422,11 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
-                return RSucc("成功", null);
+                return RSucc("成功", null, "S0151");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0045");
             }       
         }
 
@@ -457,36 +456,36 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0161");
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
-            //正在生成拣货单，请稍候重试
-            string quRetrv = mst.qu;
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            ////正在生成拣货单，请稍候重试
+            //string quRetrv = mst.qu;
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0344" );
+            //}
 
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0345" );
             }
             //检查单号是否已经审核
             if (mst.chkflg == GetY())
             {
-                return RInfo("单据已经审核，不能修改");
+                return RInfo( "I0346" );
             }
             //是否是同一个人制单
             if (!IsSameLogin(mst.mkr))
             {
-                return RInfo("制单人" + mst.mkr + "和登录人" + LoginInfo.Usrid + "不同，不能操作");
+                return RInfo( "I0347",mst.mkr ,LoginInfo.Usrid  );
             }
 
             //未找到该商品
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("该单据未查找到该商品");
+                return RNoData("N0162");
             }
 
             //修改数量
@@ -499,7 +498,7 @@ namespace WMS.Controllers
             //如果 需调整数量 > 可调数量
             if (qty > ktqty)
             {
-                return RInfo("需要调整的数量" + qty + "大于可调整数量" + ktqty);
+                return RInfo( "I0348",qty ,ktqty );
             }
             //修改数量
             dtl.qty = Math.Round(qty, 4, MidpointRounding.AwayFromZero);
@@ -509,11 +508,11 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
-                return RSucc("成功", arrqrydtl[0]);
+                return RSucc("成功", arrqrydtl[0], "S0152");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0046");
             }
         }
 
@@ -542,7 +541,7 @@ namespace WMS.Controllers
             || (gdstype.Length != gdsid.Length)
                 )
             {
-                return RInfo("barcodes、gdsids、gdstypes、qtys是否数量不一致");
+                return RInfo( "I0349" );
             }
 
             for (int i = 0; i < gdsid.Length; i++)
@@ -550,7 +549,7 @@ namespace WMS.Controllers
                 double d = 0;
                 if (!double.TryParse(qty[i], out d))
                 {
-                    return RInfo(gdsid[i] + "数量“" + qty[i] + "”解析出错");
+                    return RInfo( "I0350",gdsid[i],qty[i]  );
                 }
 
                 JsonResult jr = (JsonResult)AdRetPrv(wmsno, barcode[i], gdsid[i], gdstype[i], d);
@@ -562,7 +561,7 @@ namespace WMS.Controllers
                 retObjs.Add(rm.ResultObject);
             }
 
-            return RSucc("成功", retObjs);
+            return RSucc("成功", retObjs, "S0153");
         }
 
         /// <summary>
@@ -580,7 +579,7 @@ namespace WMS.Controllers
             //判断分区是否有效
             if (!IsExistBarcode(barcode))
             {
-                return RInfo("仓位码" + barcode.Trim() + "无效");
+                return RInfo( "I0351",barcode.Trim()  );
             }
 
             //检查单号是否存在
@@ -598,38 +597,38 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0163");
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
-            //正在生成拣货单，请稍候重试
-            string quRetrv = mst.qu;
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            ////正在生成拣货单，请稍候重试
+            //string quRetrv = mst.qu;
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0352" );
+            //}
 
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0353" );
             }
             //检查单号是否已经审核
             if (mst.chkflg == GetY())
             {
-                return RInfo("单据已经审核，不能修改");
+                return RInfo( "I0354" );
             }
 
             //判断gdsid和barcode是不是在一个区
             String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
             if (!qu.Contains(barcode.Substring(0, 2)))
             {
-                return RInfo("商品" + gdsid + "不在区[" + String.Join(",", qu) + "]内");
+                return RInfo("商品" + gdsid + "不在区[" + String.Join(",", qu) + "]内", "I0355");
             }
 
             //如果是报损，判断是否有库存            
             if (!HasQtyInBarcode(barcode, gdsid, gdstype))
             {
-                return RInfo("商品" + gdsid + "，在" + barcode + "仓位中，无库存信息");
+                return RInfo( "I0356",gdsid ,barcode  );
             }
             if (mst.times.Trim() == "-")
             {                
@@ -641,7 +640,7 @@ namespace WMS.Controllers
                 //如果 需调整数量 > 可调数量
                 if (qty > ktqty)
                 {
-                    return RInfo("需要调整的数量" + qty + "大于可调整数量" + ktqty);
+                    return RInfo( "I0357",qty ,ktqty );
                 }                
             }   
 
@@ -650,7 +649,7 @@ namespace WMS.Controllers
             int iHasIn = arrqrydtl.Where(e => e.gdsid == gdsid && e.gdstype == gdstype && e.barcode == barcode).Count();
             if (iHasIn > 0)
             {
-                return RInfo("商品"+gdsid+"，已在该单据中，请不要重复增加");
+                return RInfo( "I0358",gdsid );
             }
 
             wms_cangdtl_110 dtl = new wms_cangdtl_110();
@@ -672,7 +671,7 @@ namespace WMS.Controllers
             ResultMessage rm = (ResultMessage)jr.Data;
             if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
             {
-                return RInfo(gdsid + "商品条码不正确");
+                return RInfo( "I0359",gdsid );
             }
             bcd[] b = (bcd[])rm.ResultObject;
             dtl.bcd = b[0].bcd1;
@@ -684,11 +683,11 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
-                return RSucc("成功", dtl);
+                return RSucc("成功", dtl, "S0154");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0047");
             }
         }
 
@@ -727,30 +726,30 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0164");
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
-            //正在生成拣货单，请稍候重试
-            string quRetrv = mst.qu;
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            ////正在生成拣货单，请稍候重试
+            //string quRetrv = mst.qu;
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0360" );
+            //}
 
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0361" );
             }
             //检查单号是否已经审核
             if (mst.chkflg == GetY())
             {
-                return RInfo("单据已经审核，不能修改");
+                return RInfo( "I0362" );
             }
             //是否是同一个人制单
             if (!IsSameLogin(mst.mkr))
             {
-                return RInfo("制单人" + mst.mkr + "和登录人" + LoginInfo.Usrid + "不同，不能操作");
+                return RInfo( "I0363",mst.mkr ,LoginInfo.Usrid  );
             }
 
             wms_cangdtl_110[] newdtl = (wms_cangdtl_110[])rm.ResultObject;
@@ -767,7 +766,7 @@ namespace WMS.Controllers
                     //如果 需调整数量 > 可调数量
                     if (d.qty > ktqty)
                     {
-                        return RInfo("需要调整的数量" + d.qty + "大于可调整数量" + ktqty);
+                        return RInfo( "I0364",d.qty ,ktqty );
                     }
                     i++;
                 }
@@ -783,11 +782,11 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
-                return RSucc("成功", newdtl);
+                return RSucc("成功", newdtl, "S0155");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0048");
             }            
         }
 
@@ -841,21 +840,21 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0165");
             }
             //单据是否找到
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("未找到该单据明细");
+                return RNoData("N0166");
             }
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0365" );
             }
 
-            return RSucc("成功", arrqrydtl);
+            return RSucc("成功", arrqrydtl, "S0156");
         }
 
         /// <summary>
@@ -880,17 +879,17 @@ namespace WMS.Controllers
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到该单据");
+                return RNoData("N0167");
             }
 
             //检查是否有数据权限
             wms_cang_110 mst = arrqrymst[0];
             if (!qus.Contains(mst.qu.Trim()))
             {
-                return RInfo("你没有该区域的权限");
+                return RInfo( "I0366" );
             }
 
-            return RSucc("成功", arrqrymst); 
+            return RSucc("成功", arrqrymst, "S0157"); 
         }
 
         /// <summary>
@@ -908,14 +907,14 @@ namespace WMS.Controllers
             //判断分区是否有效
             if (!String.IsNullOrEmpty(barcode) && !IsExistBarcode(barcode))
             {
-                return RInfo("仓位码" + barcode.Trim() + "无效");
+                return RInfo( "I0367",barcode.Trim()  );
             }
             var arrqrymst = FindBllFromCangMst110(WMSConst.BLL_TYPE_RETPRV, begindat, enddat, wmsno, gdsid, barcode);
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到符合条件的单据");
+                return RNoData("N0168");
             }
-            return RSucc("成功", arrqrymst);
+            return RSucc("成功", arrqrymst, "S0158");
         }
     }
 }

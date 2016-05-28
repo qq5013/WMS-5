@@ -173,7 +173,7 @@ namespace WMS.Controllers
         {
             DateTime dt = DateTime.Now;
             String s = dt.ToString("yyyyMMdd.HHmmss");
-            return RSucc("成功", s);
+            return RSucc("成功", s, "S0175");
         }
 
         /// <summary>
@@ -189,9 +189,9 @@ namespace WMS.Controllers
             var arrqry = GetAGdsQtyInBarcode(barcode, gdsid, gdstype);
             if (arrqry == null || arrqry.Length < 0)
             {
-                return RNoData("未找到仓位商品信息");
+                return RNoData("N0191");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0176");
         }
 
         protected IEnumerable<GetRealteQuResult> IsExistsPwrByDptidAndQu(String adptid, String aqu)
@@ -452,9 +452,9 @@ namespace WMS.Controllers
             var arrqry = GetGdsQtyInBarcodeComm(barcode);
             if (arrqry.Length < 0)
             {
-                return RNoData("未找到仓位商品信息");
+                return RNoData("N0192");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0177");
         }
         
         /// <summary>
@@ -467,9 +467,9 @@ namespace WMS.Controllers
             var arrqry = GetGdsQtyInBarcodeCommTphy(barcode);
             if (arrqry.Length < 0)
             {
-                return RNoData("未找到仓位商品信息");
+                return RNoData("N0193");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0178");
         }
 
         /// <summary>
@@ -482,9 +482,9 @@ namespace WMS.Controllers
             var arrqry = GetAGdsQtyInBarcodeComm(barcode, gdsid, gdstype);
             if (arrqry.Length < 0)
             {
-                return RNoData("未找到仓位商品信息");
+                return RNoData("N0194");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0179");
         }
 
         private void Init(RequestContext requestContext)
@@ -504,6 +504,9 @@ namespace WMS.Controllers
                 Log.man = UsrId;
                 Log.mdlid = this.Mdlid;
                 Log.WmsDc = WmsDc;
+
+                
+                                   
             }
         }
 
@@ -647,6 +650,7 @@ namespace WMS.Controllers
         {
             var qry = from e in WmsDc.wms_set
                       where e.isvld == 'y' && e.val3 == storeid.Trim() && e.val2 == qu.Trim()
+                      && e.setid == "016"
                       select e;
             wms_set st = qry.FirstOrDefault();
             if (st != null)
@@ -744,9 +748,9 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到有分区信息");
+                return RNoData("N0195");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0180");
         }
 
         /// <summary>
@@ -768,7 +772,7 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到该商品的合同信息");
+                return RNoData("N0196");
             }
 
 
@@ -814,10 +818,10 @@ namespace WMS.Controllers
             var arrqrysp1 = qrysp1.ToArray();
             if (arrqrysp1.Length <= 0)
             {
-                return RNoData("未找到供应商商品信息");
+                return RNoData("N0197");
             }
             
-            return RSucc("成功", arrqrysp1.ToArray());
+            return RSucc("成功", arrqrysp1.ToArray(), "S0181");
         }
 
         /// <summary>
@@ -914,9 +918,9 @@ namespace WMS.Controllers
             var arrqry = q1.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("商品货号/条码无效");
+                return RNoData("N0198");
             }
-            return RSucc("成功！", arrqry);
+            return RSucc("成功！", arrqry, "S0182");
         }
 
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
@@ -1469,21 +1473,21 @@ namespace WMS.Controllers
                       select e).FirstOrDefault();
             if (ep == null)
             {
-                return RNoData("未找到员工信息");
+                return RNoData("N0199");
             }
             if (ep.pwd != oldPwd)
             {
-                return RInfo("原密码错误");
+                return RInfo( "I0394" );
             }
             ep.pwd = DisEncode(pwd);
             try
             {
                 WmsDc.SubmitChanges();
-                return RSucc("密码修改成功", null);
+                return RSucc("密码修改成功", null, "S0183");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0052");
             }
         }
 
@@ -2453,10 +2457,10 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RInfo("未找到所查分店信息，请核对");
+                return RInfo( "I0395" );
             }
 
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0184");
         }
 
         //判断仓位是否存在
@@ -2491,10 +2495,10 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到商品信息");
+                return RNoData("N0200");
             }
 
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0185");
         }
 
         protected String GetABcdByGdsid(String gdsid)
@@ -2558,10 +2562,10 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到条码信息");
+                return RNoData("N0201");
             }
 
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0186");
         }
 
         /// <summary>
@@ -2598,9 +2602,9 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("商品货号/条码无效");
+                return RNoData("N0202");
             }
-            return RSucc("成功！", arrqry);
+            return RSucc("成功！", arrqry, "S0187");
         }
 
 
@@ -2618,11 +2622,11 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                Rm.ResultDesc = "未找到商品包装";
+                return RNoData("N0253");
             }
-            Rm.ResultObject = arrqry;
-            return ReturnResult();
+            
+            return RSucc("成功", arrqry, "S0226");
+
         }
 
         /// <summary>
@@ -2648,16 +2652,14 @@ namespace WMS.Controllers
             //1.未找到供应商信息
             if (arrqry.Count() <= 0)
             {
-                Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                Rm.ResultDesc = "未找到供应商信息";
+                return RInfo("I0465");
 
-                return ReturnResult();
             }
 
             //2.返回查询到的供应商信息
-            Rm.PaginationObj.PageCount = arrqry.Count();
-            Rm.ResultObject = arrqry;
-            return ReturnResult();
+            Rm.PaginationObj.PageCount = arrqry.Count();            
+            return RSucc("成功", arrqry, "S0227");
+
         }
 
         /// <summary>
@@ -2756,9 +2758,8 @@ namespace WMS.Controllers
             if (arrqry.Length <= 0)
             {
                 return null;
-                /*Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                Rm.ResultDesc = "未找到区位码部门";
-                return ReturnResult();*/
+                /*return RRInfo("I0466");
+*/
             }
 
             return arrqry[0];
@@ -2781,13 +2782,12 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                Rm.ResultDesc = "未找到商品类型信息";
-                return ReturnResult();
+                return RNoData("N0254");
+
             }
 
-            Rm.ResultObject = arrqry.ToArray();
-            return ReturnResult();
+            return RSucc("成功", arrqry.ToArray(), "S0228");
+                        
         }
 
         //通过区得到Savdptid
@@ -2892,23 +2892,7 @@ namespace WMS.Controllers
 
             return arrqry;
         }
-
-        protected String GetQuByDptid(String dptid, String storeid)
-        {
-            var qry = from e in WmsDc.wms_set
-                      join e1 in WmsDc.wms_set on new { qu = e.val1, savdptid = e.val3, setid="006" } equals new { qu = e1.val1, savdptid = e1.val3, e1.setid }
-                      join e2 in WmsDc.wms_set on new { savdptid = e1.val3, setid = "008" } equals new { savdptid = e2.val1, e2.setid }                      
-                      where e.setid == "001" && e2.val3 == storeid.Trim()
-                      && e.val2 == dptid.Trim()
-                      && e.isvld == 'y' && e1.isvld == 'y' && e2.isvld == 'y'                      
-                      select e;
-            wms_set st = qry.FirstOrDefault();
-            if (st != null)
-            {
-                return st.val1;
-            }
-            return null;
-        }
+        
 
         protected String[] GetQuByGdsid(String gdsid, String storeid)
         {
@@ -2979,10 +2963,17 @@ namespace WMS.Controllers
         /// <param name="savdptid">仓库</param>
         /// <param name="bllid">需要制单的单号</param>
         /// <param name="func">新建后</param>
-        protected ActionResult MakeNewBllNo(String savdptid, String bllid, Func<String, ResultMessage> func)
+        protected ActionResult MakeNewBllNo(String savdptid, String qu, String bllid, Func<String, ResultMessage> func)
         {
             using (TransactionScope scop = new TransactionScope())
             {
+                ////正在生成拣货单，请稍候重试                 
+                //string storeid = GetStoreidBySavdptid(savdptid);
+                //if (DoingRetrieve(storeid, qu))
+                //{
+                //    return RInfo("I0051");
+                //}
+
                 ResultMessage ret = new ResultMessage();
                 String bllno = GetNewBllNo(savdptid, bllid);
                 if (bllno != null)
@@ -3019,6 +3010,8 @@ namespace WMS.Controllers
                 }
             }
         }
+
+        
 
         /// <summary>
         /// 得到当期会计期间
@@ -3086,9 +3079,9 @@ namespace WMS.Controllers
             var cw = qry.FirstOrDefault();
             if (cw == null)
             {
-                return RNoData("未找到最小层");
+                return RNoData("N0203");
             }
-            return RSucc("成功", cw);
+            return RSucc("成功", cw, "S0188");
         }
 
         /// <summary>
@@ -3104,7 +3097,7 @@ namespace WMS.Controllers
                 new { savdptid = "993", savdptdes="高新配送" }                
             };
 
-            return RSucc("成功", Savdpts);
+            return RSucc("成功", Savdpts, "S0189");
         }
 
         /// <summary>
@@ -3118,10 +3111,10 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到报损原因");
+                return RNoData("N0204");
             }
 
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0190");
         }
 
         /// <summary>
@@ -3135,10 +3128,10 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到报损原因");
+                return RNoData("N0205");
             }
 
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0191");
         }
 
         /// <summary>

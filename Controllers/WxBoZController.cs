@@ -85,23 +85,23 @@ namespace WMS.Controllers
             //是否找到单据
             if (bzmsts.Length <= 0)
             {
-                return RInfo("单号有误请检查");
+                return RInfo( "I0412" );
             }
             bzmst = bzmsts[0];
             //检查该单据是否已经审核，已审核将不能重复审核
             if (bzmst.chkflg == GetY())
             {
-                return RInfo("单据已经审核，请不要重复审核");
+                return RInfo( "I0413" );
             }            
             //查看是否有查看该单据的权限
             if (LoginInfo.DatPwrs.Where(w => w.qu == bzmst.qu).Count() <= 0)
             {
-                return RInfo("你没有审核该单据的权限");
+                return RInfo( "I0414" );
             }
             //查看明细是否有信息
             if (bzdtls.Length <= 0)
             {
-                return RInfo("单据没有明细信息");
+                return RInfo( "I0415" );
             }
             #endregion
 
@@ -115,7 +115,7 @@ namespace WMS.Controllers
                 //检查播种单明细
                 if (bzdtl.qty > bzdtl.preqty)
                 {
-                    return RInfo(bzdtl.gdsid + " 的实收" + bzdtl.qty + "大于应收" + bzdtl.preqty);
+                    return RInfo( "I0416",bzdtl.gdsid,bzdtl.qty ,bzdtl.preqty );
                 }
                 //如果播种明细小于应收数量， 生成损溢数量                
                 if (bzdtl.qty < bzdtl.preqty)
@@ -133,7 +133,7 @@ namespace WMS.Controllers
             ///done: 修改配送单数量 
 
             //done: 修改审核标记
-            return RSucc("成功",null);
+            return RSucc("成功",null, "S0200");
         }*/
 
         /// <summary>
@@ -150,15 +150,15 @@ namespace WMS.Controllers
         public ActionResult BokBozBllGds(String wmsno, String stkouno, String rcvdptid, String gdsid, double qty, int? rcdidx)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            ////正在生成拣货单，请稍候重试
+            //string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0417" );
+            //}
             if (gdsid == null)
             {
-                return RInfo("货号无效！");
+                return RInfo( "I0418" );
             }
 
             String Dat = GetCurrentDay();
@@ -186,7 +186,7 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到需要播种的单据");
+                return RNoData("N0220");
             }
             var stkotgds = arrqry[0];
             if (wmsno == null)
@@ -195,11 +195,11 @@ namespace WMS.Controllers
             }
             if (stkotgds.chkflg == GetY())
             {
-                return RInfo("单据已经审核，不能重复播种");
+                return RInfo( "I0419" );
             }
             /*if (stkotgds.bzflg == GetY())
             {
-                return RInfo("单据已经播种，不能重复播种");
+                return RInfo( "I0420" );
             }*/
             var qrydtl = from e in stkotgds.sivcdtl
                          where e.gdsid.Trim() == gdsid.Trim() && e.rcdidx == rcdidx
@@ -207,7 +207,7 @@ namespace WMS.Controllers
             var arrqrydtl = qrydtl.ToArray();
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("未找到需要播种的单据");
+                return RNoData("N0221");
             }
             sivcdtl stkdtl = arrqrydtl[0];
 
@@ -219,7 +219,7 @@ namespace WMS.Controllers
             }
             if (preqty < qty)       //如果实收数量大于应收数量就退出
             {
-                return RInfo("实收数量大于应收数量");
+                return RInfo( "I0421" );
             }
             if (preqty != qty)
             {
@@ -232,18 +232,18 @@ namespace WMS.Controllers
             #region 检查参数有效性
             if (arrqry == null)
             {
-                return RInfo("未找到播种单");
+                return RInfo( "I0422" );
             }
             if (stkdtl == null)
             {
 
-                return RInfo("该播种单，未找到该商品明细");
+                return RInfo( "I0423" );
             }
 
             //查看该商品是否已经被非本人确认
             if (stkdtl.bzflg == GetY() && stkdtl.bzr != LoginInfo.Usrid)
             {
-                return RInfo("该订单已被" + stkdtl.bzr + "确认");
+                return RInfo( "I0424",stkdtl.bzr  );
             }
             #endregion
 
@@ -331,11 +331,11 @@ namespace WMS.Controllers
                 }
 
                 WmsDc.SubmitChanges();
-                return RSucc("成功", null);
+                return RSucc("成功", null, "S0201");
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0055");
             }
         }        
 
@@ -437,10 +437,10 @@ namespace WMS.Controllers
             var wmsno1 = qrygrp.ToArray();
             if (wmsno1.Length <= 0)
             {
-                return RNoData("未找到该商品的播种信息！");
+                return RNoData("N0222");
             }
 
-            return RSucc("成功!", wmsno1);
+            return RSucc("成功!", wmsno1, "S0202");
         }
 
         /// <summary>
@@ -493,10 +493,10 @@ namespace WMS.Controllers
             var wmsno1 = qry.OrderBy(e => e.bzflg).OrderBy(e => e.gdsid).Take(20).ToArray();
             if (wmsno1.Length <= 0)
             {
-                return RNoData("未找到该商品的播种信息！");
+                return RNoData("N0223");
             }
 
-            return RSucc("成功！", wmsno1);
+            return RSucc("成功！", wmsno1, "S0203");
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace WMS.Controllers
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             if (gdsid == null)
             {
-                return RInfo("货号无效！");
+                return RInfo( "I0425" );
             }
 
             String Dat = GetCurrentDay();
@@ -550,10 +550,10 @@ namespace WMS.Controllers
             var wmsno1 = qry.ToArray();
             if (wmsno1.Length <= 0)
             {
-                return RNoData("未找到该商品的播种信息");
+                return RNoData("N0224");
             }
 
-            return RSucc("成功", wmsno1);
+            return RSucc("成功", wmsno1, "S0204");
         }
 
         /// <summary>
@@ -588,10 +588,10 @@ namespace WMS.Controllers
             var arrqrymst = qry.ToArray();
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到可播种配送单据");
+                return RNoData("N0225");
             }
 
-            return RSucc("成功", arrqrymst);
+            return RSucc("成功", arrqrymst, "S0205");
         }
 
         /// <summary>
@@ -612,9 +612,9 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RInfo("该波次无商品信息");
+                return RInfo( "I0426" );
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0206");
         }*/
 
 
@@ -633,14 +633,14 @@ namespace WMS.Controllers
             //判断分区是否有效
             if (!String.IsNullOrEmpty(barcode) && !IsExistBarcode(barcode))
             {
-                return RInfo("仓位码" + barcode.Trim() + "无效");
+                return RInfo( "I0427",barcode.Trim()  );
             }
             var arrqrymst = FindBllFromCangMst(WMSConst.BLL_TYPE_BZ, begindat, enddat, wmsno, gdsid, barcode);
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到符合条件的单据");
+                return RNoData("N0226");
             }
-            return RSucc("成功", arrqrymst);
+            return RSucc("成功", arrqrymst, "S0207");
         }
 
     }

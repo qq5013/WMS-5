@@ -99,6 +99,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.BaseController.RInfo(System.String,System.Object[])">
+            <summary>
+            返回警告信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.BaseController.RInfo(System.String)">
             <summary>
             返回警告信息
@@ -106,16 +113,23 @@
             <param name="desc">描述</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.BaseController.RErr(System.String)">
+        <member name="M:WMS.Controllers.BaseController.RErr(System.String,System.String)">
             <summary>
             返回错误信息
             </summary>
             <param name="desc">描述</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.BaseController.RSucc(System.String,System.Object)">
+        <member name="M:WMS.Controllers.BaseController.RSucc(System.String,System.Object,System.String)">
             <summary>
             返回成功信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RNoData(System.String,System.String[])">
+            <summary>
+            返回未找到信息
             </summary>
             <param name="desc">描述</param>
             <returns></returns>
@@ -139,6 +153,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.BaseController.RRInfo(System.String,System.Object[])">
+            <summary>
+            返回警告信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.BaseController.RRInfo(System.String)">
             <summary>
             返回警告信息
@@ -146,16 +167,23 @@
             <param name="desc">描述</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.BaseController.RRErr(System.String)">
+        <member name="M:WMS.Controllers.BaseController.RRErr(System.String,System.String)">
             <summary>
             返回错误信息
             </summary>
             <param name="desc">描述</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.BaseController.RRSucc(System.String,System.Object)">
+        <member name="M:WMS.Controllers.BaseController.RRSucc(System.String,System.Object,System.String)">
             <summary>
             返回成功信息
+            </summary>
+            <param name="desc">描述</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.BaseController.RRNoData(System.String,System.String[])">
+            <summary>
+            返回未找到信息
             </summary>
             <param name="desc">描述</param>
             <returns></returns>
@@ -265,6 +293,14 @@
             <summary>
             得到有商品区的权限部门
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.DoingRetrieve(System.String,System.String)">
+            <summary>
+            分区是否在生成拣货单
+            </summary>
+            <param name="storeid"></param>
+            <param name="qu"></param>
             <returns></returns>
         </member>
         <member name="M:WMS.Controllers.SsnController.GetPwrDptsDt">
@@ -440,7 +476,7 @@
             </summary>
             <param name="bllid"></param>
         </member>
-        <member name="M:WMS.Controllers.SsnController.MakeNewBllNo(System.String,System.String,System.Func{System.String,WMS.ResultMessage})">
+        <member name="M:WMS.Controllers.SsnController.MakeNewBllNo(System.String,System.String,System.String,System.Func{System.String,WMS.ResultMessage})">
             <summary>
             制新单
             </summary>
@@ -842,6 +878,11 @@
         <member name="P:WMS.ResultMessage.ResultCode">
             <summary>
             返回码
+            </summary>
+        </member>
+        <member name="P:WMS.ResultMessage.ExtCode">
+            <summary>
+            扩展返回码
             </summary>
         </member>
         <member name="P:WMS.ResultMessage.ResultDesc">
@@ -1663,6 +1704,15 @@
             <summary>
             补货模块
             </summary>
+        </member>
+        <member name="M:WMS.Controllers.AddGdsController.GetBh(System.String,System.String,System.String)">
+            <summary>
+            得到需要补货的数据
+            </summary>
+            <param name="mkedat"></param>
+            <param name="qu"></param>
+            <param name="savdptid"></param>
+            <returns></returns>
         </member>
         <member name="M:WMS.Controllers.AddGdsController.GetCurDayBll">
             <summary>

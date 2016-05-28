@@ -50,6 +50,15 @@ namespace WMS
         }
 
         /// <summary>
+        /// 扩展返回码
+        /// </summary>
+        public String ExtCode
+        {
+            set;
+            get;
+        }
+
+        /// <summary>
         /// 返回信息描述
         /// </summary>
         private String resultDesc;

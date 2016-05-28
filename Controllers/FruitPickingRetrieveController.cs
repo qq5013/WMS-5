@@ -56,7 +56,7 @@ namespace WMS.Controllers
                         allcomplete = e.Count(a=>a.unbokflg==0)
                     });            
 
-            return RSucc("成功", o);
+            return RSucc("成功", o, "S0072");
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace WMS.Controllers
             var qrycheci = qry.GroupBy(e => new { e.checi, e.rcvdptid, e.dptdes })
                 .Select(g => new { g.Key.checi, g.Key.rcvdptid, g.Key.dptdes, allbokflg = g.Count(), unbokflg = g.Sum(e => e.bokflg == GetN() ? 1 : 0) });
             var arrCheci = qrycheci.ToArray();
-            return RSucc("成功", arrCheci);
+            return RSucc("成功", arrCheci, "S0073");
         }
 
         /// <summary>
@@ -178,9 +178,9 @@ namespace WMS.Controllers
             var arrqry = qry.Distinct().ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到当前日期的拣货单");
+                return RNoData("N0083");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0074");
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到该拣货单，单号:" + wmsno);
+                return RNoData("N0084", wmsno);
             }
             var qrydtl = from e in WmsDc.wms_cangdtl_115
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
@@ -323,10 +323,10 @@ namespace WMS.Controllers
             var arrqrydtl = qrydtl.ToArray();
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("该拣货单没有明细信息");
+                return RNoData("N0085");
             }
 
-            return RSucc("成功", arrqrydtl);
+            return RSucc("成功", arrqrydtl, "S0075");
         }
 
         private void CkBzFlg(stkot p)
@@ -391,19 +391,19 @@ namespace WMS.Controllers
         {
             using (TransactionScope scop = new TransactionScope())
             {
-                //正在生成拣货单，请稍候重试
-                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-                {
-                    return RInfo("正在生成拣货单，请稍候重试");
-                }
+                ////正在生成拣货单，请稍候重试
+                //string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                //{
+                //    return RInfo( "I0123" );
+                //}
 
 
                 //判断是否为散货，不是散货qty不允许为小数
                 if(!(from e in WmsDc.cpngds where e.gdsid == gdsid select 1).Any()){
                     if (qty.ToString().IndexOf(".") > 0)
                     {
-                        return RInfo("非散货商品不允许拣小数");
+                        return RInfo( "I0124" );
                     }
                 }
                 
@@ -438,7 +438,7 @@ namespace WMS.Controllers
                 int iCnt = qryallbygdsidN1.Count();
                 if (mst.lnkbllid.Trim() == "206" && iCnt == 0)
                 {
-                    return RInfo("该播种的该商品已经拣货完毕，不能修改");
+                    return RInfo( "I0125" );
                 }                
 
                 var arrdtl = qrydtl.ToArray();
@@ -446,38 +446,34 @@ namespace WMS.Controllers
                 #region 检查输入参数
                 if (arrmst.Length <= 0)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                    Rm.ResultDesc = "未找到捡货单";
-                    return ReturnResult();
+                    return RNoData("N0233");
+
                 }
                 if (arrdtl.Length <= 0)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                    Rm.ResultDesc = "捡货单无明细信息";
-                    return ReturnResult();
+                    return RNoData("N0234");
+
                 }
 
                 if (arrdtl[0].preqty < qty)
                 {
-                    return RInfo("拣货数量大于应拣数量");
+                    return RInfo( "I0126" );
                 }
                 
                 wms_cangdtl_115 dtl = arrdtl[0];
                 //是否捡货单已经审核
                 if (mst.chkflg == GetY())
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                    Rm.ResultDesc = "捡货单已经审核,不能再对该单据进行捡货处理！";
-                    return ReturnResult();
+                    return RInfo("I0435");
+
                 }
                 #endregion
 
                 #region 商品登帐
                 if (dtl.bokflg == GetY() && dtl.bkr.Trim() != LoginInfo.Usrid)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                    Rm.ResultDesc = "该单据已经被" + dtl.bkr + "审核！";
-                    return ReturnResult();
+                    return RInfo("I0436" ,dtl.bkr );
+
                 }
 
                 if (dtl.bokflg == GetN() && dtl.qty != null)
@@ -486,11 +482,11 @@ namespace WMS.Controllers
                 }
                 if (dtl.tpcode == "n")
                 {
-                    return RInfo("拣货商品缺货");
+                    return RInfo( "I0127" );
                 }
                 if (dtl.preqty < qty && dtl.tpcode == "y")
                 {
-                    return RInfo("拣货数量大于应拣数量");
+                    return RInfo( "I0128" );
                 }
                 dtl.qty = Math.Round(qty, 4);
                 dtl.pkgqty = Math.Round(qty, 4);
@@ -874,14 +870,13 @@ namespace WMS.Controllers
                 {
                     WmsDc.SubmitChanges();
                     scop.Complete();
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_SUCCESS;
-                    return ReturnResult();
+                    return RSucc("成功", null, "S0214");
+
                 }
                 catch (Exception ex)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_ERRORS;
-                    Rm.ResultDesc = "错误:" + ex.Message;
-                    return ReturnResult();
+                    return RErr(ex.Message, "E0061");
+
                 }
             }
         }
@@ -912,39 +907,35 @@ namespace WMS.Controllers
                 #region 检查输入参数
                 if (arrmst.Length <= 0)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                    Rm.ResultDesc = "未找到捡货单";
-                    return ReturnResult();
+                    return RNoData("N0235");
+
                 }
                 if (arrdtl.Length <= 0)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                    Rm.ResultDesc = "捡货单无明细信息";
-                    return ReturnResult();
+                    return RNoData("N0236");
+
                 }
                 wms_cang_115 mst = arrmst[0];
-                //正在生成拣货单，请稍候重试
-                string quRetrv = mst.qu;
-                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-                {
-                    return RInfo("正在生成拣货单，请稍候重试");
-                }
+                ////正在生成拣货单，请稍候重试
+                //string quRetrv = mst.qu;
+                //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                //{
+                //    return RInfo( "I0129" );
+                //}
 
                 foreach (wms_cangdtl_115 d in arrdtl)
                 {
                     //是否捡货单商品已经审核
                     if (d.bokflg == GetN() && d.tpcode == "y")
                     {
-                        Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                        Rm.ResultDesc = "捡货单商品尚未审核完,商品货号:" + d.gdsid + "！";
-                        return ReturnResult();
+                        return RInfo("I0437" ,d.gdsid );
+
                     }
                 }
                 if (mst.chkflg == GetY())
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                    Rm.ResultDesc = "捡货单,已经审核,请不要重复审核";
-                    return ReturnResult();
+                    return RInfo("I0438");
+
                 }
                 #endregion
 
@@ -960,9 +951,8 @@ namespace WMS.Controllers
                 var arrbzmst = qrybzmst.ToArray();
                 if (arrbzmst.Length <= 0)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
-                    Rm.ResultDesc = "播种单为空";
-                    return ReturnResult();
+                    return RNoData("N0237");
+
                 }
                 wms_bzmst bzmst = arrbzmst[0];
                 //播种单明细表
@@ -978,7 +968,7 @@ namespace WMS.Controllers
                 //差异数量生成捡货损溢单，记日志
                 #region 差异数量生成捡货损溢单，记日志
                 //生成捡货损溢单
-                JsonResult jr = (JsonResult)MakeNewBllNo(this.LoginInfo.DefSavdptid, WMSConst.BLL_TYPE_RETRIEVE_PROFIT_LOSS, (bllno) =>
+                JsonResult jr = (JsonResult)MakeNewBllNo(this.LoginInfo.DefSavdptid,mst.qu, WMSConst.BLL_TYPE_RETRIEVE_PROFIT_LOSS, (bllno) =>
                 {
                     //生成损溢单主表
                     wms_cang sycang = new wms_cang();
@@ -1050,10 +1040,7 @@ namespace WMS.Controllers
                     WmsDc.wms_cangdtl.InsertAllOnSubmit(lstsydtl);
 
 
-                    ResultMessage rm = new ResultMessage();
-                    rm.ResultCode = ResultMessage.RESULTMESSAGE_SUCCESS;
-                    rm.ResultDesc = "损溢单生成成功";
-                    return rm;
+                    return RRSucc("成功", null, "{{succ}}");
                 });
 
 
@@ -1079,9 +1066,8 @@ namespace WMS.Controllers
                         .Select(g => new { gdsid = g.Key.gdsid, gdstype = g.Key.gdstype, qsum = g.Sum(e => e.qty) }).Single();
                     if (qbzsum.qsum < q.sumqty)    //如果数量不一致就生成捡货损溢单，并记日志
                     {
-                        Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
-                        Rm.ResultDesc = "捡货单数量大于播种的数量";
-                        return ReturnResult();
+                        return RInfo("I0439");
+
                     }
                     else if (qbzsum.qsum >= q.sumqty)    //如果播种的数量小于捡货单的数量
                     {
@@ -1185,15 +1171,13 @@ namespace WMS.Controllers
                 try
                 {
                     WmsDc.SubmitChanges();
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_SUCCESS;
-                    return ReturnResult();
+                    return RSucc("成功", null, "S0215");
+
                 }
                 catch (Exception ex)
                 {
-                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_ERRORS;
-                    Rm.ResultDesc = ex.Message;
-                    Rm.ResultObject = null;
-                    return ReturnResult();
+                    return RErr(ex.Message, "E0062");
+
                 }
 
             }
@@ -1215,15 +1199,15 @@ namespace WMS.Controllers
             //判断分区是否有效
             if (!String.IsNullOrEmpty(barcode) && !IsExistBarcode(barcode))
             {
-                return RInfo("仓位码" + barcode.Trim() + "无效");
+                return RInfo( "I0130",barcode.Trim()  );
             }
 
             var arrqrymst = FindBllFromCangMst115(begindat, enddat, barcode, bllid, bkr, gdsid);
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到符合条件的单据");
+                return RNoData("N0086");
             }
-            return RSucc("成功", arrqrymst);
+            return RSucc("成功", arrqrymst, "S0076");
         }
 
         protected override void SetModuleInfo()

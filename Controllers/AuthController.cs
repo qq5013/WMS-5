@@ -302,11 +302,11 @@ namespace WMS.Controllers
             var arrqrycs = qrycs.ToArray();
             /*if (arrqrysp.Length <= 0)
             {
-                return RNoData("未找到默认的商品库");
+                return RNoData("N0044");
             }
             if (arrqrycs.Length <= 0)
             {
-                return RNoData("未找到默认的残损库");
+                return RNoData("N0045");
             }*/
             if (arrqrysp.Length > 0)
             {
@@ -337,8 +337,10 @@ namespace WMS.Controllers
             Rm.ResultObject = li1;
             //li1.DatPwrs = null;
             //li1.EmpPwrs = null;
-            //Rm.ResultObject = GetLoginInfoByUsrId(UsrId);
-            return ReturnResult();
+            //Rm.ResultObject = GetLoginInfoByUsrId(UsrId);            
+
+            return RSucc("成功", li1, "S0211");
+
         }
 
         

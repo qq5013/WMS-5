@@ -59,7 +59,7 @@ namespace WMS.Controllers
                           checkedall = g.Count(e => e.chkflg == GetN()) == 0 ? GetY() : GetN()
                       };
 
-            return RSucc("成功", qry.ToArray());
+            return RSucc("成功", qry.ToArray(), "S0055");
         }
 
 
@@ -98,7 +98,7 @@ namespace WMS.Controllers
                           chked = g.Count(e => e.chkflg == GetY())
                       };
 
-            return RSucc("成功", qry.ToArray());
+            return RSucc("成功", qry.ToArray(), "S0056");
         }
 
         /// <summary>
@@ -148,10 +148,10 @@ namespace WMS.Controllers
             var arrqry = qry.Distinct().ToArray();
             if (arrqry.Length <= 0)
             {
-                return RNoData("未找到该车次信息");
+                return RNoData("N0064");
             }
 
-            return RSucc("成功",arrqry);
+            return RSucc("成功",arrqry, "S0057");
         }
 
         // done:3、列出该checi对应的商品分货        
@@ -204,9 +204,9 @@ namespace WMS.Controllers
             var arrqry = qry.Take(20).ToArray();
             if (arrqry.Length < 0)
             {
-                return RNoData("未找到数据");
+                return RNoData("N0065");
             }
-            return RSucc("成功", arrqry);
+            return RSucc("成功", arrqry, "S0058");
         }
 
         // done:4、分货确认时修改wms_cutgds中的ckr, chkflg, chkdat,qty；
@@ -225,11 +225,11 @@ namespace WMS.Controllers
         public ActionResult BokRetrieve(String wmsno, String bllid, String bocino, String clsid, String checi, String gdsid, double qty)
         {
             //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo("正在生成拣货单，请稍候重试");
-            }
+            //string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+            //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            //{
+            //    return RInfo( "I0102" );
+            //}
 
             //得到wms_cutgds
             var qry = from e in WmsDc.wms_cutgds
@@ -243,7 +243,7 @@ namespace WMS.Controllers
             var arrqry = qry.ToArray();            
             if (arrqry.Length < 0)
             {
-                return RNoData("未找到需要确认的商品信息");
+                return RNoData("N0066");
             }
             wms_cutgds cutgds = arrqry[0];
 
@@ -279,7 +279,7 @@ namespace WMS.Controllers
             var arrqrystkot = qrystkot.ToArray();
             if (arrqrystkot.Length <= 0)
             {
-                return RNoData("未找到有配送单信息");
+                return RNoData("N0067");
             }
             stkotdtl[] stkotdtl = arrqrystkot;
             //得到wms_cang的信息
@@ -291,7 +291,7 @@ namespace WMS.Controllers
             var arrqrycang = qrycang.ToArray();
             if (arrqrycang.Length <= 0)
             {
-                return RNoData("未找到有分货单信息");
+                return RNoData("N0068");
             }
             wms_cang[] wms_cang = arrqrycang;
             //得到wms_cang的信息
@@ -303,13 +303,13 @@ namespace WMS.Controllers
             var arrqrycangdtl = qrycangdtl.ToArray();            
             if (arrqrycangdtl.Length <= 0)
             {
-                return RNoData("未找到有分货单明细信息");
+                return RNoData("N0069");
             }
             wms_cangdtl[] wms_cangdtl = arrqrycangdtl;
 
             if (cutgds.chkflg == GetY())
             {
-                return RInfo("该商品已经确认");
+                return RInfo( "I0103" );
             }
             
             // done: 取消对 5、分货确认时，发现数量小于应分货数量，要循环扣除对应的stkotdtl里面的qty 的注释
@@ -485,10 +485,10 @@ namespace WMS.Controllers
             }
             catch (Exception ex)
             {
-                return RErr(ex.Message);
+                return RErr(ex.Message, "E0014");
             }
 
-            return RSucc("成功", null);
+            return RSucc("成功", null, "S0059");
         }
 
         /// <summary>
@@ -507,15 +507,15 @@ namespace WMS.Controllers
             //判断分区是否有效
             if (!String.IsNullOrEmpty(barcode) && !IsExistBarcode(barcode))
             {
-                return RInfo("仓位码" + barcode.Trim() + "无效");
+                return RInfo( "I0104",barcode.Trim()  );
             }
 
             var arrqrymst = FindBllFromCangMst103(begindat, enddat, barcode, bllid, bkr, gdsid);
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到符合条件的单据");
+                return RNoData("N0070");
             }
-            return RSucc("成功", arrqrymst);
+            return RSucc("成功", arrqrymst, "S0060");
         }
 
 

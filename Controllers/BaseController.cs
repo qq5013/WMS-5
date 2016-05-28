@@ -73,6 +73,8 @@ namespace WMS.Controllers
         /// </summary>
         protected Log Log = null;
 
+        protected wms_set[] set996 = null;
+
         public ActionResult Index()
         {
             return View();
@@ -99,10 +101,96 @@ namespace WMS.Controllers
             pgnt.RecordCount = 0;
             Rm.PaginationObj = pgnt;
 
-            
+            set996 = (from e in WmsDc.wms_set
+                      where e.setid == "996"
+                      && e.isvld == 'y'
+                      select e).ToArray();
         }
 
-        
+        protected string GetStoreidBySavdptid(String savdptid)
+        {
+            var qry = from e in WmsDc.wms_set
+                      where e.setid == "008" && e.isvld == 'y'
+                      && e.val1 == savdptid.Trim()
+                      select e;
+            wms_set st = qry.FirstOrDefault();
+            if (st != null)
+            {
+                return st.val3.Trim();
+            }
+            return null;
+        }
+
+        protected String GetCsQuByDptid(String dptid, String storeid)
+        {
+            var qry = from e in WmsDc.wms_set
+                      join e1 in WmsDc.wms_set on new { qu = e.val1, savdptid = e.val3, setid = "006" } equals new { qu = e1.val1, savdptid = e1.val3, e1.setid }
+                      join e2 in WmsDc.wms_set on new { savdptid = e1.val3, setid = "008" } equals new { savdptid = e2.val1, e2.setid }
+                      where e.setid == "001" && e2.val3 == storeid.Trim()
+                      && e.val2 == dptid.Trim()
+                      && e.isvld == 'y' && e1.isvld == 'y' && e2.isvld == 'y'
+                      && e1.val2 == "3"
+                      select e.val1.Trim();
+            string[] arrQry = qry.ToArray();
+            if (arrQry.Length > 0)
+            {
+                return arrQry.FirstOrDefault();
+            }
+            return null;
+        }
+
+        protected String GetQuByDptid(String dptid, String storeid)
+        {
+            var qry = from e in WmsDc.wms_set
+                      join e1 in WmsDc.wms_set on new { qu = e.val1, savdptid = e.val3, setid = "006" } equals new { qu = e1.val1, savdptid = e1.val3, e1.setid }
+                      join e2 in WmsDc.wms_set on new { savdptid = e1.val3, setid = "008" } equals new { savdptid = e2.val1, e2.setid }
+                      where e.setid == "001" && e2.val3 == storeid.Trim()
+                      && e.val2 == dptid.Trim()
+                      && (e1.val2 == "7")
+                      && e.isvld == 'y' && e1.isvld == 'y' && e2.isvld == 'y'
+                      select e.val1.Trim();
+            string[] arrQry = qry.ToArray();
+            if (arrQry.Length > 0)
+            {
+                return arrQry.FirstOrDefault();
+            }
+            return null;
+        }
+
+        protected String GetDtQuByDptid(String dptid, String storeid)
+        {
+            var qry = from e in WmsDc.wms_set
+                      join e1 in WmsDc.wms_set on new { qu = e.val1, savdptid = e.val3, setid = "006" } equals new { qu = e1.val1, savdptid = e1.val3, e1.setid }
+                      join e2 in WmsDc.wms_set on new { savdptid = e1.val3, setid = "008" } equals new { savdptid = e2.val1, e2.setid }
+                      where e.setid == "001" && e2.val3 == storeid.Trim()
+                      && e.val2 == dptid.Trim()
+                      && (e1.val2 == "5")
+                      && e.isvld == 'y' && e1.isvld == 'y' && e2.isvld == 'y'
+                      select e.val1.Trim();
+            string[] arrQry = qry.ToArray();
+            if (arrQry.Length > 0)
+            {
+                return arrQry.FirstOrDefault();
+            }
+            return null;
+        }
+
+
+
+        protected String GetDescByCode(string code)
+        {
+            var qry = from e in set996
+                      where e.setid.Trim() == "996"
+                      && e.isvld == 'y'
+                      && e.val1.Trim() == code
+                      select e;
+            wms_set st = qry.FirstOrDefault();
+            if (st != null)
+            {
+                return st.brief.Trim();
+            }
+            return "{0}";
+        }
 
         /// <summary>
         /// 初始化Initialize
@@ -138,9 +226,28 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ActionResult RInfo(String desc)
+        protected ActionResult RInfo(string code, params object[] parms)
         {
+            String desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, parms);
             Rm.ResultObject = null;
+            Rm.ExtCode = code;
+            return ReturnResult(ResultMessage.RESULTMESSAGE_INFO, desc);
+        }
+        //返回警告信息
+        /// <summary>
+        /// 返回警告信息
+        /// </summary>
+        /// <param name="desc">描述</param>
+        /// <returns></returns>
+        protected ActionResult RInfo( string code)
+        {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
+            Rm.ResultObject = null;
+            Rm.ExtCode = code;
             return ReturnResult(ResultMessage.RESULTMESSAGE_INFO, desc);
         }
         //返回错误信息
@@ -149,22 +256,28 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ActionResult RErr(String desc)
+        protected ActionResult RErr(String desc, String code)
         {
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
             Rm.ResultObject = null;
-            String code = ResultMessage.RESULTMESSAGE_ERRORS;
+            Rm.ExtCode = code;
+            String code1 = ResultMessage.RESULTMESSAGE_ERRORS;
             if (desc.IndexOf("牺牲品") > 0)
             {
-                code = ResultMessage.RESULTMESSAGE_DEALTHREAD;
+                code1 = ResultMessage.RESULTMESSAGE_DEALTHREAD;
                 desc = "数据提交异常，请重新提交";
             }
             return ReturnResult(code, desc);
         }
 
-        protected ActionResult RSucc(String desc, Object obj, Object extObj)
+        protected ActionResult RSucc(String desc, Object obj, Object extObj, string code)
         {
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
             Rm.ExtObject = extObj;
-            return RSucc(desc, obj);
+            Rm.ExtCode = code;
+            return RSucc(desc, obj, "S0033");
         }
 
         //返回成功信息
@@ -173,9 +286,12 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ActionResult RSucc(String desc, Object obj)
+        protected ActionResult RSucc(String desc, Object obj, string code)
         {
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
             Rm.ResultObject = obj;
+            Rm.ExtCode = code;
             if (obj!=null && obj.GetType() == typeof(Array))
             {
                 Array arr = (Array)obj;
@@ -186,16 +302,35 @@ namespace WMS.Controllers
             }
             return ReturnResult(ResultMessage.RESULTMESSAGE_SUCCESS, desc);
         }
-
         //返回未找到信息
         /// <summary>
         /// 返回未找到信息
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ActionResult RNoData(String desc)
+        protected ActionResult RNoData(string code, params string[] parms)
         {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, parms);
             Rm.ResultObject = null;
+            Rm.ExtCode = code;
+            return ReturnResult(ResultMessage.RESULTMESSAGE_NODATA, desc);
+
+        }
+        //返回未找到信息
+        /// <summary>
+        /// 返回未找到信息
+        /// </summary>
+        /// <param name="desc">描述</param>
+        /// <returns></returns>
+        protected ActionResult RNoData(string code)
+        {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
+            Rm.ResultObject = null;
+            Rm.ExtCode = code;
             return ReturnResult(ResultMessage.RESULTMESSAGE_NODATA, desc);
 
         }
@@ -216,7 +351,7 @@ namespace WMS.Controllers
         /// </summary>
         /// <returns></returns>
         protected ResultMessage RReturnResult(String code, String desc)
-        {
+        {            
             Rm.ResultCode = code;
             Rm.ResultDesc = desc;
             return RReturnResult();
@@ -227,9 +362,28 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ResultMessage RRInfo(String desc)
+        protected ResultMessage RRInfo(string code, params object[] parms)
         {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, parms);
             Rm.ResultObject = null;
+            Rm.ExtCode = code;
+            return RReturnResult(ResultMessage.RESULTMESSAGE_INFO, desc);
+        }
+        //返回警告信息
+        /// <summary>
+        /// 返回警告信息
+        /// </summary>
+        /// <param name="desc">描述</param>
+        /// <returns></returns>
+        protected ResultMessage RRInfo( string code)
+        {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
+            Rm.ResultObject = null;
+            Rm.ExtCode = code;
             return RReturnResult(ResultMessage.RESULTMESSAGE_INFO, desc);
         }
         //返回错误信息
@@ -238,22 +392,29 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ResultMessage RRErr(String desc)
+        protected ResultMessage RRErr(String desc, String code)
         {
+           
             Rm.ResultObject = null;
-            String code = ResultMessage.RESULTMESSAGE_ERRORS;
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
+            Rm.ExtCode = code;
+            String code1 = ResultMessage.RESULTMESSAGE_ERRORS;
             if (desc.IndexOf("牺牲品") > 0)
             {
-                code = ResultMessage.RESULTMESSAGE_DEALTHREAD;
+                code1 = ResultMessage.RESULTMESSAGE_DEALTHREAD;
                 desc = "数据提交异常，请重新提交";
             }
-            return RReturnResult(code, desc);
+            return RReturnResult(code1, desc);
         }
 
-        protected ResultMessage RRSucc(String desc, Object obj, Object extObj)
+        protected ResultMessage RRSucc(String desc, Object obj, Object extObj, string code)
         {
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
             Rm.ExtObject = extObj;
-            return RRSucc(desc, obj);
+            Rm.ExtCode = code;
+            return RRSucc(desc, obj, "S0036");
         }
 
         //返回成功信息
@@ -262,9 +423,12 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ResultMessage RRSucc(String desc, Object obj)
+        protected ResultMessage RRSucc(String desc, Object obj, string code)
         {
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
             Rm.ResultObject = obj;
+            Rm.ExtCode = code;
             if (obj != null && obj.GetType() == typeof(Array))
             {
                 Array arr = (Array)obj;
@@ -282,9 +446,30 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="desc">描述</param>
         /// <returns></returns>
-        protected ResultMessage RRNoData(String desc)
+        protected ResultMessage RRNoData(string code, params string[] parms)
         {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, parms);
             Rm.ResultObject = null;
+            Rm.ExtCode = code;
+            return RReturnResult(ResultMessage.RESULTMESSAGE_NODATA, desc);
+
+        }
+
+        //返回未找到信息
+        /// <summary>
+        /// 返回未找到信息
+        /// </summary>
+        /// <param name="desc">描述</param>
+        /// <returns></returns>
+        protected ResultMessage RRNoData(string code)
+        {
+            string desc = "";
+            string desc1 = GetDescByCode(code);
+            desc = string.Format(desc1, desc);
+            Rm.ResultObject = null;
+            Rm.ExtCode = code;
             return RReturnResult(ResultMessage.RESULTMESSAGE_NODATA, desc);
 
         }

@@ -88,7 +88,6 @@
     <Compile Include="Controllers\CsBozController.cs" />
     <Compile Include="Controllers\CsRetrieveController.cs" />
     <Compile Include="Controllers\FruitPickingRetrieveController.cs" />
-    <Compile Include="Controllers\GetCanUnionBarcodeRet.cs" />
     <Compile Include="Controllers\HqApkServicesController.cs" />
     <Compile Include="Controllers\InvCkController.cs" />
     <Compile Include="Controllers\ProfitOrLossController.cs" />
