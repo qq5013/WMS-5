@@ -117,7 +117,7 @@ namespace WMS.Controllers
             var arrqrydtl = qrydtl.ToArray();
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("该上架单没有明细信息", "N0208");
+                return RNoData("N0208");
             }
 
             return RSucc("成功", arrqrydtl, "S0193");            
@@ -176,7 +176,7 @@ namespace WMS.Controllers
             var arrqrydtl = qrydtltpgds.ToArray();
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("该上架单没有托盘明细信息", "N0210");
+                return RNoData("N0210");
             }
 
             return RSucc("成功", arrqrydtl, "S0194");
@@ -216,7 +216,7 @@ namespace WMS.Controllers
             var arrqrydtl = qrydtl.ToArray();
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("该上架单没有明细信息", "N0212");
+                return RNoData("N0212");
             }
 
             return RSucc("成功", arrqrydtl, "S0195");
@@ -283,7 +283,7 @@ namespace WMS.Controllers
                 //检查单号是否有效            
                 if (cang==null)
                 {
-                    return RNoData("单号无效", "N0213");
+                    return RNoData("N0213");
                 }
                 ////正在生成拣货单，请稍候重试
                 //string quRetrv = cang.qu;
@@ -301,7 +301,7 @@ namespace WMS.Controllers
                 //未查找到托盘的正确仓位
                 if (arrqrydtl.Length <= 0)
                 {
-                    return RNoData("未查找到托盘的正确仓位", "N0214");
+                    return RNoData("N0214");
                 }
 
                 //检查同一个托盘是否都已经上架            
@@ -444,7 +444,7 @@ namespace WMS.Controllers
             //检查单号是否有效            
             if (cang==null)
             {
-                return RNoData("单号无效", "N0216");
+                return RNoData("N0216");
             }
             ////正在生成拣货单，请稍候重试
             //string quRetrv = cang.qu;
@@ -462,7 +462,7 @@ namespace WMS.Controllers
             //未查找到收货单明细
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("未查找到收货单明细", "N0217");
+                return RNoData("N0217");
             }
 
             //检查是否所有托盘都已经确认
@@ -641,7 +641,7 @@ namespace WMS.Controllers
             var arrqrymst = FindBllFromCangMst(WMSConst.BLL_TYPE_UPBLL, begindat, enddat, wmsno, gdsid, barcode);
             if (arrqrymst.Length <= 0)
             {
-                return RNoData("未找到符合条件的单据", "N0219");
+                return RNoData("N0219");
             }
             return RSucc("成功", arrqrymst, "S0199");
         }

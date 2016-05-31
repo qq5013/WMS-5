@@ -504,6 +504,7 @@ namespace WMS.Controllers
                 #region 如果是206配送拣货的单据，在同一个拣货单里面同一商品确认完后，写入分货表
                 if (mst.lnkbllid.Trim() == "206")
                 {
+
                     var qryallbygdsidN = from e in WmsDc.wms_cangdtl_115
                                          where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
                                          && e.gdsid == gdsid

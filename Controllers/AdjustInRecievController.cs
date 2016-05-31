@@ -575,7 +575,7 @@ namespace WMS.Controllers
             #region 判断收货单是否已经登帐
             if (bllmst.chkflg == GetY())
             {
-                return RInfo(wmsno + ",该收货单已经登帐", "I0053");
+                return RInfo("I0053", wmsno);
             }
             #endregion
 
@@ -602,7 +602,7 @@ namespace WMS.Controllers
             {
                 if (dtl.bokflg == GetN())
                 {
-                    return RInfo(dtl.gdsid + ",该商品尚未收货！", "I0055");
+                    return RInfo( "I0055", dtl.gdsid);
                 }
             }
             #endregion
@@ -917,7 +917,7 @@ namespace WMS.Controllers
                 //1.3.盘点是否是同一个操作人
                 if (!IsSameLogin(arrqry[0].mkr))
                 {
-                    return RInfo("收货审核人" + LoginInfo.Usrid + ",和制单人" + arrqry[0].mkr + ",不是同一个人", "I0058");
+                    return RInfo("I0058", LoginInfo.Usrid, arrqry[0].mkr);
                 }
 
                 //1.2.订单已经审核

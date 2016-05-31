@@ -683,7 +683,7 @@ namespace WMS.Controllers
             if (arrqrygrp.Length > 0)
             {
                 var g = arrqrygrp[0];
-                return RInfo("该商品"+g.gdsid+",类型"+g.gdstype+",已经盘过了", "I0155");                
+                return RInfo("I0155", g.gdsid, g.gdstype);                
             }
 
             //检查是否已经盘过点了
@@ -691,7 +691,7 @@ namespace WMS.Controllers
                 String boci = GetBociByWmsno(d.wmsno);
                 d.oldbarcode = boci;
                 if(HasChecked(d)){
-                    return RInfo("该商品"+d.gdsid+",类型"+d.gdstype+",已经盘过了", "I0156");
+                    return RInfo("I0156",d.gdsid, d.gdstype);
                 }
                 d.oldbarcode = "";
             }

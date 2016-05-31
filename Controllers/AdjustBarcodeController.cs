@@ -272,8 +272,7 @@ namespace WMS.Controllers
                     && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu).Select(e => e).FirstOrDefault();
                 if (egdsbs==null)
                 {
-                    WmsDc.wms_cwgdsbs.InsertOnSubmit(gdsbs);                    
-                    //return RInfo("帐表中未找到有待调整仓位商品" + gdsbs.gdsid + ",类型为" + gdsbs.gdstype + "的商品", "I0010");
+                    WmsDc.wms_cwgdsbs.InsertOnSubmit(gdsbs);                                        
                 }else{
                     egdsbs.qty += gdsbs.qty;
                 }
@@ -312,7 +311,7 @@ namespace WMS.Controllers
                     && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu).Select(e => e).FirstOrDefault();
                 if (egdsbs == null)
                 {
-                    return RInfo("帐表中未找到有待调整仓位商品"+gdsbs.gdsid+",类型为"+gdsbs.gdstype+"的商品", "I0011");
+                    return RInfo("I0011", gdsbs.gdsid, gdsbs.gdstype);
                 }
                 else
                 {
@@ -1030,7 +1029,7 @@ namespace WMS.Controllers
             String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
             if ( !qu.Contains(barcode.Substring(0, 2)) )
             {
-                return RInfo("商品" + gdsid + "不在区[" + string.Join(",", qu) + "]内", "I0032");
+                return RInfo("I0032", gdsid, string.Join(",", qu));
             }
             //判断分区是否有效
             if (!IsExistBarcode(barcode))

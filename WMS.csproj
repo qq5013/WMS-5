@@ -175,6 +175,7 @@
   <ItemGroup>
     <None Include="Models\WMSDc.dbml.layout">
       <DependentUpon>WMSDc.dbml</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>

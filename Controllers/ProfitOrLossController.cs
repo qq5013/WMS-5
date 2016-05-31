@@ -46,12 +46,11 @@ namespace WMS.Controllers
                     String[] qu = GetQuByGdsid(gdsid[i], LoginInfo.DefStoreid);
                     if (qu == null)
                     {
-                        return RInfo("未找到该商品分区信息,或你无分区权限", "I0174");
-                        //return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", s.Substring(0, 2)) + "]内", "I0175");
+                        return RInfo("I0174");                        
                     }
                     if ( !qu.Contains(s.Substring(0, 2)) )
                     {
-                        return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", qu) + "]内", "I0176");
+                        return RInfo("I0176", gdsid[i], String.Join(",", qu));
                     }
                     //判断分区是否有效
                     if (!IsExistBarcode(s))
@@ -744,7 +743,7 @@ namespace WMS.Controllers
             String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
             if (!qu.Contains(barcode.Substring(0, 2)))
             {
-                return RInfo("商品" + gdsid + "不在区[" + String.Join(",", qu) + "]内", "I0213");
+                return RInfo("I0213", gdsid, String.Join(",", qu));
             }            
 
             wms_cangdtl_111 dtl = new wms_cangdtl_111();

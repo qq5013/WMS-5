@@ -66,12 +66,11 @@ namespace WMS.Controllers
                     String[] qu = GetQuByGdsid(gdsid[i], LoginInfo.DefStoreid);
                     if (qu == null)
                     {
-                        return RInfo("未找到该商品分区信息,或你无分区权限", "I0330");
-                        //return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", s.Substring(0, 2)) + "]内", "I0331");
+                        return RInfo("I0330");
                     }
                     if (!qu.Contains(s.Substring(0, 2)))
                     {
-                        return RInfo("商品" + gdsid[i] + "不在区[" + String.Join(",", qu) + "]内", "I0332");
+                        return RInfo("I0332", gdsid[i], String.Join(",", qu));
                     }
 
                     wms_cangdtl_110 dtl = new wms_cangdtl_110();
@@ -622,7 +621,7 @@ namespace WMS.Controllers
             String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
             if (!qu.Contains(barcode.Substring(0, 2)))
             {
-                return RInfo("商品" + gdsid + "不在区[" + String.Join(",", qu) + "]内", "I0355");
+                return RInfo( "I0355", gdsid, String.Join(",", qu));
             }
 
             //如果是报损，判断是否有库存            

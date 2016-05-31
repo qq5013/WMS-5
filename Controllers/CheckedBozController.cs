@@ -79,6 +79,73 @@ namespace WMS.Controllers
             return bzmst.chkflg == GetY();
         }
 
+        private string CanBozByRcvdptid(string wmsno, string stkouno, string rcvdptid, string gdsid, double qty, int? rcdidx)
+        {
+            //得到该商品未播种的分店排序列表
+            var qry = from e in WmsDc.stkot
+                      join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
+                      join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
+                      join e3 in WmsDc.wms_cang on new { e.wmsno, e.wmsbllid } equals new { e3.wmsno, wmsbllid = e3.bllid }
+                      join e4 in WmsDc.wms_boci on new { dh = e3.lnkbocino, sndtmd = e3.lnkbocidat, e3.qu } equals new { e4.dh, e4.sndtmd, e4.qu }
+                      join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid, e5.qu }
+                      join e6 in WmsDc.dpt on e.rcvdptid equals e6.dptid
+                      join e7 in WmsDc.v_wms_pkg on e2.gdsid equals e7.gdsid
+                      where e.wmsno == wmsno
+                      && e1.gdsid == gdsid
+                      && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                          //&& dpts.Contains(e.dptid.Trim())
+                      && e.bllid == WMSConst.BLL_TYPE_DISPATCH
+                      && e1.bzflg == 'n' && e1.qty > 0    //大于0的商品
+                      orderby e1.bzflg, e2.gdsid, e5.busid.Trim().Substring(e5.busid.Trim().Length - 1, 1), e5.busid.Trim().Substring(0, 3),
+                      Convert.ToInt32(e5.rcvdptid), e1.qty
+                      select e.rcvdptid.Trim();
+            String shouldRcvdptid = qry.FirstOrDefault();
+
+            return shouldRcvdptid;
+        }
+
+        private bool CanBozByQty(string wmsno, string stkouno, string rcvdptid, string gdsid, double qty, int? rcdidx)
+        {
+            //得到该商品已经拣货的商品数量
+            var qryRtv = (from e in WmsDc.wms_cang
+                          join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                          where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                          && e1.bokflg == 'y' && e1.tpcode == "y"
+                          && e.wmsno == wmsno.Trim()
+                          && e1.gdsid == gdsid.Trim()
+                          select e1).ToArray();
+            //如果拣货为0，就表示没有拣货
+            if (qryRtv.Length == 0)
+            {
+                return false;
+            }
+            double dSumRtv = qryRtv.Sum(e => e.qty);
+
+            //得到该商品应播种的数量
+            var qryBz = (from e in WmsDc.stkot
+                         join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
+                         where e.wmsno == wmsno && e.wmsbllid == WMSConst.BLL_TYPE_RETRIEVE
+                         && e1.gdsid == gdsid
+                         select e1
+                             ).ToArray();
+            //如果播种数量为0，就表示没有播种单
+            if (qryBz.Length == 0)
+            {
+                return false;
+            }
+
+            //得到已经播了的数量
+            double dHasBzQty = qryBz.Where(e => e.bzflg == 'y').Sum(e => e.qty);
+            //得到拣货未播数量
+            double dUnBzQty = dSumRtv - dHasBzQty;
+            //如果拣货未播数量小于本次播种数量
+            if (dUnBzQty < qty)
+            {
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// 审核播种商品
@@ -106,6 +173,18 @@ namespace WMS.Controllers
                 //{
                 //    return RInfo( "I0089" );
                 //}
+
+                //通过数量判断是否允许播种，该已拣货的未播数量是否大于本次播种数量
+                if (!CanBozByQty(wmsno, stkouno, rcvdptid, gdsid, qty, rcdidx))
+                {
+                    return RInfo("I0471");   //拣货未播种数量小于本次应播数量
+                }
+                //通过分店是否允许播种
+                string shouldRcvdptid = CanBozByRcvdptid(wmsno, stkouno, rcvdptid, gdsid, qty, rcdidx);
+                if (shouldRcvdptid != rcvdptid)
+                {
+                    return RInfo("I0472", shouldRcvdptid);   //请先播种shouldRcvdptid分店的商品
+                }
 
                 if (gdsid == null)
                 {

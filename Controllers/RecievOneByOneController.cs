@@ -139,7 +139,7 @@ namespace WMS.Controllers
                 //1.3.盘点是否是同一个操作人
                 if (!IsSameLogin(arrqry[0].mkr))
                 {
-                    return RInfo("收货审核人" + LoginInfo.Usrid + ",和制单人" + arrqry[0].mkr + ",不是同一个人", "I0238");
+                    return RInfo("I0238", LoginInfo.Usrid, arrqry[0].mkr);
                 }
 
                 //1.2.订单已经审核
@@ -1292,8 +1292,8 @@ namespace WMS.Controllers
                 //    return RInfo( "I0258" );
                 //}
                 if (dtltpcode == null || dtltpcode.Length == 0) { return RNoData("N0142"); }
-                if (mst.chkflg == GetY()) { return RInfo("该单据已经审核,不能重复审核", "I0259"); }
-                if (qryDtlTpCode.Where(e => e.bokflg == GetY()).Any()) { return RInfo("托盘“" + qryDtlTp.First().tpcode + "”已经确定,不能重复确定", "I0260"); }
+                if (mst.chkflg == GetY()) { return RInfo("I0259"); }
+                if (qryDtlTpCode.Where(e => e.bokflg == GetY()).Any()) { return RInfo("I0260", qryDtlTp.First().tpcode); }
 
                 //上架单单号
                     String upwmsno = null;
@@ -1439,7 +1439,7 @@ namespace WMS.Controllers
                 {
                     double iqty = 0;
                     if(!double.TryParse(qty[i], out iqty)){
-                        return RInfo("商品"+gdsid[i]+",数量参数解析出错", "I0264");
+                        return RInfo("I0264", gdsid[i]);
                     }
                     JsonResult jr = (JsonResult)AdGdsByTp(wmsno, gdsid[i], gdstype[i], qty[i], tpcode, pkgid[i]);
                     ResultMessage rm = (ResultMessage)jr.Data;
@@ -1766,7 +1766,7 @@ namespace WMS.Controllers
             //1.3.盘点是否是同一个操作人
             if (!IsSameLogin(mst.mkr))
             {
-                return RInfo("收货审核人" + LoginInfo.Usrid + ",和制单人" + mst.mkr + ",不是同一个人", "I0271");
+                return RInfo("I0271", LoginInfo.Usrid, mst.mkr);
             }
             //1.判断收货单是否已经审核，如果审核则退出
             if (mst.chkflg == GetY())
@@ -1976,7 +1976,7 @@ namespace WMS.Controllers
             //同一个商品同一个托盘 同一个类型 不应该重复
             if (qryDtlTp.Where(e => e.gdsid == gdsid && e.gdstype == gdstype && e.tpcode == tpcode).Any())
             {
-                return RRInfo("同一个商品同一个托盘 同一个类型 不应该重复,请核对", "I0281");
+                return RRInfo("I0281");
             }
             wms_blltp newdtltp = new wms_blltp();
             newdtltp.wmsno = mst.wmsno;

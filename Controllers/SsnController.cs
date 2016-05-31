@@ -165,6 +165,11 @@ namespace WMS.Controllers
             return arrqry;
         }
 
+        protected bool IsCutgds()
+        {
+            return WmsDc.wms_set.Where(e => e.setid == "017" && e.isvld == 'y' && e.val1 == "1" && e.val3 == LoginInfo.DefStoreid).Any();
+        }
+
         /// <summary>
         /// 得到服务器时间
         /// </summary>
