@@ -439,7 +439,7 @@ namespace WMS.Controllers
                         sin.stkindat = "";
                         sin.brief = "WMS系统调仓导入";
                         sin.lnkodrno = "";
-                        sin.lnkivcno = "";
+                        sin.lnkivcno = GetCurrentDay();
                         sin.mctortrust = '0';
                         sin.stktpid = "";
                         sin.taxflg = null;
@@ -517,7 +517,8 @@ namespace WMS.Controllers
                         sindtl.bthno = null;
                         sindtl.vlddat = null;
                         sindtl.bcd = dp.bcd;
-                        sindtl.brfdtl = null;
+                        //sindtl.brfdtl = null;
+                        sindtl.brfdtl = "wms";
                         sindtl.stincstprc = null;
                         sindtl.stincstamt = null;
                         sindtl.mctortrust = '0';

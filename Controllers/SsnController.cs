@@ -381,13 +381,8 @@ namespace WMS.Controllers
                            gdstype = e.gdstype.Trim(),
                            sqty = Math.Round((e.sqty - (e2.qty == null ? 0 : e2.qty)), 4, MidpointRounding.AwayFromZero)
                        };
-            var arrqry = qry1.ToArray().Where(e => e.sqty >= 0).OrderByDescending(e=>e.sqty).ToArray();
-            var iNz = arrqry.Where(e => e.sqty > 0).Count();   //不为0的记录
-            //如果不为0的记录数==0
-            if (iNz < 5)
-            {
-                arrqry = arrqry.Take(5).ToArray();
-            }
+            var arrqry = qry1.ToArray()/*.Where(e => e.sqty >= 0)*/.OrderByDescending(e=>e.sqty).ToArray();
+            
 
             //然后加上wms_cangdtl  里面 bllid 103(捡货单) 的当天的未确认的库存
             var nowCangdtl103 = from e in WmsDc.wms_cangdtl
@@ -443,7 +438,15 @@ namespace WMS.Controllers
                                 spc = e.spc,
                                 sqty = Math.Round((e.sqty + ( e1==null ? 0 : e1.qty) + (e2 == null ? 0 : e2.qty)), 4, MidpointRounding.AwayFromZero)
                             };
-            arrqry = allArrAry.ToArray();
+            arrqry = allArrAry.Where(e => e.sqty > 0).ToArray();
+            /*
+            var iNz = arrqry.Where(e => e.sqty > 0).Count();   //不为0的记录
+            //如果不为0的记录数==0
+            if (iNz < 5)
+            {
+                arrqry = arrqry.Take(5).ToArray();
+            }*/
+
             return arrqry;
         }
 

@@ -38,35 +38,77 @@ namespace WMS.Controllers
         public ActionResult GetCurrBoci()
         {
             string curdat = GetCurrentDay();
-            var qry = from e in WmsDc.wms_cutgds
-                      join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
-                      where e.bocidat == curdat
-                      && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
-                      && dpts.Contains(e1.dptid)
-                      group e by new { e.wmsno, e.bllid, e.bocino, e.clsid, e.bocidat } into g
-                      select new
-                      {
-                          wmsno = g.Key.wmsno,
-                          bllid = g.Key.bllid,
-                          bocino = g.Key.bocino,
-                          clsid = g.Key.clsid,
-                          bocidat = g.Key.bocidat,
-                          checi = from e1 in WmsDc.wms_cutgds
-                                  where e1.bocino == g.Key.bocino
-                                  && e1.bocidat == g.Key.bocidat
-                                  && e1.clsid == g.Key.clsid
-                                  group e1 by e1.checi.Trim() into g1
-                                  select g1.Key,
-                          checkedall = g.Count(e => e.chkflg == GetN()) == 0 ? GetY() : GetN(),
-                          bzedall = from e in WmsDc.stkot
-                                    join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
-                                    where e.wmsno == g.Key.wmsno && e.wmsbllid == g.Key.bllid
-                                    && e1.bzflg==GetN()
-                                    group e1 by new { e.wmsno, e.wmsbllid } into g1
-                                    select g1.Count() == 0 ? GetY() : GetN()
-                      };
 
-            return RSucc("成功", qry.ToArray(), "S0046");
+            if (!IsCutgds())
+            {
+                var qry = from e in WmsDc.wms_boci
+                          join e1 in WmsDc.wms_cang on new { e.dh, e.sndtmd, e.savdptid, e.qu } equals new { dh = e1.lnkbocino, sndtmd = e1.lnkbocidat, e1.savdptid, e1.qu }
+                          where e.sndtmd == curdat
+                          && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                          select new
+                          {
+                              e1.wmsno,
+                              e1.bllid,
+                              bocino = e1.lnkbocino,
+                              clsid = (from ee in WmsDc.view_pssndgds
+                                       join ee1 in WmsDc.wms_cang on new { ee.dh, ee.sndtmd, ee.savdptid, ee.qu } equals new { dh = ee1.lnkbocino, sndtmd = ee1.lnkbocidat, ee1.savdptid, ee1.qu }
+                                       join ee2 in WmsDc.stkot on new { ee1.wmsno, wmsbllid = ee1.bllid, ee.rcvdptid } equals new { ee2.wmsno, ee2.wmsbllid, ee2.rcvdptid }
+                                       where ee.dh == e.dh && ee.sndtmd == e.sndtmd
+                               && ee.savdptid == e.savdptid && ee.qu == e.qu && e1.wmsno == ee1.wmsno && e1.bllid == ee1.bllid
+                                       select ee.clsid).FirstOrDefault(),
+                              bocidat = e1.lnkbocidat,
+                              checi = (from ee in WmsDc.view_pssndgds
+                                       join ee1 in WmsDc.wms_cang on new { ee.dh, ee.sndtmd, ee.savdptid, ee.qu } equals new { dh = ee1.lnkbocino, sndtmd = ee1.lnkbocidat, ee1.savdptid, ee1.qu }
+                                       join ee2 in WmsDc.stkot on new { ee1.wmsno, wmsbllid = ee1.bllid, ee.rcvdptid } equals new { ee2.wmsno, ee2.wmsbllid, ee2.rcvdptid }
+                                       where ee.dh == e.dh && ee.sndtmd == e.sndtmd
+                               && ee.savdptid == e.savdptid && ee.qu == e.qu && e1.wmsno == ee1.wmsno && e1.bllid == ee1.bllid
+                                       select ee.busid.Trim().Substring(ee.busid.Trim().Length - 1, 1)).Distinct(),
+                              checkedall = (from ee in WmsDc.wms_cangdtl
+                                        where ee.wmsno == e1.wmsno && ee.bllid == e1.bllid
+                                        select ee
+                                            ).Count(gg => gg.bokflg == GetN()) == 0 ? GetY() : GetN(),
+                              bzedall = from ee in WmsDc.stkot
+                                        join ee1 in WmsDc.stkotdtl on ee.stkouno equals ee1.stkouno
+                                        where ee.wmsno == e1.wmsno && ee.wmsbllid == e1.bllid
+                                        && ee1.bzflg == GetN()
+                                        group e1 by new { ee.wmsno, ee.wmsbllid } into g1
+                                        select g1.Count() == 0 ? GetY() : GetN()
+                          };
+                return RSucc("成功", qry.ToArray(), "S0046");
+            }
+            else
+            {
+                var qry1 = from e in WmsDc.wms_cutgds
+                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
+                          where e.bocidat == curdat
+                          && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                          && dpts.Contains(e1.dptid)
+                          group e by new { e.wmsno, e.bllid, e.bocino, e.clsid, e.bocidat } into g
+                          select new
+                          {
+                              wmsno = g.Key.wmsno,
+                              bllid = g.Key.bllid,
+                              bocino = g.Key.bocino,
+                              clsid = g.Key.clsid,
+                              bocidat = g.Key.bocidat,
+                              checi = from e1 in WmsDc.wms_cutgds
+                                      where e1.bocino == g.Key.bocino
+                                      && e1.bocidat == g.Key.bocidat
+                                      && e1.clsid == g.Key.clsid
+                                      group e1 by e1.checi.Trim() into g1
+                                      select g1.Key,
+                              checkedall = g.Count(e => e.chkflg == GetN()) == 0 ? GetY() : GetN(),
+                              bzedall = from e in WmsDc.stkot
+                                        join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
+                                        where e.wmsno == g.Key.wmsno && e.wmsbllid == g.Key.bllid
+                                        && e1.bzflg == GetN()
+                                        group e1 by new { e.wmsno, e.wmsbllid } into g1
+                                        select g1.Count() == 0 ? GetY() : GetN()
+                          };
+                return RSucc("成功", qry1.ToArray(), "S0046");
+            }
+
+            
         }
 
         /// <summary>
@@ -247,13 +289,24 @@ namespace WMS.Controllers
                     return RInfo( "I0093" );
                 }*/
                 var qrydtl = from e in stkotgds.stkotdtl
-                             where e.gdsid.Trim() == gdsid.Trim() && e.rcdidx == rcdidx &&
-                             (from e1 in WmsDc.wms_cutgds where e1.wmsno == stkotgds.wmsno && e1.bllid == stkotgds.wmsbllid && e1.gdsid == e.gdsid && e1.checi == checi select e1).Any()
+                             where e.gdsid.Trim() == gdsid.Trim() && e.rcdidx == rcdidx                              
                              select e;
                 var arrqrydtl = qrydtl.ToArray();
                 if (arrqrydtl.Length <= 0)
                 {
                     return RNoData("N0057");
+                }
+                // 判断是否是分货播种
+                if (IsCutgds())
+                {
+                    qrydtl = qrydtl.Where(e =>
+                                 (from e1 in WmsDc.wms_cutgds where e1.wmsno == stkotgds.wmsno && e1.bllid == stkotgds.wmsbllid && e1.gdsid == e.gdsid && e1.checi == checi select e1).Any()
+                                 );
+                    arrqrydtl = qrydtl.ToArray();
+                    if (arrqrydtl.Length <= 0)
+                    {
+                        return RNoData("N0057");
+                    }
                 }
                 stkotdtl stkdtl = arrqrydtl[0];
                 double? preqty = stkdtl.preqty;

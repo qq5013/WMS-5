@@ -790,39 +790,7 @@ namespace WMS.Controllers
                         }
                         WmsDc.SubmitChanges();
                         #endregion 减去从大到小的数量
-                        /*
-                            foreach (stkotdtl d in qrystkdtl)
-                            {
-                                if (d.preqty == null)
-                                {
-                                    d.preqty = d.qty;
-                                }
-                                if (q > 0)
-                                {
-                                    if (q <= d.qty)
-                                    {
-                                        d.qty -= q;
-                                        d.pkgqty -= q;
-                                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4, MidpointRounding.AwayFromZero);
-                                        d.amt = Math.Round(d.qty * d.prc, 4, MidpointRounding.AwayFromZero);
-                                        d.salamt = Math.Round(d.qty * d.salprc.Value, 4, MidpointRounding.AwayFromZero);
-                                        d.patamt = Math.Round(d.qty * d.taxprc, 4, MidpointRounding.AwayFromZero);
-                                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4, MidpointRounding.AwayFromZero);
-                                        q = 0;
-                                    }
-                                    else
-                                    {
-                                        q -= d.qty;
-                                        d.qty = 0;
-                                        d.pkgqty = 0;
-                                        d.taxamt = 0;
-                                        d.amt = 0;
-                                        d.salamt = 0;
-                                        d.stotcstamt = 0;
-                                        d.patamt = 0;                                        
-                                    }
-                                }
-                            }*/
+
                     }
                     WmsDc.SubmitChanges();
                     #endregion
