@@ -252,6 +252,7 @@ namespace WMS.Controllers
                 {
                     return RInfo( "I0397",newbarcode.Trim()  );
                 }
+                //todo 判断新的仓位码是否为今天已经上架单中已有的仓位
 
                 //主表
                 wms_cang cang = GetCangMst(wmsno);
@@ -329,9 +330,23 @@ namespace WMS.Controllers
                     {
                         return RInfo( "I0404",newbarcode  );
                     }
-                    if (oldCw != null && cw.tjflg == GetY())
+
+                    if (oldCw != null &&
+                        (
+                        cw.tjflg == GetY() //调整仓位{0}为不在当天上架单中的推荐仓位，不能使用
+                        &&
+                        !(
+                            from e in WmsDc.wms_cang
+                            join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                            where e.wmsno == wmsno && e.bllid == "102" //上架单
+                            && e1.barcode == newbarcode
+                            && e.mkedat.Substring(0,8) == GetCurrentDay()
+                            select e
+                          ).Any()
+                        )
+                        )
                     {
-                        return RInfo( "I0405",newbarcode  );
+                        return RInfo("I0405", newbarcode);
                     }
                     //修改新仓位标记tpflg=GetY()
                     cw.tpflg = GetY();

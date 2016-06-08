@@ -242,24 +242,8 @@ namespace WMS.Controllers
             return RSucc("成功", arrqrydtl, "S0160");
         }
 
-        private ActionResult BokRetrieveP(String wmsno, String bllid, String bocino, String clsid, String checi, String gdsid, double qty)
+        public ActionResult DoDecStkQty(string wmsno, string checi, string bllid, string gdsid, double qty)
         {
-            //得到wms_cutgds
-            var qry = from e in WmsDc.wms_cutgds
-                      join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
-                      where e.bocino == bocino.Trim() && e.clsid == clsid.Trim() && e.checi == checi.Trim()
-                      && e.wmsno == wmsno.Trim() && e.bllid == bllid.Trim()
-                      && e.gdsid == gdsid.Trim()
-                      && e.savdptid == LoginInfo.DefSavdptid
-                      && dpts.Contains(e1.dptid)
-                      select e;
-            var arrqry = qry.ToArray();
-            if (arrqry.Length <= 0)
-            {
-                return RNoData("N0172");
-            }
-            wms_cutgds cutgds = arrqry[0];
-
             //得到对应的stkotdtl里面的未播种，未审核的单据商品信息
             /*var qrystkot = from e in WmsDc.stkotdtl
                            where e.stkot.wmsno == wmsno.Trim()
@@ -318,150 +302,55 @@ namespace WMS.Controllers
             {
                 return RNoData("N0175");
             }
-            wms_cangdtl[] wms_cangdtl = arrqrycangdtl;
-
-            if (cutgds.chkflg == GetY())
-            {
-                return RInfo( "I0368" );
-            }
+            wms_cangdtl[] wms_cangdtl = arrqrycangdtl;            
 
             // done: 取消对 5、分货确认时，发现数量小于应分货数量，要循环扣除对应的stkotdtl里面的qty 的注释
-            #region 取消对 5、分货确认时，发现数量小于应分货数量，要循环扣除对应的stkotdtl里面的qty 的注释
-            /*if (qty < stkotdtl.Sum(e => e.qty))
+
+            if (qty < stkotdtl.Sum(e => e.qty))
             {
                 Log.i(LoginInfo.Usrid, Mdlid, wmsno, bllid, Mdldes,
                     gdsid.Trim() + ":应拣:" + Math.Round(stkotdtl.Sum(e => e.qty), 4, MidpointRounding.AwayFromZero)
                     + ";实拣:" + Math.Round(qty, 4, MidpointRounding.AwayFromZero),
                     "", LoginInfo.DefSavdptid);
                 double diff = stkotdtl.Sum(e => e.qty) - qty;
-                //减小数部分
-                #region 减小数部分
-                foreach (stkotdtl d in stkotdtl)
-                {
-                    if (diff <= 0)
-                    {
-                        break;
-                    }
-                    if (d.preqty == null)
-                    {
-                        d.preqty = d.qty;
-                    }
-                    double xtmp = d.qty * 10000 % 10000 / 10000;
-                    if (diff > 0 && diff >= xtmp && xtmp>0)
-                    {
-                        diff -= xtmp;
-                        d.qty -= xtmp;
 
-                        d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                        d.amt = Math.Round(d.qty * d.prc, 4);
-                        d.salamt = d.qty * d.salprc;
-                        d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                    }
-                    else if (diff > 0 && diff < xtmp)
-                    {
-                        d.qty -= diff;
-                        diff = 0;
+                //扣减stkotdtl里面的库存
+                RedcStkotQty(stkotdtl.ToArray(), diff);
+            }
+            return RSucc("成功", null, "{{}}");   //todo 编码
+        }
 
-                        d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                        d.amt = Math.Round(d.qty * d.prc, 4);
-                        d.salamt = d.qty * d.salprc;
-                        d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                    }
-                }
-                //WmsDc.SubmitChanges();
-                #endregion 减小数部分
-                //减去零散件规
-                #region 减去零散件规
-                /*foreach (stkotdtl d in stkotdtl)
-                {
-                    if (diff <= 0)
-                    {
-                        break;
-                    }
-                    if (d.preqty == null)
-                    {
-                        d.preqty = d.qty;
-                    }
-                    double xtmp = (double)WmsDc.ExecuteQuery<decimal>("select convert(decimal,{0}) % convert(decimal,e.cnvrto) from v_wms_pkg e where e.gdsid={1}",
-                                         d.qty, d.gdsid).FirstOrDefault();                    
-                    if (diff > 0 && diff >= xtmp)
-                    {
-                        diff -= xtmp;
-                        d.qty -= xtmp;
+        private ActionResult BokRetrieveP(String wmsno, String bllid, String bocino, String clsid, String checi, String gdsid, double qty)
+        {
+            //得到wms_cutgds
+            var qry = from e in WmsDc.wms_cutgds
+                      join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
+                      where e.bocino == bocino.Trim() && e.clsid == clsid.Trim() && e.checi == checi.Trim()
+                      && e.wmsno == wmsno.Trim() && e.bllid == bllid.Trim()
+                      && e.gdsid == gdsid.Trim()
+                      && e.savdptid == LoginInfo.DefSavdptid
+                      && dpts.Contains(e1.dptid)
+                      select e;
+            var arrqry = qry.ToArray();
+            if (arrqry.Length <= 0)
+            {
+                return RNoData("N0172");
+            }
+            wms_cutgds cutgds = arrqry[0];
 
-                        d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                        d.amt = Math.Round(d.qty * d.prc, 4);
-                        d.salamt = d.qty * d.salprc;
-                        d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                    }
-                    else if (diff > 0 && diff < xtmp)
-                    {
-                        d.qty -= diff;
-                        diff = 0;
-
-                        d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                        d.amt = Math.Round(d.qty * d.prc, 4);
-                        d.salamt = d.qty * d.salprc;
-                        d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                    }
-                }
-                
-                //WmsDc.SubmitChanges();
-                #endregion 减去零散件规
-                //减去从大到小的数量
-                #region 减去从大到小的数量
-                foreach (stkotdtl d in stkotdtl)
-                {
-                    if (diff <= 0)
-                    {
-                        break;
-                    }
-                    if (d.preqty == null)
-                    {
-                        d.preqty = d.qty;
-                    }
-                    if (diff > 0 && diff >= d.qty)
-                    {
-                        diff -= d.qty;
-                        d.qty = 0;
-
-                        d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                        d.amt = Math.Round(d.qty * d.prc, 4);
-                        d.salamt = d.qty * d.salprc;
-                        d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                    }
-                    else if (diff > 0 && diff < d.qty)
-                    {
-                        d.qty = d.qty - diff;
-                        diff = 0;
-
-                        d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                        d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                        d.amt = Math.Round(d.qty * d.prc, 4);
-                        d.salamt = d.qty * d.salprc;
-                        d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                        d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                    }
-                }
-                WmsDc.SubmitChanges();
-                #endregion 减去从大到小的数量
-                
+            #region 取消对 5、分货确认时，发现数量小于应分货数量，要循环扣除对应的stkotdtl里面的qty 的注释
+            // 如果分货标记为Y，表示该商品已经分货确认
+            if (cutgds.chkflg == GetY())
+            {
+                return RInfo("I0368");
+            }
+            //扣减sktot的数量
+            /*ActionResult ar = DoDecStkQty(wmsno, checi, bllid, gdsid, qty);
+            JsonResult jr = (JsonResult)ar;
+            ResultMessage rm = (ResultMessage)jr.Data;
+            if (rm.ResultCode == ResultMessage.RESULTMESSAGE_SUCCESS)
+            {
+                return ar;
             }*/
             #endregion 取消对 5、分货确认时，发现数量小于应分货数量，要循环扣除对应的stkotdtl里面的qty 的注释
 
@@ -545,7 +434,7 @@ namespace WMS.Controllers
                 #region 商品登帐
                 if (dtl.bokflg == GetY() && dtl.bkr.Trim() != LoginInfo.Usrid)
                 {
-                    return RInfo("I0456" ,dtl.bkr );
+                    return RInfo("I0456", dtl.bkr);
 
                 }
 
@@ -553,28 +442,30 @@ namespace WMS.Controllers
                 {
                     //dtl.preqty = dtl.qty; 
                 }
-                if (dtl.tpcode=="n"){
-                    return RInfo( "I0370" );
-                }
-                if (dtl.preqty < qty && dtl.tpcode.Trim()=="y")
+                if (dtl.tpcode == "n")
                 {
-                    return RInfo( "I0371" );
+                    return RInfo("I0370");
                 }
-                dtl.qty = Math.Round(qty,4);
+                if (dtl.preqty < qty && dtl.tpcode.Trim() == "y")
+                {
+                    return RInfo("I0371");
+                }
+                dtl.qty = Math.Round(qty, 4);
                 dtl.pkgqty = Math.Round(qty, 4);
+                //确认了商品后就
 
                 //如果是206的单据，同一个商品的最后一条确认完后就不能再修改
                 var qryallbygdsidN1 = from e in WmsDc.wms_cangdtl
-                                     where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
-                                     && e.gdsid == gdsid
-                                         //&& e.gdstype == gdstype                                    
-                                     && e.wmsno == wmsno
-                                     && e.bokflg == GetN() && e.tpcode == "y"
-                                     select e;
+                                      where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                                      && e.gdsid == gdsid
+                                          //&& e.gdstype == gdstype                                    
+                                      && e.wmsno == wmsno
+                                      && e.bokflg == GetN() && e.tpcode == "y"
+                                      select e;
                 int iCnt = qryallbygdsidN1.Count();
-                if (mst.lnkbllid.Trim() == "206" && iCnt==0)
+                if (mst.lnkbllid.Trim() == "206" && iCnt == 0)
                 {
-                    return RInfo( "I0372" );
+                    return RInfo("I0372");
                 }
 
                 dtl.bokflg = GetY();
@@ -587,347 +478,572 @@ namespace WMS.Controllers
                 }
                 #endregion
 
+
+
+
                 #region 如果是206配送拣货的单据，在同一个拣货单里面同一商品确认完后，写入分货表
+                //// 修改分货按分店
+                //if (mst.lnkbllid.Trim() == "206")
+                //{
+                //    var qryallbygdsidN = from e in WmsDc.wms_cangdtl
+                //                         where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                //                         && e.gdsid == gdsid
+                //                             //&& e.gdstype == gdstype                                    
+                //                         && e.wmsno == wmsno
+                //                         && e.bokflg == GetN() && e.tpcode == "y"
+                //                         select e;
+                //    iCnt = qryallbygdsidN.Count();
+
+                //    #region 如果拣货的数量不够的话,要去修改配送单的数量和金额
+                //    var qryAllByGdsidCang = from e in WmsDc.wms_cangdtl
+                //                            join e1 in WmsDc.wms_cang on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                //                            where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                //                            && e.tpcode == "y"
+                //                            && e.bokflg == GetY()
+                //                            && e.barcode == barcode.Trim()
+                //                            && e.gdstype == gdstype.Trim()
+                //                            && e.gdsid == gdsid.Trim()
+                //                            && e.wmsno == wmsno.Trim()
+                //                            group e by new
+                //                            {
+                //                                e1.savdptid,
+                //                                e1.rcvdptid,
+                //                                e1.wmsno,
+                //                                e1.bllid,
+                //                                e1.lnkbocino,
+                //                                e1.lnkbocidat,
+                //                                e1.times,
+                //                                e.gdsid
+                //                            } into g
+                //                            select new
+                //                            {
+                //                                savdptid = g.Key.savdptid,
+                //                                wmsno = g.Key.wmsno,
+                //                                bllid = g.Key.bllid,
+                //                                bocino = g.Key.lnkbocino,
+                //                                bocidat = g.Key.lnkbocidat,
+                //                                clsid = g.Key.times,
+                //                                checi = (from e2 in WmsDc.psSndGds_dpt_dtl
+                //                                         where e2.dptid == g.Key.rcvdptid && e2.dh == g.Key.lnkbocino
+                //                                         select e2.busid.Substring(e2.busid.Trim().Length - 1, 1)).FirstOrDefault(),
+                //                                gdsid = g.Key.gdsid,
+                //                                qty = g.Sum(e => e.qty),
+                //                                preqty = g.Sum(e => e.preqty),
+                //                                ckr = "",
+                //                                chkflg = GetN(),
+                //                                chkdat = ""
+                //                            };
+
+                //    var cutgds = qryAllByGdsidCang.FirstOrDefault();
+                //    var qrystkdtl = from e in WmsDc.stkotdtl
+                //                    where e.stkot.wmsbllid == cutgds.bllid
+                //                    && e.stkot.wmsno == cutgds.wmsno
+                //                    && e.gdsid == cutgds.gdsid
+                //                    && e.bzflg == 'n'
+                //                    orderby Convert.ToInt32(e.stkot.rcvdptid), e.qty descending
+                //                    select e;
+                //    //double q = qrystkdtl.Sum(e => e.qty) - cutgds.qty;
+                //    double q = cutgds.preqty.Value - cutgds.qty;
+                //    var stkotdtl = qrystkdtl.ToArray();
+
+                //    //扣减stkotdtl里面的库存
+                //    RedcStkotQty(stkotdtl, q);
+                    
+                //    WmsDc.SubmitChanges();
+                //    #endregion
+
+                //    if (iCnt == 0)
+                //    {
+                //        //如果是分货播种就写入分货表
+                //        if (IsCutgds(mst.qu))
+                //        {
+                //            // 写入分货表
+                //            #region 写入分货表
+                //            // 如果不是残损区的就写分货表
+                //            if (!thqus.Contains(mst.qu))
+                //            {
+                //                var qryAllByGdsid = from e in WmsDc.stkotdtl
+                //                                    join e1 in WmsDc.wms_cang on new { e.stkot.wmsno, e.stkot.wmsbllid } equals new { e1.wmsno, wmsbllid = e1.bllid }
+                //                                    where e.stkot.wmsbllid == cutgds.bllid
+                //                                    && e.stkot.wmsno == cutgds.wmsno
+                //                                    && e.gdsid == cutgds.gdsid
+                //                                    && e.qty != 0
+                //                                    group e by new
+                //                                    {
+                //                                        e1.savdptid,
+                //                                        e.stkot.rcvdptid,
+                //                                        e1.wmsno,
+                //                                        e1.bllid,
+                //                                        e1.lnkbocino,
+                //                                        e1.lnkbocidat,
+                //                                        e1.times,
+                //                                        e.gdsid
+                //                                    } into g
+                //                                    select new
+                //                                    {
+                //                                        savdptid = g.Key.savdptid,
+                //                                        wmsno = g.Key.wmsno,
+                //                                        bllid = g.Key.bllid,
+                //                                        bocino = g.Key.lnkbocino,
+                //                                        bocidat = g.Key.lnkbocidat,
+                //                                        clsid = g.Key.times,
+                //                                        checi = (from e2 in WmsDc.psSndGds_dpt_dtl
+                //                                                 where e2.dptid == g.Key.rcvdptid && e2.dh == g.Key.lnkbocino
+                //                                                 select e2.busid.Substring(e2.busid.Trim().Length - 1, 1)).FirstOrDefault(),
+                //                                        gdsid = g.Key.gdsid,
+                //                                        qty = g.Sum(e => e.qty),
+                //                                        preqty = g.Sum(e => e.qty),
+                //                                        ckr = "",
+                //                                        chkflg = GetN(),
+                //                                        chkdat = ""
+                //                                    };
+                //                //i(wmsno, "", "拣货确认", qryAllByGdsid.ToString(), "", LoginInfo.DefSavdptid);                        
+                //                var arrQryAllByGdsid = qryAllByGdsid.ToArray();
+                //                foreach (var a in arrQryAllByGdsid)
+                //                {
+                //                    if (a.checi == null)
+                //                    {
+                //                        iFile(cutgds.bllid + "    " + cutgds.wmsno + "  " + cutgds.gdsid + "  ");
+                //                    }
+                //                }
+
+                //                var qryAllByGdsidSum = from e in arrQryAllByGdsid
+                //                                       group e by new
+                //                                       {
+                //                                           e.savdptid,
+                //                                           e.wmsno,
+                //                                           e.bllid,
+                //                                           e.bocino,
+                //                                           e.bocidat,
+                //                                           e.clsid,
+                //                                           e.checi,
+                //                                           e.gdsid,
+                //                                           e.ckr,
+                //                                           e.chkflg,
+                //                                           e.chkdat
+                //                                       } into g
+                //                                       select new
+                //                                       {
+                //                                           g.Key.savdptid,
+                //                                           g.Key.wmsno,
+                //                                           g.Key.bllid,
+                //                                           g.Key.bocino,
+                //                                           g.Key.bocidat,
+                //                                           g.Key.clsid,
+                //                                           g.Key.checi,
+                //                                           g.Key.gdsid,
+                //                                           g.Key.ckr,
+                //                                           g.Key.chkflg,
+                //                                           g.Key.chkdat,
+                //                                           qty = g.Sum(e => e.qty),
+                //                                           preqty = g.Sum(e => e.preqty)
+                //                                       };
+
+                //                List<wms_cutgds> lstCg = new List<wms_cutgds>();
+                //                foreach (var tcg in qryAllByGdsidSum)
+                //                {
+                //                    wms_cutgds cg = new wms_cutgds();
+                //                    cg.bllid = tcg.bllid;
+                //                    cg.bocidat = tcg.bocidat;
+                //                    cg.bocino = tcg.bocino;
+                //                    cg.checi = tcg.checi;
+                //                    cg.chkdat = tcg.chkdat;
+                //                    cg.chkflg = tcg.chkflg;
+                //                    cg.ckr = tcg.ckr;
+                //                    cg.clsid = tcg.clsid;
+                //                    cg.gdsid = tcg.gdsid;
+                //                    cg.preqty = tcg.preqty;
+                //                    cg.qty = tcg.qty;
+                //                    cg.savdptid = tcg.savdptid;
+                //                    cg.wmsno = tcg.wmsno;
+                //                    lstCg.Add(cg);
+                //                    WmsDc.wms_cutgds.InsertOnSubmit(cg);
+                //                    WmsDc.SubmitChanges();
+
+                //                    /// 自动分货设置
+                //                    /// val1=y-自动,val1=n-人工
+                //                    bool b = IsAutoCutCheck(mst.qu);
+                //                    if (b)
+                //                    {
+                //                        ActionResult ar = BokRetrieveP(cg.wmsno, cg.bllid, cg.bocino, cg.clsid, cg.checi, cg.gdsid, cg.qty);
+                //                        JsonResult jr = (JsonResult)ar;
+                //                        ResultMessage rm = (ResultMessage)jr.Data;
+                //                        if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                //                        {
+                //                            return ar;
+                //                        }
+                //                        //ckRtrv.BokRetrieve(cg.wmsno, cg.bllid, cg.bocino, cg.clsid, cg.checi, cg.gdsid, cg.qty);                                    
+                //                    }
+                //                }
+                //                //WmsDc.wms_cutgds.InsertAllOnSubmit(lstCg);
+                //                WmsDc.SubmitChanges();
+                //            }
+
+
+                //            #endregion 写入分货表
+                //        }
+
+
+                //    }
+                //}
+                #endregion
+
+
+
+                #region 如果是206配送拣货单已经拣货的数量满足一个堆堆，就按堆堆应分数量升序写入分货表
                 if (mst.lnkbllid.Trim() == "206")
                 {
-                    var qryallbygdsidN = from e in WmsDc.wms_cangdtl
-                                         where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
-                                         && e.gdsid == gdsid
-                                             //&& e.gdstype == gdstype                                    
-                                         && e.wmsno == wmsno
-                                         && e.bokflg == GetN() && e.tpcode == "y"
-                                         select e;
-                    iCnt = qryallbygdsidN.Count();
+                    //
+                    //得到该商品已经拣货的数量
+                    var qryHasRetrive = from e in WmsDc.wms_cang
+                                        join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                                        where e.wmsno == wmsno && e.bllid == "103" && e.lnkbllid == "206"
+                                        && e1.gdsid == gdsid
+                                        && e1.bokflg == GetY()
+                                        select e1;
+                    double? dHasRetrive = qryHasRetrive.Sum(e => e.qty);
 
-                    #region 如果拣货的数量不够的话,要去修改配送单的数量和金额
-                    var qryAllByGdsidCang = from e in WmsDc.wms_cangdtl
-                                            join e1 in WmsDc.wms_cang on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
-                                            where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
-                                            && e.tpcode == "y"
-                                            && e.bokflg == GetY()
-                                            && e.barcode == barcode.Trim()
-                                            && e.gdstype == gdstype.Trim()
-                                            && e.gdsid == gdsid.Trim()
-                                            && e.wmsno == wmsno.Trim()                                            
-                                            group e by new
-                                            {
-                                                e1.savdptid,
-                                                e1.rcvdptid,
-                                                e1.wmsno,
-                                                e1.bllid,
-                                                e1.lnkbocino,
-                                                e1.lnkbocidat,
-                                                e1.times,
-                                                e.gdsid
-                                            } into g
-                                            select new
-                                            {
-                                                savdptid = g.Key.savdptid,
-                                                wmsno = g.Key.wmsno,
-                                                bllid = g.Key.bllid,
-                                                bocino = g.Key.lnkbocino,
-                                                bocidat = g.Key.lnkbocidat,
-                                                clsid = g.Key.times,
-                                                checi = (from e2 in WmsDc.psSndGds_dpt_dtl
-                                                         where e2.dptid == g.Key.rcvdptid && e2.dh == g.Key.lnkbocino
-                                                         select e2.busid.Substring(e2.busid.Trim().Length - 1, 1)).FirstOrDefault(),
-                                                gdsid = g.Key.gdsid,
-                                                qty = g.Sum(e => e.qty),
-                                                preqty = g.Sum(e => e.preqty),
-                                                ckr = "",
-                                                chkflg = GetN(),
-                                                chkdat = ""
-                                            };
-
-                    var cutgds = qryAllByGdsidCang.FirstOrDefault();
-                    var qrystkdtl = from e in WmsDc.stkotdtl
-                                    where e.stkot.wmsbllid == cutgds.bllid
-                                    && e.stkot.wmsno == cutgds.wmsno
-                                    && e.gdsid == cutgds.gdsid
-                                    && e.bzflg == 'n'
-                                    orderby Convert.ToInt32(e.stkot.rcvdptid), e.qty descending
-                                    select e;
-                    //double q = qrystkdtl.Sum(e => e.qty) - cutgds.qty;
-                    double q = cutgds.preqty.Value - cutgds.qty;
-
-                    if (q > 0)
+                    //得到该商品已经写入分货表中的数量
+                    var qryHasCutgds = from e in WmsDc.wms_cutgds
+                                       where e.wmsno == wmsno && e.bllid == "103"
+                                       && e.gdsid == gdsid
+                                       select e;
+                    //得到该商品已经拣货但是未写入分货表的数量
+                    double? dHasCutGds = 0;
+                    if (qryHasCutgds.Count() > 0)
                     {
-                        double diff = q;
-                        var stkotdtl = qrystkdtl;
-                        //减小数部分
-                        #region 减小数部分
-                        if (diff > 0)
-                        {
-                            foreach (stkotdtl d in stkotdtl)
-                            {
-                                if (diff <= 0)
-                                {
-                                    break;
-                                }
-                                if (d.preqty == null)
-                                {
-                                    d.preqty = d.qty;
-                                }
-                                double xtmp = d.qty * 10000 % 10000 / 10000;
-                                if (diff > 0 && diff >= xtmp && xtmp>0)
-                                {
-                                    diff -= xtmp;
-                                    d.qty -= xtmp;
-
-                                    d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                                    d.amt = Math.Round(d.qty * d.prc, 4);
-                                    d.salamt = d.qty * d.salprc;
-                                    d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                                    d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                                }
-                                else if (diff > 0 && diff < xtmp)
-                                {
-                                    d.qty -= diff;
-                                    diff = 0;
-
-                                    d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                                    d.amt = Math.Round(d.qty * d.prc, 4);
-                                    d.salamt = d.qty * d.salprc;
-                                    d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                                    d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                                }
-                            }
-                        }
-                        //WmsDc.SubmitChanges();
-                        #endregion 减小数部分
-                        //减去零散件规
-                        #region 减去零散件规
-                        /*if (diff > 0)
-                        {
-                            foreach (stkotdtl d in stkotdtl)
-                            {
-                                if (diff <= 0)
-                                {
-                                    break;
-                                }
-                                if (d.preqty == null)
-                                {
-                                    d.preqty = d.qty;
-                                }
-                                double xtmp = (double)WmsDc.ExecuteQuery<decimal>("select convert(decimal,{0}) % convert(decimal,e.cnvrto) from v_wms_pkg e where e.gdsid={1}",
-                                         d.qty, d.gdsid).FirstOrDefault();
-                                
-                                if (diff > 0 && diff >= xtmp)
-                                {
-                                    diff -= xtmp;
-                                    d.qty -= xtmp;
-
-                                    d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                                    d.amt = Math.Round(d.qty * d.prc, 4);
-                                    d.salamt = d.qty * d.salprc;
-                                    d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                                    d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                                }
-                                else if (diff > 0 && diff < xtmp)
-                                {
-                                    d.qty -= diff;
-                                    diff = 0;
-
-                                    d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                                    d.amt = Math.Round(d.qty * d.prc, 4);
-                                    d.salamt = d.qty * d.salprc;
-                                    d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                                    d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                                }
-                            }
-                        }*/
-                        //WmsDc.SubmitChanges();
-                        #endregion 减去零散件规
-                        //减去从大到小的数量
-                        #region 减去从大到小的数量
-                        if (diff > 0)
-                        {
-                            foreach (stkotdtl d in stkotdtl)
-                            {
-                                if (diff <= 0)
-                                {
-                                    break;
-                                }
-                                if (d.preqty == null)
-                                {
-                                    d.preqty = d.qty;
-                                }
-                                if (diff > 0 && diff >= d.qty)
-                                {
-                                    diff -= d.qty;
-                                    d.qty = 0;
-
-                                    d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                                    d.amt = Math.Round(d.qty * d.prc, 4);
-                                    d.salamt = d.qty * d.salprc;
-                                    d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                                    d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                                }
-                                else if (diff > 0 && diff < d.qty)
-                                {
-                                    d.qty = d.qty - diff;
-                                    diff = 0;
-
-                                    d.qty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.pkgqty = Math.Round(d.qty, 4, MidpointRounding.AwayFromZero);
-                                    d.taxamt = Math.Round(d.qty * d.prc * d.taxrto, 4);
-                                    d.amt = Math.Round(d.qty * d.prc, 4);
-                                    d.salamt = d.qty * d.salprc;
-                                    d.patamt = Math.Round(d.qty * d.taxprc, 4);
-                                    d.stotcstamt = Math.Round(d.qty * d.stotcstprc.Value, 4);
-                                }
-                            }
-                        }
-                        WmsDc.SubmitChanges();
-                        #endregion 减去从大到小的数量
-
+                        dHasCutGds = qryHasCutgds.Sum(e => e.qty == null ? 0 : e.qty);
                     }
-                    WmsDc.SubmitChanges();
-                    #endregion
+                    double dNoInCutgds = dHasRetrive.Value - dHasCutGds.Value;
 
-                    if (iCnt == 0)
+                    //得到该商品每个堆堆配送单该商品需要配送的数据, 并按从小打到的顺序排序
+                    var qryShouldDoCheci = from e in WmsDc.wms_boci
+                                           join e1 in WmsDc.view_pssndgds on new { e.dh, e.sndtmd, e.savdptid, e.qu } equals new { e1.dh, e1.sndtmd, e1.savdptid, e1.qu }
+                                           join e5 in WmsDc.wms_set on new { setid = "001", e1.savdptid, e1.qu, isvld = GetY() } equals new { e5.setid, savdptid = e5.val3, qu = e5.val1, e5.isvld }
+                                           join e2 in WmsDc.wms_cang on new { e.savdptid, e.dh, e.sndtmd, e.qu } equals new { e2.savdptid, dh = e2.lnkbocino, sndtmd = e2.lnkbocidat, e2.qu }
+                                           join e3 in WmsDc.stkot on new { e2.wmsno, wmsbllid = e2.bllid, e1.rcvdptid, e1.savdptid, dptid = e5.val2 } equals new { e3.wmsno, e3.wmsbllid, e3.rcvdptid, e3.savdptid, e3.dptid }
+                                           join e4 in WmsDc.stkotdtl on new { e3.stkouno } equals new { e4.stkouno }
+                                           where e2.wmsno == wmsno && e2.bllid == "103" && e2.lnkbllid == "206"                                           
+                                           && e4.gdsid == gdsid
+                                           group e4 by new
+                                           {
+                                               e1.savdptid,
+                                               e2.wmsno,
+                                               e2.bllid,
+                                               bocino = e2.lnkbocino,
+                                               bocidat = e2.lnkbocidat,
+                                               e1.clsid,
+                                               checi = e1.busid.Trim().Substring(e1.busid.Trim().Length - 1, 1),
+                                               e1.qu,
+                                               e4.gdsid                                               
+                                           } into g                                           
+                                           orderby g.Sum(e => e.qty)
+                                           select new
+                                           {
+                                               savdptid = g.Key.savdptid,
+                                               wmsno = g.Key.wmsno,
+                                               bllid = g.Key.bllid,
+                                               bocino = g.Key.bocino,
+                                               bocidat = g.Key.bocidat,
+                                               clsid = g.Key.clsid,
+                                               checi = g.Key.checi.Trim(),
+                                               gdsid = g.Key.gdsid.Trim(),
+                                               qu = g.Key.qu.Trim(),
+                                               qty = g.Sum(e => e.qty),
+                                               preqty = g.Sum(e => e.qty)
+                                           };
+
+                    var arrShouldDoCheci = qryShouldDoCheci.ToArray();
+                    //得到需要分配的当前堆堆
+                    var aShouldDoCheci = arrShouldDoCheci[0];
+                    double dSumHasCutgds = 0;
+
+                    //如果有拣货就计算
+                    if (dHasRetrive.Value > 0)
                     {
-                        //如果是分货播种就写入分货表
-                        if ( IsCutgds() )
+                        
+                        //如果未分货数量大于0就分货
+                        if (dNoInCutgds > 0)
                         {
-                            // 写入分货表
-                            #region 写入分货表
-                            // 如果不是残损区的就写分货表
-                            if (!thqus.Contains(mst.qu))
+                            
+                            
+                            foreach (var aCheci in arrShouldDoCheci)
                             {
-                                var qryAllByGdsid = from e in WmsDc.stkotdtl
-                                                    join e1 in WmsDc.wms_cang on new { e.stkot.wmsno, e.stkot.wmsbllid } equals new { e1.wmsno, wmsbllid = e1.bllid }
-                                                    where e.stkot.wmsbllid == cutgds.bllid
-                                                    && e.stkot.wmsno == cutgds.wmsno
-                                                    && e.gdsid == cutgds.gdsid
-                                                    && e.qty != 0
-                                                    group e by new
-                                                    {
-                                                        e1.savdptid,
-                                                        e.stkot.rcvdptid,
-                                                        e1.wmsno,
-                                                        e1.bllid,
-                                                        e1.lnkbocino,
-                                                        e1.lnkbocidat,
-                                                        e1.times,
-                                                        e.gdsid
-                                                    } into g
-                                                    select new
-                                                    {
-                                                        savdptid = g.Key.savdptid,
-                                                        wmsno = g.Key.wmsno,
-                                                        bllid = g.Key.bllid,
-                                                        bocino = g.Key.lnkbocino,
-                                                        bocidat = g.Key.lnkbocidat,
-                                                        clsid = g.Key.times,
-                                                        checi = (from e2 in WmsDc.psSndGds_dpt_dtl
-                                                                 where e2.dptid == g.Key.rcvdptid && e2.dh == g.Key.lnkbocino
-                                                                 select e2.busid.Substring(e2.busid.Trim().Length - 1, 1)).FirstOrDefault(),
-                                                        gdsid = g.Key.gdsid,
-                                                        qty = g.Sum(e => e.qty),
-                                                        preqty = g.Sum(e => e.qty),
-                                                        ckr = "",
-                                                        chkflg = GetN(),
-                                                        chkdat = ""
-                                                    };
-                                //i(wmsno, "", "拣货确认", qryAllByGdsid.ToString(), "", LoginInfo.DefSavdptid);                        
-                                var arrQryAllByGdsid = qryAllByGdsid.ToArray();
-                                foreach (var a in arrQryAllByGdsid)
+                                aShouldDoCheci = aCheci;
+                                //循环统计应播数，是否大于等于已经写入cutgds中的数量
+                                if (dSumHasCutgds >= dHasCutGds)
                                 {
-                                    if (a.checi == null)
+                                    //如果是边拣边播就执行这个
+                                    if (IsCutgds(aShouldDoCheci.qu))
                                     {
-                                        iFile(cutgds.bllid + "    " + cutgds.wmsno + "  " + cutgds.gdsid + "  ");
-                                    }
-                                }
-
-                                var qryAllByGdsidSum = from e in arrQryAllByGdsid
-                                                       group e by new
-                                                       {
-                                                           e.savdptid,
-                                                           e.wmsno,
-                                                           e.bllid,
-                                                           e.bocino,
-                                                           e.bocidat,
-                                                           e.clsid,
-                                                           e.checi,
-                                                           e.gdsid,
-                                                           e.ckr,
-                                                           e.chkflg,
-                                                           e.chkdat
-                                                       } into g
-                                                       select new
-                                                       {
-                                                           g.Key.savdptid,
-                                                           g.Key.wmsno,
-                                                           g.Key.bllid,
-                                                           g.Key.bocino,
-                                                           g.Key.bocidat,
-                                                           g.Key.clsid,
-                                                           g.Key.checi,
-                                                           g.Key.gdsid,
-                                                           g.Key.ckr,
-                                                           g.Key.chkflg,
-                                                           g.Key.chkdat,
-                                                           qty = g.Sum(e => e.qty),
-                                                           preqty = g.Sum(e => e.preqty)
-                                                       };
-
-                                List<wms_cutgds> lstCg = new List<wms_cutgds>();
-                                foreach (var tcg in qryAllByGdsidSum)
-                                {
-                                    wms_cutgds cg = new wms_cutgds();
-                                    cg.bllid = tcg.bllid;
-                                    cg.bocidat = tcg.bocidat;
-                                    cg.bocino = tcg.bocino;
-                                    cg.checi = tcg.checi;
-                                    cg.chkdat = tcg.chkdat;
-                                    cg.chkflg = tcg.chkflg;
-                                    cg.ckr = tcg.ckr;
-                                    cg.clsid = tcg.clsid;
-                                    cg.gdsid = tcg.gdsid;
-                                    cg.preqty = tcg.preqty;
-                                    cg.qty = tcg.qty;
-                                    cg.savdptid = tcg.savdptid;
-                                    cg.wmsno = tcg.wmsno;
-                                    lstCg.Add(cg);
-                                    WmsDc.wms_cutgds.InsertOnSubmit(cg);
-                                    WmsDc.SubmitChanges();
-
-                                    /// 自动分货设置
-                                    /// val1=y-自动,val1=n-人工
-                                    bool b = IsAutoCutCheck();
-                                    if (b)
-                                    {
-                                        ActionResult ar = BokRetrieveP(cg.wmsno, cg.bllid, cg.bocino, cg.clsid, cg.checi, cg.gdsid, cg.qty);
-                                        JsonResult jr = (JsonResult)ar;
-                                        ResultMessage rm = (ResultMessage)jr.Data;
-                                        if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                                        //判断该待分货的堆堆的数量是否小于等于已拣货为分货数量, 如果条件成立就开始分货
+                                        if (aShouldDoCheci.qty <= dNoInCutgds)
                                         {
-                                            return ar;
+                                            wms_cutgds cutgds = new wms_cutgds();
+                                            cutgds.savdptid = aShouldDoCheci.savdptid;
+                                            cutgds.wmsno = aShouldDoCheci.wmsno;
+                                            cutgds.bllid = aShouldDoCheci.bllid;
+                                            cutgds.bocino = aShouldDoCheci.bocino;
+                                            cutgds.bocidat = aShouldDoCheci.bocidat;
+                                            cutgds.clsid = aShouldDoCheci.clsid;
+                                            cutgds.checi = aShouldDoCheci.checi;
+                                            cutgds.gdsid = aShouldDoCheci.gdsid;
+                                            cutgds.qty = aShouldDoCheci.qty;
+                                            dNoInCutgds -= aShouldDoCheci.qty;
+                                            cutgds.preqty = aShouldDoCheci.preqty;
+                                            /// 自动分货设置
+                                            /// val1=y-自动,val1=n-人工
+                                            bool b = IsAutoCutCheck(mst.qu);
+                                            if (b)
+                                            {
+                                                cutgds.ckr = LoginInfo.Usrid;
+                                                cutgds.chkflg = GetY();
+                                                cutgds.chkdat = GetCurrentDate();
+                                            }
+                                            else
+                                            {
+                                                cutgds.ckr = "";
+                                                cutgds.chkflg = GetN();
+                                                cutgds.chkdat = "";
+                                            }
+                                            WmsDc.wms_cutgds.InsertOnSubmit(cutgds);
+
+                                            dHasCutGds += cutgds.qty;
+
+                                            WmsDc.SubmitChanges();
                                         }
-                                        //ckRtrv.BokRetrieve(cg.wmsno, cg.bllid, cg.bocino, cg.clsid, cg.checi, cg.gdsid, cg.qty);                                    
-                                    }
+                                        else
+                                        {
+                                            break;
+                                        }// end if (aShouldDoCheci.qty <= dNoInCutgds)
+
+
+                                    } //end if (IsCutgdsOneByOne(aShouldDoCheci.qu))
+
+
                                 }
-                                //WmsDc.wms_cutgds.InsertAllOnSubmit(lstCg);
+                                dSumHasCutgds += aShouldDoCheci.qty;
+                            }
+
+                            #region 扣减sktot配送单的数量 DoDecStkQty
+                            //扣减sktot的数量
+                            //判断一个分店是否已经拣货完毕，如果已经拣货完毕就去扣减该分店的拣货
+                            //if (aShouldDoCheci.qty <= dNoInCutgds)
+                            //{
+                            //    ActionResult ar = DoDecStkQtyByCheci(wmsno, aShouldDoCheci.checi, aShouldDoCheci.bllid, gdsid,qty);
+                            //    JsonResult jr = (JsonResult)ar;
+                            //    ResultMessage rm = (ResultMessage)jr.Data;
+                            //    if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                            //    {
+                            //        return ar;
+                            //    }
+                            //}
+                            #endregion 扣减sktot配送单的数量 DoDecStkQty
+
+                            
+                        }
+                    }
+
+                    #region 判断此次拣货是否是该商品的最后一次拣货
+                    if (IsCutgds(aShouldDoCheci.qu))
+                    {
+                        //判断此次拣货是否是该商品的最后一次拣货                                
+                        //得到当前需要写入分货表的堆堆
+                        var qryIsLastBarcodeInWmsno = from e in WmsDc.wms_cang
+                                                      join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                                                      where e.bllid == "103" && e.wmsno == wmsno.Trim()
+                                                      && e1.gdsid == gdsid
+                                                      && e1.tpcode == "y"
+                                                      && e1.bokflg == GetN()
+                                                      select e1;
+                        //如果该商品不存在没有拣货未确认的，就是该商品的最后一次拣货
+                        if (!qryIsLastBarcodeInWmsno.Any())
+                        {
+                            //将已拣货未达到最后一次应拣数量的，写入aShouldDoCheci分货表
+                            if (dNoInCutgds > 0 && (dNoInCutgds < aShouldDoCheci.qty))
+                            {
+                                wms_cutgds cutgds = new wms_cutgds();
+                                cutgds.savdptid = aShouldDoCheci.savdptid;
+                                cutgds.wmsno = aShouldDoCheci.wmsno;
+                                cutgds.bllid = aShouldDoCheci.bllid;
+                                cutgds.bocino = aShouldDoCheci.bocino;
+                                cutgds.bocidat = aShouldDoCheci.bocidat;
+                                cutgds.clsid = aShouldDoCheci.clsid;
+                                cutgds.checi = aShouldDoCheci.checi;
+                                cutgds.gdsid = aShouldDoCheci.gdsid;
+                                cutgds.qty = dNoInCutgds;
+                                cutgds.preqty = aShouldDoCheci.preqty;
+                                /// 自动分货设置
+                                /// val1=y-自动,val1=n-人工
+                                bool b = IsAutoCutCheck(mst.qu);
+                                if (b)
+                                {
+                                    cutgds.ckr = LoginInfo.Usrid;
+                                    cutgds.chkflg = GetY();
+                                    cutgds.chkdat = GetCurrentDate();
+                                }
+                                else
+                                {
+                                    cutgds.ckr = "";
+                                    cutgds.chkflg = GetN();
+                                    cutgds.chkdat = "";
+                                }
+                                WmsDc.wms_cutgds.InsertOnSubmit(cutgds);
                                 WmsDc.SubmitChanges();
                             }
 
+                            //将该商品未分货的堆堆全部写入分货表，数量为0
+                            var qryNoInCutgds = qryShouldDoCheci.Where(e =>
+                                    !WmsDc.wms_cutgds.Where(e1 => e1.wmsno == e.wmsno
+                                           && e1.bllid == e.bllid && e1.savdptid == e.savdptid
+                                           && e1.bocino == e.bocino && e1.bocidat == e.bocidat
+                                           && e1.gdsid == e.gdsid
+                                           && e1.checi == e.checi
+                                    ).Any()
+                                  );
+                            var arrQryNoInCutgds = qryNoInCutgds.ToArray();
+                            foreach (var nc in arrQryNoInCutgds)
+                            {
+                                wms_cutgds cutgds = new wms_cutgds();
+                                cutgds.savdptid = nc.savdptid;
+                                cutgds.wmsno = nc.wmsno;
+                                cutgds.bllid = nc.bllid;
+                                cutgds.bocino = nc.bocino;
+                                cutgds.bocidat = nc.bocidat;
+                                cutgds.clsid = nc.clsid;
+                                cutgds.checi = nc.checi;
+                                cutgds.gdsid = nc.gdsid;
+                                if (dNoInCutgds >= nc.qty)
+                                {
+                                    cutgds.qty = nc.qty;
+                                    dNoInCutgds -= nc.qty;
+                                }
+                                else
+                                {
+                                    cutgds.qty = 0;
+                                }
+                                cutgds.preqty = nc.preqty;
+                                /// 自动分货设置
+                                /// val1=y-自动,val1=n-人工
+                                bool b = IsAutoCutCheck(mst.qu);
+                                if (b)
+                                {
+                                    cutgds.ckr = LoginInfo.Usrid;
+                                    cutgds.chkflg = GetY();
+                                    cutgds.chkdat = GetCurrentDate();
+                                }
+                                else
+                                {
+                                    cutgds.ckr = "";
+                                    cutgds.chkflg = GetN();
+                                    cutgds.chkdat = "";
+                                }
+                                WmsDc.wms_cutgds.InsertOnSubmit(cutgds);
+                            }
+                            WmsDc.SubmitChanges();
 
-                            #endregion 写入分货表
+                            //修改最后一个确认的堆堆对应，分店的stkotdtl表中数据
+                            var qryNotEqualCutgds = qryHasCutgds.Where(e => e.qty != e.preqty).Select(e => e);
+                            var arrQryNotEqualCutgds = qryNotEqualCutgds.ToArray();
+                            if (arrQryNotEqualCutgds.Length > 0)
+                            {
+                                //重新计算stkotdtl
+                                foreach (var nec in arrQryNotEqualCutgds)
+                                {
+                                    var qryStkotdtl = from e in WmsDc.stkotdtl
+                                                      where
+                                                      e.stkot.chkflg == GetN() &&
+                                                      e.bzflg == GetN() &&
+                                                      e.gdsid == gdsid &&
+                                                      (
+                                                        from e1 in WmsDc.view_pssndgds
+                                                        join e2 in WmsDc.wms_set on new { setid = "001", isvld = GetY(), e1.qu, e1.savdptid }
+                                                            equals new { e2.setid, e2.isvld, qu = e2.val1, savdptid = e2.val3 }
+                                                        join e3 in WmsDc.wms_cang on new { e1.savdptid, e1.qu, e1.dh, e1.sndtmd } equals new { e3.savdptid, e3.qu, dh = e3.lnkbocino, sndtmd = e3.lnkbocidat }
+                                                        where e.stkot.wmsno == e3.wmsno && e.stkot.wmsbllid == e3.bllid
+                                                        && e2.val2 == e.stkot.dptid && e1.rcvdptid == e.stkot.rcvdptid
+                                                        && e1.sndtmd == nec.bocidat
+                                                        && e1.dh == nec.bocino
+                                                        && e3.bllid == nec.bllid
+                                                        && e3.wmsno == nec.wmsno
+                                                        && e1.savdptid == nec.savdptid
+                                                        && e1.busid.Trim().Substring(e1.busid.Trim().Length - 1, 1) == nec.checi
+                                                        select e1
+                                                      ).Any()
+                                                      select e;
+                                    RedcStkotQty(qryStkotdtl.ToArray(), nec.preqty - nec.qty);
+                                    nec.preqty = nec.qty;
+                                }
+                                WmsDc.SubmitChanges();
+                            }
                         }
                     }
+                    #endregion 判断此次拣货是否是该商品的最后一次拣货
+
+                    
                 }
-                #endregion
+                #endregion 如果是206配送拣货单已经拣货的数量满足一个堆堆，就按堆堆应分数量升序写入分货表
+
+                #region 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
+                //将配送单下修改为0的配送明细，直接修改其播种标记
+                var qryStkotdtlZero = from e in WmsDc.stkotdtl
+                                      where e.qty <= 0 && e.bzflg == GetN()
+                                      && e.stkot.wmsno == wmsno && e.stkot.wmsbllid == "103"
+                                      select e;
+                var arrQryStkotdtlZero = qryStkotdtlZero.ToArray();
+                foreach (var dz in arrQryStkotdtlZero)
+                {
+                    dz.bzflg = GetY();
+                    dz.bzdat = GetCurrentDate();
+                    dz.bzr = LoginInfo.Usrid;
+                }
+                WmsDc.SubmitChanges();
+                //判断配送单据下的所有商品是否都已经播种，播种了就直接修改主单播种标记
+                var qryStkotdtlZero1 = from e in WmsDc.stkotdtl
+                                       where e.stkot.wmsno == wmsno && e.stkot.wmsbllid == "103" && e.stkot.bllid == "206"
+                                       group e by new { e.stkouno } into g
+                                       select new
+                                       {
+                                           g.Key.stkouno,
+                                           allCnt = g.Count(),
+                                           hasBzCnt = g.Count(e => e.bzflg == GetY())
+                                       };
+                var arrQryStkotdtlZero1 = qryStkotdtlZero1.Where(e=>e.allCnt==e.hasBzCnt).Select(e=>e.stkouno.Trim()).ToArray();
+                var qryHasAllBz = from e in WmsDc.stkot
+                                  where e.chkflg == GetN()
+                                  && e.bzflg == GetN()
+                                  && arrQryStkotdtlZero1.Contains(e.stkouno)
+                                  select e;
+                foreach(var hbz in qryHasAllBz){                    
+                    //修改播种标记
+                    hbz.bzflg = GetY();
+                    //审核配送单
+                    hbz.chkflg = GetY();
+                    hbz.chkdat = GetCurrentDay();
+                    hbz.ckr = LoginInfo.Usrid;
+
+                    //写入dtrlog
+                    //查看是否dtrlog已经有单据,没有就插入
+                    var qry = WmsDc.dtrlog
+                                .Where(e => e.rcvdptid == hbz.rcvdptid && e.bllno == hbz.stkouno && e.bllid == hbz.bllid)
+                                .Select(e => e.bllno);
+                    var arrqry = qry.ToArray();
+                    if (arrqry.Length <= 0)
+                    {
+                        dtrlog dl = new dtrlog();
+                        dl.bllid = hbz.bllid;
+                        dl.bllno = hbz.stkouno;
+                        dl.rcvdptid = hbz.rcvdptid;
+                        WmsDc.dtrlog.InsertOnSubmit(dl);
+                    }
+
+                    stklst astklst = new stklst();
+                    astklst.stkouno = hbz.stkouno;
+                    WmsDc.stklst.InsertOnSubmit(astklst);
+                }
+
+                WmsDc.SubmitChanges();
+                #endregion 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
 
                 try
                 {
@@ -944,12 +1060,93 @@ namespace WMS.Controllers
             }
         }
 
+        private ActionResult DoDecStkQtyByCheci(string wmsno, string checi, string bllid, string gdsid, double qty)
+        {
+            //如果一个车次的拣完了，就计算该车次的拣货和配送是否一致
+            //得到对应的stkotdtl里面的未播种，未审核的单据商品信息
+            /*var qrystkot = from e in WmsDc.stkotdtl
+                           where e.stkot.wmsno == wmsno.Trim()
+                           && e.stkot.wmsbllid == bllid.Trim()
+                           && e.stkot.chkflg == GetN()
+                           && e.stkot.bzflg == GetN()
+                           && dpts.Contains(e.stkot.dptid)
+                           && e.gdsid == gdsid.Trim()
+                           select e;
+             */
+            var qrystkot = from e in WmsDc.stkot
+                           join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
+                           join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
+                           join e3 in WmsDc.wms_cang on new { e.wmsno, e.wmsbllid } equals new { e3.wmsno, wmsbllid = e3.bllid }
+                           join e4 in WmsDc.wms_boci on new { dh = e3.lnkbocino, sndtmd = e3.lnkbocidat, e3.qu } equals new { e4.dh, e4.sndtmd, e4.qu }
+                           join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid, e5.qu }
+                           join e6 in WmsDc.dpt on e.rcvdptid equals e6.dptid
+                           where e.wmsno == wmsno
+                           && e.savdptid == LoginInfo.DefSavdptid
+                           && dpts.Contains(e.dptid.Trim())
+                           && e.bllid == WMSConst.BLL_TYPE_DISPATCH
+                           && e5.busid.Trim().Substring(e5.busid.Trim().Length - 1, 1) == checi
+                           && e.wmsbllid == bllid.Trim()
+                           && e.chkflg == GetN()
+                           && e.bzflg == GetN()
+                           && e1.gdsid == gdsid.Trim()
+                           //&& (e1.bzflg == GetN() || e1.bzflg == null)
+                           orderby e1.bzflg, e1.gdsid
+                           select e1;
+            var arrqrystkot = qrystkot.ToArray();
+            if (arrqrystkot.Length <= 0)
+            {
+                return RNoData("N0173");
+            }
+            stkotdtl[] stkotdtl = arrqrystkot;
+            //得到wms_cang的信息
+            var qrycang = from e in WmsDc.wms_cang
+                          where e.wmsno == wmsno.Trim()
+                          && e.bllid == bllid.Trim()
+                          && qus.Contains(e.qu)
+                          select e;
+            var arrqrycang = qrycang.ToArray();
+            if (arrqrycang.Length <= 0)
+            {
+                return RNoData("N0174");
+            }
+            wms_cang[] wms_cang = arrqrycang;
+            //得到wms_cang的信息
+            var qrycangdtl = from e in WmsDc.wms_cangdtl
+                             where e.wmsno == wmsno.Trim()
+                             && e.bllid == bllid.Trim()
+                             && e.gdsid == gdsid.Trim()
+                             select e;
+            var arrqrycangdtl = qrycangdtl.ToArray();
+            if (arrqrycangdtl.Length <= 0)
+            {
+                return RNoData("N0175");
+            }
+            wms_cangdtl[] wms_cangdtl = arrqrycangdtl;
+
+            // done: 取消对 5、分货确认时，发现数量小于应分货数量，要循环扣除对应的stkotdtl里面的qty 的注释
+
+            if (qty < stkotdtl.Sum(e => e.qty))
+            {
+                Log.i(LoginInfo.Usrid, Mdlid, wmsno, bllid, Mdldes,
+                    gdsid.Trim() + ":应拣:" + Math.Round(stkotdtl.Sum(e => e.qty), 4, MidpointRounding.AwayFromZero)
+                    + ";实拣:" + Math.Round(qty, 4, MidpointRounding.AwayFromZero),
+                    "", LoginInfo.DefSavdptid);
+                double diff = stkotdtl.Sum(e => e.qty) - qty;
+
+                //扣减stkotdtl里面的库存
+                RedcStkotQty(stkotdtl, diff);
+
+            }
+            return RSucc("成功", null, "{{}}");   //todo 编码
+        }
+
         
 
-        private bool IsAutoCutCheck()
+        private bool IsAutoCutCheck(String qu)
         {
             wms_set set = (from e in WmsDc.wms_set
                            where e.setid == "015" && e.isvld == GetY()
+                           && e.val2 == qu.Trim()
                            && e.val3 == LoginInfo.DefStoreid
                            select e).FirstOrDefault();
             bool b = (set != null && set.val1 == "y");

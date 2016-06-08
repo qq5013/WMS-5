@@ -295,7 +295,7 @@ namespace WMS.Controllers
             var qry = from e in LoginInfo.SavDptids
                       where e.savstoreid == savdptid
                       select e;
-            var qrysp = qry.Where(e => e.storetypeid == "1");
+            var qrysp = qry.Where(e => (e.storetypeid == "1" || e.storetypeid=="") );
             var qrycs = qry.Where(e => e.storetypeid == "2");
             var arrqry = qry.ToArray();
             var arrqrysp = qrysp.ToArray();

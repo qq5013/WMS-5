@@ -40,6 +40,13 @@
             业务基础类
             </summary>
         </member>
+        <member name="M:WMS.Controllers.BaseController.RedcStkotQty(WMS.Models.stkotdtl[],System.Double)">
+            <summary>
+            扣减stkotdtl里面的库存
+            </summary>
+            <param name="stkotdtl">明细</param>
+            <param name="diffQty">差异数</param>
+        </member>
         <member name="F:WMS.Controllers.BaseController.WmsDc">
             <summary>
             数据操作上下文
@@ -227,6 +234,20 @@
             <summary>
             退出登录
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.IsCutgds(System.String)">
+            <summary>
+            是否是分货播种
+            </summary>
+            <param name="qu"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.SsnController.IsCutgdsOneByOne(System.String)">
+            <summary>
+            是否是边拣边播
+            </summary>
+            <param name="qu"></param>
             <returns></returns>
         </member>
         <member name="M:WMS.Controllers.SsnController.GetSvrDateTime">
@@ -1227,7 +1248,7 @@
             </summary>
             <param name="requestContext">HTTP请求对象</param>
         </member>
-        <member name="M:WMS.Controllers.CheckedBozController.GetCurrBoci">
+        <member name="M:WMS.Controllers.CheckedBozController.GetCurrBoci(System.String)">
             <summary>
             得到当天的波次
             </summary>
@@ -3094,13 +3115,14 @@
             <param name="rcdidx"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.InvCkController.AdtInvChkDtl(System.String,System.String,System.Int32)">
+        <member name="M:WMS.Controllers.InvCkController.AdtInvChkDtl(System.String,System.String,System.Int32,System.Nullable{System.Double})">
             <summary>
             复核盘点明细
             </summary>
             <param name="wmsno"></param>
             <param name="gdsid"></param>
             <param name="rcdidx"></param>
+            <param name="qty"></param>
             <returns></returns>
         </member>
         <member name="M:WMS.Controllers.InvCkController.AdtInvChk(System.String)">

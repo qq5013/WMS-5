@@ -165,9 +165,24 @@ namespace WMS.Controllers
             return arrqry;
         }
 
-        protected bool IsCutgds()
+        /// <summary>
+        /// 是否是分货播种
+        /// </summary>
+        /// <param name="qu"></param>
+        /// <returns></returns>
+        protected bool IsCutgds(String qu)
         {
-            return WmsDc.wms_set.Where(e => e.setid == "017" && e.isvld == 'y' && e.val1 == "1" && e.val3 == LoginInfo.DefStoreid).Any();
+            return WmsDc.wms_set.Where(e => e.setid == "017" && e.isvld == 'y' && e.val1 == "1" && e.val2==qu.Trim() && e.val3 == LoginInfo.DefStoreid).Any();
+        }
+
+        /// <summary>
+        /// 是否是边拣边播
+        /// </summary>
+        /// <param name="qu"></param>
+        /// <returns></returns>
+        protected bool IsCutgdsOneByOne(String qu)
+        {
+            return WmsDc.wms_set.Where(e => e.setid == "017" && e.isvld == 'y' && e.val1 == "2" && e.val2 == qu.Trim() && e.val3 == LoginInfo.DefStoreid).Any();
         }
 
         /// <summary>

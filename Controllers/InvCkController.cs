@@ -1144,9 +1144,10 @@ namespace WMS.Controllers
         /// <param name="wmsno"></param>
         /// <param name="gdsid"></param>
         /// <param name="rcdidx"></param>
+        /// <param name="qty"></param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_盘点确认, pwrdes = "盘点确认")]
-        public ActionResult AdtInvChkDtl(String wmsno, String gdsid, int rcdidx)
+        public ActionResult AdtInvChkDtl(String wmsno, String gdsid, int rcdidx, double? qty)
         {
             //检查单号是否存在
             var qrymst = from e in WmsDc.wms_cang_105
@@ -1196,6 +1197,12 @@ namespace WMS.Controllers
             dtl.bokflg = GetY();
             dtl.bokdat = GetCurrentDay();
             dtl.bkr = LoginInfo.Usrid;
+            if (qty != null)
+            {
+                dtl.qty = qty.Value;
+                dtl.pkgqty = qty.Value;
+                dtl.preqty = qty.Value;
+            }
             try
             {
                 WmsDc.SubmitChanges();

@@ -35,16 +35,17 @@ namespace WMS.Controllers
         /// </summary>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_播种查询, pwrdes = "播种查询")]
-        public ActionResult GetCurrBoci()
+        public ActionResult GetCurrBoci(String qu)
         {
             string curdat = GetCurrentDay();
 
-            if (!IsCutgds())
+            if (IsCutgdsOneByOne(qu))
             {
                 var qry = from e in WmsDc.wms_boci
                           join e1 in WmsDc.wms_cang on new { e.dh, e.sndtmd, e.savdptid, e.qu } equals new { dh = e1.lnkbocino, sndtmd = e1.lnkbocidat, e1.savdptid, e1.qu }
                           where e.sndtmd == curdat
                           && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                          && e.qu == qu
                           select new
                           {
                               e1.wmsno,
@@ -79,32 +80,34 @@ namespace WMS.Controllers
             else
             {
                 var qry1 = from e in WmsDc.wms_cutgds
-                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
-                          where e.bocidat == curdat
-                          && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
-                          && dpts.Contains(e1.dptid)
-                          group e by new { e.wmsno, e.bllid, e.bocino, e.clsid, e.bocidat } into g
-                          select new
-                          {
-                              wmsno = g.Key.wmsno,
-                              bllid = g.Key.bllid,
-                              bocino = g.Key.bocino,
-                              clsid = g.Key.clsid,
-                              bocidat = g.Key.bocidat,
-                              checi = from e1 in WmsDc.wms_cutgds
-                                      where e1.bocino == g.Key.bocino
-                                      && e1.bocidat == g.Key.bocidat
-                                      && e1.clsid == g.Key.clsid
-                                      group e1 by e1.checi.Trim() into g1
-                                      select g1.Key,
-                              checkedall = g.Count(e => e.chkflg == GetN()) == 0 ? GetY() : GetN(),
-                              bzedall = from e in WmsDc.stkot
-                                        join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
-                                        where e.wmsno == g.Key.wmsno && e.wmsbllid == g.Key.bllid
-                                        && e1.bzflg == GetN()
-                                        group e1 by new { e.wmsno, e.wmsbllid } into g1
-                                        select g1.Count() == 0 ? GetY() : GetN()
-                          };
+                           join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
+                           join e2 in WmsDc.wms_set on new { setid="001", e.savdptid, e1.dptid } equals new { e2.setid, savdptid = e2.val3, dptid = e2.val2 }
+                           where e.bocidat == curdat
+                           && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                           && dpts.Contains(e1.dptid)
+                           && e2.val1 == qu
+                           group e by new { e.wmsno, e.bllid, e.bocino, e.clsid, e.bocidat } into g
+                           select new
+                           {
+                               wmsno = g.Key.wmsno,
+                               bllid = g.Key.bllid,
+                               bocino = g.Key.bocino,
+                               clsid = g.Key.clsid,
+                               bocidat = g.Key.bocidat,
+                               checi = from e1 in WmsDc.wms_cutgds
+                                       where e1.bocino == g.Key.bocino
+                                       && e1.bocidat == g.Key.bocidat
+                                       && e1.clsid == g.Key.clsid
+                                       group e1 by e1.checi.Trim() into g1
+                                       select g1.Key,
+                               checkedall = g.Count(e => e.chkflg == GetN()) == 0 ? GetY() : GetN(),
+                               bzedall = from e in WmsDc.stkot
+                                         join e1 in WmsDc.stkotdtl on e.stkouno equals e1.stkouno
+                                         where e.wmsno == g.Key.wmsno && e.wmsbllid == g.Key.bllid
+                                         && e1.bzflg == GetN()
+                                         group e1 by new { e.wmsno, e.wmsbllid } into g1
+                                         select g1.Count() == 0 ? GetY() : GetN()
+                           };
                 return RSucc("成功", qry1.ToArray(), "S0046");
             }
 
@@ -262,14 +265,17 @@ namespace WMS.Controllers
                 var qry = from e in WmsDc.stkot
                           join e3 in WmsDc.wms_cang on new { e.wmsno, e.wmsbllid } equals new { e3.wmsno, wmsbllid = e3.bllid }
                           join e4 in WmsDc.wms_boci on new { dh = e3.lnkbocino, sndtmd = e3.lnkbocidat, e3.qu } equals new { e4.dh, e4.sndtmd, e4.qu }
-                          join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid , e5.qu}
+                          join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid, e5.qu }
                           where e.stkouno == stkouno
                           && e.bllid == WMSConst.BLL_TYPE_DISPATCH
                           && dpts.Contains(e.dptid.Trim())
                           && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
                           && e.rcvdptid == rcvdptid
                           && e5.busid.Trim().Substring(e5.busid.Trim().Length - 1, 1) == checi
-                          select e;
+                          select new
+                          {
+                              e.wmsno,e.chkflg, e3.qu, e.wmsbllid,e.dptid, e.stkouno,e.bllid, stkot = e, e.stkotdtl
+                          };
                 var arrqry = qry.Distinct().ToArray();
                 if (arrqry.Length <= 0)
                 {
@@ -297,7 +303,7 @@ namespace WMS.Controllers
                     return RNoData("N0057");
                 }
                 // 判断是否是分货播种
-                if (IsCutgds())
+                if (IsCutgds(stkotgds.qu))
                 {
                     qrydtl = qrydtl.Where(e =>
                                  (from e1 in WmsDc.wms_cutgds where e1.wmsno == stkotgds.wmsno && e1.bllid == stkotgds.wmsbllid && e1.gdsid == e.gdsid && e1.checi == checi select e1).Any()
@@ -401,7 +407,7 @@ namespace WMS.Controllers
                     d(wmsno, WMSConst.BLL_TYPE_UPBLL, "审核播种商品", "sqtycnt=" + sqtycnt + "&spreqtycnt=" + spreqtycnt, "", LoginInfo.DefSavdptid);
                     if (sqtycnt == spreqtycnt)
                     {
-                        CkBzFlg(stkotgds);
+                        CkBzFlg(stkotgds.stkot);
 
                         //查看有没有明细为空的单据，直接修改播种标记
                         var qryZeroBz = from e in WmsDc.stkotdtl
@@ -672,7 +678,7 @@ namespace WMS.Controllers
                           pkg03 = GetPkgStr(g.Sum(eqty => Math.Round(eqty.qty, 2, MidpointRounding.AwayFromZero)), g.Key.cnvrto, g.Key.pkgdes),
                           pkg03pre = GetPkgStr(g.Sum(eqty => Math.Round(eqty.preqty == null ? eqty.qty : eqty.preqty.Value, 2, MidpointRounding.AwayFromZero)), g.Key.cnvrto, g.Key.pkgdes)
                       };
-            var arrqry = qry.ToArray();
+            var arrqry = qry.Where(e => e.sqty > 0).ToArray();
             //qry = qry.Where(e => e.sqty1 > 0);
             /*var q = from e2 in qry
                     join e3 in WmsDc.pkg on new { e2.gdsid, iscseorspt = '3' } equals new { e3.gdsid, e3.iscseorspt }
