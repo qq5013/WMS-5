@@ -437,6 +437,12 @@ namespace WMS.Controllers
                     }
 
                     WmsDc.SubmitChanges();
+
+                    #region 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
+                    CheckStkotAllBz(wmsno);
+                    WmsDc.SubmitChanges();
+                    #endregion 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
+
                     scop.Complete();
                     return RSucc("成功", null, "S0047");
                 }
@@ -447,6 +453,7 @@ namespace WMS.Controllers
             }
         }
 
+        
         private void CkBzFlg(stkot p)
         {
             //盘点是否有为空的明细
@@ -728,7 +735,7 @@ namespace WMS.Controllers
                 e.wmsbllid,
                 e.wmsno
             }).OrderBy(e => e.bzedall);
-            var wmsno1 = q.Take(20).ToArray();
+            var wmsno1 = q.Distinct().Take(20).ToArray();
             if (wmsno1.Length <= 0)
             {
                 return RNoData("N0060");

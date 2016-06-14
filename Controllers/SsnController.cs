@@ -185,6 +185,75 @@ namespace WMS.Controllers
             return WmsDc.wms_set.Where(e => e.setid == "017" && e.isvld == 'y' && e.val1 == "2" && e.val2 == qu.Trim() && e.val3 == LoginInfo.DefStoreid).Any();
         }
 
+        protected void CheckStkotAllBz(string wmsno)
+        {
+            #region 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
+            //将配送单下修改为0的配送明细，直接修改其播种标记
+            var qryStkotdtlZero = from e in WmsDc.stkotdtl
+                                  where e.qty <= 0 && e.bzflg == GetN()
+                                  && e.stkot.wmsno == wmsno && e.stkot.wmsbllid == "103"
+                                  select e;
+            var arrQryStkotdtlZero = qryStkotdtlZero.ToArray();
+            foreach (var dz in arrQryStkotdtlZero)
+            {
+                dz.bzflg = GetY();
+                dz.bzdat = GetCurrentDate();
+                dz.bzr = LoginInfo.Usrid;
+            }
+            WmsDc.SubmitChanges();
+            //判断配送单据下的所有商品是否都已经播种，播种了就直接修改主单播种标记
+            var qryStkotdtlZero1 = from e in WmsDc.stkotdtl
+                                   where e.stkot.wmsno == wmsno && e.stkot.wmsbllid == "103" && e.stkot.bllid == "206"
+                                   group e by new { e.stkouno } into g
+                                   select new
+                                   {
+                                       g.Key.stkouno,
+                                       allCnt = g.Count(),
+                                       hasBzCnt = g.Count(e => e.bzflg == GetY())
+                                   };
+            var arrQryStkotdtlZero1 = qryStkotdtlZero1.Where(e => e.allCnt == e.hasBzCnt).Select(e => e.stkouno.Trim()).ToArray();
+            var qryHasAllBz = from e in WmsDc.stkot
+                              where e.chkflg == GetN()
+                              && e.bzflg == GetN()
+                              && arrQryStkotdtlZero1.Contains(e.stkouno)
+                              select e;
+            foreach (var hbz in qryHasAllBz)
+            {
+                //修改播种标记
+                hbz.bzflg = GetY();
+                //审核配送单
+                hbz.chkflg = GetY();
+                hbz.chkdat = GetCurrentDay();
+                hbz.ckr = LoginInfo.Usrid;
+
+                //写入dtrlog
+                //查看是否dtrlog已经有单据,没有就插入
+                var qry = WmsDc.dtrlog
+                            .Where(e => e.rcvdptid == hbz.rcvdptid && e.bllno == hbz.stkouno && e.bllid == hbz.bllid)
+                            .Select(e => e.bllno);
+                var arrqry = qry.ToArray();
+                if (arrqry.Length <= 0)
+                {
+                    dtrlog dl = new dtrlog();
+                    dl.bllid = hbz.bllid;
+                    dl.bllno = hbz.stkouno;
+                    dl.rcvdptid = hbz.rcvdptid;
+                    WmsDc.dtrlog.InsertOnSubmit(dl);
+                }
+
+                if (!WmsDc.stklst.Where(e => e.stkouno == hbz.stkouno).Any())
+                {
+                    stklst astklst = new stklst();
+                    astklst.stkouno = hbz.stkouno;
+                    WmsDc.stklst.InsertOnSubmit(astklst);
+                }
+            }
+
+            WmsDc.SubmitChanges();
+            #endregion 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
+        }
+
+
         /// <summary>
         /// 得到服务器时间
         /// </summary>

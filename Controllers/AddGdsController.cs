@@ -76,7 +76,7 @@ namespace WMS.Controllers
                         (select bsepkg from gds where gdsid=t1.gdsid) bsepkg,
                         t1.gdsid,
                         isnull(t4.cwqty,0) - t1.qty + isnull(t8.qty_108_add,0) bhqty,
-                        floor(round((isnull(t4.cwqty,0) - t1.qty + isnull(t8.qty_108_add,0))/(select max(cnvrto) from pkg where iscseorspt='3' and gdsid=t1.gdsid),0)) bhjg
+                        floor(round((isnull(t4.cwqty,0) - t1.qty + isnull(t8.qty_108_add,0))/isnull((select max(cnvrto) from pkg where iscseorspt='3' and gdsid=t1.gdsid),1),0)) bhjg
 
                         from 
 

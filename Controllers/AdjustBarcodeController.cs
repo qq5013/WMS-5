@@ -436,7 +436,7 @@ namespace WMS.Controllers
                         sin.bokdat = "";
                         sin.opr = mst.mkr;
                         sin.rcv = "";
-                        sin.stkindat = "";
+                        sin.stkindat = GetCurrentDay();
                         sin.brief = "WMS系统调仓导入";
                         sin.lnkodrno = "";
                         sin.lnkivcno = GetCurrentDay();

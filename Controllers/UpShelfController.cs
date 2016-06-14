@@ -338,7 +338,8 @@ namespace WMS.Controllers
                         !(
                             from e in WmsDc.wms_cang
                             join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
-                            where e.wmsno == wmsno && e.bllid == "102" //上架单
+                            where //e.wmsno == wmsno && 
+                            e.bllid == "102" //上架单
                             && e1.barcode == newbarcode
                             && e.mkedat.Substring(0,8) == GetCurrentDay()
                             select e
