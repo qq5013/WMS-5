@@ -845,7 +845,7 @@ namespace WMS.Controllers
             {
                 return RNoData("N0061");
             }
-
+             
             var extObj = wmsno1.GroupBy(e => new { e.gdsid, e.gdsdes, e.cnvrto, e.pkgdes })
                     .Select(ek => new
                     {
