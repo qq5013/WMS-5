@@ -478,9 +478,9 @@ namespace WMS.Controllers
                 }
                 #endregion
 
-                #region 如果是206配送拣货的单据，在同一个拣货单里面同一商品确认完后，写入分货表
+                #region 如果是206配送拣货的单据，在同一个拣货单里面同一商品确认完后，写入分货表(边拣边播)
                 // 修改分货按分店                
-                if (!IsCutgds(mst.qu) && mst.lnkbllid.Trim() == "206")
+                if ( (!IsCutgds(mst.qu)|| thqus.Contains(mst.qu.Trim()) ) && mst.lnkbllid.Trim() == "206")
                 {
                     var qryallbygdsidN = from e in WmsDc.wms_cangdtl
                                          where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
@@ -685,8 +685,8 @@ namespace WMS.Controllers
                 }
                 #endregion
 
-                #region 如果是206配送拣货单已经拣货的数量满足一个堆堆，就按堆堆应分数量升序写入分货表
-                if (mst.lnkbllid.Trim() == "206")
+                #region 如果是206配送拣货单已经拣货的数量满足一个堆堆，就按堆堆应分数量升序写入分货表（按堆堆播种）
+                if (IsCutgds(mst.qu) && mst.lnkbllid.Trim() == "206")
                 {
                     //
                     //得到该商品已经拣货的数量
