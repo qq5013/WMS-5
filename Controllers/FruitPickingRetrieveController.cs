@@ -387,7 +387,7 @@ namespace WMS.Controllers
         /// <param name="rcvdptid">收货分店</param>
         /// <returns>wms_blldtl, wms_blltp</returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
-        public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, double qty, string rcvdptid)
+        public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, double qty, string rcvdptid)
         {
             using (TransactionScope scop = new TransactionScope())
             {
@@ -433,6 +433,8 @@ namespace WMS.Controllers
                              && e.barcode.Trim() == barcode.Trim()
                              && e.wmsno.Trim() == wmsno.Trim()
                              && e.rcvdptid.Trim() == rcvdptid.Trim()
+                             && e.bthno.Trim() == bthno.Trim()
+                             && e.vlddat.Trim() == vlddat.Trim()
                              && e.tpcode.Trim() == "y"
                              select e;
                 int iCnt = qryallbygdsidN1.Count();

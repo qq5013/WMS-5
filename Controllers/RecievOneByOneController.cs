@@ -41,10 +41,11 @@ namespace WMS.Controllers
         /// <param name="qtys">实收数量</param>
         /// <param name="tpcodes">托盘码</param>
         /// <param name="pkgids">包装ID</param>
+        /// <param name="vlddat">ID</param>
         /// <returns>wms_blldtl, wms_blltp</returns>
         /// 如果 qtys,tpcodes,pkgids 不传参，就修改实收数量为0
         [PWR(Pwrid = WMSConst.WMS_BACK_收货确认, pwrdes = "收货确认")]
-        public ActionResult BokRecievGds(String wmsno, String gdsid, String gdstypes, String qtys, String tpcodes, String pkgids)
+        public ActionResult BokRecievGds(String wmsno, String gdsid, String gdstypes, String qtys, String tpcodes, String pkgids, String vlddat)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             ////正在生成拣货单，请稍候重试
@@ -83,11 +84,13 @@ namespace WMS.Controllers
                 var qry11 = from e in WmsDc.wms_blldtl
                             join e1 in WmsDc.wms_bllmst on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL && (e.gdsid == gdsid) /*&& e.rcdidx == rcdidx*/
+                            && e.vlddat == vlddat
                             select e;
                 var qry1 = from e in WmsDc.wms_blldtl
                            join e1 in WmsDc.wms_bllmst on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                            join e2 in WmsDc.bcd on e.gdsid equals e2.gdsid
                            where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL && (e.gdsid == gdsid)/*&& e.rcdidx == rcdidx*/
+                           && e.vlddat == vlddat
                            select new { e, e1 };
                 var qry = from e in qry1
                           select new
@@ -711,8 +714,8 @@ namespace WMS.Controllers
                             blldtl.qty = 0;
                             blldtl.preqty = Math.Round(dtl.qty, 4, MidpointRounding.AwayFromZero);
                             blldtl.gdstype = WMSConst.GDS_TYPE_NORMAL;
-                            blldtl.bthno = dtl.bthno == null ? "" : dtl.bthno;
-                            blldtl.vlddat = dtl.vlddat == null ? "" : dtl.vlddat;
+                            blldtl.bthno = dtl.bthno == null ? "1" : dtl.bthno;
+                            blldtl.vlddat = dtl.vlddat == null ? GetCurrentDay() : dtl.vlddat;
                             blldtl.bcd = dtl.bcd == null ? "" : dtl.bcd;
                             blldtl.prvid = bllmst.prvid == null ? "" : dtl.prvid;
                             blldtl.bkr = "";
@@ -1116,7 +1119,7 @@ namespace WMS.Controllers
         /// <param name="gdsid"></param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_收货查询, pwrdes = "收货查询")]
-        public ActionResult ListTpByGdsid(String wmsno, String gdsid, String gdstype)
+        public ActionResult ListTpByGdsid(String wmsno, String gdsid, String gdstype, String vlddat)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             if (gdsid == null)
@@ -1125,8 +1128,10 @@ namespace WMS.Controllers
             }
 
             var qrysh = from e in WmsDc.wms_blltp
+                        join e1 in WmsDc.wms_blldtl on new { e.wmsno, e.bllid, e.gdsid, e.rcdidx } equals new { e1.wmsno, e1.bllid, e1.gdsid, e1.rcdidx }
                         where e.savdptid == LoginInfo.DefSavdptid
                         && e.gdsid == gdsid
+                        && e1.vlddat == vlddat
                             /*&& e.gdstype == gdstype*/
                         && e.wmsno == wmsno
                         && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL
@@ -1542,7 +1547,11 @@ namespace WMS.Controllers
             {
                 sBarcode = SuggestABarcodeByTpcode(bllno, qu, LoginInfo.DefSavdptid);
             }
-            
+            wms_blldtl blldtl = (from e in WmsDc.wms_blldtl
+                                 join e1 in WmsDc.wms_blltp on new { e.wmsno, e.bllid, e.gdsid, e.rcdidx } equals new { e1.wmsno, e1.bllid, e1.gdsid, e1.rcdidx }
+                                 where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL
+                                 && e.gdsid == gdsid && e1.tpcode == tpcode
+                                 select e).FirstOrDefault();
             wms_cangdtl newdtl = new wms_cangdtl();
             newdtl.wmsno = bllno;
             newdtl.bllid = WMSConst.BLL_TYPE_UPBLL;
@@ -1554,8 +1563,8 @@ namespace WMS.Controllers
             newdtl.pkgqty = iqty;
             newdtl.qty = iqty;
             newdtl.gdstype = gdstype;
-            newdtl.bthno = "";
-            newdtl.vlddat = "";
+            newdtl.bthno = string.IsNullOrEmpty(blldtl.bthno)?"1":blldtl.bthno;
+            newdtl.vlddat = string.IsNullOrEmpty(blldtl.vlddat) ? GetCurrentDay() : blldtl.vlddat;
             newdtl.bcd = GetABcdByGdsid1(gdsid);
             newdtl.tpcode = tpcode;
             newdtl.bkr = "";

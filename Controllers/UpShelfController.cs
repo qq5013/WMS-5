@@ -331,19 +331,17 @@ namespace WMS.Controllers
                         return RInfo( "I0404",newbarcode  );
                     }
 
+                    var qrynewcw = from e in WmsDc.wms_cang
+                                   join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                                   where //e.wmsno == wmsno && 
+                                   e.bllid == "102" //上架单
+                                   && e1.barcode == newbarcode
+                                   && e.mkedat.Substring(0, 8) == GetCurrentDay()
+                                   select e;
                     if (oldCw != null &&
                         (
-                        cw.tjflg == GetY() //调整仓位{0}为不在当天上架单中的推荐仓位，不能使用
-                        &&
-                        !(
-                            from e in WmsDc.wms_cang
-                            join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
-                            where //e.wmsno == wmsno && 
-                            e.bllid == "102" //上架单
-                            && e1.barcode == newbarcode
-                            && e.mkedat.Substring(0,8) == GetCurrentDay()
-                            select e
-                          ).Any()
+                        !qrynewcw.Any() &&  //这两句不能换位置
+                        cw.tjflg == GetY() //调整仓位{0}为不在当天上架单中的推荐仓位，不能使用                        
                         )
                         )
                     {
@@ -522,7 +520,7 @@ namespace WMS.Controllers
                 gdsbs.savdptid = cang.savdptid;
                 gdsbs.srcbllno = cang.wmsno;
                 gdsbs.srcrcdidx = cangdtl.rcdidx;
-                gdsbs.vlddat = null;
+                gdsbs.vlddat = cangdtl.vlddat;
                 lstgdsbs.Add(gdsbs);
 
                 #region 统计帐表数据更新                
@@ -550,6 +548,8 @@ namespace WMS.Controllers
                                  //&& e.bthno == gdsbs.bthno
                                  && e.gdsid == gdsbs.gdsid.Trim()
                                  && e.gdstype == gdsbs.gdstype.Trim()
+                                 && e.bthno == gdsbs.bthno
+                                 && e.vlddat == gdsbs.vlddat
                                  //&& e.prvid == gdsbs.prvid
                                  && e.qu == cw.qu.Trim()
                                  select e;
@@ -560,15 +560,15 @@ namespace WMS.Controllers
                 {
                     wms_cwgdsbs cwgdsbs = new wms_cwgdsbs();
                     cwgdsbs.barcode = gdsbs.barcode;
-                    cwgdsbs.bcd = gdsbs.bcd;
-                    cwgdsbs.bthno = gdsbs.bthno;
+                    cwgdsbs.bcd = gdsbs.bcd;                    
                     cwgdsbs.gdsid = gdsbs.gdsid;
                     cwgdsbs.qty = gdsbs.qty;
                     cwgdsbs.gdstype = gdsbs.gdstype;
                     cwgdsbs.prvid = gdsbs.prvid;
                     cwgdsbs.qu = cw.qu;
                     cwgdsbs.savdptid = gdsbs.savdptid;
-                    cwgdsbs.vlddat = gdsbs.vlddat == null ? "" : gdsbs.vlddat;
+                    cwgdsbs.bthno = gdsbs.bthno == null ? "1" : gdsbs.bthno;
+                    cwgdsbs.vlddat = gdsbs.vlddat == null ? GetCurrentDay() : gdsbs.vlddat;
 
                     WmsDc.wms_cwgdsbs.InsertOnSubmit(cwgdsbs);
                     WmsDc.SubmitChanges();

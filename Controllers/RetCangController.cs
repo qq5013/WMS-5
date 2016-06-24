@@ -471,8 +471,8 @@ namespace WMS.Controllers
                 dtl.pkgqty = Math.Round(r.Qty, 4, MidpointRounding.AwayFromZero);
                 dtl.qty = Math.Round(r.Qty, 4, MidpointRounding.AwayFromZero);
                 dtl.gdstype = "95";
-                dtl.bthno = "";
-                dtl.vlddat = "";
+                dtl.bthno = "1";
+                dtl.vlddat = GetCurrentDay();
                 dtl.bcd = r.Bcd;
                 dtl.tpcode = "";
                 dtl.bkr = "";
@@ -656,8 +656,8 @@ namespace WMS.Controllers
                         dtl.pkgqty = Math.Round(r.Qty,4, MidpointRounding.AwayFromZero);
                         dtl.qty = Math.Round(r.Qty,4, MidpointRounding.AwayFromZero);
                         dtl.gdstype = "95";
-                        dtl.bthno = "";
-                        dtl.vlddat = "";
+                        dtl.bthno = "1";
+                        dtl.vlddat = GetCurrentDay();
                         dtl.bcd = r.Bcd;
                         dtl.tpcode = "";
                         dtl.bkr = "";
@@ -778,8 +778,8 @@ namespace WMS.Controllers
                 dtl.pkgqty = Math.Round(r.Qty, 4, MidpointRounding.AwayFromZero);
                 dtl.qty = Math.Round(r.Qty, 4, MidpointRounding.AwayFromZero);
                 dtl.gdstype = "95";
-                dtl.bthno = "";
-                dtl.vlddat = "";
+                dtl.bthno = "1";
+                dtl.vlddat = GetCurrentDay();
                 dtl.bcd = r.Bcd;
                 dtl.tpcode = "";
                 dtl.bkr = "";
@@ -909,8 +909,8 @@ namespace WMS.Controllers
                 dtl.pkgqty = Math.Round(r.Qty,4, MidpointRounding.AwayFromZero);
                 dtl.qty = Math.Round(r.Qty, 4, MidpointRounding.AwayFromZero);
                 dtl.gdstype = "95";
-                dtl.bthno = "";
-                dtl.vlddat = "";
+                dtl.bthno = "1";
+                dtl.vlddat = GetCurrentDay();
                 dtl.bcd = r.Bcd;
                 dtl.tpcode = "";
                 dtl.bkr = "";

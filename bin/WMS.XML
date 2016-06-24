@@ -794,7 +794,7 @@
             <param name="q">区位编码</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.AdjustInRecievController.ListTpByGdsid(System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.AdjustInRecievController.ListTpByGdsid(System.String,System.String,System.String,System.String)">
             <summary>
             得到托盘商品
             </summary>
@@ -802,7 +802,7 @@
             <param name="gdsid"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.AdjustInRecievController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.AdjustInRecievController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             确认商品收货 
             </summary>
@@ -1164,7 +1164,7 @@
             <param name="q">区位编码</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RecievController.ListTpByGdsid(System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RecievController.ListTpByGdsid(System.String,System.String,System.String,System.String)">
             <summary>
             得到托盘商品
             </summary>
@@ -1172,7 +1172,7 @@
             <param name="gdsid"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RecievController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RecievController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             确认商品收货 
             </summary>
@@ -1182,6 +1182,7 @@
             <param name="qtys">实收数量</param>
             <param name="tpcodes">托盘码</param>
             <param name="pkgids">包装ID</param>
+            <param name="vlddat">ID</param>
             <returns>wms_blldtl, wms_blltp</returns>
             如果 qtys,tpcodes,pkgids 不传参，就修改实收数量为0
         </member>
@@ -1691,7 +1692,7 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.SelectedRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double)">
+        <member name="M:WMS.Controllers.SelectedRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double)">
             <summary>
             捡货单商品审核
             </summary>
@@ -1804,7 +1805,7 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double)">
+        <member name="M:WMS.Controllers.RetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double)">
             <summary>
             捡货单商品审核
             </summary>
@@ -1853,7 +1854,7 @@
             收货模块(边收边上架)
             </summary>
         </member>
-        <member name="M:WMS.Controllers.RecievOneByOneController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RecievOneByOneController.BokRecievGds(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             确认商品收货 
             </summary>
@@ -1863,6 +1864,7 @@
             <param name="qtys">实收数量</param>
             <param name="tpcodes">托盘码</param>
             <param name="pkgids">包装ID</param>
+            <param name="vlddat">ID</param>
             <returns>wms_blldtl, wms_blltp</returns>
             如果 qtys,tpcodes,pkgids 不传参，就修改实收数量为0
         </member>
@@ -1965,7 +1967,7 @@
             <param name="q">区位编码</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RecievOneByOneController.ListTpByGdsid(System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RecievOneByOneController.ListTpByGdsid(System.String,System.String,System.String,System.String)">
             <summary>
             得到托盘商品
             </summary>
@@ -2137,7 +2139,7 @@
             <param name="qu"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.ProfitOrLossController.MkPrftOLssBll(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.ProfitOrLossController.MkPrftOLssBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             新制损溢单
             </summary>
@@ -2178,7 +2180,7 @@
             <param name="qty"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.ProfitOrLossController.AdPrftOLsses(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.ProfitOrLossController.AdPrftOLsses(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             增加损溢单商品(批量)
             </summary>
@@ -2190,7 +2192,7 @@
             <param name="rsn"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.ProfitOrLossController.AdPrftOLss(System.String,System.String,System.String,System.String,System.Double,System.String)">
+        <member name="M:WMS.Controllers.ProfitOrLossController.AdPrftOLss(System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String)">
             <summary>
             增加损溢单商品
             </summary>
@@ -2201,7 +2203,7 @@
             <param name="qty">商品数量</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.ProfitOrLossController.MdPrftOLssBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.ProfitOrLossController.MdPrftOLssBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             修改损溢单
             </summary>
@@ -2268,7 +2270,7 @@
             <returns></returns>
             done: 审核仓位调整单还原
         </member>
-        <member name="M:WMS.Controllers.AdjustBarcodeController.MkAdjBll(System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.AdjustBarcodeController.MkAdjBll(System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             仓位调整单制单
             </summary>
@@ -2312,7 +2314,7 @@
             <param name="wmsno">仓位调整单单号</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.AdjustBarcodeController.AdOldBarcodes(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdOldBarcodes(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             新增需要调整的仓位
             </summary>
@@ -2320,7 +2322,7 @@
             <param name="gdsid"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.AdjustBarcodeController.AdOldBarcode(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.AdjustBarcodeController.AdOldBarcode(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             新增需要调整的仓位
             </summary>
@@ -2792,7 +2794,7 @@
             <param name="fscprdid"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RetPrvController.MkRetPrvBll(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RetPrvController.MkRetPrvBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             新制返厂单
             </summary>
@@ -2830,7 +2832,7 @@
             <param name="qty"></param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RetPrvController.AdRetPrvs(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RetPrvController.AdRetPrvs(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             新增返厂单商品
             </summary>
@@ -2841,7 +2843,7 @@
             <param name="qtys">商品数量</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RetPrvController.AdRetPrv(System.String,System.String,System.String,System.String,System.Double)">
+        <member name="M:WMS.Controllers.RetPrvController.AdRetPrv(System.String,System.String,System.String,System.String,System.String,System.String,System.Double)">
             <summary>
             新增返厂单商品
             </summary>
@@ -2852,7 +2854,7 @@
             <param name="qty">商品数量</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RetPrvController.MdRetPrvBll(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.RetPrvController.MdRetPrvBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             修改返厂单
             </summary>
@@ -2934,7 +2936,7 @@
             <param name="srt">排序（A顺序/D倒序）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.Double,System.String)">
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String)">
             <summary>
             捡货单商品审核
             </summary>
@@ -3042,7 +3044,7 @@
             <param name="wmsno">盘点单单号</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.InvCkController.InstInvCkBll(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.InvCkController.InstInvCkBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             新增盘点单
             </summary>
@@ -3053,7 +3055,7 @@
             <param name="qtys">商品数量</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.InvCkController.HasChecked(System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.InvCkController.HasChecked(System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             是否已经盘过点了
             </summary>

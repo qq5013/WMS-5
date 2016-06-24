@@ -21,12 +21,14 @@ namespace WMS.Controllers
             Mdldes = "损溢单";
         }
 
-        private ActionResult _MakeParam(String wmsno, String oldbarcodes, String gdsids, String gdstypes, String qtys, String rsns)
+        private ActionResult _MakeParam(String wmsno, String oldbarcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys, String rsns)
         {
             String[] oldbarcode = oldbarcodes.Split(',');
             String[] gdsid = gdsids.Split(',');
             String[] qty = qtys.Split(',');
             String[] gdstype = gdstypes.Split(',');
+            String[] vlddat = vlddats.Split(',');
+            String[] bthno = bthnos.Split(',');
             String[] rsn = rsns.Split(',');
             //String[] newsbarcode = newbarcodes.Split(',');
             List<wms_cangdtl_111> lstDtl = new List<wms_cangdtl_111>();
@@ -80,8 +82,8 @@ namespace WMS.Controllers
                     dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.pkgqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.gdstype = gdstype[i];
-                    dtl.bthno = "";
-                    dtl.vlddat = "";
+                    dtl.bthno = String.IsNullOrEmpty(bthno[i]) ? "1" : bthno[i];
+                    dtl.vlddat = String.IsNullOrEmpty(vlddat[i]) ? GetCurrentDay() : vlddat[i];
                     JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid[i]);
                     ResultMessage rm = (ResultMessage)jr.Data;
                     if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
@@ -227,7 +229,7 @@ namespace WMS.Controllers
         /// <returns></returns>
         /// 
         [PWR(Pwrid=WMSConst.WMS_BACK_损溢制单, pwrdes="损溢制单")]
-        public ActionResult MkPrftOLssBll(String barcodes, String gdsids, String gdstypes, String qtys, String rsns)
+        public ActionResult MkPrftOLssBll(String barcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys, String rsns)
         {
             String[] barcode = barcodes.Split(',');
             String qu = barcode[0].Substring(0,2);
@@ -242,7 +244,7 @@ namespace WMS.Controllers
             return MakeNewBllNo(savdptid, qu, WMSConst.BLL_TYPE_PROFITORLOSS, (bllno) =>
             {
                 //检查并创建明细
-                JsonResult jr = (JsonResult)_MakeParam(bllno, barcodes, gdsids, gdstypes, qtys, rsns);
+                JsonResult jr = (JsonResult)_MakeParam(bllno, barcodes, gdsids, gdstypes, bthnos, vlddats, qtys, rsns);
                 ResultMessage rm = (ResultMessage)jr.Data;
                 if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
                 {
@@ -296,7 +298,9 @@ namespace WMS.Controllers
                         }
 
                         //得到一个商品的库存数量
-                        GdsInBarcode[] gb = GetAGdsQtyInBarcode(d.barcode, d.gdsid, d.gdstype);
+                        GdsInBarcode[] gb = GetAGdsQtyInBarcode(d.barcode, d.gdsid, d.gdstype)
+                                            .Where(e => e.vlddat == d.vlddat.Trim() && e.bthno == d.bthno.Trim())
+                                            .ToArray();
                         double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
                         double ktqty = bqty;  //可调数量 = 库存数量
                         //如果 需调整数量 > 可调数量
@@ -575,7 +579,9 @@ namespace WMS.Controllers
                 wms_cangdtl_111 dtl = arrqrydtl[0];
 
                 //得到一个商品的库存数量
-                GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, gdsid, dtl.gdstype);
+                GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, gdsid, dtl.gdstype)
+                                    .Where(e => e.vlddat == dtl.vlddat.Trim() && e.bthno == dtl.bthno.Trim())
+                                            .ToArray();
                 double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
                 double ktqty = Math.Abs( bqty) + Math.Abs( dtl.qty);  //可调数量 = 库存数量+本单该商品的数量
                 //如果 需调整数量 > 可调数量
@@ -610,13 +616,15 @@ namespace WMS.Controllers
         /// <param name="rsn"></param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_损溢制单, pwrdes = "损溢制单")]
-        public ActionResult AdPrftOLsses(String wmsno, String barcodes, String gdsids, String gdstypes, String qtys, String rsns)
+        public ActionResult AdPrftOLsses(String wmsno, String barcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys, String rsns)
         {
             //判断barcodes、gdsids、gdstypes、qtys是否数量一致
             String[] barcode = barcodes.Split(',');
             String[] gdsid = gdsids.Split(',');
             String[] qty = qtys.Split(',');
             String[] gdstype = gdstypes.Split(',');
+            String[] bthno = bthnos.Split(',');
+            String[] vlddat = vlddats.Split(',');
             String[] rsn = rsns.Split(',');
             List<object> retObjs = new List<object>();
             if (
@@ -638,7 +646,7 @@ namespace WMS.Controllers
                     return RInfo( "I0203",gdsid[i],qty[i]  );
                 }
 
-                JsonResult jr = (JsonResult)AdPrftOLss(wmsno, barcode[i], gdsid[i], gdstype[i], d, rsn[i]);
+                JsonResult jr = (JsonResult)AdPrftOLss(wmsno, barcode[i], gdsid[i], gdstype[i], bthno[i], vlddat[i], d, rsn[i]);
                 ResultMessage rm = (ResultMessage)jr.Data;
                 if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
                 {
@@ -660,7 +668,7 @@ namespace WMS.Controllers
         /// <param name="qty">商品数量</param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_损溢制单, pwrdes = "损溢制单")]
-        public ActionResult AdPrftOLss(String wmsno, String barcode, String gdsid, String gdstype, double qty, String rsn)
+        public ActionResult AdPrftOLss(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, double qty, String rsn)
         {
             //检查单号是否存在
             var qrymst = from e in WmsDc.wms_cang_111
@@ -726,7 +734,9 @@ namespace WMS.Controllers
 
                 //如果是报损，判断是否有库存                
                 //得到一个商品的库存数量
-                GdsInBarcode[] gb = GetAGdsQtyInBarcode(barcode, gdsid, gdstype);
+                GdsInBarcode[] gb = GetAGdsQtyInBarcode(barcode, gdsid, gdstype)
+                                    .Where(e => e.vlddat == vlddat.Trim() && e.bthno == bthno.Trim())
+                                            .ToArray();
                 double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
                 double ktqty = bqty;  //可调数量 = 库存数量
                 //如果 需调整数量 > 可调数量
@@ -759,8 +769,8 @@ namespace WMS.Controllers
             dtl.preqty = fQty;
             dtl.pkgqty = fQty;
             dtl.gdstype = gdstype;
-            dtl.bthno = "";
-            dtl.vlddat = "";
+            dtl.bthno = string.IsNullOrEmpty(bthno) ? "1" : bthno;
+            dtl.vlddat = string.IsNullOrEmpty(vlddat) ? GetCurrentDay() : vlddat;
             JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid);
             ResultMessage rm = (ResultMessage)jr.Data;
             if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
@@ -798,11 +808,11 @@ namespace WMS.Controllers
         /// <returns></returns>
         /// 
         [PWR(Pwrid=WMSConst.WMS_BACK_损溢制单, pwrdes="损溢制单")]
-        public ActionResult MdPrftOLssBll(String wmsno, String barcodes, String gdsids, String gdstypes, String qtys, String rsns)
+        public ActionResult MdPrftOLssBll(String wmsno, String barcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys, String rsns)
         {        
             //拆分参数
             //检查并创建明细
-            JsonResult jr = (JsonResult)_MakeParam(wmsno, barcodes, gdsids, gdstypes, qtys, rsns);
+            JsonResult jr = (JsonResult)_MakeParam(wmsno, barcodes, gdsids, gdstypes, bthnos, vlddats, qtys, rsns);
             ResultMessage rm = (ResultMessage)jr.Data;
             if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
             {
@@ -865,7 +875,9 @@ namespace WMS.Controllers
                     }
 
                     //得到一个商品的库存数量
-                    GdsInBarcode[] gb = GetAGdsQtyInBarcode(arrqrydtl[i].barcode, arrqrydtl[i].gdsid, arrqrydtl[i].gdstype);
+                    GdsInBarcode[] gb = GetAGdsQtyInBarcode(arrqrydtl[i].barcode, arrqrydtl[i].gdsid, arrqrydtl[i].gdstype)
+                                        .Where(e => e.vlddat == arrqrydtl[i].vlddat.Trim() && e.bthno == arrqrydtl[i].bthno.Trim())
+                                            .ToArray(); 
                     double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
                     double ktqty = Math.Abs(bqty) + Math.Abs(arrqrydtl[i].qty);  //可调数量 = 库存数量+本单该商品的数量
                     //如果 需调整数量 > 可调数量

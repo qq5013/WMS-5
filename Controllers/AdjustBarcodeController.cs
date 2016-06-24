@@ -28,12 +28,14 @@ namespace WMS.Controllers
             Mdldes = "仓位调整";
         }
 
-        private ActionResult _MakeParam(String wmsno, String oldbarcodes, String gdsids, String gdstypes, String qtys)
+        private ActionResult _MakeParam(String wmsno, String oldbarcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys)
         {            
             String[] oldbarcode = oldbarcodes.Split(',');
             String[] gdsid = gdsids.Split(',');
             String[] qty = qtys.Split(',');
             String[] gdstype = gdstypes.Split(',');
+            String[] bthno = bthnos.Split(',');
+            String[] vlddat = vlddats.Split(',');
             //String[] newsbarcode = newbarcodes.Split(',');
             List<wms_blldtl> lstDtl = new List<wms_blldtl>();
             if ((oldbarcode.Length != gdsid.Length)
@@ -79,8 +81,8 @@ namespace WMS.Controllers
                     dtl.qty = fQty;
                     dtl.preqty = fQty;                                        
                     dtl.gdstype = gdstype[i];
-                    dtl.bthno = "";
-                    dtl.vlddat = "";
+                    dtl.bthno = bthno[i];
+                    dtl.vlddat = vlddat[i];
                     JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid[i]);
                     ResultMessage rm = (ResultMessage)jr.Data;
                     if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
@@ -242,34 +244,49 @@ namespace WMS.Controllers
 
             //增加帐表库存
             #region 增加帐表库存
-            var tpsGrp = from e in tps
-                             group e by new { e.barcode, e.gdsid, e.gdstype, e.qu } into g
-                             select new
-                             {
-                                 g.Key.barcode,
-                                 g.Key.gdsid,
-                                 g.Key.gdstype,
-                                 g.Key.qu,
-                                 bcd = WmsDc.bcd.Where(e=>e.gdsid.Trim()== g.Key.gdsid.Trim()).Select(e=>e.bcd1).Max(), // WmsDc.bcd.Where(ee=>ee.gdsid==g.Key.gdsid.Trim()).Select(e=>e.bcd1).Max(),
-                                 qty = g.Sum(e => e.qty)
-                             };
+            var tpsVlddat = from e in tps
+                            select new
+                            {
+                                e.wmsno,
+                                e.bllid,
+                                e.barcode,
+                                e.gdsid,
+                                e.gdstype,
+                                e.qu,
+                                e.qty,
+                                bthno = WmsDc.wms_blldtl.Where(e1 => e1.bllid == e.bllid && e1.wmsno == e.wmsno && e1.gdsid == e.gdsid && e1.gdstype == e.gdstype && e1.rcdidx == e.rcdidx).Select(e1 => e1.bthno).FirstOrDefault(),
+                                vlddat = WmsDc.wms_blldtl.Where(e1 => e1.bllid == e.bllid && e1.wmsno == e.wmsno && e1.gdsid == e.gdsid && e1.gdstype == e.gdstype && e1.rcdidx == e.rcdidx).Select(e1 => e1.vlddat).FirstOrDefault()
+                            };
+            var tpsGrp = from e in tpsVlddat
+                         group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.qu } into g
+                         select new
+                         {
+                             g.Key.barcode,
+                             g.Key.gdsid,
+                             g.Key.gdstype,
+                             g.Key.qu,
+                             g.Key.bthno,
+                             g.Key.vlddat,
+                             bcd = WmsDc.bcd.Where(e => e.gdsid.Trim() == g.Key.gdsid.Trim()).Select(e => e.bcd1).Max(), // WmsDc.bcd.Where(ee=>ee.gdsid==g.Key.gdsid.Trim()).Select(e=>e.bcd1).Max(),                                 
+                             qty = g.Sum(e => e.qty)
+                         };
             
             foreach (var ag in tpsGrp)
             {
                 wms_cwgdsbs gdsbs = new wms_cwgdsbs();
                 gdsbs.barcode = ag.barcode;
                 gdsbs.bcd = ag.bcd;
-                gdsbs.bthno = "";
+                gdsbs.bthno = ag.bthno;
                 gdsbs.gdsid = ag.gdsid;
                 gdsbs.gdstype = ag.gdstype;
                 gdsbs.prvid = "";
                 gdsbs.qty = ag.qty;
                 gdsbs.qu = ag.qu;
                 gdsbs.savdptid = GetSavdptidByQu(ag.qu);
-                gdsbs.vlddat = "";
+                gdsbs.vlddat = ag.vlddat;
                 //如果没有就增加库存
                 wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
-                    && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu).Select(e => e).FirstOrDefault();
+                    && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno==gdsbs.bthno.Trim() && e.vlddat==gdsbs.vlddat.Trim()).Select(e => e).FirstOrDefault();
                 if (egdsbs==null)
                 {
                     WmsDc.wms_cwgdsbs.InsertOnSubmit(gdsbs);                                        
@@ -283,12 +300,14 @@ namespace WMS.Controllers
             //减少帐表库存
             #region 减少帐表库存
             var dtlsGrp = from e in dtls
-                             group e by new { e.barcode, e.gdsid, e.gdstype } into g
+                             group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } into g
                              select new
                              {
                                  g.Key.barcode,
                                  g.Key.gdsid,
-                                 g.Key.gdstype,
+                                 g.Key.gdstype,                                 
+                                 g.Key.bthno,
+                                 g.Key.vlddat,
                                  bcd = WmsDc.bcd.Where(ee => ee.gdsid == ee.gdsid).Select(e => e.bcd1).Max(),
                                  qu = mst.qu,
                                  qty = g.Sum(e => e.qty)
@@ -298,17 +317,18 @@ namespace WMS.Controllers
                 wms_cwgdsbs gdsbs = new wms_cwgdsbs();
                 gdsbs.barcode = ag.barcode.Trim();
                 gdsbs.bcd = ag.bcd.Trim();
-                gdsbs.bthno = "";
+                gdsbs.bthno = ag.bthno;
                 gdsbs.gdsid = ag.gdsid.Trim();
                 gdsbs.gdstype = ag.gdstype.Trim();
                 gdsbs.prvid = "";
                 gdsbs.qty = ag.qty;
                 gdsbs.qu = mst.qu.Trim();
                 gdsbs.savdptid = mst.savdptid.Trim();
-                gdsbs.vlddat = "";
+                gdsbs.vlddat = ag.vlddat;
                 //如果没有就增加库存
                 wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
-                    && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu).Select(e => e).FirstOrDefault();
+                    && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno==gdsbs.bthno.Trim() && e.vlddat==gdsbs.vlddat.Trim())
+                    .Select(e => e).FirstOrDefault();
                 if (egdsbs == null)
                 {
                     return RInfo("I0011", gdsbs.gdsid, gdsbs.gdstype);
@@ -324,11 +344,11 @@ namespace WMS.Controllers
             //判断是否有从退货区调入商品区，或者从商品区调入退货区，如果有，要生成经销调拨单
             //插入经销调拨单主单和明细(bllid="112")
             #region 插入经销调拨单主单和明细(bllid="112")
-            //得到tps idx分组的查询
+            //得到tps idx分组的查询            
             var tpsIdxGrp = (from e in tps
                              join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
                              join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
-                             group e by new { e.barcode, e.gdsid, e.gdstype, e.qu, e.rcdidx, e.savdptid, e1.bcd, e2.dptdes, e2.dptid } into g
+                             group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.qu, e.rcdidx, e.savdptid, e1.bcd, e2.dptdes, e2.dptid } into g
                              select new
                              {
                                  g.Key.barcode,
@@ -339,19 +359,21 @@ namespace WMS.Controllers
                                  g.Key.bcd,
                                  g.Key.dptdes,
                                  g.Key.dptid,
-                                 g.Key.savdptid,
+                                 g.Key.savdptid,                                 
                                  qty = g.Sum(e => e.qty)
                              }).ToArray();
             //得到dtls idx分组的查询
             var dtlsIdxGrp = (from e in dtls
                               join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
                               join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
-                             group e by new { e.barcode, e.gdsid, e.gdstype, e.rcdidx, e1.bcd, e2.dptdes, e2.dptid } into g
+                             group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.rcdidx, e1.bcd, e2.dptdes, e2.dptid } into g
                           select new
                           {
                               g.Key.barcode,
                               gdsid = g.Key.gdsid.Trim(),
                               g.Key.gdstype,
+                              g.Key.bthno,
+                              g.Key.vlddat,
                               g.Key.rcdidx,                              
                               qu = mst.qu,
                               g.Key.bcd,
@@ -372,6 +394,8 @@ namespace WMS.Controllers
                                  e.bcd,
                                  e.gdsid,
                                  e.gdstype,
+                                 e.bthno,
+                                 e.vlddat,
                                  oldqty = e.qty,
                                  oldqu = e.qu,
                                  oldsavdptid=e.savdptid,
@@ -514,9 +538,9 @@ namespace WMS.Controllers
                         sindtl.bthprc = bthprc.prc;
                         sindtl.stllnkno = null;
                         sindtl.stllnkidx = null;
-                        sindtl.bthno = null;
-                        sindtl.vlddat = null;
-                        sindtl.bcd = dp.bcd;
+                        sindtl.bthno = dp.bthno.Trim() ;
+                        sindtl.vlddat = dp.vlddat.Trim();
+                        sindtl.bcd = dp.bcd;                        
                         //sindtl.brfdtl = null;
                         sindtl.brfdtl = "wms";
                         sindtl.stincstprc = null;
@@ -571,7 +595,7 @@ namespace WMS.Controllers
         /// <param name="newbarcodes">调整到仓位</param>
         /// <returns></returns>
         [PWR(Pwrid=WMSConst.WMS_BACK_仓位调整制单,pwrdes="仓位调整制单")]
-        public ActionResult MkAdjBll(String oldbarcodes, String gdsids, String gdstypes, String qtys)
+        public ActionResult MkAdjBll(String oldbarcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys)
         {
             String[] barcode = oldbarcodes.Split(',');
             String qu = barcode[0].Substring(0, 2);
@@ -588,7 +612,7 @@ namespace WMS.Controllers
             return MakeNewBllNo(savdptid,qu, WMSConst.BLL_TYPE_ADJCANG, (bllno) =>
             {
                 //检查并创建明细
-                JsonResult jr = (JsonResult)_MakeParam(bllno, oldbarcodes, gdsids, gdstypes, qtys);
+                JsonResult jr = (JsonResult)_MakeParam(bllno, oldbarcodes, gdsids, gdstypes, bthnos, vlddats, qtys);
                 ResultMessage rm = (ResultMessage)jr.Data;
                 if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
                 {
@@ -623,7 +647,9 @@ namespace WMS.Controllers
                 foreach (wms_blldtl d in dtls)
                 {
                     //得到一个商品的库存数量
-                    GdsInBarcode[] gb = GetAGdsQtyInBarcode(d.barcode, d.gdsid, d.gdstype);
+                    GdsInBarcode[] gb = GetAGdsQtyInBarcode(d.barcode, d.gdsid, d.gdstype)
+                                        .Where(e => e.vlddat == d.vlddat.Trim() && e.bthno == d.bthno.Trim())
+                                        .ToArray();
                     double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
                     double ktqty = bqty;  //可调数量 = 库存数量
                     //如果 需调整数量 > 可调数量
@@ -774,23 +800,52 @@ namespace WMS.Controllers
             {
                 return RNoData("N0010");
             }
-            // 判断是否是同一个区能不能互调
-            wms_set[] sets = (from e in WmsDc.wms_set
-                      join e1 in WmsDc.wms_cangwei
-                        on new { qu = e.val1, savdptid = e.val3, e.setid }
-                        equals new { e1.qu, e1.savdptid, setid = "006" }
-                      where e1.barcode == arrqrydtl[0].barcode || e1.barcode == newbarcode
-                      select e).ToArray();
-            if (sets.Length == 2)
+
+            String rqu = GetQuByBarcode(newbarcode);
+            String oqu = GetQuByBarcode(arrqrydtl[0].barcode);
+            //如果调入不在堆头区，就判断一下区域间能不能互相调用
+            if (!dtqus.Contains(rqu))
             {
-                if(sets[0].brief.Trim()!=sets[1].brief.Trim()){
-                    return RInfo( "I0020",sets[0].val1,sets[1].val1 );
+                // 判断调出的区是不是堆头区，是堆头区的话，根据商品判断应该调入那个分区
+                if (dtqus.Contains(oqu))
+                {
+                    String shouldInQu = (from e in WmsDc.wms_set
+                                join e1 in WmsDc.gds on e.val2 equals e1.dptid
+                                where e.setid == "001" && e.val3.Trim() == LoginInfo.DefSavdptid
+                                && e.isvld == GetY()
+                                && e1.gdsid == arrqrydtl[0].gdsid.Trim()
+                                select e.val1.Trim()).FirstOrDefault();
+                    if (string.IsNullOrEmpty(shouldInQu))
+                    {
+                        return RInfo("I0474", arrqrydtl[0].gdsid.Trim());
+                    }
+                    // 调入分区{0}与商品所在分区{1}不一致
+                    if (shouldInQu.Trim() != rqu.Trim())
+                    {
+                        return RInfo("I0475", rqu, shouldInQu);
+                    }
+
+                }else{
+                    // 判断是否是同一个区能不能互调
+                    wms_set[] sets = (from e in WmsDc.wms_set
+                                      join e1 in WmsDc.wms_cangwei
+                                        on new { qu = e.val1, savdptid = e.val3, e.setid }
+                                        equals new { e1.qu, e1.savdptid, setid = "006" }
+                                      where e1.barcode == arrqrydtl[0].barcode || e1.barcode == newbarcode
+                                      select e).ToArray();
+                    if (sets.Length == 2)
+                    {
+                        if (sets[0].brief.Trim() != sets[1].brief.Trim())
+                        {
+                            return RInfo("I0020", sets[0].val1, sets[1].val1);
+                        }
+                    }
+                    else
+                    {
+                        return RInfo("I0021");
+                    }
                 }
-            }
-            else
-            {
-                return RInfo( "I0021" );
-            }
+            }            
 
             //检查单据是否已经审核
             wms_bllmst mst = arrqrymst[0];
@@ -970,13 +1025,15 @@ namespace WMS.Controllers
         /// <param name="gdsid"></param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
-        public ActionResult AdOldBarcodes(String wmsno, String barcodes, String gdsids, String gdstypes, String qtys)
+        public ActionResult AdOldBarcodes(String wmsno, String barcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys)
         {
             //判断barcodes、gdsids、gdstypes、qtys是否数量一致
             String[] barcode = barcodes.Split(',');
             String[] gdsid = gdsids.Split(',');
             String[] qty = qtys.Split(',');
-            String[] gdstype = gdstypes.Split(',');            
+            String[] gdstype = gdstypes.Split(',');
+            String[] bthno = bthnos.Split(',');
+            String[] vlddat = vlddats.Split(',');            
             List<object> retObjs = new List<object>();
             if (
                 (barcode.Length != gdsid.Length)
@@ -996,7 +1053,7 @@ namespace WMS.Controllers
                     return RInfo( "I0030",gdsid[i],qty[i]  );
                 }
 
-                JsonResult jr = (JsonResult)AdOldBarcode(wmsno, barcode[i], gdsid[i], gdstype[i], qty[i]);
+                JsonResult jr = (JsonResult)AdOldBarcode(wmsno, barcode[i], gdsid[i], gdstype[i], bthno[i], vlddat[i], qty[i]);
                 ResultMessage rm = (ResultMessage)jr.Data;
                 if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
                 {
@@ -1015,7 +1072,7 @@ namespace WMS.Controllers
         /// <param name="gdsid"></param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
-        public ActionResult AdOldBarcode(String wmsno, String barcode, String gdsid, String gdstype, String qty)
+        public ActionResult AdOldBarcode(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, String qty)
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
 
@@ -1088,8 +1145,8 @@ namespace WMS.Controllers
             }
             dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
             dtl.gdstype = gdstype;
-            dtl.bthno = "";
-            dtl.vlddat = "";
+            dtl.bthno = bthno;
+            dtl.vlddat = vlddat;
             JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid);
             ResultMessage rm = (ResultMessage)jr.Data;
             if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
@@ -1106,7 +1163,9 @@ namespace WMS.Controllers
 
             //如果是报损，判断是否有库存
             //得到一个商品的库存数量
-            GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, dtl.gdsid, dtl.gdstype);
+            GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, dtl.gdsid, dtl.gdstype)
+                                .Where(e => e.vlddat == dtl.vlddat.Trim() && e.bthno == dtl.bthno.Trim())
+                                .ToArray();
             double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
             double ktqty = bqty;  //可调数量 = 库存数量
             //如果 需调整数量 > 可调数量
@@ -1547,7 +1606,7 @@ namespace WMS.Controllers
                                 t.bokflg,
                                 t.brief,
                                 t.bsepkg,
-                                t.bthno,
+                                t.bthno,                                
                                 t.gdsdes,
                                 t.gdsid,
                                 t.gdstype,

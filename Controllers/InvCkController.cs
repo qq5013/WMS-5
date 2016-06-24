@@ -70,13 +70,13 @@ namespace WMS.Controllers
                      where e.wmsno == d.wmsno && e.times == "2"
                      select e1.wmsno;*/
             var qry = from e in WmsDc.wms_cangdtl_105
-                      join e1 in WmsDc.wms_cang_105 on new { e.wmsno, e.bllid } equals new{e1.wmsno,e1.bllid}
+                      join e1 in WmsDc.wms_cang_105 on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                       where
                           //q1.Contains(e.wmsno.Trim()) 
                       e1.lnkbocino == d.oldbarcode
                       && e.bllid == WMSConst.BLL_TYPE_INVENTORY_CHECK
                       && e1.times == "2"
-                      && e.gdsid == d.gdsid && e.gdstype == d.gdstype
+                      && e.gdsid == d.gdsid && e.gdstype == d.gdstype && e.bthno == d.bthno && e.vlddat == d.vlddat
                       && (e1.savdptid == LoginInfo.DefSavdptid || e1.savdptid == LoginInfo.DefCsSavdptid)
                       && e.barcode == d.barcode
                       select e;
@@ -84,12 +84,14 @@ namespace WMS.Controllers
             return arrqry.Length > 0;
         }
 
-        private ActionResult _MakeParam(String wmsno, String oldbarcodes, String gdsids, String gdstypes, String qtys)
+        private ActionResult _MakeParam(String wmsno, String oldbarcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys)
         {
             String[] oldbarcode = oldbarcodes.Split(',');
             String[] gdsid = gdsids.Split(',');
             String[] qty = qtys.Split(',');
             String[] gdstype = gdstypes.Split(',');
+            String[] bthno = bthnos.Split(',');
+            String[] vlddat = vlddats.Split(',');
             //String[] newsbarcode = newbarcodes.Split(',');
             List<wms_cangdtl_105> lstDtl = new List<wms_cangdtl_105>();
             if ((oldbarcode.Length != gdsid.Length)
@@ -167,8 +169,8 @@ namespace WMS.Controllers
                     dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.pkgqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.gdstype = gdstype[ii];
-                    dtl.bthno = "";
-                    dtl.vlddat = "";
+                    dtl.bthno = string.IsNullOrEmpty(bthno[i]) ? "1" : bthno[i];
+                    dtl.vlddat = string.IsNullOrEmpty(vlddat[i]) ? GetCurrentDay() : vlddat[i]; ;
                     if (gdsid[ii] != "1")
                     {
                         JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid[ii]);
@@ -625,11 +627,11 @@ namespace WMS.Controllers
         /// <param name="qtys">商品数量</param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_盘点制单, pwrdes = "盘点制单")]
-        public ActionResult InstInvCkBll(String wmsno, String barcodes, String gdsids, String gdstypes, String qtys)
+        public ActionResult InstInvCkBll(String wmsno, String barcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys)
         {
             //拆分参数
             //检查并创建明细
-            JsonResult jr = (JsonResult)_MakeParam(wmsno, barcodes, gdsids, gdstypes, qtys);
+            JsonResult jr = (JsonResult)_MakeParam(wmsno, barcodes, gdsids, gdstypes, bthnos, vlddats, qtys);
             ResultMessage rm = (ResultMessage)jr.Data;
             if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
             {
@@ -728,13 +730,15 @@ namespace WMS.Controllers
         /// <param name="gdstype">商品类型</param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_盘点制单, pwrdes = "盘点制单")]
-        public ActionResult HasChecked(String boci, String barcode, String gdsid, String gdstype)
+        public ActionResult HasChecked(String boci, String barcode, String gdsid, String gdstype, String bthno, String vlddat)
         {
             wms_cangdtl_105 d = new wms_cangdtl_105();
             d.oldbarcode = boci;    //oldbarcode 临时传入盘点批次
             d.barcode = barcode;
             d.gdsid = gdsid;
             d.gdstype = gdstype;
+            d.bthno = bthno;
+            d.vlddat = vlddat;
             //判断分区是否有效
             if (!IsExistBarcode(barcode))
             {

@@ -242,7 +242,7 @@ namespace WMS.Controllers
             return RSucc("成功", arrqrydtl, "S0160");
         }
 
-        public ActionResult DoDecStkQty(string wmsno, string checi, string bllid, string gdsid, double qty)
+        public ActionResult DoDecStkQty(string wmsno, string checi, string bllid, string gdsid, string bthno, string vlddat, double qty)
         {
             //得到对应的stkotdtl里面的未播种，未审核的单据商品信息
             /*var qrystkot = from e in WmsDc.stkotdtl
@@ -296,6 +296,8 @@ namespace WMS.Controllers
                              where e.wmsno == wmsno.Trim()
                              && e.bllid == bllid.Trim()
                              && e.gdsid == gdsid.Trim()
+                             && e.vlddat == vlddat.Trim()
+                             && e.bthno == bthno.Trim()
                              select e;
             var arrqrycangdtl = qrycangdtl.ToArray();
             if (arrqrycangdtl.Length <= 0)
@@ -382,7 +384,7 @@ namespace WMS.Controllers
         /// <param name="qty">实收数量</param>
         /// <returns>wms_blldtl, wms_blltp</returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
-        public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, double qty)
+        public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, double qty)
         {
             ////正在生成拣货单，请稍候重试
             //string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
@@ -403,6 +405,8 @@ namespace WMS.Controllers
                              where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
                              && e.gdsid == gdsid
                              && e.gdstype == gdstype
+                             && e.bthno == bthno.Trim()
+                             && e.vlddat == vlddat.Trim()
                              && e.barcode == barcode
                              && e.wmsno == wmsno
                              && e.tpcode == "y"
@@ -499,6 +503,8 @@ namespace WMS.Controllers
                                             && e.bokflg == GetY()
                                             && e.barcode == barcode.Trim()
                                             && e.gdstype == gdstype.Trim()
+                                            && e.vlddat == vlddat.Trim()
+                                            && e.bthno == bthno.Trim()
                                             && e.gdsid == gdsid.Trim()
                                             && e.wmsno == wmsno.Trim()
                                             group e by new
@@ -1055,7 +1061,7 @@ namespace WMS.Controllers
             }
         }
 
-        private ActionResult DoDecStkQtyByCheci(string wmsno, string checi, string bllid, string gdsid, double qty)
+        private ActionResult DoDecStkQtyByCheci(string wmsno, string checi, string bllid, string gdsid, string bthno, string vlddat, double qty)
         {
             //如果一个车次的拣完了，就计算该车次的拣货和配送是否一致
             //得到对应的stkotdtl里面的未播种，未审核的单据商品信息
@@ -1110,6 +1116,8 @@ namespace WMS.Controllers
                              where e.wmsno == wmsno.Trim()
                              && e.bllid == bllid.Trim()
                              && e.gdsid == gdsid.Trim()
+                             && e.bthno == bthno.Trim()
+                             && e.vlddat == vlddat.Trim()
                              select e;
             var arrqrycangdtl = qrycangdtl.ToArray();
             if (arrqrycangdtl.Length <= 0)

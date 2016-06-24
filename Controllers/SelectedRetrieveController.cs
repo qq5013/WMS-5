@@ -249,7 +249,7 @@ namespace WMS.Controllers
         /// <param name="qty">实收数量</param>
         /// <returns>wms_blldtl, wms_blltp</returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
-        public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, double qty)
+        public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, double qty)
         {
             using (TransactionScope scop = new TransactionScope())
             {
@@ -261,9 +261,11 @@ namespace WMS.Controllers
                 var arrmst = qrymst.ToArray();
                 var qrydtl = from e in WmsDc.wms_cangdtl
                              where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
-                             && e.gdsid == gdsid
-                             && e.gdstype == gdstype
-                             && e.barcode == barcode
+                             && e.gdsid == gdsid.Trim()
+                             && e.gdstype == gdstype.Trim()
+                             && e.bthno == bthno.Trim()
+                             && e.vlddat == vlddat.Trim()
+                             && e.barcode == barcode.Trim()
                              && e.wmsno == wmsno
                              select e;
                 var arrdtl = qrydtl.ToArray();
@@ -305,6 +307,11 @@ namespace WMS.Controllers
                 if (dtl.bokflg == GetN() && dtl.qty != null)
                 {
                     dtl.preqty = dtl.qty;
+                }
+                // 确认数量大于应拣数量
+                if (qty > dtl.preqty)
+                {
+                    return RInfo("i0473");
                 }
                 dtl.qty = Math.Round(qty, 4);
                 dtl.pkgqty = Math.Round(qty, 4);
