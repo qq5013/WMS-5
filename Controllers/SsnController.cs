@@ -442,7 +442,7 @@ namespace WMS.Controllers
                       where e.barcode == barcode
                       && e.qu == e.barcode.Substring(0, 2)
                       //&& dpts.Contains(e1.dptid.Trim())
-                      group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1 } into g
+                      group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1 } into g
                       select new
                       {
                           savdptid= g.Key.savdptid.Trim(),
@@ -453,12 +453,14 @@ namespace WMS.Controllers
                           spc = g.Key.spc.Trim(),
                           bsepkg = g.Key.bsepkg.Trim(),
                           gdstype = g.Key.gdstype.Trim(),
+                          bthno = g.Key.bthno.Trim(),
+                          vlddat = g.Key.vlddat.Trim(),
                           bcd = g.Key.bcd1.Trim(),
                           sqty = g.Sum(ge => ge.e.qty)
                       };
             //减去开单量
             var qry1 = from e in qry
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype }
+                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -473,6 +475,8 @@ namespace WMS.Controllers
                            bsepkg = e.bsepkg.Trim(),
                            bcd = e2.bcd.Trim(),
                            gdstype = e.gdstype.Trim(),
+                           bthno = e.bthno.Trim(),
+                           vlddat = e.vlddat.Trim(),
                            sqty = Math.Round((e.sqty - (e2.qty == null ? 0 : e2.qty)), 4, MidpointRounding.AwayFromZero)
                        };
             var arrqry = qry1.ToArray()/*.Where(e => e.sqty >= 0)*/.OrderByDescending(e=>e.sqty).ToArray();
@@ -484,13 +488,15 @@ namespace WMS.Controllers
                              where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
                                  /*&& e1.mkedat == GetCurrentDay() */&& e1.chkflg == GetN() && e.bokflg==GetN()
                                  && e.barcode == barcode.Trim()
-                             group e by new { e.barcode, e.gdsid, e.gdstype }
+                             group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat }
                                  into g
                                  select new
                                  {
                                      barcode = g.Key.barcode.Trim(),
                                      gdsid = g.Key.gdsid.Trim(),
                                      gdstype = g.Key.gdstype.Trim(),
+                                     bthno = g.Key.bthno.Trim(),
+                                     vlddat = g.Key.vlddat.Trim(),
                                      qty = g.Sum(e => e.qty)
                                  };
             var cangdtl103 = nowCangdtl103.ToArray();
@@ -500,22 +506,24 @@ namespace WMS.Controllers
                              where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
                                  /*&& e1.mkedat == GetCurrentDay() */&& e1.chkflg == GetN() && e.bokflg == GetN()
                                  && e.barcode == barcode.Trim()
-                             group e by new { e.barcode, e.gdsid, e.gdstype }
+                             group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat }
                                  into g
                                  select new
                                  {
                                      barcode = g.Key.barcode.Trim(),
                                      gdsid = g.Key.gdsid.Trim(),
                                      gdstype = g.Key.gdstype.Trim(),
+                                     bthno = g.Key.bthno.Trim(),
+                                     vlddat = g.Key.vlddat.Trim(),
                                      qty = g.Sum(e => e.qty)
                                  };
             var cangdtl115 = nowCangdtl115.ToArray();
 
             var allArrAry = from e in arrqry
-                            join ee1 in cangdtl103 on new { e.barcode, e.gdsid, e.gdstype } equals new { ee1.barcode, ee1.gdsid, ee1.gdstype }
+                            join ee1 in cangdtl103 on new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { ee1.barcode, ee1.gdsid, ee1.gdstype, ee1.bthno, ee1.vlddat }
                             into join103
                             from e1 in join103.DefaultIfEmpty()
-                            join ee2 in cangdtl115 on new { e.barcode, e.gdsid, e.gdstype } equals new { ee2.barcode, ee2.gdsid, ee2.gdstype }
+                            join ee2 in cangdtl115 on new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { ee2.barcode, ee2.gdsid, ee2.gdstype, ee2.bthno, ee2.vlddat }
                             into join115
                             from e2 in join115.DefaultIfEmpty()
                             select new GdsInBarcode
@@ -527,6 +535,8 @@ namespace WMS.Controllers
                                 gdsdes = e.gdsdes,
                                 gdsid = e.gdsid,
                                 gdstype = e.gdstype,
+                                bthno = e.bthno.Trim(),
+                                vlddat = e.vlddat.Trim(),
                                 qu = e.qu,
                                 savdptid = e.savdptid,
                                 spc = e.spc,
@@ -957,16 +967,20 @@ namespace WMS.Controllers
                           savdptid = e2.savdptid,
                           barcode = e2.barcode,
                           gdstype = e2.gdstype.Trim(),
+                          bthno = e2.bthno.Trim(),
+                          vlddat = e2.vlddat.Trim(),
                           e2.qty
                       };
             var q = from e in qry                    
                       where e.gdsid == gdsid //&& e.gdstype==gdstype
-                    group e by new { e.gdsid, e.gdsdes, e.gdstype, e.barcode, e.spc, e.bsepkg, e.dptid, e.bnd, e.bcd, e.qu, e.savdptid} into g
+                    group e by new { e.gdsid, e.gdsdes, e.gdstype, e.bthno, e.vlddat, e.barcode, e.spc, e.bsepkg, e.dptid, e.bnd, e.bcd, e.qu, e.savdptid} into g
                     select new
                     {
                         g.Key.gdsid,
                         g.Key.gdsdes,
                         g.Key.gdstype,
+                        vlddat = g.Key.vlddat.Trim(),
+                        bthno = g.Key.bthno.Trim(),
                         g.Key.spc,
                         g.Key.bsepkg,
                         g.Key.dptid,
@@ -978,7 +992,7 @@ namespace WMS.Controllers
                     };
             //减去开单量
             var qry1 = from e in  q
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype }
+                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -994,6 +1008,8 @@ namespace WMS.Controllers
                            bsepkg = e.bsepkg.Trim(),
                            bcd = e2.bcd.Trim(),
                            gdstype = e.gdstype.Trim(),
+                           bthno = e.bthno.Trim(),
+                           vlddat = e.vlddat.Trim(),
                            dptid = e.dptid.Trim(),
                            sqty = Math.Round((e.qty - (e2.qty == null ? 0 : e2.qty)), 4, MidpointRounding.AwayFromZero)
                        };
@@ -1011,6 +1027,8 @@ namespace WMS.Controllers
                          e.gdsdes,
                          e.gdsid,
                          e.gdstype,
+                         e.bthno,
+                         e.vlddat,
                          qty = e.sqty,
                          e.qu,
                          e.savdptid,
@@ -1992,6 +2010,7 @@ namespace WMS.Controllers
                       from e3 in joinBcd.DefaultIfEmpty()
                       join e4 in WmsDc.v_wms_pkg on new { e.gdsid } equals new { e4.gdsid }
                       join e5 in WmsDc.gds on e.gdsid equals e5.gdsid
+                      join e6 in WmsDc.emp on e1.mkr equals e6.empid
                       where e.bllid == bllid
                       && qus.Contains(e1.qu.Trim())
                       && (e1.savdptid == LoginInfo.DefCsSavdptid || e1.savdptid == LoginInfo.DefSavdptid)                      
@@ -2001,7 +2020,8 @@ namespace WMS.Controllers
                           e.bllid,
                           e1.mkedat,
                           e1.mkr,
-                          e.gdsid,
+                          mkrdes = e6.empdes.Trim(),
+                          gdsid = e.gdsid.Trim(),
                           e.gdstype,
                           e3.bcd1,
                           e.barcode,
@@ -2010,6 +2030,14 @@ namespace WMS.Controllers
                           e1.chkflg,
                           gdsdes = e5.gdsdes.Trim(),
                           pkg03 = GetPkgStr(e.qty, e4.cnvrto, e4.pkgdes),
+                          spc = e5.spc.Trim(),
+                          bsepkg = e5.bsepkg.Trim(),
+                          e.bokflg,
+                          e.bokdat,
+                          e.bkr,
+                          e.qty,
+                          e.preqty,
+                          e.rcdidx,
                           pkg03pre = GetPkgStr(e.preqty, e4.cnvrto, e4.pkgdes)
                       };            
             if (!String.IsNullOrEmpty(isAdt))
@@ -2055,10 +2083,10 @@ namespace WMS.Controllers
                          into JoinedEmpPrv
                          from e3 in JoinedEmpPrv.DefaultIfEmpty()
                          where
-                         qry.Where(ee=>ee.wmsno==e.wmsno).Any()                         
+                         qry.Where(ee => ee.wmsno == e.wmsno).Any()
                          && e.bllid == bllid
                          select new
-                         {                             
+                         {
                              e.bllid,
                              e.brief,
                              e.chkdat,
@@ -2072,18 +2100,22 @@ namespace WMS.Controllers
                              e.savdptid,
                              e.wmsno,
                              e3.prvdes,
-                             bokall = (from et in WmsDc.wms_cangdtl_105
+                             /*bokall = (from et in WmsDc.wms_cangdtl_105
                                        where et.bllid == e.bllid
                                        && et.wmsno == e.wmsno
                                        && (et.bokflg == null || et.bokflg == GetN())
-                                       select et).Count(),
+                                       select et).Count(),*/
                              mkrdes = e1.empdes,
-                             dtls = qry.Where(ee=>ee.wmsno==e.wmsno.Trim()).Select(ee=>ee),
+                             dtls = qry.Where(ee => ee.wmsno == e.wmsno.Trim() && ee.bllid == e.bllid)
+                                    .Select(ee => new
+                                    {
+                                        ee.barcode, ee.bcd1,ee.bkr,ee.bllid,ee.bokdat,ee.bokflg,ee.bsepkg,ee.bthno,ee.chkflg,ee.gdsdes,ee.gdsid,ee.gdstype,ee.mkedat,ee.mkr, ee.pkg03,ee.pkg03pre,ee.preqty,ee.qty,ee.spc,ee.vlddat,ee.wmsno
+                                    }),
                              e.lnkbocino
                          };
-            var arrqrymst = qrymst.ToArray();
+            //var arrqrymst = qrymst.ToArray();
 
-            return arrqrymst;
+            return qry.ToArray();
         }
         protected Object[] FindBllFromCangMst109(String bllid, String begindat, String enddat, String wmsno, String gdsid, String barcode, String mkr, String rcvdptid)
         {
