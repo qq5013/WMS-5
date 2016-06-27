@@ -727,7 +727,7 @@ namespace WMS.Controllers
             String[] spqu = GetSpQu(LoginInfo.DefSavdptid);
             String[] dpts = LoginInfo.DatPwrs
                 .Where(e => spqu.Contains(e.qu))
-                .GroupBy(e => e.dptid).Select(g => g.Key).ToArray();
+                .GroupBy(e => e.dptid).Select(g => g.Key.Trim()).ToArray();
             //查看启用的部门
             var qry = from e in WmsDc.wms_set
                       where e.setid == WMSConst.SET_TYPE_ENABLEDPT
@@ -1987,22 +1987,30 @@ namespace WMS.Controllers
 
             var qry = from e in WmsDc.wms_cangdtl_105
                       join e1 in WmsDc.wms_cang_105 on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
-                      join e2 in WmsDc.bcd on new { e.gdsid, e.bcd } equals new { e2.gdsid, bcd = e2.bcd1 }
+                      join e2 in WmsDc.bcd on new { e.gdsid, e.bcd } equals new { e2.gdsid, bcd = e2.bcd1 }                      
                       into joinBcd
                       from e3 in joinBcd.DefaultIfEmpty()
-                      where e.bllid == bllid                      
+                      join e4 in WmsDc.v_wms_pkg on new { e.gdsid } equals new { e4.gdsid }
+                      join e5 in WmsDc.gds on e.gdsid equals e5.gdsid
+                      where e.bllid == bllid
                       && qus.Contains(e1.qu.Trim())
-                      && (e1.savdptid == LoginInfo.DefCsSavdptid || e1.savdptid == LoginInfo.DefSavdptid)
+                      && (e1.savdptid == LoginInfo.DefCsSavdptid || e1.savdptid == LoginInfo.DefSavdptid)                      
                       select new
                       {
                           e.wmsno,
                           e.bllid,
                           e1.mkedat,
                           e1.mkr,
-                          e3.gdsid,
+                          e.gdsid,
+                          e.gdstype,
                           e3.bcd1,
                           e.barcode,
-                          e1.chkflg
+                          vlddat = e.vlddat.Trim(),
+                          bthno = e.bthno.Trim(),
+                          e1.chkflg,
+                          gdsdes = e5.gdsdes.Trim(),
+                          pkg03 = GetPkgStr(e.qty, e4.cnvrto, e4.pkgdes),
+                          pkg03pre = GetPkgStr(e.preqty, e4.cnvrto, e4.pkgdes)
                       };            
             if (!String.IsNullOrEmpty(isAdt))
             {
@@ -2046,7 +2054,8 @@ namespace WMS.Controllers
                          join e2 in WmsDc.prv on e.prvid equals e2.prvid
                          into JoinedEmpPrv
                          from e3 in JoinedEmpPrv.DefaultIfEmpty()
-                         where arrqry.Contains(e.wmsno)
+                         where
+                         qry.Where(ee=>ee.wmsno==e.wmsno).Any()                         
                          && e.bllid == bllid
                          select new
                          {                             
@@ -2069,6 +2078,7 @@ namespace WMS.Controllers
                                        && (et.bokflg == null || et.bokflg == GetN())
                                        select et).Count(),
                              mkrdes = e1.empdes,
+                             dtls = qry.Where(ee=>ee.wmsno==e.wmsno.Trim()).Select(ee=>ee),
                              e.lnkbocino
                          };
             var arrqrymst = qrymst.ToArray();
@@ -2684,32 +2694,53 @@ namespace WMS.Controllers
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             var qry = from e in WmsDc.gds
                       join e1 in WmsDc.bcd on e.gdsid equals e1.gdsid
-                      join e2 in WmsDc.wms_set on new { e.dptid, setid=WMSConst.SET_TYPE_RELATEDPT } equals new { dptid = e2.val2, e2.setid }
-                      where 
+                      join e2 in WmsDc.wms_set on new { e.dptid, setid = WMSConst.SET_TYPE_RELATEDPT } equals new { dptid = e2.val2, e2.setid }
+                      join e3 in WmsDc.v_wms_pkg on new { e.gdsid } equals new { e3.gdsid }
+                      where
                       e.gdsid == gdsid
-                      && e2.isvld == GetY() 
-                      && (e2.val3==LoginInfo.DefSavdptid || e2.val3==LoginInfo.DefCsSavdptid)
+                      && e2.isvld == GetY()
+                      /*&& (e2.val3==LoginInfo.DefSavdptid || e2.val3==LoginInfo.DefCsSavdptid)
                       && (
                       (spqus.Contains(e2.val1) && dpts.Contains(e.dptid))  //商品区权限验证
                       || (thqus.Contains(e2.val1) && thDpts.Contains(e.dptid)) //退货区权限验证
                       || (dtqus.Contains(e2.val1) && dtDpts.Contains(e.dptid)) //堆头区权限验证
-                      )
-                      //&& dpts.Contains(e.dptid.Trim())
+                      )*/
                       select new
                       {
+                          savdptid = e2.val3.Trim(),
+                          qu = e2.val1.Trim(),
                           gdsid = e.gdsid.Trim(),
                           gdsdes = e.gdsdes.Trim(),
                           spc = e.spc.Trim(),
                           bsepkg = e.bsepkg.Trim(),
                           dptid = e.dptid.Trim(),
                           bnd = e.bnd.Trim(),
-                          bcd = e1.bcd1
+                          bcd = e1.bcd1.Trim(),
+                          isstp = e.isstp,
+                          isstpsal = e.isstpsal,
+                          cnvrto = e3.cnvrto,
+                          pkgdes = e3.pkgdes
                       };
             var arrqry = qry.ToArray();
+
             if (arrqry.Length <= 0)
             {
                 return RNoData("N0202");
             }
+
+            //查看有无权限
+            if (!arrqry.Where(e =>
+                    (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                      && (
+                      (spqus.Contains(e.qu) && dpts.Contains(e.dptid))  //商品区权限验证
+                      || (thqus.Contains(e.qu) && thDpts.Contains(e.dptid)) //退货区权限验证
+                      || (dtqus.Contains(e.qu) && dtDpts.Contains(e.dptid)) //堆头区权限验证
+                )).Any())
+            {
+                return RNoData("I0476");
+            }
+
+            
             return RSucc("成功！", arrqry, "S0187");
         }
 

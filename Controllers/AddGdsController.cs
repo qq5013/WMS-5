@@ -83,7 +83,7 @@ namespace WMS.Controllers
                     (select bsepkg from gds where gdsid=t1.gdsid) bsepkg,
                     t1.gdsid,
                     isnull(t4.cwqty,0) cwqty,isnull(t1.qty,0) safeqty,
-                    isnull(t4.cwqty,0) - t1.qty + isnull(t8.qty_108_add,0) bhqty,
+                    isnull(t4.cwqty,0) - isnull(t1.qty,0) + isnull(t8.qty_108_add,0) bhqty,
                     floor(round((isnull(t4.cwqty,0) - t1.qty + isnull(t8.qty_108_add,0))/isnull((select max(cnvrto) from pkg where iscseorspt='3' and gdsid=t1.gdsid),1),0)) bhjg
 
                     from 
@@ -161,15 +161,14 @@ namespace WMS.Controllers
                     or t7.qty_115_high>0) 
                     ) table1
 
-                    --取得补货规则的补货仓位
-                    left join (select c.gdsid gdsid_1,min(c.barcode) barcode,sum(allqty) highqty from
-                    (select a.gdsid,a.barcode,sum(isnull(a.qty,0) - isnull(b.qty,0)) allqty from wms_cwgdsbs a
+                    ----取得补货规则的补货仓位
+                    left join (select gdsid gdsid_1,barcode,vlddat,bthno,allqty highqty from wms_cwgdsbs
+                    join (select  a.gdsid+min(a.vlddat+a.bthno+a.barcode) vldbarcode,sum(isnull(a.qty,0) - isnull(b.qty,0)) allqty from wms_cwgdsbs a
                     left join wms_sendbill b on a.barcode=b.barcode and a.gdsid=b.gdsid and a.gdstype=b.gdstype and a.vlddat=b.vlddat and a.bthno=b.bthno
                     inner join (select * from wms_cangwei where savdptid=@savdptid and qu=@qu and tjflg='y') p1 on a.savdptid=p1.savdptid and a.qu=p1.qu and a.barcode=p1.barcode
-                    where a.qty>0 and a.savdptid=@savdptid and a.qu=@qu 
-                    group by a.gdsid,a.barcode
-                    having sum(isnull(a.qty,0) - isnull(b.qty,0))>0) c
-                    group by c.gdsid) table2
+                    where a.savdptid=@savdptid and a.qu=@qu and isnull(a.qty,0) - isnull(b.qty,0)>0
+                    group by a.gdsid) table_temp1 on gdsid+vlddat+bthno+barcode = table_temp1.vldbarcode
+                    where qty>0) table2
                     on table1.gdsid=table2.gdsid_1
 
                     order by table2.barcode";

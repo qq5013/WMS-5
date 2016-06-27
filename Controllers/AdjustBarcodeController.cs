@@ -809,20 +809,20 @@ namespace WMS.Controllers
                 // 判断调出的区是不是堆头区，是堆头区的话，根据商品判断应该调入那个分区
                 if (dtqus.Contains(oqu))
                 {
-                    String shouldInQu = (from e in WmsDc.wms_set
+                    String[] shouldInQu = (from e in WmsDc.wms_set
                                 join e1 in WmsDc.gds on e.val2 equals e1.dptid
-                                where e.setid == "001" && e.val3.Trim() == LoginInfo.DefSavdptid
+                                where e.setid == "001" && (e.val3.Trim() == LoginInfo.DefSavdptid.Trim() || e.val3.Trim() == LoginInfo.DefCsSavdptid.Trim())
                                 && e.isvld == GetY()
                                 && e1.gdsid == arrqrydtl[0].gdsid.Trim()
-                                select e.val1.Trim()).FirstOrDefault();
-                    if (string.IsNullOrEmpty(shouldInQu))
+                                select e.val1.Trim()).ToArray();
+                    if (shouldInQu.Length==0)
                     {
                         return RInfo("I0474", arrqrydtl[0].gdsid.Trim());
                     }
                     // 调入分区{0}与商品所在分区{1}不一致
-                    if (shouldInQu.Trim() != rqu.Trim())
+                    if (!shouldInQu.Contains(rqu))
                     {
-                        return RInfo("I0475", rqu, shouldInQu);
+                        return RInfo("I0475", rqu, String.Join(",", shouldInQu)  );
                     }
 
                 }else{

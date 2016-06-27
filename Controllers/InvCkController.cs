@@ -76,7 +76,7 @@ namespace WMS.Controllers
                       e1.lnkbocino == d.oldbarcode
                       && e.bllid == WMSConst.BLL_TYPE_INVENTORY_CHECK
                       && e1.times == "2"
-                      && e.gdsid == d.gdsid && e.gdstype == d.gdstype && e.bthno == d.bthno && e.vlddat == d.vlddat
+                      && e.gdsid == d.gdsid && e.gdstype == d.gdstype //&& e.bthno == d.bthno && e.vlddat == d.vlddat
                       && (e1.savdptid == LoginInfo.DefSavdptid || e1.savdptid == LoginInfo.DefCsSavdptid)
                       && e.barcode == d.barcode
                       select e;
@@ -169,8 +169,8 @@ namespace WMS.Controllers
                     dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.pkgqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
                     dtl.gdstype = gdstype[ii];
-                    dtl.bthno = string.IsNullOrEmpty(bthno[i]) ? "1" : bthno[i];
-                    dtl.vlddat = string.IsNullOrEmpty(vlddat[i]) ? GetCurrentDay() : vlddat[i]; ;
+                    dtl.bthno = string.IsNullOrEmpty(bthno[ii]) ? "1" : bthno[ii];
+                    dtl.vlddat = string.IsNullOrEmpty(vlddat[ii]) ? GetCurrentDay() : vlddat[ii];
                     if (gdsid[ii] != "1")
                     {
                         JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid[ii]);
