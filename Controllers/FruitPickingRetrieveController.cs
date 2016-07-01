@@ -274,7 +274,7 @@ namespace WMS.Controllers
             var qrydtl = from e in WmsDc.wms_cangdtl_115
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                          join e2 in
-                             WmsDc.v_wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
+                             WmsDc.wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
                          into joinPkg
                          from e3 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
@@ -558,7 +558,7 @@ namespace WMS.Controllers
                         #region 如果拣货的数量不够的话,要去修改配送单的数量和金额
                         var cutgds = qryAllByGdsidCang.FirstOrDefault();
                         var qrystkdtl = (from e in WmsDc.stkotdtl
-                                        join e1 in WmsDc.v_wms_pkg on e.gdsid equals e1.gdsid
+                                        join e1 in WmsDc.wms_pkg on e.gdsid equals e1.gdsid
                                         where e.stkot.wmsbllid == cutgds.bllid
                                         && e.stkot.wmsno == cutgds.wmsno
                                         && e.gdsid == cutgds.gdsid

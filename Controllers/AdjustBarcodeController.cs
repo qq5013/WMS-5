@@ -144,7 +144,7 @@ namespace WMS.Controllers
 				                            and wms_cang_115.savdptid=@savdptid and wms_cang_115.qu=@qu and wms_cang_115.bllid='115' and wms_cang_115.mkedat>='" + mkedat + @"'
                             union all
                             select barcode from wms_bllmst,wms_blldtl where wms_bllmst.wmsno=wms_blldtl.wmsno and wms_bllmst.bllid=wms_blldtl.bllid
-				                            and wms_bllmst.savdptid=@savdptid and wms_bllmst.qu=@qu and wms_bllmst.bllid='108' and wms_bllmst.mkedat>='" + mkedat + @"'
+				                            and wms_bllmst.savdptid=@savdptid and wms_bllmst.qu=@qu and wms_bllmst.bllid='108' and wms_bllmst.lnknewbllid='108' and wms_bllmst.mkedat>='" + mkedat + @"'
                             )
 
                             and b.zheng<=@qty
@@ -450,7 +450,7 @@ namespace WMS.Controllers
                         sin.depid = WmsDc.bizdep.Where(e => e.savdptid.Trim() == dp.newsavdptid.Trim()
                             && e.dptid.Trim() == dp.newdptid.Trim()).Select(e => e.depid.Trim()).FirstOrDefault();
                         sin.prvid = "";
-                        sin.mkr = mst.ckr;
+                        sin.mkr = mst.mkr;
                         sin.mkedat = GetCurrentDay();
                         sin.ckr = "";
                         sin.chkflg = GetN();
@@ -581,6 +581,7 @@ namespace WMS.Controllers
             var qry = from e in WmsDc.wms_bllmst
                       where e.wmsno == wmsno.Trim()
                       && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                      && e.lnknewbllid == "108"
                       select e;
             wms_bllmst mst = qry.FirstOrDefault();
             return mst;
@@ -639,7 +640,7 @@ namespace WMS.Controllers
                 mst.chkdat = "";
                 mst.opr = LoginInfo.Usrid;
                 mst.brief = "";
-                mst.lnknewbllid = "";
+                mst.lnknewbllid = "108";    //正常仓位调整
                 mst.lnknewno = "";
                 mst.lnknewbrief = "";
 
@@ -696,6 +697,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid && 
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid == "108"
                          select e;
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
@@ -779,6 +781,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid && 
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid=="108"
                          select e;
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_blldtl
@@ -799,6 +802,11 @@ namespace WMS.Controllers
             if (arrqrydtl.Length <= 0)
             {
                 return RNoData("N0010");
+            }
+            //判断是否已经增加了该新仓位
+            if (arrqrytpdtl.Where(e => e.barcode == newbarcode.Trim()).Any())
+            {
+                return RInfo("I0477");
             }
 
             String rqu = GetQuByBarcode(newbarcode);
@@ -966,6 +974,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid  &&
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid=="108"
                          select e;
             
             var arrqrymst = qrymst.ToArray();
@@ -1099,6 +1108,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid                         && 
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid=="108"
                          && barcode.Substring(0, 2) == e.qu
                          select e;
             
@@ -1209,6 +1219,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid &&
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid=="108"
                          select e;
             
             var arrqrymst = qrymst.ToArray();
@@ -1398,6 +1409,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where e.mkr == LoginInfo.Usrid  &&
                          e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid=="108"
                          select e;
             
             var arrqrymst = qrymst.ToArray();
@@ -1465,6 +1477,7 @@ namespace WMS.Controllers
                              //&& e.mkedat.Substring(0, 8) == GetCurrentDay()               /// 周熙说的
                          //&& e.mkr == LoginInfo.Usrid
                          && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid == "108"
                          select new
                          {
                              e.wmsno,
@@ -1519,6 +1532,7 @@ namespace WMS.Controllers
                          where // e.mkr == LoginInfo.Usrid                         && 
                          qus.Contains(e.qu.Trim())
                          && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                         && e.lnknewbllid=="108"
                          select e;
             //todo : 判断是否有审核权限，如果有就显示全部未审核的和自己做的单子
             var qry = from e in LoginInfo.EmpPwrs
@@ -1565,7 +1579,7 @@ namespace WMS.Controllers
             //join e2 in WmsDc.pkg on new { e1.gdsid, iscseorspt = '3' } equals new { e2.gdsid, e2.iscseorspt }
             var q = from e in qrydtl
                     join e1 in
-                        WmsDc.v_wms_pkg on new { e.gdsid } equals new { e1.gdsid }
+                        WmsDc.wms_pkg on new { e.gdsid } equals new { e1.gdsid }
                     into joinPkgDtl
                     from e2 in joinPkgDtl.DefaultIfEmpty()
                     select new
@@ -1651,6 +1665,7 @@ namespace WMS.Controllers
             var qrymst = from e in WmsDc.wms_bllmst
                          where //e.mkr == LoginInfo.Usrid &&
                          qus.Contains(e.qu.Trim())
+                         && e.lnknewbllid=="108"
                          && e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                          select e;
             //todo : 判断是否有审核权限，如果有就显示全部未审核的和自己做的单子

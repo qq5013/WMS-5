@@ -217,7 +217,7 @@ namespace WMS.Controllers
         {
             var qry = from e in WmsDc.wms_addgds
                       join e1 in WmsDc.wms_addgdsdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
-                      join e2 in WmsDc.v_wms_pkg on e1.gdsid equals e2.gdsid
+                      join e2 in WmsDc.wms_pkg on e1.gdsid equals e2.gdsid
                       join e3 in WmsDc.gds on e1.gdsid equals e3.gdsid
                       where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADDGDSBLL
                       && qus.Contains(e.qu)
@@ -263,7 +263,7 @@ namespace WMS.Controllers
         {
             var qry = from e in WmsDc.wms_addgds
                       join e1 in WmsDc.wms_addgdsdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
-                      join e2 in WmsDc.v_wms_pkg on e1.gdsid equals e2.gdsid
+                      join e2 in WmsDc.wms_pkg on e1.gdsid equals e2.gdsid
                       join e3 in WmsDc.gds on e1.gdsid equals e3.gdsid
                       where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADDGDSBLL
                       && qus.Contains(e.qu)

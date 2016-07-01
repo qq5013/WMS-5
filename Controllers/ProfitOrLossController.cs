@@ -144,7 +144,7 @@ namespace WMS.Controllers
                           e.brief,
                           dtls = (from edtl in WmsDc.wms_cangdtl_111
                                   join gd in WmsDc.gds on edtl.gdsid equals gd.gdsid
-                                  join e3 in WmsDc.v_wms_pkg on new { gd.gdsid } equals new { e3.gdsid }
+                                  join e3 in WmsDc.wms_pkg on new { gd.gdsid } equals new { e3.gdsid }
                                   into joinPkg
                                   from e4 in joinPkg.DefaultIfEmpty()
                                   where edtl.wmsno == e.wmsno && edtl.bllid == WMSConst.BLL_TYPE_PROFITORLOSS
@@ -927,7 +927,7 @@ namespace WMS.Controllers
                          join e2 in WmsDc.losrsn on e.brfdtl.Trim() equals e2.losrsnid.Trim()
                          into joinLosrsnDef
                          from e3 in joinLosrsnDef.DefaultIfEmpty()
-                         join e4 in WmsDc.v_wms_pkg on new { e1.gdsid } equals new { e4.gdsid }
+                         join e4 in WmsDc.wms_pkg on new { e1.gdsid } equals new { e4.gdsid }
                          into joinPkg from e5 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno
                          && e.bllid == WMSConst.BLL_TYPE_PROFITORLOSS

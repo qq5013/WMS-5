@@ -820,7 +820,7 @@ namespace WMS.Controllers
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_cangdtl_110
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
-                         join e2 in WmsDc.v_wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
+                         join e2 in WmsDc.wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
                          into joinPkg from e3 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno
                          && e.bllid == WMSConst.BLL_TYPE_RETPRV

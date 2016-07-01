@@ -83,6 +83,7 @@
     <Compile Include="Controllers\AdjustInRecievController.cs" />
     <Compile Include="Controllers\AdjustOutBozController.cs" />
     <Compile Include="Controllers\BoZController.cs" />
+    <Compile Include="Controllers\CanNotOverQuAdjustBarcodeException.cs" />
     <Compile Include="Controllers\CheckedBozController.cs" />
     <Compile Include="Controllers\CheckedRetrieveController.cs" />
     <Compile Include="Controllers\CsBozController.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Controllers\FruitPickingRetrieveController.cs" />
     <Compile Include="Controllers\HqApkServicesController.cs" />
     <Compile Include="Controllers\InvCkController.cs" />
+    <Compile Include="Controllers\OverQuAdjustBarcodeController.cs" />
     <Compile Include="Controllers\ProfitOrLossController.cs" />
     <Compile Include="Controllers\RecievOneByOneController.cs" />
     <Compile Include="Controllers\RetCangController.cs" />

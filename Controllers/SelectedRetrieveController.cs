@@ -195,7 +195,7 @@ namespace WMS.Controllers
             }
             var qrydtl = from e in WmsDc.wms_cangdtl
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
-                         join e2 in WmsDc.v_wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
+                         join e2 in WmsDc.wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
                          into joinPkg
                          from e3 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_RETRIEVE

@@ -236,7 +236,7 @@ namespace WMS.Controllers
                           e.brief,
                           dtls = (from edtl in WmsDc.wms_cangdtl_105
                                   join gd in WmsDc.gds on edtl.gdsid equals gd.gdsid
-                                  join e3 in WmsDc.v_wms_pkg on new { gd.gdsid } equals new { e3.gdsid }
+                                  join e3 in WmsDc.wms_pkg on new { gd.gdsid } equals new { e3.gdsid }
                                   into joinPkg from e4 in joinPkg.DefaultIfEmpty()
                                   where edtl.wmsno == e.wmsno && edtl.bllid == WMSConst.BLL_TYPE_INVENTORY_CHECK
                                   select new
@@ -768,7 +768,7 @@ namespace WMS.Controllers
             var qrydtl = from e in WmsDc.wms_cangdtl_105
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                          into joinGds from e2 in joinGds.DefaultIfEmpty()
-                         join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                         join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                          into joinPkg from e4 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno
                          && e.bllid == WMSConst.BLL_TYPE_INVENTORY_CHECK
@@ -964,7 +964,7 @@ namespace WMS.Controllers
                          select e;
             wms_cang_105 mst = qrymst.FirstOrDefault();
             object[] dtls = (from e in WmsDc.wms_cangdtl_105
-                             join e1 in WmsDc.v_wms_pkg on e.gdsid equals e1.gdsid
+                             join e1 in WmsDc.wms_pkg on e.gdsid equals e1.gdsid
                              join e2 in WmsDc.wms_cang_105 on new { e.wmsno, e.bllid } equals new { e2.wmsno, e2.bllid }
                              join e3 in WmsDc.gds on e.gdsid equals e3.gdsid
                              join e4 in WmsDc.emp on e2.mkr equals e4.empid
@@ -1029,7 +1029,7 @@ namespace WMS.Controllers
                          select e;
             wms_cang_105 mst = qrymst.FirstOrDefault();
             object[] dtls = (from e in WmsDc.wms_cangdtl_105
-                             join e1 in WmsDc.v_wms_pkg on e.gdsid equals e1.gdsid                             
+                             join e1 in WmsDc.wms_pkg on e.gdsid equals e1.gdsid                             
                              join e2 in WmsDc.wms_cang_105 on new { e.wmsno, e.bllid } equals new { e2.wmsno,e2.bllid }
                              join e3 in WmsDc.gds on e.gdsid equals e3.gdsid
                              join e4 in WmsDc.emp on e2.mkr  equals e4.empid

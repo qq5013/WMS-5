@@ -9,4 +9,3 @@ D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.Services.dll
 D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\System.Web.Mvc.xml
 D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\zh-Hans\System.Web.Mvc.resources.dll
 D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\obj\Debug\WMS.csprojResolveAssemblyReference.cache
-D:\快盘\mycode\hongqiapk\services\WMS\WMS\WMS\bin\WMS.XML

@@ -236,21 +236,24 @@ namespace WMS.Controllers
             using (TransactionScope scop = new TransactionScope())
             {
                 wms_cangwei oldCw = null;
+                String rqu = GetQuByBarcode(newbarcode);
+                String oqu = GetQuByBarcode(barcode);
+
                 //如果旧仓位不为空，就需要查询出就仓位，以便修改其仓位托盘tpflg标志
                 if (!string.IsNullOrEmpty(barcode.Trim()))
                 {
                     //判断仓位码是否有效                                
                     if (!IsExistBarcode(barcode))
                     {
-                        return RInfo( "I0396",barcode.Trim()  );
+                        return RInfo("I0396", barcode.Trim());
                     }
                     oldCw = GetCangWei(barcode);
                 }
 
                 //判断仓位码是否有效
-                if ( !string.IsNullOrEmpty(newbarcode) && !IsExistBarcode(newbarcode))
+                if (!string.IsNullOrEmpty(newbarcode) && !IsExistBarcode(newbarcode))
                 {
-                    return RInfo( "I0397",newbarcode.Trim()  );
+                    return RInfo("I0397", newbarcode.Trim());
                 }
                 //todo 判断新的仓位码是否为今天已经上架单中已有的仓位
 
@@ -272,17 +275,20 @@ namespace WMS.Controllers
                     }
                     if (initQu != gdsqu)
                     {
-                        return RInfo( "I0398" );
+                        return RInfo("I0398");
                     }
                 }
-                if (initQu != newbarcode.Substring(0, 2))
+                if (!dtqus.Contains(rqu))
                 {
-                    return RInfo( "I0399" );
+                    if (initQu != newbarcode.Substring(0, 2))
+                    {
+                        return RInfo("I0399");
+                    }
                 }
 
                 #region 有效性检查
                 //检查单号是否有效            
-                if (cang==null)
+                if (cang == null)
                 {
                     return RNoData("N0213");
                 }
@@ -296,7 +302,7 @@ namespace WMS.Controllers
                 //检查是否已经审核
                 if (cang.chkflg == GetY())
                 {
-                    return RInfo( "I0401" );
+                    return RInfo("I0401");
                 }
 
                 //未查找到托盘的正确仓位
@@ -307,29 +313,33 @@ namespace WMS.Controllers
 
                 //检查同一个托盘是否都已经上架            
                 if (arrqrydtl[0].bokflg == GetY())
-                {                    
-                    return RInfo( "I0402" );
+                {
+                    return RInfo("I0402");
                 }
                 #endregion
 
-                //查看新仓位是否不为推荐仓位
                 wms_cangwei cw = null;
+                //如果调入不在堆头区，就判断一下区域间能不能互相调用
+                //if (!dtqus.Contains(rqu))
+                //{
+                //查看新仓位是否不为推荐仓位                
                 if (!String.IsNullOrEmpty(newbarcode) && barcode.Trim() != newbarcode.Trim())
-                {  
+                {
                     cw = GetCangWei(newbarcode);
                     if (cw == null)
                     {
                         return RNoData("N0215", newbarcode);
                     }
-                    
+
                     if (!savdpts.Contains(cw.savdptid.Trim()))
                     {
-                        return RInfo( "I0403",newbarcode  );
+                        return RInfo("I0403", newbarcode);
                     }
                     if (!qus.Contains(cw.qu.Trim()))
                     {
-                        return RInfo( "I0404",newbarcode  );
+                        return RInfo("I0404", newbarcode);
                     }
+
 
                     var qrynewcw = from e in WmsDc.wms_cang
                                    join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
@@ -356,6 +366,8 @@ namespace WMS.Controllers
                     }
                     WmsDc.SubmitChanges();
                 }
+                //}
+
                 #region 上架托盘到仓位
                 foreach (wms_cangdtl cangdtl in arrqrydtl)
                 {
@@ -365,18 +377,18 @@ namespace WMS.Controllers
                     if (cw != null)
                     {
                         cangdtl.oldbarcode = cangdtl.barcode;
-                        cangdtl.barcode = newbarcode;                        
-                    }                                        
-                }                    
+                        cangdtl.barcode = newbarcode;
+                    }
+                }
 
                 try
                 {
-                    WmsDc.SubmitChanges();                    
+                    WmsDc.SubmitChanges();
 
                     //done: 判断是否已经上架单明细已经审核完毕，完毕后就直接审核整单
                     //明细表
                     wms_cangdtl[] arrqryaldtl = GetCangDtl(wmsno)
-                                                .Where(e=>e.bokflg==GetN())
+                                                .Where(e => e.bokflg == GetN())
                                                 .ToArray();
                     if (arrqryaldtl.Length == 0)
                     {
@@ -384,11 +396,11 @@ namespace WMS.Controllers
                         wms_bllmst bllmst = GetBllMst(wmsno);
                         if (bllmst == null)
                         {
-                            return RInfo( "I0406" );
+                            return RInfo("I0406");
                         }
                         if (bllmst.chkflg == GetN())
                         {
-                            return RInfo( "I0407" );
+                            return RInfo("I0407");
                         }
                         #region 审核整单
                         JsonResult ar = (JsonResult)AdtUpShelf(wmsno);
@@ -397,17 +409,17 @@ namespace WMS.Controllers
                         {
                             return ar;
                         }
-                        #endregion 审核整单                        
+                        #endregion 审核整单
                     }
 
                     scop.Complete();
-                    return RSucc("扫描仓位码和托盘码匹配成功！",null, "S0196");
+                    return RSucc("扫描仓位码和托盘码匹配成功！", null, "S0196");
                 }
                 catch (Exception ex)
-                {                    
+                {
                     return RErr("异常错误！" + ex.Message, "E0053");
                 }
-                #endregion                
+                #endregion
             }
         }
 

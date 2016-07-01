@@ -22,7 +22,7 @@ namespace WMS.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="test_newshop")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="newshop")]
 	public partial class WMSDcDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -216,6 +216,9 @@ namespace WMS.Models
     partial void Insertcpngds(cpngds instance);
     partial void Updatecpngds(cpngds instance);
     partial void Deletecpngds(cpngds instance);
+    partial void Insertwms_pkg(wms_pkg instance);
+    partial void Updatewms_pkg(wms_pkg instance);
+    partial void Deletewms_pkg(wms_pkg instance);
     #endregion
 		
 		public WMSDcDataContext() : 
@@ -757,6 +760,14 @@ namespace WMS.Models
 			get
 			{
 				return this.GetTable<cpngds>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_pkg> wms_pkg
+		{
+			get
+			{
+				return this.GetTable<wms_pkg>();
 			}
 		}
 		
@@ -28584,6 +28595,116 @@ namespace WMS.Models
 						this._gdsid = default(string);
 					}
 					this.SendPropertyChanged("gds");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_pkg")]
+	public partial class wms_pkg : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _gdsid;
+		
+		private string _pkgdes;
+		
+		private double _cnvrto;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgdesChanging(string value);
+    partial void OnpkgdesChanged();
+    partial void OncnvrtoChanging(double value);
+    partial void OncnvrtoChanged();
+    #endregion
+		
+		public wms_pkg()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgdes", DbType="VarChar(24)")]
+		public string pkgdes
+		{
+			get
+			{
+				return this._pkgdes;
+			}
+			set
+			{
+				if ((this._pkgdes != value))
+				{
+					this.OnpkgdesChanging(value);
+					this.SendPropertyChanging();
+					this._pkgdes = value;
+					this.SendPropertyChanged("pkgdes");
+					this.OnpkgdesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_cnvrto", DbType="Float NOT NULL")]
+		public double cnvrto
+		{
+			get
+			{
+				return this._cnvrto;
+			}
+			set
+			{
+				if ((this._cnvrto != value))
+				{
+					this.OncnvrtoChanging(value);
+					this.SendPropertyChanging();
+					this._cnvrto = value;
+					this.SendPropertyChanged("cnvrto");
+					this.OncnvrtoChanged();
 				}
 			}
 		}

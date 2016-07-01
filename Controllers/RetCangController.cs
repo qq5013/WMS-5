@@ -171,7 +171,7 @@ namespace WMS.Controllers
                       join e3 in WmsDc.rcbakrsn on e1.brfdtl equals e3.rcbakrsnid
                       into joinRcbak
                       from e4 in joinRcbak.DefaultIfEmpty()
-                      join e5 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e5.gdsid}
+                      join e5 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e5.gdsid}
                       into joinPkg from e6 in joinPkg.DefaultIfEmpty()
                       where e.bllid == WMSConst.BLL_TYPE_RETCANG
                       && e.wmsno == wmsno

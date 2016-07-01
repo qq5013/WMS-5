@@ -78,7 +78,7 @@ namespace WMS.Controllers
             #endregion 减小数部分
             //减去零散件规
             #region 减去零散件规
-            v_wms_pkg[] lsPkg = (from e in WmsDc.v_wms_pkg
+            wms_pkg[] lsPkg = (from e in WmsDc.wms_pkg
                                  where stkotdtl.Select(ee => ee.gdsid.Trim()).Contains(e.gdsid)
                                  select e).ToArray();
             foreach (stkotdtl d in stkotdtl)

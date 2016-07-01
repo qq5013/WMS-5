@@ -482,7 +482,7 @@ namespace WMS.Controllers
                       };
             qry = qry.Where(e => e.sqty1 > 0);
             var q = from e2 in qry
-                    join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                    join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                     into joinPkg from e4 in joinPkg.DefaultIfEmpty()
                     select new
                     {

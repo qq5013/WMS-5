@@ -1016,7 +1016,7 @@ namespace WMS.Controllers
 
             var q1 = from e in qry1
                      join e3 in
-                         WmsDc.v_wms_pkg on new { e.gdsid } equals new { e3.gdsid }
+                         WmsDc.wms_pkg on new { e.gdsid } equals new { e3.gdsid }
                                           into joinPkg
                      from e4 in joinPkg.DefaultIfEmpty()
                      select new
@@ -1226,7 +1226,7 @@ namespace WMS.Controllers
                       join e2 in WmsDc.wms_cang on new { e.wmsno, e.wmsbllid } equals new { e2.wmsno, wmsbllid = e2.bllid }
                       join e3 in
                           (from m in
-                               WmsDc.v_wms_pkg
+                               WmsDc.wms_pkg
                            group m by new { m.gdsid, m.cnvrto,  m.pkgdes } into g
                            select g.Key) on new { e1.gdsid } equals new { e3.gdsid }
                       into joinPkg
@@ -1316,7 +1316,7 @@ namespace WMS.Controllers
                       join e2 in WmsDc.wms_cang on new { wmsno = e.outwmsno, bllid = e.outwmsbllid } equals new { e2.wmsno, e2.bllid }
                       join e3 in
                           (from m in
-                               WmsDc.v_wms_pkg
+                               WmsDc.wms_pkg
                            group m by new { m.gdsid, m.cnvrto, m.pkgdes } into g
                            select g.Key) on new { e1.gdsid } equals new { e3.gdsid }
                       into joinPkg
@@ -1395,7 +1395,7 @@ namespace WMS.Controllers
                       join e2 in WmsDc.wms_cang on new { e.wmsno, e.wmsbllid } equals new { e2.wmsno, wmsbllid = e2.bllid }
                       join e3 in
                           (from m in
-                               WmsDc.v_wms_pkg
+                               WmsDc.wms_pkg
                            group m by new { m.gdsid, m.cnvrto,  m.pkgdes } into g
                            select g.Key) on new { e1.gdsid } equals new { e3.gdsid }
                       into joinPkg
@@ -1682,7 +1682,7 @@ namespace WMS.Controllers
                          join e6 in WmsDc.gds on e5.gdsid equals e6.gdsid
                          join e7 in
                              (from m in
-                                  WmsDc.v_wms_pkg
+                                  WmsDc.wms_pkg
                               group m by new { m.gdsid, m.cnvrto, m.pkgdes, } into g
                               select g.Key) on new { e6.gdsid } equals new { e7.gdsid }
                          into joinPkg
@@ -1786,7 +1786,7 @@ namespace WMS.Controllers
                          join e6 in WmsDc.gds on e5.gdsid equals e6.gdsid
                          join e7 in
                              (from m in
-                                  WmsDc.v_wms_pkg
+                                  WmsDc.wms_pkg
                               group m by new { m.gdsid, m.cnvrto, m.pkgdes, } into g
                               select g.Key) on new { e6.gdsid } equals new { e7.gdsid }
                          into joinPkg
@@ -1886,9 +1886,9 @@ namespace WMS.Controllers
             foreach (var q in qrydtl)
             {
                 i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除托盘明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
-                    mst.qu,
-                    mst.savdptid);
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
             }
         }
         protected void iDelCangDtl(IEnumerable<wms_cangdtl> qrydtl, wms_cang mst)
@@ -1896,107 +1896,107 @@ namespace WMS.Controllers
             foreach (var q in qrydtl)
             {                                
                 i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
                     mst.qu,
                     mst.savdptid);
             }
         }
         protected void iDelCangMst(wms_cang mst)
         {
-            i(mst.wmsno, mst.bllid, "[PDA]" + Mdldes + "删除主表",
-                    "wmsno:" + mst.wmsno + ",bllid:" + mst.bllid,
-                    mst.qu,
-                    mst.savdptid);
+            i(mst.wmsno.Trim(), mst.bllid.Trim(), "[PDA]" + Mdldes + "删除主表",
+                    "wmsno:" + mst.wmsno.Trim() + ",bllid:" + mst.bllid.Trim(),
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
         }
 
         protected void iDelCangDtl105(IEnumerable<wms_cangdtl_105> qrydtl, wms_cang_105 mst)
         {
             foreach (var q in qrydtl)
             {
-                i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
-                    mst.qu,
-                    mst.savdptid);
+                i(q.wmsno.Trim(), q.bllid.Trim(), "[PDA]" + Mdldes + "删除明细",
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
             }
         }
         protected void iDelCangMst105(wms_cang_105 mst)
         {
-            i(mst.wmsno, mst.bllid, "[PDA]" + Mdldes + "删除主表",
-                    "wmsno:" + mst.wmsno + ",bllid:" + mst.bllid,
-                    mst.qu,
-                    mst.savdptid);
+            i(mst.wmsno.Trim(), mst.bllid.Trim(), "[PDA]" + Mdldes + "删除主表",
+                    "wmsno:" + mst.wmsno.Trim() + ",bllid:" + mst.bllid.Trim(),
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
         }
 
         protected void iDelCangDtl109(IEnumerable<wms_cangdtl_109> qrydtl, wms_cang_109 mst)
         {
             foreach (var q in qrydtl)
             {
-                i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
-                    mst.qu,
-                    mst.savdptid);
+                i(q.wmsno.Trim(), q.bllid.Trim(), "[PDA]" + Mdldes + "删除明细",
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
             }
         }
         protected void iDelCangMst109(wms_cang_109 mst)
         {
-            i(mst.wmsno, mst.bllid, "[PDA]" + Mdldes + "删除主表",
-                    "wmsno:" + mst.wmsno + ",bllid:" + mst.bllid,
-                    mst.qu,
-                    mst.savdptid);
+            i(mst.wmsno.Trim(), mst.bllid.Trim(), "[PDA]" + Mdldes + "删除主表",
+                    "wmsno:" + mst.wmsno.Trim() + ",bllid:" + mst.bllid.Trim(),
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
         }
 
         protected void iDelCangDtl110(IEnumerable<wms_cangdtl_110> qrydtl, wms_cang_110 mst)
         {
             foreach (var q in qrydtl)
             {
-                i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
-                    mst.qu,
-                    mst.savdptid);
+                i(q.wmsno.Trim(), q.bllid.Trim(), "[PDA]" + Mdldes + "删除明细",
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
             }
         }
         protected void iDelCangMst110(wms_cang_110 mst)
         {
-            i(mst.wmsno, mst.bllid, "[PDA]" + Mdldes + "删除主表",
-                    "wmsno:" + mst.wmsno + ",bllid:" + mst.bllid,
-                    mst.qu,
-                    mst.savdptid);
+            i(mst.wmsno.Trim(), mst.bllid.Trim(), "[PDA]" + Mdldes + "删除主表",
+                    "wmsno:" + mst.wmsno.Trim() + ",bllid:" + mst.bllid.Trim(),
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
         }
 
         protected void iDelCangDtl111(IEnumerable<wms_cangdtl_111> qrydtl, wms_cang_111 mst)
         {
             foreach (var q in qrydtl)
             {
-                i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
-                    mst.qu,
-                    mst.savdptid);
+                i(q.wmsno.Trim(), q.bllid.Trim(), "[PDA]" + Mdldes + "删除明细",
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
             }
         }
         protected void iDelCangMst111(wms_cang_111 mst)
         {
-            i(mst.wmsno, mst.bllid, "[PDA]" + Mdldes + "删除主表",
-                    "wmsno:" + mst.wmsno + ",bllid:" + mst.bllid,
-                    mst.qu,
-                    mst.savdptid);
+            i(mst.wmsno.Trim(), mst.bllid.Trim(), "[PDA]" + Mdldes + "删除主表",
+                    "wmsno:" + mst.wmsno.Trim() + ",bllid:" + mst.bllid.Trim(),
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
         }
 
         protected void iDelBllDtl(IEnumerable<wms_blldtl> qrydtl, wms_bllmst mst)
         {
             foreach (var q in qrydtl)
             {
-                i(q.wmsno, q.bllid, "[PDA]" + Mdldes + "删除明细",
-                    "barcode:" + q.barcode + ",gdsid:" + q.gdsid + ",gdstype:" + q.gdstype + ",qty:" + q.qty,
-                    mst.qu,
-                    mst.savdptid);
+                i(q.wmsno.Trim(), q.bllid.Trim(), "[PDA]" + Mdldes + "删除明细",
+                    "barcode:" + q.barcode.Trim() + ",gdsid:" + q.gdsid.Trim() + ",gdstype:" + q.gdstype.Trim() + ",qty:" + q.qty,
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());
             }
         }
         protected void iDelBllMst(wms_bllmst mst)
         {
-            i(mst.wmsno, mst.bllid, "[PDA]" + Mdldes + "删除主表",
-                    "wmsno:" + mst.wmsno + ",bllid:" + mst.bllid,
-                    mst.qu,
-                    mst.savdptid);         
+            i(mst.wmsno.Trim(), mst.bllid.Trim(), "[PDA]" + Mdldes + "删除主表",
+                    "wmsno:" + mst.wmsno.Trim() + ",bllid:" + mst.bllid.Trim(),
+                    mst.qu.Trim(),
+                    mst.savdptid.Trim());         
         }
 
         protected Object[] FindBllFromCangMst105(String bllid, String begindat, String enddat, String wmsno, String gdsid, String barcode, String mkr, string isAdt)
@@ -2008,7 +2008,7 @@ namespace WMS.Controllers
                       join e2 in WmsDc.bcd on new { e.gdsid, e.bcd } equals new { e2.gdsid, bcd = e2.bcd1 }                      
                       into joinBcd
                       from e3 in joinBcd.DefaultIfEmpty()
-                      join e4 in WmsDc.v_wms_pkg on new { e.gdsid } equals new { e4.gdsid }
+                      join e4 in WmsDc.wms_pkg on new { e.gdsid } equals new { e4.gdsid }
                       join e5 in WmsDc.gds on e.gdsid equals e5.gdsid
                       join e6 in WmsDc.emp on e1.mkr equals e6.empid
                       where e.bllid == bllid
@@ -2154,7 +2154,7 @@ namespace WMS.Controllers
                    into joinBcd
                       from e6 in joinBcd.DefaultIfEmpty()
                       join e7 in
-                          WmsDc.v_wms_pkg on new { e4.gdsid } equals new { e7.gdsid }
+                          WmsDc.wms_pkg on new { e4.gdsid } equals new { e7.gdsid }
                       into joinPkg
                       from e8 in joinPkg.DefaultIfEmpty()
                       where qus.Contains(e.qu.Trim())
@@ -2727,7 +2727,7 @@ namespace WMS.Controllers
             var qry = from e in WmsDc.gds
                       join e1 in WmsDc.bcd on e.gdsid equals e1.gdsid
                       join e2 in WmsDc.wms_set on new { e.dptid, setid = WMSConst.SET_TYPE_RELATEDPT } equals new { dptid = e2.val2, e2.setid }
-                      join e3 in WmsDc.v_wms_pkg on new { e.gdsid } equals new { e3.gdsid }
+                      join e3 in WmsDc.wms_pkg on new { e.gdsid } equals new { e3.gdsid }
                       where
                       e.gdsid == gdsid
                       && e2.isvld == GetY()
@@ -2785,7 +2785,7 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult GetGdsPkg(String gdsid)
         {
-            var qry = from e in WmsDc.v_wms_pkg
+            var qry = from e in WmsDc.wms_pkg
                       where e.gdsid == gdsid
                       select e;
             var arrqry = qry.ToArray();

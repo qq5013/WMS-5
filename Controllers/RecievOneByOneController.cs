@@ -385,7 +385,7 @@ namespace WMS.Controllers
                       {
                           dtl = (from e1 in WmsDc.wms_blldtl
                                  join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
-                                 join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                                 join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                                  into joinPkg
                                  from e4 in joinPkg.DefaultIfEmpty()
                                  where e1.wmsno == wmsno
@@ -1701,7 +1701,7 @@ namespace WMS.Controllers
                 return RInfo( "I0266" );
             }
             var gdsinfo = (from e in WmsDc.gds
-                          join e1 in WmsDc.v_wms_pkg on e.gdsid equals e1.gdsid
+                          join e1 in WmsDc.wms_pkg on e.gdsid equals e1.gdsid
                           where tps.Select(et => et.gdsid).Contains(e.gdsid)
                           select new
                           {
@@ -1905,7 +1905,7 @@ namespace WMS.Controllers
             var qryDtlTp = from e in WmsDc.wms_bllmst
                            join e1 in WmsDc.wms_blltp on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                            join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
-                           join e3 in WmsDc.v_wms_pkg on e2.gdsid equals e3.gdsid
+                           join e3 in WmsDc.wms_pkg on e2.gdsid equals e3.gdsid
                            where e1.wmsno == wmsno && e1.bllid == WMSConst.BLL_TYPE_REVIECEBLL //&& e1.gdsid == gdsid
                               // && e1.bokflg == GetN() && e1.rcdidxtp >= 1000
                            && e1.tpcode == tpcode

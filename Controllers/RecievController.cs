@@ -79,7 +79,7 @@ namespace WMS.Controllers
                       {
                           dtl = (from e1 in WmsDc.wms_blldtl
                                  join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
-                                 join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                                 join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                                  into joinPkg from e4 in joinPkg.DefaultIfEmpty()
                                  where e1.wmsno == wmsno
                                  && e1.bllid == WMSConst.BLL_TYPE_REVIECEBLL
@@ -419,7 +419,7 @@ namespace WMS.Controllers
                     //{
                     //    return RRInfo( "I0225" );
                     //}
-
+                    
                     /*bllmst.tongdao = odr.mst.tongdao;
                     bllmst.huojia = odr.mst.huojia;*/
                     bllmst.odrdat = odr.mst.odrdat;

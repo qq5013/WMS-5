@@ -393,7 +393,7 @@ namespace WMS.Controllers
                           sqtypre = g.Sum(eqty => eqty.preqty == null ? eqty.qty : eqty.preqty)
                       };
             var q = from e2 in qry
-                    join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                    join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                     into joinPkg
                     from e4 in joinPkg.DefaultIfEmpty()
                     select new
@@ -455,7 +455,7 @@ namespace WMS.Controllers
                       };
             qry = qry.Where(e => e.sqtypre > 0);
             var q = from e2 in qry
-                    join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                    join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                     into joinPkg
                     from e4 in joinPkg.DefaultIfEmpty()
                     select new
@@ -539,7 +539,7 @@ namespace WMS.Controllers
             qry = qry.Where(e => e.qty > 0);
             var q = from e2 in qry
                     join e3 in
-                        (from m in WmsDc.v_wms_pkg group m by new { m.gdsid, m.cnvrto, m.pkgdes } into g select g.Key)
+                        (from m in WmsDc.wms_pkg group m by new { m.gdsid, m.cnvrto, m.pkgdes } into g select g.Key)
                     on new { e2.gdsid } equals new { e3.gdsid }
                     into joinPkg
                     from e4 in joinPkg.DefaultIfEmpty()

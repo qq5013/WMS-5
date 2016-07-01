@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="test_newshop" Class="WMSDcDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=192.10.200.1;Initial Catalog=test_newshop;Persist Security Info=True;User ID=app" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="newshopConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="newshop" Class="WMSDcDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=192.10.200.3;Initial Catalog=newshop;Persist Security Info=True;User ID=app" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="newshopConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.wms_blldtl" Member="wms_blldtl">
     <Type Name="wms_blldtl">
       <Column Name="wmsno" Type="System.String" DbType="VarChar(14) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
@@ -1312,6 +1312,13 @@
       <Column Name="prcflag" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
       <Column Name="weightflg" Type="System.Char" DbType="Char(1)" CanBeNull="true" />
       <Association Name="gds_cpngds" Member="gds" ThisKey="gdsid" OtherKey="gdsid" Type="gds" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.wms_pkg" Member="wms_pkg">
+    <Type Name="wms_pkg">
+      <Column Name="gdsid" Type="System.String" DbType="Char(13) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="pkgdes" Type="System.String" DbType="VarChar(24)" CanBeNull="true" />
+      <Column Name="cnvrto" Type="System.Double" DbType="Float NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
   <Function Name="dbo.fnGetBigProLssBll" Method="fnGetBigProLssBll" IsComposable="true">

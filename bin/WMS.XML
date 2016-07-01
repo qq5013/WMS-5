@@ -836,6 +836,11 @@
             <param name="barcode">业务库编码</param>
             <returns></returns>
         </member>
+        <member name="P:WMS.Controllers.CanNotOverQuAdjustBarcodeException.Message">
+            <summary>
+            例外说明
+            </summary>
+        </member>
         <member name="T:WMS.ResultMessage">
             <summary>
             返回统一对象
@@ -2539,6 +2544,163 @@
             <param name="rcvdptid">收货部门</param>
             <param name="busid">车次号</param>
             <returns></returns>
+        </member>
+        <member name="T:WMS.Controllers.OverQuAdjustBarcodeController">
+            <summary>
+            跨区仓位调整
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.#ctor">
+            <summary>
+            仓位调整
+            </summary>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.GetCanUnionBarcode(System.String,System.String,System.String,System.Int32)">
+            <summary>
+            查询可以合并的仓位
+            </summary>
+            <param name="savdptid"></param>
+            <param name="qu"></param>
+            <param name="mkedat"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.AdtAdjBll(System.String)">
+            <summary>
+            仓位调整单审核
+            </summary>
+            <param name="wmsno">仓位调整单单号</param>
+            <returns></returns>
+            done: 审核仓位调整单还原
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.MkAdjBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整单制单
+            </summary>
+            <param name="oldbarcodes">原仓位</param>
+            <param name="gdsids">调整货号</param>
+            <param name="qtys">调整数量</param>
+            <param name="newbarcodes">调整到仓位</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.BokOldBarcodeGdsid(System.String,System.String,System.Int32)">
+            <summary>
+            确认旧商品
+            </summary>
+            <param name="wmsno"></param>
+            <param name="rcdidx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.AdAdjBarcode(System.String,System.String,System.Int32,System.String,System.Double)">
+            <summary>
+            调整新仓位
+            </summary>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">调整的货号</param>
+            <param name="rcdidx">调整的序号</param>
+            <param name="newbarcode">新仓位编码</param>
+            <param name="qty">调整数量</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.HasPwrAdjDiffQu(System.String,System.String)">
+            <summary>
+            跨区调整单据时，判断是否有权限
+            </summary>
+            <param name="oldqu"></param>
+            <param name="newbarcode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.DlAdjBll(System.String)">
+            <summary>
+            删除仓位调整单
+            </summary>
+            <param name="wmsno">仓位调整单单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.AdOldBarcodes(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新增需要调整的仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.AdOldBarcode(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            新增需要调整的仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.DlOldBarcode(System.String,System.String,System.Int32)">
+            <summary>
+            删除旧仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>        
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.SuggestBarcodeAdjBll(System.String,System.String)">
+            <summary>
+            得到推荐仓位
+            </summary>
+            <param name="gdsid">商品编码</param>
+            <param name="oldbarcode">原仓位</param>
+            <param name="oldbarcode">推荐到那个分区</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.DlNewBarcode(System.String,System.String,System.Int32,System.String,System.Int32)">
+            <summary>
+            删除新仓位
+            </summary>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">调整的货号</param>
+            <param name="rcdidx">调整的序号</param>
+            <param name="newbarcode">调整到的新仓位</param>
+            <param name="tprcdidx">调整到的新仓位的序号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.GetAdjBll(System.String)">
+            <summary>
+            得到会计期间的调整单单
+            </summary>
+            <param name="fscprdid">会计期间</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.GetAdjDtlBll(System.String)">
+            <summary>
+            得到调整单商品明细
+            </summary>
+            <param name="wmsno">返仓单单号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.GetNewBarcode(System.String,System.String,System.Int32)">
+            <summary>
+            得到商品新调整仓位的信息
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.FindBll(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.OverQuAdjustBarcodeController.Initialize(System.Web.Routing.RequestContext)">
+            <summary>
+            初始化
+            </summary>
+            <param name="requestContext">HTTP请求对象</param>
         </member>
         <member name="T:WMS.Controllers.CsRetrieveController">
             <summary>

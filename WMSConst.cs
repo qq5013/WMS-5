@@ -204,7 +204,17 @@ namespace WMS
         /// 收货模块
         /// </summary>
         public static String MDL_NAME_RECIEV = "reciev";
+        /* ============  特殊的设置 ==========================
+         * --- 程序里面做的特殊处理，数据库中没有这种设置   --
+         * ---------------------------------------------------
+        */
+        public const String WMS_BACK_仓位调整正常确认 = "0906";
+        public const String WMS_BACK_仓位调整退货确认 = "0903";
 
+        #region 老的设置
+        /*
+        public const String WMS_BACK_仓位调整正常确认 = "0906";
+        public const String WMS_BACK_仓位调整退货确认 = "0903";
         public const String WMS_BACK_收货查询 = "0101";
         public const String WMS_BACK_收货制单 = "0102";
         public const String WMS_BACK_收货确认 = "0103";
@@ -256,11 +266,9 @@ namespace WMS
         public const String WMS_BACK_盘点检查 = "0809";
         public const String WMS_BACK_盘点取消确认 = "0810";        
         public const String WMS_BACK_仓位调整查询 = "0901";
-        public const String WMS_BACK_仓位调整制单 = "0902";
-        public const String WMS_BACK_仓位调整退货确认 = "0903";
+        public const String WMS_BACK_仓位调整制单 = "0902";        
         public const String WMS_BACK_仓位调整审核 = "0904";
-        public const String WMS_BACK_仓位调整打印 = "0905";
-        public const String WMS_BACK_仓位调整正常确认 = "0906";
+        public const String WMS_BACK_仓位调整打印 = "0905";        
         public const String WMS_BACK_内调查询 = "1001";
         public const String WMS_BACK_内调制单 = "1002";
         public const String WMS_BACK_内调确认 = "1003";
@@ -274,6 +282,89 @@ namespace WMS
         public const String WMS_BACK_账务比对 = "9001";
         public const String WMS_BACK_账务生成差异 = "9002";
         public const String WMS_BACK_账务差异导入 = "9003";
+        public const String WMS_BACK_报表打印 = "9901";
+        public const String WMS_BACK_差异报表查询 = "9902";
+        public const String WMS_BACK_库存报表查询 = "9903";
+        public const String WMS_BACK_监控报表查询 = "9904";
+        public const String WMS_BACK_报表转存 = "9905";
+        */
+        #endregion 老的设置
+
+        public const String WMS_BACK_收货查询 = "0101";
+        public const String WMS_BACK_收货制单 = "0102";
+        public const String WMS_BACK_收货确认 = "0103";
+        public const String WMS_BACK_收货审核 = "0104";
+        public const String WMS_BACK_收货打印 = "0105";
+        public const String WMS_BACK_上架查询 = "0201";
+        public const String WMS_BACK_上架制单 = "0202";
+        public const String WMS_BACK_上架确认 = "0203";
+        public const String WMS_BACK_上架审核 = "0204";
+        public const String WMS_BACK_上架打印 = "0205";
+        public const String WMS_BACK_拣货查询 = "0301";
+        public const String WMS_BACK_拣货制单 = "0302";
+        public const String WMS_BACK_拣货确认 = "0303";
+        public const String WMS_BACK_拣货审核 = "0304";
+        public const String WMS_BACK_拣货打印 = "0305";
+        public const String WMS_BACK_正常拣货 = "0307";
+        public const String WMS_BACK_残损拣货 = "0308";
+        public const String WMS_BACK_外销拣货 = "0309";
+        public const String WMS_BACK_内调拣货 = "0310";
+        public const String WMS_BACK_代发拣货 = "0311";
+        public const String WMS_BACK_摘果拣货 = "0312";
+        public const String WMS_BACK_播种查询 = "0401";
+        public const String WMS_BACK_播种制单 = "0402";
+        public const String WMS_BACK_播种确认 = "0403";
+        public const String WMS_BACK_播种审核 = "0404";
+        public const String WMS_BACK_播种打印 = "0405";
+        public const String WMS_BACK_返仓查询 = "0501";
+        public const String WMS_BACK_返仓制单 = "0502";
+        public const String WMS_BACK_返仓确认 = "0503";
+        public const String WMS_BACK_返仓审核 = "0504";
+        public const String WMS_BACK_返仓打印 = "0505";
+        public const String WMS_BACK_退厂查询 = "0601";
+        public const String WMS_BACK_退厂制单 = "0602";
+        public const String WMS_BACK_退厂确认 = "0603";
+        public const String WMS_BACK_退厂审核 = "0604";
+        public const String WMS_BACK_退厂打印 = "0605";
+        public const String WMS_BACK_损溢查询 = "0701";
+        public const String WMS_BACK_损溢制单 = "0702";
+        public const String WMS_BACK_损溢确认 = "0703";
+        public const String WMS_BACK_损溢审核 = "0704";
+        public const String WMS_BACK_损溢打印 = "0705";
+        public const String WMS_BACK_盘点查询 = "0801";
+        public const String WMS_BACK_盘点制单 = "0802";
+        public const String WMS_BACK_盘点确认 = "0803";
+        public const String WMS_BACK_盘点审核 = "0804";
+        public const String WMS_BACK_盘点打印 = "0805";
+        public const String WMS_BACK_盘点设置 = "0806";
+        public const String WMS_BACK_盘点抄帐 = "0807";
+        public const String WMS_BACK_盘点损溢 = "0808";
+        public const String WMS_BACK_盘点检查 = "0809";
+        public const String WMS_BACK_盘点取消确认 = "0810";
+        public const String WMS_BACK_仓位调整查询 = "0901";
+        public const String WMS_BACK_仓位调整制单 = "0902";
+        public const String WMS_BACK_仓位调整确认 = "0903";
+        public const String WMS_BACK_仓位调整审核 = "0904";
+        public const String WMS_BACK_仓位调整打印 = "0905";
+        public const String WMS_BACK_内调查询 = "1001";
+        public const String WMS_BACK_内调制单 = "1002";
+        public const String WMS_BACK_内调确认 = "1003";
+        public const String WMS_BACK_内调审核 = "1004";
+        public const String WMS_BACK_内调打印 = "1005";
+        public const String WMS_BACK_分货查询 = "1101";
+        public const String WMS_BACK_分货制单 = "1102";
+        public const String WMS_BACK_分货确认 = "1103";
+        public const String WMS_BACK_分货审核 = "1104";
+        public const String WMS_BACK_分货打印 = "1105";
+        public const String WMS_BACK_跨区调整查询 = "1201";
+        public const String WMS_BACK_跨区调整制单 = "1202";
+        public const String WMS_BACK_跨区调整确认 = "1203";
+        public const String WMS_BACK_跨区调整审核 = "1204";
+        public const String WMS_BACK_跨区调整打印 = "1205";
+        public const String WMS_BACK_账务比对 = "9001";
+        public const String WMS_BACK_账务生成差异 = "9002";
+        public const String WMS_BACK_账务差异导入 = "9003";
+        public const String WMS_BACK_设定安全库存 = "9801";
         public const String WMS_BACK_报表打印 = "9901";
         public const String WMS_BACK_差异报表查询 = "9902";
         public const String WMS_BACK_库存报表查询 = "9903";

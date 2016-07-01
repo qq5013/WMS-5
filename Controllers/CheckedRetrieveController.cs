@@ -116,7 +116,7 @@ namespace WMS.Controllers
                       into joinEmp
                       from e5 in joinEmp.DefaultIfEmpty()
                       join e2 in
-                          WmsDc.v_wms_pkg
+                          WmsDc.wms_pkg
                       on new { e.gdsid } equals new { e2.gdsid }
                       into joinPkg
                       from e3 in joinPkg.DefaultIfEmpty()
@@ -170,7 +170,7 @@ namespace WMS.Controllers
             var qry = from e in WmsDc.wms_cutgds
                       join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                       join e2 in
-                          WmsDc.v_wms_pkg on new { e.gdsid } equals new { e2.gdsid }
+                          WmsDc.wms_pkg on new { e.gdsid } equals new { e2.gdsid }
                       into joinPkg
                       from e3 in joinPkg.DefaultIfEmpty()
                       join e4 in WmsDc.emp on e.ckr equals e4.empid

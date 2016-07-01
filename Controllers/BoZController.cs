@@ -269,7 +269,7 @@ namespace WMS.Controllers
                       join e4 in WmsDc.wms_boci on new { dh = e3.lnkbocino, sndtmd = e3.lnkbocidat, e3.qu } equals new { e4.dh, e4.sndtmd, e4.qu }
                       join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid, e5.qu }
                       join e6 in WmsDc.dpt on e.rcvdptid equals e6.dptid
-                      join e7 in WmsDc.v_wms_pkg on e2.gdsid equals e7.gdsid
+                      join e7 in WmsDc.wms_pkg on e2.gdsid equals e7.gdsid
                       where e.wmsno == wmsno
                       && e1.gdsid == gdsid
                       && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
@@ -480,7 +480,7 @@ namespace WMS.Controllers
                           sqtypre = g.Sum(eqty => eqty.preqty == null ? eqty.qty : eqty.preqty)
                       };
             var q = from e2 in qry
-                    join e3 in WmsDc.v_wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
+                    join e3 in WmsDc.wms_pkg on new { e2.gdsid } equals new { e3.gdsid }
                     into joinPkg
                     from e4 in joinPkg.DefaultIfEmpty()
                     select new
@@ -547,7 +547,7 @@ namespace WMS.Controllers
                       };
             qry = qry.Where(e => e.sqtypre > 0);
             var q = from e2 in qry
-                    join e3 in WmsDc.v_wms_pkg on new { e2.gdsid  } equals new { e3.gdsid  }
+                    join e3 in WmsDc.wms_pkg on new { e2.gdsid  } equals new { e3.gdsid  }
                     into joinPkg
                     from e4 in joinPkg.DefaultIfEmpty()
                     select new
@@ -634,7 +634,7 @@ namespace WMS.Controllers
             qry = qry.Where(e => e.qty > 0);
             var q = from e2 in qry
                     join e3 in
-                        (from m in WmsDc.v_wms_pkg group m by new { m.gdsid, m.cnvrto, m.pkgdes } into g select g.Key)
+                        (from m in WmsDc.wms_pkg group m by new { m.gdsid, m.cnvrto, m.pkgdes } into g select g.Key)
                     on new { e2.gdsid } equals new { e3.gdsid }
                     into joinPkg
                     from e4 in joinPkg.DefaultIfEmpty()
