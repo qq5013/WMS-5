@@ -268,6 +268,35 @@ namespace WMS.Controllers
         }
 
         /// <summary>
+        /// 得到服务器时间
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetSvrDateTimeNew(String pdatype)
+        {
+            DateTime dt = DateTime.Now;
+            String s = dt.ToString("yyyyMMdd.HHmmss");
+            var qry = from e in WmsDc.wms_set
+                      where e.setid == "019"
+                      && e.val1 == pdatype.Trim()
+                      select new
+                      {
+                          servertime = dt,
+                          pdakey = e.val2.Trim(),
+                          action = e.brief
+                      };
+            var dtt = qry.FirstOrDefault();
+            if (dtt == null)
+            {
+                return RSucc("成功", new {
+                          servertime = dt,
+                          pdakey = "",
+                          action = ""
+                      }, "S0175");
+            }
+            return RSucc("成功", dtt, "S0175");
+        }
+
+        /// <summary>
         /// 得到当前商品的账存数量
         /// </summary>                
         /// </summary>
@@ -1107,6 +1136,58 @@ namespace WMS.Controllers
                 throw new HasNonPwrException();
             }
             
+            //3.检查同一个Session是否短时间提交了2次, 或者多次提交的情况
+            if (ShortTimeSubmit(requestContext))
+            {
+                Rm.ResultCode = "-3";
+                Rm.ResultDesc = "请不要短时间重复提交请求";
+                Rm.ExtObject = null;
+                Rm.ResultObject = null;
+
+                Response.ContentType = "application/json";
+                Response.Write(jss.Serialize(Rm));
+                Response.End();
+
+                throw new ShortTimeSubmitException();
+            }
+        }
+
+        private bool ShortTimeSubmit(RequestContext requestContext)
+        {
+            RouteData rd = requestContext.RouteData;
+            String controller = (String)rd.Values["controller"];
+            String action = (String)rd.Values["action"];
+            String sessionShortTime = controller+action+"ShortTime";
+            //得到配置里面，在多短的时间内不能重复提交
+            String s = System.Configuration.ConfigurationManager.AppSettings["ShortTimeSubmit"];
+            long iDiff = 0;
+            //如果没有配置就直接过，允许重复提交
+            if (string.IsNullOrEmpty(s))
+            {
+                return false;
+            }
+            if (!long.TryParse(s, out iDiff))
+            {
+                requestContext.HttpContext.Session[sessionShortTime] = DateTime.Now.Ticks;
+                return false;
+            }
+            //如果第一次配置sessionShortTime，就先给这个sessionShortTime一个当前的Ticks
+            if (requestContext.HttpContext.Session[sessionShortTime]==null)
+            {
+                requestContext.HttpContext.Session[sessionShortTime] = DateTime.Now.Ticks;
+                return false;
+            }
+            long iOldShortTime = (long)requestContext.HttpContext.Session[sessionShortTime];
+            if ((DateTime.Now.Ticks - iOldShortTime) <= iDiff)
+            {
+                return true;
+            }
+            else
+            {
+                requestContext.HttpContext.Session[sessionShortTime] = DateTime.Now.Ticks;
+                return false;
+            }            
+
         }
 
         protected bool IsInSavdptid(string dptid)
@@ -1678,7 +1759,8 @@ namespace WMS.Controllers
                          join e2 in WmsDc.prv on e.prvid equals e2.prvid
                          into JoinedEmpPrv
                          from e3 in JoinedEmpPrv.DefaultIfEmpty()
-                         join e5 in qry on new { e.wmsno, e.bllid, e4.barcode, e4.bkr, e4.gdsid, e4.gdstype } equals new { e5.wmsno, e5.bllid, e5.barcode, e5.bkr, e5.gdsid, e5.gdstype }
+                         join e5 in qry on new { e.wmsno, e.bllid, e4.barcode, e4.bkr, e4.gdsid, e4.gdstype, e4.bokflg, e4.bokdat }
+                         equals new { e5.wmsno, e5.bllid, e5.barcode, e5.bkr, e5.gdsid, e5.gdstype, e5.bokflg, e5.bokdat }
                          join e6 in WmsDc.gds on e5.gdsid equals e6.gdsid
                          join e7 in
                              (from m in
@@ -1705,6 +1787,7 @@ namespace WMS.Controllers
                              e4.preqty,
                              cwqty = (from cw in WmsDc.wms_cwgdsbs
                                       where cw.barcode == e4.barcode
+                                      && cw.gdsid == e4.gdsid && cw.gdstype == e4.gdstype
                                       group cw by cw.barcode into g
                                       select g.Sum(c => c.qty)).FirstOrDefault(),
                              bkremp = e1.empdes,
@@ -1782,7 +1865,8 @@ namespace WMS.Controllers
                          join e2 in WmsDc.prv on e.prvid equals e2.prvid
                          into JoinedEmpPrv
                          from e3 in JoinedEmpPrv.DefaultIfEmpty()
-                         join e5 in qry on new { e.wmsno, e.bllid, e4.barcode, e4.bkr, e4.gdsid, e4.gdstype } equals new { e5.wmsno, e5.bllid, e5.barcode, e5.bkr, e5.gdsid, e5.gdstype }
+                         join e5 in qry on new { e.wmsno, e.bllid, e4.barcode, e4.gdsid, e4.gdstype, e4.bkr, e4.bokflg, e4.bokdat }
+                            equals new { e5.wmsno, e5.bllid, e5.barcode, e5.gdsid, e5.gdstype, e5.bkr, e5.bokflg, e5.bokdat }
                          join e6 in WmsDc.gds on e5.gdsid equals e6.gdsid
                          join e7 in
                              (from m in
@@ -1802,22 +1886,43 @@ namespace WMS.Controllers
                              e6.gdsdes,
                              e6.spc,
                              e6.bsepkg,
-                             e8.pkgdes,
-                             e8.cnvrto,
                              e4.qty,
                              e4.preqty,
+                             e8.pkgdes, 
+                             e8.cnvrto,
                              cwqty = (from cw in WmsDc.wms_cwgdsbs
                                       where cw.barcode == e4.barcode
+                                      && cw.gdsid == e4.gdsid && cw.gdstype == e4.gdstype
                                       group cw by cw.barcode into g
                                       select g.Sum(c => c.qty)).FirstOrDefault(),
                              bkremp = e1.empdes,
                              e4.barcode,
                              e4.bokflg, 
-                             e4.bokdat,
-                             pkg03 = GetPkgStr(e4.qty, e8.cnvrto, e8.pkgdes),
-                             pkg03pre = GetPkgStr(e4.preqty, e8.cnvrto, e8.pkgdes)
+                             e4.bokdat
                          };
-            var arrqrymst = qrymst.ToArray();            
+            var qrymst1 = qrymst
+                        .GroupBy(e => new { e.wmsno, e.bllid, e.gdsid, e.gdsdes, e.spc, e.bsepkg, e.pkgdes, e.cnvrto, e.cwqty, e.bkremp, e.barcode, e.bokflg, e.bokdat })
+                        .Select(g => new
+                        {
+                            g.Key.wmsno,
+                            g.Key.bllid,
+                            g.Key.gdsid,
+                            g.Key.gdsdes,
+                            g.Key.spc,
+                            g.Key.bsepkg,
+                            g.Key.pkgdes,
+                            g.Key.cnvrto,
+                            cwqty = Math.Round(g.Key.cwqty, 4, MidpointRounding.AwayFromZero),
+                            g.Key.bkremp,
+                            g.Key.barcode,
+                            g.Key.bokflg,
+                            g.Key.bokdat,
+                            qty = g.Sum(e => e.qty),
+                            preqty = g.Sum(e => e.preqty),
+                            pkg03 = GetPkgStr(g.Sum(e => e.qty), g.Key.cnvrto, g.Key.pkgdes),
+                            pkg03pre = GetPkgStr(g.Sum(e => e.preqty), g.Key.cnvrto, g.Key.pkgdes)
+                        });
+            var arrqrymst = qrymst1.ToArray();            
             return arrqrymst;
         }
 

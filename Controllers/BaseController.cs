@@ -38,7 +38,7 @@ namespace WMS.Controllers
         protected void RedcStkotQty(stkotdtl[] stkotdtl, double diffQty)
         {
             double diff = diffQty;
-            
+
             //减小数部分
             #region 减小数部分
             foreach (stkotdtl d in stkotdtl)
@@ -374,7 +374,7 @@ namespace WMS.Controllers
             desc = string.Format(desc1, desc);
             Rm.ResultObject = null;
             Rm.ExtCode = code;
-            return ReturnResult(ResultMessage.RESULTMESSAGE_INFO, desc);
+            return ReturnResult(ResultMessage.RESULTMESSAGE_INFO, desc);            
         }
         //返回错误信息
         /// <summary>

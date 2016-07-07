@@ -106,7 +106,12 @@ namespace WMS.Controllers
                     dtl.bcd = b[0].bcd1;                    
                     dtl.bkr = "";
                     dtl.bokflg = GetN();
-                    dtl.bokdat = "";                    
+                    dtl.bokdat = "";
+                    // 判断在列表中是否已经有这条记录了
+                    if (IsExistsInBarcode(lstDtl.ToArray(), dtl.barcode, dtl.gdsid, dtl.gdstype, dtl.vlddat, dtl.bthno))
+                    {
+                        return RInfo("I0478");
+                    }
 
                     lstDtl.Add(dtl);
                     i++;
@@ -114,6 +119,11 @@ namespace WMS.Controllers
             }
 
             return RSucc("成功", lstDtl.ToArray(), "S0148");
+        }
+
+        private bool IsExistsInBarcode(wms_cangdtl_110[] wms_cangdtl_110, string barcode, string gdsid, string gdstype, string vlddat, string bthno)
+        {
+            return wms_cangdtl_110.Where(e => e.barcode == barcode.Trim() && e.gdsid == gdsid.Trim() && e.gdstype == gdstype.Trim() && e.vlddat == vlddat.Trim() && e.bthno == bthno.Trim()).Any();
         }
 
         /// <summary>
@@ -658,7 +668,7 @@ namespace WMS.Controllers
 
 
             //判断商品是否已经再单据里面
-            int iHasIn = arrqrydtl.Where(e => e.gdsid == gdsid && e.gdstype == gdstype && e.barcode == barcode && e.bthno==bthno.Trim() && e.vlddat==vlddat.Trim()).Count();
+            int iHasIn = arrqrydtl.Where(e => e.gdsid == gdsid.Trim() && e.gdstype == gdstype.Trim() && e.barcode == barcode.Trim() && e.bthno==bthno.Trim() && e.vlddat==vlddat.Trim()).Count();
             if (iHasIn > 0)
             {
                 return RInfo( "I0358",gdsid );

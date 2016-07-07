@@ -208,6 +208,22 @@ namespace WMS.Controllers
                             gdsid = g.Key.Trim(),
                             bcd  = g.Max(e=>e.bcd1).Trim()
                         }).ToArray();
+            // 判断是否所有的待调商品，都已经做了调整
+            var qryHasAllAdj = from e in dtls
+                               select new
+                               {
+                                   e.wmsno, e.bllid,
+                                   e.qty, 
+                                   adjQty = (from e1 in tps
+                                            where e1.wmsno.Trim()==e.wmsno.Trim() && e1.bllid.Trim()==e.bllid.Trim()
+                                            && e1.rcdidx==e.rcdidx
+                                            group e1 by new{ e1.wmsno, e1.bllid, e1.rcdidx } into g
+                                            select g.Sum(e1=>e1.qty)).FirstOrDefault()
+                               };
+            if (qryHasAllAdj.Where(e => e.adjQty == null || (e.adjQty != null && e.adjQty != e.qty)).Any())
+            {
+                return RInfo("I0479");
+            }
 
             // 判断单据是否找到
             if (mst == null)

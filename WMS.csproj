@@ -99,6 +99,7 @@
     <Compile Include="Controllers\RetrieveController.cs" />
     <Compile Include="Controllers\SelectedBozController.cs" />
     <Compile Include="Controllers\SelectedRetrieveController.cs" />
+    <Compile Include="Controllers\ShortTimeSubmitException.cs" />
     <Compile Include="Controllers\SsnController.cs" />
     <Compile Include="Controllers\WmsSet.cs" />
     <Compile Include="Controllers\WxBoZController.cs" />

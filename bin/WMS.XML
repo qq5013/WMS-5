@@ -256,6 +256,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.SsnController.GetSvrDateTimeNew(System.String)">
+            <summary>
+            得到服务器时间
+            </summary>
+            <returns></returns>
+        </member>
         <!-- 对于成员“M:WMS.Controllers.SsnController.GetGdsQtyInBarcode(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
         <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeComm(System.String)">
             <summary>
@@ -1239,6 +1245,11 @@
             </summary>
         </member>
         <member name="P:WMS.HasNonPwrException.Message">
+            <summary>
+            例外说明
+            </summary>
+        </member>
+        <member name="P:WMS.Controllers.ShortTimeSubmitException.Message">
             <summary>
             例外说明
             </summary>
