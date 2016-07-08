@@ -1133,7 +1133,7 @@ namespace WMS.Controllers
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG //&& e.barcode == barcode
                          select e;
             var arrqrydtl = qrydtl.OrderByDescending(e => e.rcdidx).ToArray();
-            var arrqrydtl1 = qrydtl.Where(e => e.gdsid == gdsid && e.gdstype == gdstype && e.barcode == barcode).ToArray();
+            var arrqrydtl1 = qrydtl.Where(e => e.gdsid == gdsid && e.gdstype == gdstype.Trim() && e.barcode == barcode.Trim() && e.bthno==bthno.Trim() && e.vlddat==vlddat.Trim()).ToArray();
             var qrytpdtl = from e in WmsDc.wms_blltp
                            where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
                            && e.gdsid == gdsid
@@ -1621,6 +1621,8 @@ namespace WMS.Controllers
                         e.vlddat,
                         e.wmsno,
                         tpqty = e.tpqty,
+                        e2.cnvrto,
+                        pkgdes = e2.pkgdes.Trim(),
                         pkg03 = e2.cnvrto != null ? GetPkgStr(e.qty, e2.cnvrto, e2.pkgdes) : GetPkgStr(e.qty, null, null),
                         pkg03pre = e2.cnvrto != null ? GetPkgStr(e.preqty, e2.cnvrto, e2.pkgdes) : GetPkgStr(e.qty, null, null)
                     };
@@ -1640,6 +1642,8 @@ namespace WMS.Controllers
                                 t.gdsdes,
                                 t.gdsid,
                                 t.gdstype,
+                                t.cnvrto,
+                                t.pkgdes,
                                 t.pkg03,
                                 t.pkg03pre,
                                 t.pkgid,

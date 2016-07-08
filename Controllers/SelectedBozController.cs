@@ -601,6 +601,8 @@ namespace WMS.Controllers
                         e2.spc,
                         e2.bsepkg,
                         e2.sqty,
+                        e4.cnvrto,
+                        pkgdes = e4.pkgdes.Trim(),
                         pkg03 = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes),
                         pkg03pre = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes)
                     };
@@ -669,6 +671,8 @@ namespace WMS.Controllers
                                    group e1 by new { e.wmsno, e.wmsbllid } into g1
                                    select g1).Count() == 0 ? GetY() : GetN(),
                         e2.bzflg,
+                        e4.cnvrto,
+                        pkgdes = e4.pkgdes.Trim(),
                         pkg03 = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes),
                         pkg03pre = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes)
                     };
@@ -793,6 +797,8 @@ namespace WMS.Controllers
                         sqty = ek.Sum(e1 => e1.qty),
                         ek.Key.gdsid,
                         ek.Key.gdsdes,
+                        ek.Key.cnvrto,
+                        pkgdes = ek.Key.pkgdes.Trim(),
                         pkg03 = GetPkgStr(ek.Sum(e1 => e1.qty), ek.Key.cnvrto, ek.Key.pkgdes),
                         pkg03pre = GetPkgStr(ek.Sum(e1 => e1.preqty), ek.Key.cnvrto, ek.Key.pkgdes),
                     });

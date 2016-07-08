@@ -1708,6 +1708,16 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.SelectedRetrieveController.BokRetrieveGdss(System.String,System.String,System.String,System.Double)">
+            <summary>
+            捡货单商品审核(同一商品一起拣货)
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>        
+            <param name="qty">实收数量</param>
+            <returns>wms_blldtl, wms_blltp</returns>
+        </member>
         <member name="M:WMS.Controllers.SelectedRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double)">
             <summary>
             捡货单商品审核
@@ -1820,6 +1830,16 @@
             <param name="wmsno">拣货单号</param>
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.RetrieveController.BokRetrieveGdss(System.String,System.String,System.String,System.Double)">
+            <summary>
+            捡货单商品审核(同一商品一起拣货)
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>        
+            <param name="qty">实收数量</param>
+            <returns>wms_blldtl, wms_blltp</returns>
         </member>
         <member name="M:WMS.Controllers.RetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double)">
             <summary>
@@ -3108,6 +3128,16 @@
             <param name="rcvdptid">收货分店</param>
             <param name="srt">排序（A顺序/D倒序）</param>
             <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGdss(System.String,System.String,System.String,System.Double,System.String)">
+            <summary>
+            捡货单商品审核(同一商品一起拣货)
+            </summary>
+            <param name="wmsno">收货单单号</param>
+            <param name="barcode">仓位码</param>
+            <param name="gdsid">商品编码</param>        
+            <param name="qty">实收数量</param>
+            <returns>wms_blldtl, wms_blltp</returns>
         </member>
         <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String)">
             <summary>

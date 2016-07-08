@@ -1063,6 +1063,8 @@ namespace WMS.Controllers
                          e.savdptid,
                          e.spc,
                          e.barcode,
+                         e4.cnvrto,
+                         pkgdes = e4.pkgdes.Trim(),
                          pkg03 = GetPkgStr(e.sqty, e4.cnvrto, e4.pkgdes),
                          pkg03pre = GetPkgStr(e.sqty, e4.cnvrto, e4.pkgdes)
                      };
@@ -2134,6 +2136,8 @@ namespace WMS.Controllers
                           bthno = e.bthno.Trim(),
                           e1.chkflg,
                           gdsdes = e5.gdsdes.Trim(),
+                          e4.cnvrto,
+                          pkgdes = e4.pkgdes.Trim(),
                           pkg03 = GetPkgStr(e.qty, e4.cnvrto, e4.pkgdes),
                           spc = e5.spc.Trim(),
                           bsepkg = e5.bsepkg.Trim(),
@@ -2214,7 +2218,10 @@ namespace WMS.Controllers
                              dtls = qry.Where(ee => ee.wmsno == e.wmsno.Trim() && ee.bllid == e.bllid)
                                     .Select(ee => new
                                     {
-                                        ee.barcode, ee.bcd1,ee.bkr,ee.bllid,ee.bokdat,ee.bokflg,ee.bsepkg,ee.bthno,ee.chkflg,ee.gdsdes,ee.gdsid,ee.gdstype,ee.mkedat,ee.mkr, ee.pkg03,ee.pkg03pre,ee.preqty,ee.qty,ee.spc,ee.vlddat,ee.wmsno
+                                        ee.barcode, ee.bcd1,ee.bkr,ee.bllid,ee.bokdat,ee.bokflg,ee.bsepkg,ee.bthno,ee.chkflg,ee.gdsdes,ee.gdsid,ee.gdstype,ee.mkedat,ee.mkr,
+                                        ee.cnvrto,
+                                        pkgdes = ee.pkgdes.Trim(),
+                                        ee.pkg03,ee.pkg03pre,ee.preqty,ee.qty,ee.spc,ee.vlddat,ee.wmsno
                                     }),
                              e.lnkbocino
                          };
@@ -2303,6 +2310,8 @@ namespace WMS.Controllers
                           e9.gdsdes,
                           e9.spc,
                           e9.bsepkg,
+                          e8.cnvrto,
+                          pkgdes = e8.pkgdes.Trim(),
                           pkg03 = GetPkgStr(e4.qty, e8.cnvrto, e8.pkgdes),
                           pkg03pre = GetPkgStr(e4.preqty, e8.cnvrto, e8.pkgdes)
                       };

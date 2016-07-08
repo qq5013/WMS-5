@@ -222,6 +222,8 @@ namespace WMS.Controllers
                              e1.gdsdes,
                              e1.spc,
                              e1.bsepkg,
+                             e3.cnvrto,
+                             pkgdes = e3.pkgdes.Trim(),
                              pkg03 = GetPkgStr(Math.Round(e.qty, 4, MidpointRounding.AwayFromZero), e3.cnvrto, e3.pkgdes),
                              pkg03pre = GetPkgStr(Math.Round(e.preqty.Value, 4, MidpointRounding.AwayFromZero), e3.cnvrto, e3.pkgdes)
                          };
@@ -240,6 +242,82 @@ namespace WMS.Controllers
         }
 
         /// <summary>
+        /// 捡货单商品审核(同一商品一起拣货)
+        /// </summary>
+        /// <param name="wmsno">收货单单号</param>
+        /// <param name="barcode">仓位码</param>
+        /// <param name="gdsid">商品编码</param>        
+        /// <param name="qty">实收数量</param>
+        /// <returns>wms_blldtl, wms_blltp</returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
+        public ActionResult BokRetrieveGdss(String wmsno, String barcode, String gdsid, double qty)
+        {
+            using (TransactionScope scop = new TransactionScope())
+            {
+                //检索主表、明细表
+                var qrymst = from e in WmsDc.wms_cang
+                             where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                             && e.wmsno == wmsno
+                             select e;
+                var arrmst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_cangdtl
+                             where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                             && e.gdsid == gdsid.Trim()
+                             && e.barcode == barcode.Trim()
+                             && e.wmsno == wmsno.Trim()
+                             && e.tpcode == "y"
+                             && e.bokflg == 'n'
+                             orderby e.gdstype, e.vlddat, e.bthno
+                             select e;
+                var arrdtl = qrydtl.ToArray();
+                //得到拣货的差异数
+                double diff = arrdtl.Sum(e => e.qty) - qty;
+                //如果差异数为负数，说明拣货数量大于应拣数量，不通过
+                if (diff < 0)
+                {
+                    return RInfo("I0480");   //todo:
+                }
+                //循环审核拣货明细
+                foreach (wms_cangdtl dtl in arrdtl)
+                {
+                    //如果差异数量大于本次明细数量
+                    if (diff > dtl.qty)
+                    {
+                        diff -= dtl.qty;
+                        JsonResult jr = (JsonResult)BokRetrieveGds(wmsno, barcode, gdsid, dtl.gdstype, dtl.bthno, dtl.vlddat, 0);
+                        ResultMessage rm = (ResultMessage)jr.Data;
+                        if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                        {
+                            return jr;
+                        }
+                    }
+                    else  //如果差异数量小于等于本次明细数量
+                    {
+                        JsonResult jr = (JsonResult)BokRetrieveGds(wmsno, barcode, gdsid, dtl.gdstype, dtl.bthno, dtl.vlddat, dtl.qty - diff);
+                        ResultMessage rm = (ResultMessage)jr.Data;
+                        if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                        {
+                            return jr;
+                        }
+                        diff = 0;
+                    }
+
+                }
+                try
+                {
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0222");
+                    
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0070");
+                }
+            }
+        }
+
+        /// <summary>
         /// 捡货单商品审核
         /// </summary>
         /// <param name="wmsno">收货单单号</param>
@@ -251,8 +329,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
         public ActionResult BokRetrieveGds(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, double qty)
         {
-            using (TransactionScope scop = new TransactionScope())
-            {
+
                 //检索主表、明细表
                 var qrymst = from e in WmsDc.wms_cang
                              where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
@@ -324,7 +401,6 @@ namespace WMS.Controllers
                 try
                 {
                     WmsDc.SubmitChanges();
-                    scop.Complete();
                     return RSucc("成功", null, "S0224");
 
                 }
@@ -333,7 +409,7 @@ namespace WMS.Controllers
                     return RErr(ex.Message, "E0072");
 
                 }
-            }
+            
         }
 
         /// <summary>

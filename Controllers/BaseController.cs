@@ -328,6 +328,14 @@ namespace WMS.Controllers
             base.Initialize(requestContext);            
         }
 
+        public ActionResult test()
+        {
+            Random rd = new Random();
+            int i = rd.Next(0);
+
+            return Content(i.ToString());
+        }
+
         #region 返回函数 返回ActionResult
         /// <summary>
         /// 公共返回函数

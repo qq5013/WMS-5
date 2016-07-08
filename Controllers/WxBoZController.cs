@@ -487,6 +487,8 @@ namespace WMS.Controllers
                     select new
                     {
                         e2.bcd,e2.bsepkg,e2.bzflg,e2.cusdes,e2.cusid,e2.gdsdes,e2.gdsid,e2.spc,e2.sqty,e2.sqty1,e2.wmsno,
+                        e4.cnvrto,
+                        pkgdes = e4.pkgdes.Trim(),
                         pkg03=GetPkgStr(e2.sqty,e4.cnvrto,e4.pkgdes),
                         pkg03pre = GetPkgStr(e2.sqty1, e4.cnvrto, e4.pkgdes),
                     };

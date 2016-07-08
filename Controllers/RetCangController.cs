@@ -193,6 +193,8 @@ namespace WMS.Controllers
                           bcd = e1.bcd,
                           e1.brfdtl,
                           e4.rcbakrsndes,
+                          e6.cnvrto,
+                          pkgdes = e6.pkgdes.Trim(),
                           pkg03 = GetPkgStr(Math.Round(e1.qty, 4, MidpointRounding.AwayFromZero), e6.cnvrto,e6.pkgdes),
                           pkg03pre = GetPkgStr(Math.Round(e1.preqty.Value, 4, MidpointRounding.AwayFromZero), e6.cnvrto, e6.pkgdes)
                       };

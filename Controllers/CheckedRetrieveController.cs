@@ -140,6 +140,8 @@ namespace WMS.Controllers
                           g.Key.chkflg,
                           g.Key.chkdat,
                           ckrdes = g.Key.empdes,
+                          g.Key.cnvrto,
+                          pkgdes = g.Key.pkgdes.Trim(),
                           pkg03 = GetPkgStr(g.Sum(ge => ge.qty), g.Key.cnvrto, g.Key.pkgdes),
                           pkg03pre = GetPkgStr(g.Sum(ge => ge.preqty), g.Key.cnvrto, g.Key.pkgdes),
                           qty = g.Sum(ge => ge.qty),
@@ -198,6 +200,8 @@ namespace WMS.Controllers
                           e.chkflg,
                           e.chkdat,
                           e1.gdsdes,
+                          e3.cnvrto,
+                          pkgdes = e3.pkgdes.Trim(),
                           pkg03 = GetPkgStr(e.qty, e3.cnvrto, e3.pkgdes),
                           pkg03pre = GetPkgStr(e.preqty, e3.cnvrto, e3.pkgdes)
                       };

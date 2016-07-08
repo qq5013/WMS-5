@@ -236,6 +236,8 @@ namespace WMS.Controllers
                           gdsdes = e3.gdsdes.Trim(),
                           e3.spc,
                           e3.bsepkg,
+                          e2.cnvrto,
+                          pkgdes = e2.pkgdes.Trim(),
                           pkg03 = GetPkgStr(e1.qty, e2.cnvrto, e2.pkgdes),
                           pkg03pre = GetPkgStr(e1.qty, e2.cnvrto, e2.pkgdes)
                       };
@@ -282,6 +284,8 @@ namespace WMS.Controllers
                           gdsdes = e3.gdsdes.Trim(),
                           e3.spc,
                           e3.bsepkg,
+                          e2.cnvrto,
+                          pkgdes = e2.pkgdes.Trim(),
                           pkg03 = GetPkgStr(e1.qty, e2.cnvrto, e2.pkgdes),
                           pkg03pre = GetPkgStr(e1.qty, e2.cnvrto, e2.pkgdes)
                       };

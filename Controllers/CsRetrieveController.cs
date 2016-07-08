@@ -227,6 +227,8 @@ namespace WMS.Controllers
                              e1.gdsdes,
                              e1.spc,
                              e1.bsepkg,
+                             e3.cnvrto,
+                             pkgdes = e3.pkgdes.Trim(),
                              pkg03 = GetPkgStr(Math.Round(e.qty, 4, MidpointRounding.AwayFromZero), e3.cnvrto, e3.pkgdes),
                              pkg03pre = GetPkgStr(Math.Round(e.preqty.Value, 4, MidpointRounding.AwayFromZero), e3.cnvrto, e3.pkgdes)
                          };

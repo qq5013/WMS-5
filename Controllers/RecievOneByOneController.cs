@@ -412,6 +412,8 @@ namespace WMS.Controllers
                                      e2.spc,
                                      e2.gdsdes,
                                      e2.bsepkg,
+                                     e4.cnvrto,
+                                     pkgdes = e4.pkgdes.Trim(),
                                      pkg03 = GetPkgStr(e1.qty, e4.cnvrto, e4.pkgdes),
                                      pkg03pre = GetPkgStr(e1.preqty, e4.cnvrto, e4.pkgdes)
                                  }).ToArray()
@@ -831,14 +833,9 @@ namespace WMS.Controllers
         /// <returns></returns>        
         protected String SuggestBarcode(String qu, Action<wms_cangwei> action)
         {
+            /*
             String barcode = null;
             wms_cangwei cw = null;
-            /*String[] barcodes = GetEmptyBarcodeByQu(qu);
-            var qrybar = from e in WmsDc.wms_cangwei
-                         where e.tjflg == GetY() && e.isvld == GetY() && e.tpflg == GetN()
-                         && qu == e.qu && barcodes.Contains(e.barcode)                         
-                         orderby e.barcode
-                         select e;*/
             var qrybar = from e in WmsDc.wms_cangwei
                          where e.savdptid == LoginInfo.DefSavdptid
                          && e.qu == qu
@@ -858,6 +855,41 @@ namespace WMS.Controllers
             {
                 barcode = null;
             }
+
+            return barcode;*/
+
+            String barcode = null;
+            wms_cangwei cw = null;
+            //得到最小的层位
+            var qryMinCeng = (from e in WmsDc.wms_cangwei
+                              where e.savdptid == LoginInfo.DefSavdptid
+                              && e.qu == qu
+                              && e.isvld == GetY() && e.tjflg == GetY()
+                              && e.tpflg == GetN() && e.kcflg == WMSConst.KC_FLG_NONQTY
+                              orderby new { e.ceng }
+                              select e).FirstOrDefault();
+            if (qryMinCeng == null)
+            {
+                return null;
+            }
+            //得到最小层位下面的所有可推荐仓位
+            var arrRandomBars = (from e in WmsDc.wms_cangwei
+                                 where e.savdptid == LoginInfo.DefSavdptid
+                          && e.qu == qu
+                          && e.isvld == GetY() && e.tjflg == GetY()
+                          && e.tpflg == GetN() && e.kcflg == WMSConst.KC_FLG_NONQTY
+                          && e.ceng == qryMinCeng.ceng
+                                 select e).ToArray();
+            if (arrRandomBars.Length == 0)
+            {
+                return null;
+            }
+            //随机获取 最小层下面的一个可推荐仓位
+            Random rd = new Random();
+            int iRd = rd.Next(0, arrRandomBars.Length);
+            cw = arrRandomBars[iRd];
+            barcode = cw.barcode;
+            action(cw);
 
             return barcode;
         }
@@ -1634,7 +1666,7 @@ namespace WMS.Controllers
                                orderby e.ceng, e.barcode
                               select e).FirstOrDefault();
 
-            wms_cangwei cw = (from e in WmsDc.wms_cangwei
+            wms_cangwei[] cws = (from e in WmsDc.wms_cangwei
                               where e.savdptid == savdptid && e.isvld == GetY() && e.qu == qu
                               && e.tjflg == GetY() && e.tpflg == GetN() && e.kcflg == '0'
                               && !(from e1 in WmsDc.wms_cangdtl                                                                       //*
@@ -1644,7 +1676,15 @@ namespace WMS.Controllers
                                    && e2.mkedat == GetCurrentDay()                                                                    //* 推荐仓位的时候
                                    select 1).Any()                                                                                    //* 把当天所有的wms_cangdtl里面的单据类型为102的给我排除掉
                               orderby e.ceng, e.barcode                                                                               //*
-                              select e).FirstOrDefault();                                                                             //*
+                              select e).ToArray();                                                                             //*
+            wms_cangwei[] arrcw = (from e in cws
+                              where e.ceng == (from e1 in cws select e1.ceng).FirstOrDefault()
+                              select e).ToArray();
+            //随机获取 最小层下面的一个可推荐仓位
+            Random rdcw = new Random();
+            int iRd = rdcw.Next(0, arrcw.Length);
+            wms_cangwei cw = arrcw[iRd];           
+
             if (cw1 != null && cw != null)
             {
                 if (cw1.barcode != cw.barcode)
@@ -1914,6 +1954,8 @@ namespace WMS.Controllers
                            {
                                e1.gdsid,e1.qty,e1.gdstype,e2.gdsdes,e2.spc,e2.bsepkg,
                                e1.tpcode,e1.rcdidx,e1.rcdidxtp, e1.bokdat, e1.bokflg,
+                               e3.cnvrto,
+                               pkgdes = e3.pkgdes.Trim(),
                                pkg03 = GetPkgStr(e1.qty, e3.cnvrto, e3.pkgdes),                               
                                pkg03pre = GetPkgStr(e1.qty, e3.cnvrto, e3.pkgdes)
                            };

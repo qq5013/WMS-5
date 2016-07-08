@@ -108,6 +108,8 @@ namespace WMS.Controllers
                                      e2.spc,
                                      e2.gdsdes,
                                      e2.bsepkg,
+                                     e4.cnvrto,
+                                     pkgdes = e4.pkgdes.Trim(),
                                      pkg03 = GetPkgStr(e1.qty, e4.cnvrto, e4.pkgdes),
                                      pkg03pre=GetPkgStr(e1.preqty,e4.cnvrto, e4.pkgdes)
                                  }).ToArray()

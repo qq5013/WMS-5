@@ -432,6 +432,8 @@ namespace WMS.Controllers
                                    where bz.stkin.outwmsno == wmsno && bz.stkin.bllid == WMSConst.BLL_TYPE_INNERADJ
                                    && bz.bzflg == GetN() && bz.gdsid == e2.gdsid
                                    select bz).Count() == 0 ? GetY() : GetN(),*/
+                        e4.cnvrto,
+                        pkgdes = e4.pkgdes.Trim(),
                         pkg03 = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes),
                         pkg03pre = GetPkgStr(e2.sqtypre, e4.cnvrto, e4.pkgdes)
                     };
@@ -459,6 +461,8 @@ namespace WMS.Controllers
                          e.bcd,
                          e.sqty,
                          e.sqtypre,
+                         e.cnvrto,
+                         e.pkgdes,
                          e.pkg03,
                          e.pkg03pre,
                          bzedall = e2 == null ? GetY() : GetN()
@@ -547,6 +551,8 @@ namespace WMS.Controllers
                         e2.savdptid,
                         e2.spc,
                         e2.stkouno,
+                        e4.cnvrto,
+                        pkgdes = e4.pkgdes.Trim(),
                         pkg03 = GetPkgStr(e2.qty, e4.cnvrto, e4.pkgdes),
                         pkg03pre = GetPkgStr(e2.preqty, e4.cnvrto, e4.pkgdes)
                     };

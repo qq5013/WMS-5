@@ -171,6 +171,8 @@ namespace WMS.Controllers
                                       gd.gdsdes,
                                       gd.spc,
                                       gd.bsepkg,
+                                      e4.cnvrto,
+                                      pkgdes = e4.pkgdes.Trim(),
                                       pkg03 = GetPkgStr(Math.Round(edtl.qty, 4, MidpointRounding.AwayFromZero), e4.cnvrto, e4.pkgdes),
                                       pkg03pre = GetPkgStr(Math.Round(edtl.preqty.Value, 4, MidpointRounding.AwayFromZero), e4.cnvrto, e4.pkgdes)
                                   }).ToArray()
@@ -956,6 +958,8 @@ namespace WMS.Controllers
                              e1.bsepkg,
                              e.brfdtl,
                              e3.losrsndes,
+                             e5.cnvrto,
+                             pkgdes = e5.pkgdes.Trim(),
                              pkg03 = GetPkgStr(Math.Round(e.qty, 4, MidpointRounding.AwayFromZero), e5.cnvrto,e5.pkgdes),
                              pkg03pre = GetPkgStr(Math.Round(e.preqty.Value, 4, MidpointRounding.AwayFromZero), e5.cnvrto, e5.pkgdes),
                          };

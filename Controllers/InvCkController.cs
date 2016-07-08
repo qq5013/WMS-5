@@ -262,6 +262,8 @@ namespace WMS.Controllers
                                       gd.gdsdes,
                                       gd.spc,
                                       gd.bsepkg,
+                                      e4.cnvrto,
+                                      pkgdes = e4.pkgdes.Trim(),
                                       pkg03= GetPkgStr(edtl.qty, e4.cnvrto, e4.pkgdes),
                                       pkg03pre = GetPkgStr(edtl.preqty, e4.cnvrto, e4.pkgdes)
                                   }).ToArray()
@@ -795,6 +797,8 @@ namespace WMS.Controllers
                              e2.spc,
                              e2.gdsdes,
                              e2.bsepkg,
+                             e4.cnvrto,
+                             pkgdes = e4.pkgdes.Trim(),
                              pkg03 = GetPkgStr(e.qty, e4.cnvrto, e4.pkgdes),
                              pkg03pre = GetPkgStr(e.preqty, e4.cnvrto, e4.pkgdes)
                          };
@@ -998,6 +1002,8 @@ namespace WMS.Controllers
                                  e3.gdsdes,
                                  e2.mkr,
                                  mkrdes = e4.empdes.Trim(),
+                                 e1.cnvrto,
+                                 pkgdes = e1.pkgdes.Trim(),
                                  pkg03 = GetPkgStr(e.qty, e1.cnvrto, e1.pkgdes),
                                  pkg03pre = GetPkgStr(e.preqty, e1.cnvrto, e1.pkgdes)
                              }).ToArray();
@@ -1061,6 +1067,8 @@ namespace WMS.Controllers
                                  e3.spc, e3.bsepkg, e3.gdsdes,
                                  e2.mkr,
                                  mkrdes = e4.empdes.Trim(),
+                                 e1.cnvrto,
+                                 pkgdes = e1.pkgdes.Trim(),
                                  pkg03 = GetPkgStr(e.qty, e1.cnvrto, e1.pkgdes),
                                  pkg03pre = GetPkgStr(e.preqty, e1.cnvrto, e1.pkgdes)
                              }).ToArray();

@@ -615,6 +615,8 @@ namespace WMS.Controllers
                         e2.spc,
                         e2.bsepkg,
                         e2.sqty,
+                        e4.cnvrto,
+                        pkgdes = e4.pkgdes.Trim(),
                         pkg03 = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes),
                         pkg03pre = GetPkgStr(e2.sqty, e4.cnvrto, e4.pkgdes)
                     };
@@ -682,6 +684,8 @@ namespace WMS.Controllers
                           //bzedall = g.Count(ee => ee.bzflg == GetN()) == 0 ? GetY() : GetN(),
                           sqty = g.Sum(eqty => Math.Round(eqty.qty, 2, MidpointRounding.AwayFromZero)),
                           sqtypre = g.Sum(eqty => Math.Round(eqty.preqty == null ? eqty.qty : eqty.preqty.Value, 2, MidpointRounding.AwayFromZero)),
+                          g.Key.cnvrto,
+                          pkgdes = g.Key.pkgdes.Trim(),
                           pkg03 = GetPkgStr(g.Sum(eqty => Math.Round(eqty.qty, 2, MidpointRounding.AwayFromZero)), g.Key.cnvrto, g.Key.pkgdes),
                           pkg03pre = GetPkgStr(g.Sum(eqty => Math.Round(eqty.preqty == null ? eqty.qty : eqty.preqty.Value, 2, MidpointRounding.AwayFromZero)), g.Key.cnvrto, g.Key.pkgdes)
                       };
@@ -799,7 +803,7 @@ namespace WMS.Controllers
                           e1.bzr,
                           e7.cnvrto,
                           e7.pkgdes,
-                          preqty = e1.preqty == null ? e1.qty : e1.preqty,
+                          preqty = e1.preqty == null ? e1.qty : e1.preqty,                          
                           pkg03 = GetPkgStr(e1.qty, e7.cnvrto, e7.pkgdes),
                           pkg03pre = GetPkgStr(e1.preqty, e7.cnvrto, e7.pkgdes)
                       };
@@ -852,6 +856,8 @@ namespace WMS.Controllers
                         sqty = ek.Sum(e1 => e1.qty),
                         ek.Key.gdsid,
                         ek.Key.gdsdes,
+                        ek.Key.cnvrto,
+                        pkgdes = ek.Key.pkgdes.Trim(),
                         pkg03 = GetPkgStr(ek.Sum(e1 => e1.qty), ek.Key.cnvrto, ek.Key.pkgdes),
                         pkg03pre = GetPkgStr(ek.Sum(e1 => e1.preqty), ek.Key.cnvrto, ek.Key.pkgdes),
                     });
