@@ -1,0 +1,4 @@
+﻿I0471 = 帐表中未找到有待调整仓位商品" + gdsbs.gdsid + ",类型为" + gdsbs.gdstype + "的商品", "I0010
+I0472 = 收货审核人" + LoginInfo.Usrid + ",和制单人" + arrqry[0].mkr + ",不是同一个人", "I0058
+I0473 = 商品" + gdsid[i] + "不在区[" + String.Join(",", s.Substring(0, 2)) + "]内", "I0175
+I0474 = 商品" + gdsid[i] + "不在区[" + String.Join(",", s.Substring(0, 2)) + "]内", "I0331

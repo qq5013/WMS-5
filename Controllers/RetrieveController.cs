@@ -1558,6 +1558,162 @@ namespace WMS.Controllers
             return RSucc("成功", arrqrymst, "S0162");
         }
 
+
+        [PWR(Pwrid = WMSConst.WMS_BACK_拣货查询, pwrdes = "拣货查询")]
+        public ActionResult FindAllRetrieve(String gdsid, String zdr)
+        {
+            if (string.IsNullOrEmpty(gdsid.Trim()))
+            {
+                return RInfo("I0481");
+            }
+            gdsid = GetGdsidByGdsidOrBcd(gdsid.Trim());
+            if (string.IsNullOrEmpty(gdsid))
+            {
+                return RInfo("I0482");
+            }
+
+            //得到当天的正常拣货
+            var qry1 = from e in WmsDc.wms_cang
+                       join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                       where e.mkedat.Substring(0, 8) == GetCurrentDay()
+                       && e.bllid == "103"
+                       && e1.gdsid == gdsid.Trim()
+                       select new
+                       {
+                           e.wmsno,
+                           e.bllid,
+                           e.savdptid,
+                           e.prvid,
+                           e.qu,
+                           e.times,
+                           e.lnkbocino,
+                           e.lnkbocidat,
+                           e.mkr,
+                           e.mkedat,
+                           e.ckr,
+                           e.chkflg,
+                           e.chkdat,
+                           e.opr,
+                           e.brief,
+                           e.lnkbllid,
+                           e.lnkno,
+                           e.lnkbrief,
+                           e.mkedat2,
+                           e1.rcdidx,
+                           e1.oldbarcode,
+                           e1.barcode,
+                           e1.gdsid,
+                           e1.pkgid,
+                           e1.pkgqty,
+                           e1.qty,
+                           e1.gdstype,
+                           e1.bthno,
+                           e1.vlddat,
+                           e1.bcd,
+                           e1.tpcode,
+                           e1.bkr,
+                           e1.bokflg,
+                           e1.bokdat,
+                           e1.preqty,
+                           e1.losreason,
+                           rcvdptid = "",
+                           checi = "",
+                           blltype = "206"
+                       };
+            //得到当天的摘果拣货
+            var qry2 = from e in WmsDc.wms_cang_115
+                       join e1 in WmsDc.wms_cangdtl_115 on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                       where e.mkedat.Substring(0, 8) == GetCurrentDay()
+                       && e1.gdsid == gdsid.Trim()
+                       && e.bllid == "115"
+                       select new
+                       {
+                           e.wmsno,
+                           e.bllid,
+                           e.savdptid,
+                           e.prvid,
+                           e.qu,
+                           e.times,
+                           e.lnkbocino,
+                           e.lnkbocidat,
+                           e.mkr,
+                           e.mkedat,
+                           e.ckr,
+                           e.chkflg,
+                           e.chkdat,
+                           e.opr,
+                           e.brief,
+                           e.lnkbllid,
+                           e.lnkno,
+                           e.lnkbrief,
+                           e.mkedat2,
+                           e1.rcdidx,
+                           e1.oldbarcode,
+                           e1.barcode,
+                           e1.gdsid,
+                           e1.pkgid,
+                           e1.pkgqty,
+                           e1.qty,
+                           e1.gdstype,
+                           e1.bthno,
+                           e1.vlddat,
+                           e1.bcd,
+                           e1.tpcode,
+                           e1.bkr,
+                           e1.bokflg,
+                           e1.bokdat,
+                           e1.preqty,
+                           e1.losreason,
+                           e1.rcvdptid,
+                           e1.checi,
+                           blltype = "115"
+                       };
+            //合并当天的摘果拣货和正常拣货
+            var qrydtl = qry1.Union(qry2);
+            var qryblldes = from e in WmsDc.wms_set 
+                            where e.setid=="997" && 
+                            ((e.typedes=="wms_cang" && e.val1=="lnkbllid" && e.val2=="206" )
+                            ||(e.typedes=="wms_cang_115" && e.val1=="bllid" && e.val2=="115"))
+                            select e;
+            var qry = from e in qrydtl
+                      join e1 in WmsDc.wms_pkg on e.gdsid equals e1.gdsid
+                      join e2 in qryblldes on e.blltype equals e2.val2
+                      join e3 in WmsDc.gds on e.gdsid equals e3.gdsid
+                      join e4 in WmsDc.emp on e.bkr equals e4.empid
+                      into joinBkr from e5 in joinBkr.DefaultIfEmpty() 
+                      join e6 in WmsDc.emp on e.mkr equals e6.empid
+                      select new
+                      {
+                          e.wmsno,
+                            e.bllid,
+                            blltypedes = e2.brief,
+                            e.gdsid,
+                            e.mkr,
+                            mkrdes = e6.empdes,
+                            e3.gdsdes,
+                            e3.spc,
+                            e3.bsepkg,
+                            e1.pkgdes,
+                            e1.cnvrto,                            
+                            bkremp = e5.empdes,
+                            e.barcode,
+                            e.bokflg,
+                            e.bokdat,
+                            e.qty,
+                            e.preqty,
+                            pkg03 = GetPkgStr(e.qty, e1.cnvrto, e1.pkgdes),
+                            pkg03pre = GetPkgStr(e.preqty, e1.cnvrto, e1.pkgdes)
+                      };
+            if (!string.IsNullOrEmpty(zdr))
+            {
+                qry = qry.Where(e => e.mkrdes.Contains(zdr) || e.mkr == zdr);
+            }
+
+            return RSucc("成功", qry.ToArray(), "S0162");
+        }
+
+
+
         protected override void SetModuleInfo()
         {
             Mdlid = "Retrieve";
