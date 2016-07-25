@@ -270,6 +270,13 @@
             <param name="barcode"></param>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeComm(System.String,System.String)">
+            <summary>
+            得到仓位商品数量
+            </summary>
+            <param name="barcode"></param>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeCommTphy(System.String)">
             <summary>
             得到仓位商品数量(托盘还原)
@@ -277,7 +284,7 @@
             <param name="barcode"></param>       
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.SsnController.GetGdsInBarcode(System.String)">
+        <member name="M:WMS.Controllers.SsnController.GetGdsInBarcode(System.String,System.String)">
             <summary>
             得到仓位的商品
             </summary>
@@ -744,6 +751,13 @@
             得到仓储单查询
             </summary>
             <param name="wmsno">单据号</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustInRecievController.FindUnRcvBllsByFscprdid(System.String)">
+            <summary>
+            得到会计期间未审核的单据
+            </summary>
+            <param name="fscprdid"></param>
             <returns></returns>
         </member>
         <member name="M:WMS.Controllers.AdjustInRecievController.FindCurrDayRcvBlls(System.String)">
@@ -1219,6 +1233,18 @@
             <param name="barcode">业务库编码</param>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.RecievController.FindBllNew(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            收货查询
+            </summary>
+            <param name="begindat"></param>
+            <param name="enddat"></param>
+            <param name="odrno"></param>
+            <param name="gdsid"></param>
+            <param name="prvid"></param>
+            <param name="mkr"></param>
+            <returns></returns>
+        </member>
         <member name="T:WMS.NotLoginException">
             <summary>
             未登录例外
@@ -1476,7 +1502,7 @@
             <param name="gdsid">条码/货号</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.AdjustOutBozController.GetCurrBoZBll">
+        <member name="M:WMS.Controllers.AdjustOutBozController.GetCurrBoZBll(System.String)">
             <summary>
             根据日程查询播种批次单据
             </summary>        
@@ -2427,6 +2453,18 @@
             <param name="wmsno">调整单单号</param>
             <param name="gdsid">商品货号、条码</param>
             <param name="barcode">仓位</param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.FindBllNew(System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            仓位调整查询
+            </summary>
+            <param name="begindat">查询开始时间</param>
+            <param name="enddat">查询结束时间</param>
+            <param name="wmsno">调整单单号</param>
+            <param name="gdsid">商品货号、条码</param>
+            <param name="barcode">仓位</param>
+            <param name="mkr">制单人</param>
             <returns></returns>
         </member>
         <member name="T:WMS.Controllers.UpShelfController">

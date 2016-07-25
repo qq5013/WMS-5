@@ -123,7 +123,9 @@ namespace WMS.Controllers
 
         private bool IsExistsInBarcode(wms_cangdtl_110[] wms_cangdtl_110, string barcode, string gdsid, string gdstype, string vlddat, string bthno)
         {
-            return wms_cangdtl_110.Where(e => e.barcode == barcode.Trim() && e.gdsid == gdsid.Trim() && e.gdstype == gdstype.Trim() && e.vlddat == vlddat.Trim() && e.bthno == bthno.Trim()).Any();
+            return wms_cangdtl_110.Where(e => e.barcode.Trim() == barcode.Trim()
+                && e.gdsid.Trim() == gdsid.Trim() && e.gdstype.Trim() == gdstype.Trim()
+                && e.vlddat.Trim() == vlddat.Trim() && e.bthno.Trim() == bthno.Trim()).Any();
         }
 
         /// <summary>
@@ -509,7 +511,7 @@ namespace WMS.Controllers
             
             //得到一个商品的库存数量
             GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, gdsid, dtl.gdstype)
-                                .Where(e=>e.vlddat==dtl.vlddat.Trim() && e.bthno==dtl.bthno.Trim())
+                                .Where(e => e.vlddat.Trim() == dtl.vlddat.Trim() && e.bthno.Trim() == dtl.bthno.Trim())
                                 .ToArray();
             double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;            
             double ktqty = bqty + dtl.qty;  //可调数量 = 库存数量+本单该商品的数量
@@ -668,7 +670,7 @@ namespace WMS.Controllers
 
 
             //判断商品是否已经再单据里面
-            int iHasIn = arrqrydtl.Where(e => e.gdsid == gdsid.Trim() && e.gdstype == gdstype.Trim() && e.barcode == barcode.Trim() && e.bthno==bthno.Trim() && e.vlddat==vlddat.Trim()).Count();
+            int iHasIn = arrqrydtl.Where(e => e.gdsid.Trim() == gdsid.Trim() && e.gdstype.Trim() == gdstype.Trim() && e.barcode.Trim() == barcode.Trim() && e.bthno.Trim() == bthno.Trim() && e.vlddat.Trim() == vlddat.Trim()).Count();
             if (iHasIn > 0)
             {
                 return RInfo( "I0358",gdsid );
@@ -783,7 +785,7 @@ namespace WMS.Controllers
                 {
                     //得到一个商品的库存数量
                     GdsInBarcode[] gb = GetAGdsQtyInBarcode(arrqrydtl[i].barcode, arrqrydtl[i].gdsid, arrqrydtl[i].gdstype)
-                                        .Where(e => e.bthno == arrqrydtl[i].bthno.Trim() && e.vlddat == arrqrydtl[i].vlddat.Trim())
+                                        .Where(e => e.bthno.Trim() == arrqrydtl[i].bthno.Trim() && e.vlddat.Trim() == arrqrydtl[i].vlddat.Trim())
                                         .ToArray();
                     double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
                     double ktqty = bqty + arrqrydtl[i].qty;  //可调数量 = 库存数量+本单该商品的数量

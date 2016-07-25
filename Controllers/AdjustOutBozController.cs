@@ -570,7 +570,7 @@ namespace WMS.Controllers
         /// </summary>        
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_播种查询, pwrdes = "播种查询")]
-        public ActionResult GetCurrBoZBll()
+        public ActionResult GetCurrBoZBll(String ckflg)
         {
             String Fscprdid = GetCurrentFscprdid();     //得到会计期间
             var qry = from e in WmsDc.stkin
@@ -602,7 +602,11 @@ namespace WMS.Controllers
                           savdptid = g.Key.savdptid.Trim(),
                           savdptdes = g.Key.dptdes.Trim()
                       };
-
+            if (string.IsNullOrEmpty(ckflg))
+            {
+                qry = qry.Where(e => e.chkflg == 'y');
+            }
+            
             var arrqrymst = qry.ToArray();
             if (arrqrymst.Length <= 0)
             {

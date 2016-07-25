@@ -389,6 +389,7 @@ namespace WMS.Controllers
                     var qryshd = from e in WmsDc.wms_bllmst
                               where e.bllid == WMSConst.BLL_TYPE_REVIECEBLL
                               && e.lnknewno == odrno
+                              && e.lnknewbllid == "958"  // 供应商收货(958) 内调（112）
                               select e;
                     if (qryshd.Count() > 0)
                     {
@@ -1226,5 +1227,104 @@ namespace WMS.Controllers
             }
             return RSucc("成功", arrqrymst, "S0115");
         }
+
+        /// <summary>
+        /// 收货查询
+        /// </summary>
+        /// <param name="begindat"></param>
+        /// <param name="enddat"></param>
+        /// <param name="odrno"></param>
+        /// <param name="gdsid"></param>
+        /// <param name="prvid"></param>
+        /// <param name="mkr"></param>
+        /// <returns></returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_收货制单, pwrdes = "收货制单")]
+        public ActionResult FindBllNew(String begindat, String enddat, String odrno, String gdsid, String prvid, String mkr)
+        {
+            //判断商品编码是否为空
+            if (String.IsNullOrEmpty(gdsid))
+            {
+                return RInfo("I0483");
+            }
+
+            gdsid = GetGdsidByGdsidOrBcd(gdsid);
+
+            var qry = from e in WmsDc.wms_bllmst
+                      join e1 in WmsDc.wms_blldtl on new { e.wmsno, e.bllid, e.lnknewbllid } equals new { e1.wmsno, e1.bllid, lnknewbllid = "958" }
+                      join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
+                      join e3 in WmsDc.wms_pkg on e1.gdsid equals e3.gdsid
+                      join e4 in WmsDc.emp on e.ckr equals e4.empid
+                      into joinCkr
+                      from e5 in joinCkr.DefaultIfEmpty()
+                      join e6 in WmsDc.emp on e.mkr equals e6.empid
+                      join e7 in WmsDc.odr on new { e.lnknewno, e.lnknewbllid } equals new { lnknewno = e7.odrno, lnknewbllid = e7.bllid }
+                      into joinOdr
+                      from e8 in joinOdr.DefaultIfEmpty()
+                      join e9 in WmsDc.prv on e8.prvid equals e9.prvid
+                      join ee10 in WmsDc.wms_blltp on new { e1.wmsno, e1.bllid, e1.rcdidx } equals new { ee10.wmsno, ee10.bllid, ee10.rcdidx }
+                      into joinTp
+                      from e10 in joinTp.DefaultIfEmpty()
+                      join e11 in WmsDc.emp on e.ckr equals e11.empid
+                      into joinBkr
+                      from e12 in joinBkr.DefaultIfEmpty()
+                      where e1.gdsid == gdsid && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL
+                      select new
+                      {
+                          e2.gdsid,
+                          e2.gdsdes,
+                          e2.spc,
+                          e2.bsepkg,
+                          e3.cnvrto,
+                          e3.pkgdes,
+                          pkg03 = GetPkgStr(e10.qty, e3.cnvrto, e3.pkgdes),
+                          prepkg03 = GetPkgStr(e1.preqty, e3.cnvrto, e3.pkgdes),
+                          e1.preqty,                          
+                          qty = (e10.qty==null?0:e10.qty),
+                          e.mkedat,
+                          e.mkr,
+                          mkrdes = e6.empdes,
+                          e.chkflg,
+                          e.ckr,
+                          e.chkdat,
+                          bokflg = (e10.bokflg==null?'n':'y'),
+                          e10.bkr,
+                          e10.bokdat,
+                          bkrdes = e12.empdes,
+                          ckrdes = e5.empdes,
+                          e8.odrno,
+                          e9.prvid,
+                          e9.prvdes,
+                          e1.barcode,
+                          e1.rcdidx
+                      };
+            if (!string.IsNullOrEmpty(begindat))
+            {
+                qry = qry.Where(e => e.mkedat.CompareTo(begindat) >= 0);
+            }
+            if (!string.IsNullOrEmpty(enddat))
+            {
+                qry = qry.Where(e => e.mkedat.CompareTo(enddat) < 0);
+            }
+            if (!string.IsNullOrEmpty(odrno))
+            {
+                qry = qry.Where(e => e.odrno == odrno);
+            }
+            if (!string.IsNullOrEmpty(odrno))
+            {
+                qry = qry.Where(e => e.prvid == prvid);
+            }
+            if (!string.IsNullOrEmpty(mkr))
+            {
+                qry = qry.Where(e => e.mkr == mkr || e.mkrdes.Contains(mkr));
+            }
+            var arrqry = qry.ToArray();
+            if (arrqry.Length <= 0)
+            {
+                return RNoData("N0256");
+            }
+
+            return RSucc("成功", qry.ToArray(), "S0230");
+        }
     }
 }
+

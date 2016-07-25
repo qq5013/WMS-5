@@ -120,6 +120,55 @@ namespace WMS.Controllers
         //public ActionResult 
 
         /// <summary>
+        /// 得到会计期间未审核的单据
+        /// </summary>
+        /// <param name="fscprdid"></param>
+        /// <returns></returns>
+        public ActionResult FindUnRcvBllsByFscprdid(String fscprdid)
+        {
+            var qry = from e in WmsDc.wms_bllmst
+                      join e5 in WmsDc.stkin on new { stkinno = e.lnknewno, bllid = e.lnknewbllid } equals new { e5.stkinno, e5.bllid }
+                      join e6 in WmsDc.dpt on e5.dptid equals e6.dptid
+                      join ee7 in WmsDc.prv on e.prvid equals ee7.prvid
+                      into joinPrv
+                      from e7 in joinPrv.DefaultIfEmpty()
+                      join e8 in WmsDc.emp on e.mkr equals e8.empid
+                      where e.mkedat.Substring(2, 4) == fscprdid
+                      && e.savdptid == LoginInfo.DefSavdptid
+                      && (spqus.Contains(e.qu) || dtqus.Contains(e.qu))
+                      && e.bllid == WMSConst.BLL_TYPE_REVIECEBLL
+                      //&& e.mkr == LoginInfo.Usrid
+                      select new
+                      {
+                          e.arvdat,
+                          e.bllid,
+                          e.brief,
+                          e.chkdat,
+                          e.chkflg,
+                          e.ckr,
+                          e.hndbllno,
+                          e.huojia,
+                          e.lnknewbllid,
+                          e.lnknewbrief,
+                          e.lnknewno,
+                          e.mkedat,
+                          e.mkr,
+                          mkrdes = e8.empdes,
+                          e.odrdat,
+                          e.opr,
+                          e.prvid,
+                          e.qu,
+                          e.savdptid,
+                          e.tongdao,
+                          e.wmsno,
+                          e7.prvdes
+                      };
+            
+
+            return RSucc("成功", qry.ToArray(), "S0109");
+        }
+
+        /// <summary>
         /// 查找当天的收货单
         /// </summary>
         /// <param name="day">查询日期</param>

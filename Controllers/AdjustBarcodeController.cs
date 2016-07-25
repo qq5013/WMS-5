@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WMS.Models;
+using System.Transactions;
 
 namespace WMS.Controllers
 {
@@ -138,14 +139,12 @@ namespace WMS.Controllers
                             where a.savdptid=@savdptid and a.qu=@qu and a.tjflg='y' and a.barcode not in
                             (
                             select barcode from wms_cangdtl,wms_cang where wms_cang.wmsno=wms_cangdtl.wmsno and wms_cang.bllid=wms_cangdtl.bllid
-				                            and wms_cang.savdptid=@savdptid and wms_cang.qu=@qu and wms_cang.bllid='103' and wms_cang.mkedat>='" + mkedat + @"'
+				                            and wms_cang.savdptid=@savdptid and wms_cang.qu=@qu and wms_cang.bllid='103' and wms_cang.mkedat>=@mkedat
                             union all
                             select barcode from wms_cangdtl_115,wms_cang_115 where wms_cang_115.wmsno=wms_cangdtl_115.wmsno and wms_cang_115.bllid=wms_cangdtl_115.bllid
-				                            and wms_cang_115.savdptid=@savdptid and wms_cang_115.qu=@qu and wms_cang_115.bllid='115' and wms_cang_115.mkedat>='" + mkedat + @"'
-                            union all
-                            select barcode from wms_bllmst,wms_blldtl where wms_bllmst.wmsno=wms_blldtl.wmsno and wms_bllmst.bllid=wms_blldtl.bllid
-				                            and wms_bllmst.savdptid=@savdptid and wms_bllmst.qu=@qu and wms_bllmst.bllid='108' and wms_bllmst.lnknewbllid='108' and wms_bllmst.mkedat>='" + mkedat + @"'
+				                            and wms_cang_115.savdptid=@savdptid and wms_cang_115.qu=@qu and wms_cang_115.bllid='115' and wms_cang_115.mkedat>=@mkedat
                             )
+                            and (select isnull(sum(qty),0) from wms_cwgdsbs where barcode=a.barcode) - (select isnull(sum(qty),0) from wms_sendbill where barcode=a.barcode)>0
 
                             and b.zheng<=@qty
                             order by b.barcode";
@@ -174,413 +173,438 @@ namespace WMS.Controllers
              * 7.插入经销调拨单主单和明细
              * 8.插入sftdtl表
              */
-            wms_bllmst mst = GetAdjMst(wmsno);
-            //正在生成拣货单，请稍候重试            
-            if (DoingRetrieve(LoginInfo.DefStoreid, mst.qu))
+            using (TransactionScope scop = new TransactionScope())
             {
-                return RInfo( "I0006" );
-            }
+                wms_bllmst mst = GetAdjMst(wmsno);
+                //正在生成拣货单，请稍候重试            
+                if (DoingRetrieve(LoginInfo.DefStoreid, mst.qu))
+                {
+                    return RInfo("I0006");
+                }
 
-            wms_blldtl[] dtls = GetAdjDtls(wmsno);
-            wms_blltp[] tps = (from e in WmsDc.wms_blltp
-                               where e.wmsno == wmsno.Trim()
-                               && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                               select e).ToArray();            
-            var dpts = (from e in WmsDc.gds
-                          join e1 in WmsDc.dpt on e.dptid equals e1.dptid
-                              where dtls.Select(ee=>ee.gdsid.Trim()).Contains(e.gdsid)
-                              select new{
-                                  gdsid = e.gdsid.Trim(),
-                                  gdsdes = e.gdsdes.Trim(),
-                                  salprc = e.salprc,
-                                  dptid = e.dptid.Trim(),
-                                  dptdes = e1.dptdes.Trim()
-                              }
-                              ).ToArray();
-            var deps = (from e in WmsDc.bizdep
-                        where savdpts.Contains(e.savdptid)
-                        && dpts.Select(e1 => e1.dptid).Contains(e.dptid)
-                        select e).ToArray();
-            var bcds = (from e in WmsDc.bcd
-                        where dtls.Select(ee=>ee.gdsid.Trim()).Contains(e.gdsid)
-                        group e by e.gdsid into g
-                        select new{
-                            gdsid = g.Key.Trim(),
-                            bcd  = g.Max(e=>e.bcd1).Trim()
-                        }).ToArray();
-            // 判断是否所有的待调商品，都已经做了调整
-            var qryHasAllAdj = from e in dtls
-                               select new
-                               {
-                                   e.wmsno, e.bllid,
-                                   e.qty, 
-                                   adjQty = (from e1 in tps
-                                            where e1.wmsno.Trim()==e.wmsno.Trim() && e1.bllid.Trim()==e.bllid.Trim()
-                                            && e1.rcdidx==e.rcdidx
-                                            group e1 by new{ e1.wmsno, e1.bllid, e1.rcdidx } into g
-                                            select g.Sum(e1=>e1.qty)).FirstOrDefault()
-                               };
-            if (qryHasAllAdj.Where(e => e.adjQty == null || (e.adjQty != null && e.adjQty != e.qty)).Any())
-            {
-                return RInfo("I0479");
-            }
-
-            // 判断单据是否找到
-            if (mst == null)
-            {
-                return RNoData("N0005");
-            }
-            //判断是否有主单权限
-            if (qus.Contains(mst.qu) && savdpts.Contains(mst.savdptid))
-            {
-                return RInfo( "I0007" );
-            }
-            //判断该单据是否审核
-            if (mst.chkflg == GetY())
-            {
-                return RInfo( "I0008" );
-            }
-            //判断是否有明细数据权限
-            if (dtls.Length == 0)
-            {
-                return RNoData("N0006");
-            }            
-            // done 检查调出调入是否匹配           
-            //如果明细单不是所有商品的调整数量都为0，审核的时候TP表中的数量必须与明细中的数量一致
-            if (/*!(dtls.Count(e => e.qty == 0) == dtls.Count()) && */dtls.Sum(e => e.qty) != tps.Sum(e => e.qty))
-            {
-                return RInfo( "I0009" );
-            }            
-
-            //审核主单，修改主单标记
-            mst.chkflg = GetY();
-            mst.chkdat = GetCurrentDate();
-            mst.ckr = LoginInfo.Usrid;            
-
-
-            //增加帐表库存
-            #region 增加帐表库存
-            var tpsVlddat = from e in tps
+                wms_blldtl[] dtls = GetAdjDtls(wmsno);
+                wms_blltp[] tps = (from e in WmsDc.wms_blltp
+                                   where e.wmsno == wmsno.Trim()
+                                   && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                                   select e).ToArray();
+                var dpts = (from e in WmsDc.gds
+                            join e1 in WmsDc.dpt on e.dptid equals e1.dptid
+                            where dtls.Select(ee => ee.gdsid.Trim()).Contains(e.gdsid)
                             select new
                             {
-                                e.wmsno,
-                                e.bllid,
-                                e.barcode,
-                                e.gdsid,
-                                e.gdstype,
-                                e.qu,
-                                e.qty,
-                                bthno = WmsDc.wms_blldtl.Where(e1 => e1.bllid == e.bllid && e1.wmsno == e.wmsno && e1.gdsid == e.gdsid && e1.gdstype == e.gdstype && e1.rcdidx == e.rcdidx).Select(e1 => e1.bthno).FirstOrDefault(),
-                                vlddat = WmsDc.wms_blldtl.Where(e1 => e1.bllid == e.bllid && e1.wmsno == e.wmsno && e1.gdsid == e.gdsid && e1.gdstype == e.gdstype && e1.rcdidx == e.rcdidx).Select(e1 => e1.vlddat).FirstOrDefault()
-                            };
-            var tpsGrp = from e in tpsVlddat
-                         group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.qu } into g
-                         select new
-                         {
-                             g.Key.barcode,
-                             g.Key.gdsid,
-                             g.Key.gdstype,
-                             g.Key.qu,
-                             g.Key.bthno,
-                             g.Key.vlddat,
-                             bcd = WmsDc.bcd.Where(e => e.gdsid.Trim() == g.Key.gdsid.Trim()).Select(e => e.bcd1).Max(), // WmsDc.bcd.Where(ee=>ee.gdsid==g.Key.gdsid.Trim()).Select(e=>e.bcd1).Max(),                                 
-                             qty = g.Sum(e => e.qty)
-                         };
-            
-            foreach (var ag in tpsGrp)
-            {
-                wms_cwgdsbs gdsbs = new wms_cwgdsbs();
-                gdsbs.barcode = ag.barcode;
-                gdsbs.bcd = ag.bcd;
-                gdsbs.bthno = ag.bthno;
-                gdsbs.gdsid = ag.gdsid;
-                gdsbs.gdstype = ag.gdstype;
-                gdsbs.prvid = "";
-                gdsbs.qty = ag.qty;
-                gdsbs.qu = ag.qu;
-                gdsbs.savdptid = GetSavdptidByQu(ag.qu);
-                gdsbs.vlddat = ag.vlddat;
-                //如果没有就增加库存
-                wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
-                    && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno==gdsbs.bthno.Trim() && e.vlddat==gdsbs.vlddat.Trim()).Select(e => e).FirstOrDefault();
-                if (egdsbs==null)
+                                gdsid = e.gdsid.Trim(),
+                                gdsdes = e.gdsdes.Trim(),
+                                salprc = e.salprc,
+                                dptid = e.dptid.Trim(),
+                                dptdes = e1.dptdes.Trim()
+                            }
+                                  ).ToArray();
+                var deps = (from e in WmsDc.bizdep
+                            where savdpts.Contains(e.savdptid)
+                            && dpts.Select(e1 => e1.dptid).Contains(e.dptid)
+                            select e).ToArray();
+                var bcds = (from e in WmsDc.bcd
+                            where dtls.Select(ee => ee.gdsid.Trim()).Contains(e.gdsid)
+                            group e by e.gdsid into g
+                            select new
+                            {
+                                gdsid = g.Key.Trim(),
+                                bcd = g.Max(e => e.bcd1).Trim()
+                            }).ToArray();
+                // 判断是否所有的待调商品，都已经做了调整
+                var qryHasAllAdj = from e in dtls
+                                   select new
+                                   {
+                                       e.wmsno,
+                                       e.bllid,
+                                       e.qty,
+                                       adjQty = (from e1 in tps
+                                                 where e1.wmsno.Trim() == e.wmsno.Trim() && e1.bllid.Trim() == e.bllid.Trim()
+                                                 && e1.rcdidx == e.rcdidx
+                                                 group e1 by new { e1.wmsno, e1.bllid, e1.rcdidx } into g
+                                                 select new
+                                                 {
+                                                     g.Key.wmsno,
+                                                     g.Key.bllid,
+                                                     g.Key.rcdidx,
+                                                     sQty = g.Sum(e1 => e1.qty)
+                                                 }).FirstOrDefault()
+                                   };
+                if (qryHasAllAdj.Where(e => e.adjQty == null || (e.adjQty != null && e.adjQty.sQty != e.qty)).Any())
                 {
-                    WmsDc.wms_cwgdsbs.InsertOnSubmit(gdsbs);                                        
-                }else{
-                    egdsbs.qty += gdsbs.qty;
+                    return RInfo("I0479");
                 }
-                //WmsDc.SubmitChanges();
-            }
-            #endregion 增加帐表库存
 
-            //减少帐表库存
-            #region 减少帐表库存
-            var dtlsGrp = from e in dtls
-                             group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } into g
+                // 判断单据是否找到
+                if (mst == null)
+                {
+                    return RNoData("N0005");
+                }
+                //判断是否有主单权限
+                if (qus.Contains(mst.qu) && savdpts.Contains(mst.savdptid))
+                {
+                    return RInfo("I0007");
+                }
+                //判断该单据是否审核
+                if (mst.chkflg == GetY())
+                {
+                    return RInfo("I0008");
+                }
+                //判断是否有明细数据权限
+                if (dtls.Length == 0)
+                {
+                    return RNoData("N0006");
+                }
+                // done 检查调出调入是否匹配           
+                //如果明细单不是所有商品的调整数量都为0，审核的时候TP表中的数量必须与明细中的数量一致
+                if (/*!(dtls.Count(e => e.qty == 0) == dtls.Count()) && */dtls.Sum(e => e.qty) != tps.Sum(e => e.qty))
+                {
+                    return RInfo("I0009");
+                }
+
+                //审核主单，修改主单标记
+                mst.chkflg = GetY();
+                mst.chkdat = GetCurrentDate();
+                mst.ckr = LoginInfo.Usrid;
+                WmsDc.SubmitChanges();
+
+
+
+                //增加帐表库存
+                #region 增加帐表库存
+                var tpsVlddat = from e in tps
+                                select new
+                                {
+                                    e.wmsno,
+                                    e.bllid,
+                                    e.barcode,
+                                    e.gdsid,
+                                    e.gdstype,
+                                    e.qu,
+                                    e.qty,
+                                    bthno = WmsDc.wms_blldtl.Where(e1 => e1.bllid == e.bllid && e1.wmsno == e.wmsno && e1.gdsid == e.gdsid && e1.gdstype == e.gdstype && e1.rcdidx == e.rcdidx).Select(e1 => e1.bthno).FirstOrDefault(),
+                                    vlddat = WmsDc.wms_blldtl.Where(e1 => e1.bllid == e.bllid && e1.wmsno == e.wmsno && e1.gdsid == e.gdsid && e1.gdstype == e.gdstype && e1.rcdidx == e.rcdidx).Select(e1 => e1.vlddat).FirstOrDefault()
+                                };
+                var tpsGrp = from e in tpsVlddat
+                             group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.qu } into g
                              select new
                              {
                                  g.Key.barcode,
                                  g.Key.gdsid,
-                                 g.Key.gdstype,                                 
+                                 g.Key.gdstype,
+                                 g.Key.qu,
                                  g.Key.bthno,
                                  g.Key.vlddat,
-                                 bcd = WmsDc.bcd.Where(ee => ee.gdsid == ee.gdsid).Select(e => e.bcd1).Max(),
-                                 qu = mst.qu,
+                                 bcd = WmsDc.bcd.Where(e => e.gdsid.Trim() == g.Key.gdsid.Trim()).Select(e => e.bcd1).Max(), // WmsDc.bcd.Where(ee=>ee.gdsid==g.Key.gdsid.Trim()).Select(e=>e.bcd1).Max(),                                 
                                  qty = g.Sum(e => e.qty)
                              };
-            foreach (var ag in dtlsGrp)
-            {
-                wms_cwgdsbs gdsbs = new wms_cwgdsbs();
-                gdsbs.barcode = ag.barcode.Trim();
-                gdsbs.bcd = ag.bcd.Trim();
-                gdsbs.bthno = ag.bthno;
-                gdsbs.gdsid = ag.gdsid.Trim();
-                gdsbs.gdstype = ag.gdstype.Trim();
-                gdsbs.prvid = "";
-                gdsbs.qty = ag.qty;
-                gdsbs.qu = mst.qu.Trim();
-                gdsbs.savdptid = mst.savdptid.Trim();
-                gdsbs.vlddat = ag.vlddat;
-                //如果没有就增加库存
-                wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
-                    && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno==gdsbs.bthno.Trim() && e.vlddat==gdsbs.vlddat.Trim())
-                    .Select(e => e).FirstOrDefault();
-                if (egdsbs == null)
+
+                foreach (var ag in tpsGrp)
                 {
-                    return RInfo("I0011", gdsbs.gdsid, gdsbs.gdstype);
+                    wms_cwgdsbs gdsbs = new wms_cwgdsbs();
+                    gdsbs.barcode = ag.barcode;
+                    gdsbs.bcd = ag.bcd;
+                    gdsbs.bthno = ag.bthno;
+                    gdsbs.gdsid = ag.gdsid;
+                    gdsbs.gdstype = ag.gdstype;
+                    gdsbs.prvid = "";
+                    gdsbs.qty = ag.qty;
+                    gdsbs.qu = ag.qu;
+                    gdsbs.savdptid = GetSavdptidByQu(ag.qu);
+                    gdsbs.vlddat = ag.vlddat;
+                    //如果没有就增加库存
+                    wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
+                        && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno == gdsbs.bthno.Trim() && e.vlddat == gdsbs.vlddat.Trim()).Select(e => e).FirstOrDefault();
+                    if (egdsbs == null)
+                    {
+                        WmsDc.wms_cwgdsbs.InsertOnSubmit(gdsbs);
+                    }
+                    else
+                    {
+                        egdsbs.qty += gdsbs.qty;
+                    }
+                    //WmsDc.SubmitChanges();
                 }
-                else
+                #endregion 增加帐表库存
+
+                //减少帐表库存
+                #region 减少帐表库存
+                var dtlsGrp = from e in dtls
+                              group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } into g
+                              select new
+                              {
+                                  g.Key.barcode,
+                                  g.Key.gdsid,
+                                  g.Key.gdstype,
+                                  g.Key.bthno,
+                                  g.Key.vlddat,
+                                  bcd = WmsDc.bcd.Where(ee => ee.gdsid == ee.gdsid).Select(e => e.bcd1).Max(),
+                                  qu = mst.qu,
+                                  qty = g.Sum(e => e.qty)
+                              };
+                foreach (var ag in dtlsGrp)
                 {
-                    egdsbs.qty -= gdsbs.qty;
-                }
-                //WmsDc.SubmitChanges();
-            }
-            #endregion 减少帐表库存
-
-            //判断是否有从退货区调入商品区，或者从商品区调入退货区，如果有，要生成经销调拨单
-            //插入经销调拨单主单和明细(bllid="112")
-            #region 插入经销调拨单主单和明细(bllid="112")
-            //得到tps idx分组的查询            
-            var tpsIdxGrp = (from e in tps
-                             join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
-                             join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
-                             group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.qu, e.rcdidx, e.savdptid, e1.bcd, e2.dptdes, e2.dptid } into g
-                             select new
-                             {
-                                 g.Key.barcode,
-                                 gdsid = g.Key.gdsid.Trim(),
-                                 g.Key.gdstype,
-                                 g.Key.rcdidx,
-                                 g.Key.qu,
-                                 g.Key.bcd,
-                                 g.Key.dptdes,
-                                 g.Key.dptid,
-                                 g.Key.savdptid,                                 
-                                 qty = g.Sum(e => e.qty)
-                             }).ToArray();
-            //得到dtls idx分组的查询
-            var dtlsIdxGrp = (from e in dtls
-                              join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
-                              join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
-                             group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.rcdidx, e1.bcd, e2.dptdes, e2.dptid } into g
-                          select new
-                          {
-                              g.Key.barcode,
-                              gdsid = g.Key.gdsid.Trim(),
-                              g.Key.gdstype,
-                              g.Key.bthno,
-                              g.Key.vlddat,
-                              g.Key.rcdidx,                              
-                              qu = mst.qu,
-                              g.Key.bcd,
-                              g.Key.dptdes,
-                              g.Key.dptid,
-                              savdptid=mst.savdptid,
-                              qty = g.Sum(e => e.qty)
-                          }).ToArray();
-            // 通过idx关联dtls和tps分区不一致的商品
-            var lnkDtlsTps = (from e in dtlsIdxGrp
-                             join e2 in tpsIdxGrp on e.rcdidx equals e2.rcdidx
-                             into joinTps from e1 in joinTps.DefaultIfEmpty()                             
-                             where e.qu != e1.qu
-                             orderby e1.savdptid, e1.dptid, e1.qu
-                             select new
-                             {
-                                 oldbarcode = e.barcode,
-                                 e.bcd,
-                                 e.gdsid,
-                                 e.gdstype,
-                                 e.bthno,
-                                 e.vlddat,
-                                 oldqty = e.qty,
-                                 oldqu = e.qu,
-                                 oldsavdptid=e.savdptid,
-                                 olddptid = e.dptid,
-                                 olddptdes = e.dptdes,
-                                 e.dptid,
-                                 e.dptdes,
-                                 e.rcdidx,
-                                 newsavdptid=e1.savdptid,
-                                 newdptid = e1.dptid,
-                                 newdptdes = e1.dptdes,
-                                 newbarcode = e1.barcode,
-                                 newqty = e1.qty,
-                                 newqu = e1.qu                                 
-                             }).ToArray();
-            // 如果有调出调入分区不一致的单据就生产调拨单
-            if (lnkDtlsTps.Length > 0)
-            {
-                // 调拨单单号            
-                String stkinno = null;
-                String adptid = null;
-                String fscprdid = GetCurrentFscprdid();
-                String bllid = "112";
-                stkin sin = null;
-                int i = 1;
-                
-                // 对这些分区不一致的商品，生产经销调拨单（单据类型：112）
-                foreach (var dp in lnkDtlsTps)
-                {                    
-                    //检查调出调入数量是否一致
-                    /*if (dp.oldqty != dp.newqty)
+                    wms_cwgdsbs gdsbs = new wms_cwgdsbs();
+                    gdsbs.barcode = ag.barcode.Trim();
+                    gdsbs.bcd = ag.bcd.Trim();
+                    gdsbs.bthno = ag.bthno;
+                    gdsbs.gdsid = ag.gdsid.Trim();
+                    gdsbs.gdstype = ag.gdstype.Trim();
+                    gdsbs.prvid = "";
+                    gdsbs.qty = ag.qty;
+                    gdsbs.qu = mst.qu.Trim();
+                    gdsbs.savdptid = mst.savdptid.Trim();
+                    gdsbs.vlddat = ag.vlddat;
+                    //如果没有就增加库存
+                    wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
+                        && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno == gdsbs.bthno.Trim() && e.vlddat == gdsbs.vlddat.Trim())
+                        .Select(e => e).FirstOrDefault();
+                    if (egdsbs == null)
                     {
-                        return RInfo( "I0012",dp.gdsid.Trim() ,dp.oldqty ,dp.newqty  );
-                    }*/
-                    //判断aqu分区是否有null,为null就为改去分配单号
-                    if (adptid == null || adptid != dp.newdptid)
-                    {
-                        // 序号初始化
-                        i = 1;
-                        // 得到单号
-                        adptid = dp.newdptid;
-                        WmsDc.get_bllno(fscprdid, "01", "002", ref stkinno);
-                        //stkinno = WmsDc.get_wms_sy_bllno(fscprdid, dp.newdptid, dp.newsavdptid.Trim()).FirstOrDefault().Column1;
-                        // 生成主单据
-                        #region 生成主单
-                        sin = new stkin();
-                        sin.stkinno = stkinno;
-                        sin.hndbllno = mst.wmsno;
-                        sin.bllid = bllid;
-                        sin.dptid = dp.newdptid;
-                        sin.savdptid = dp.newsavdptid;
-                        sin.depid = WmsDc.bizdep.Where(e => e.savdptid.Trim() == dp.newsavdptid.Trim()
-                            && e.dptid.Trim() == dp.newdptid.Trim()).Select(e => e.depid.Trim()).FirstOrDefault();
-                        sin.prvid = "";
-                        sin.mkr = mst.mkr;
-                        sin.mkedat = GetCurrentDay();
-                        sin.ckr = "";
-                        sin.chkflg = GetN();
-                        sin.chkdat = "";
-                        sin.bkr = "";
-                        sin.bokflg = GetN();
-                        sin.bokdat = "";
-                        sin.opr = mst.mkr;
-                        sin.rcv = "";
-                        sin.stkindat = GetCurrentDay();
-                        sin.brief = "WMS系统调仓导入";
-                        sin.lnkodrno = "";
-                        sin.lnkivcno = GetCurrentDay();
-                        sin.mctortrust = '0';
-                        sin.stktpid = "";
-                        sin.taxflg = null;
-                        String branchid = GetBranchid(dp.newsavdptid);
-                        sin.branchid = branchid;
-                        sin.sft_branchid = branchid;
-                        sin.drtdpt = null;
-                        sin.outzdflg = GetN();
-                        sin.inzdflg = GetN();
-                        sin.outflg = GetN();
-                        sin.inflg = GetN();
-                        sin.outwmsbllid = "";
-                        sin.inwmsbllid = "";
-                        sin.outwmsno = "";
-                        sin.inwmsno = "";
-                        sin.indat = "";
-                        sin.outdat = "";
-                        sin.inzddat = "";
-                        sin.outzddat = "";
-                        WmsDc.stkin.InsertOnSubmit(sin);
-                        #endregion 生成主单
-
-                        //插入sftdtl表
-                        #region 插入sftdtl表
-                        sftdtl sdtl = new sftdtl();
-                        sdtl.sft_depout = WmsDc.bizdep.Where(e => e.dptid.Trim() == dp.olddptid.Trim() && e.savdptid.Trim() == dp.oldsavdptid).Select(e => e.depid.Trim()).FirstOrDefault();
-                        sdtl.sft_dptout = dp.olddptid;
-                        sdtl.sft_sdtout = dp.oldsavdptid;
-                        sdtl.stkinno = sin.stkinno;
-                        WmsDc.sftdtl.InsertOnSubmit(sdtl);
-                        #endregion 插入sftdtl表
+                        return RInfo("I0011", gdsbs.gdsid, gdsbs.gdstype);
                     }
-                    //插入明细单据
-                    #region 插入明细单据
-                    // 单号不为空就插入明细
-                    if (stkinno != null && sin!=null)
+                    else
                     {
-                        stkindtl sindtl = new stkindtl();
-                        sindtl.stkinno = stkinno;
-                        sindtl.rcdidx = i;
-                        sindtl.depid = sin.depid;
-                        sindtl.outdepid = WmsDc.bizdep.Where(e=>e.dptid.Trim()==dp.olddptid.Trim()
-                                            &&e.savdptid.Trim()==dp.oldsavdptid.Trim()).Select(e=>e.depid.Trim()).FirstOrDefault();
-                        f_get_bthprcResult bthprc = WmsDc.f_get_bthprc(fscprdid, sindtl.outdepid, dp.gdsid).First();
-
-                        sindtl.gdsid = dp.gdsid;
-                        sindtl.pkgid = "01";
-                        sindtl.duepkgqty = dp.newqty;
-                        sindtl.dueqty = dp.newqty;
-                        sindtl.pkgqty = dp.newqty;                                               
-                        sindtl.pkgprc = bthprc.prc;  // 计算批次价
-                        sindtl.pkgtaxprc = bthprc.taxprc;
-                        sindtl.qty = dp.newqty;
-                        sindtl.prc = sindtl.pkgprc;
-                        sindtl.amt = Math.Round(sindtl.qty * sindtl.prc.Value, 2, MidpointRounding.AwayFromZero);
-                        sindtl.taxrto = bthprc.taxrto;
-                        //sindtl.taxamt = Math.Round( (bthprc.taxprc.Value * sindtl.qty - bthprc.prc.Value * sindtl.qty) , 2, MidpointRounding.AwayFromZero); 
-                        ///算法就是这样的
-                        ///周胖胖 2016/5/23 14:54:34
-                        ///反正最终出来的结果就是
-                        ///taxamt=prc*taxrto*qty
-                        sindtl.taxamt = Math.Round(bthprc.prc.Value * bthprc.taxrto.Value * sindtl.qty, 2, MidpointRounding.AwayFromZero);
-                        sindtl.taxprc = bthprc.taxprc;
-                        sindtl.patamt = Math.Round(bthprc.taxprc.Value * sindtl.qty, 2, MidpointRounding.AwayFromZero);
-                        sindtl.salprc = dpts.Where(e=>e.gdsid.Trim()==dp.gdsid.Trim()).Select(e=>e.salprc).FirstOrDefault() ;
-                        sindtl.salprcamt = sindtl.salprc * dp.newqty;
-                        sindtl.dlvprc = null;
-                        sindtl.dlvamt = null;
-                        sindtl.saltaxrto = bthprc.taxrto;
-                        sindtl.orisalprc = 0;
-                        sindtl.prvid = bthprc.prvid;
-                        sindtl.bthprc = bthprc.prc;
-                        sindtl.stllnkno = null;
-                        sindtl.stllnkidx = null;
-                        sindtl.bthno = dp.bthno.Trim() ;
-                        sindtl.vlddat = dp.vlddat.Trim();
-                        sindtl.bcd = dp.bcd;                        
-                        //sindtl.brfdtl = null;
-                        sindtl.brfdtl = "wms";
-                        sindtl.stincstprc = null;
-                        sindtl.stincstamt = null;
-                        sindtl.mctortrust = '0';
-                        sindtl.taxflg = 'y';
-                        sindtl.ctno = null;
-                        sindtl.arcid = null;
-                        sindtl.bthamt = null;
-                        sindtl.bzflg = 'n';
-                        sindtl.bzr = "";
-                        sindtl.bzdat = "";
-                        WmsDc.stkindtl.InsertOnSubmit(sindtl);
+                        egdsbs.qty -= gdsbs.qty;
                     }
-                    #endregion 插入明细单据
-
-                    i++;
+                    //WmsDc.SubmitChanges();
                 }
-                
-            }
-            #endregion 插入经销调拨单主单和明细(bllid="112")
+                #endregion 减少帐表库存
 
-            WmsDc.SubmitChanges();
-            return RSucc("成功", null, "S0005");
+                //判断是否有从退货区调入商品区，或者从商品区调入退货区，如果有，要生成经销调拨单
+                //插入经销调拨单主单和明细(bllid="112")
+                #region 插入经销调拨单主单和明细(bllid="112")
+                //得到tps idx分组的查询            
+                var tpsIdxGrp = (from e in tps
+                                 join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
+                                 join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
+                                 group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.qu, e.rcdidx, e.savdptid, e1.bcd, e2.dptdes, e2.dptid } into g
+                                 select new
+                                 {
+                                     g.Key.barcode,
+                                     gdsid = g.Key.gdsid.Trim(),
+                                     g.Key.gdstype,
+                                     g.Key.rcdidx,
+                                     g.Key.qu,
+                                     g.Key.bcd,
+                                     g.Key.dptdes,
+                                     g.Key.dptid,
+                                     g.Key.savdptid,
+                                     qty = g.Sum(e => e.qty)
+                                 }).ToArray();
+                //得到dtls idx分组的查询
+                var dtlsIdxGrp = (from e in dtls
+                                  join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
+                                  join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
+                                  group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.rcdidx, e1.bcd, e2.dptdes, e2.dptid } into g
+                                  select new
+                                  {
+                                      g.Key.barcode,
+                                      gdsid = g.Key.gdsid.Trim(),
+                                      g.Key.gdstype,
+                                      g.Key.bthno,
+                                      g.Key.vlddat,
+                                      g.Key.rcdidx,
+                                      qu = mst.qu,
+                                      g.Key.bcd,
+                                      g.Key.dptdes,
+                                      g.Key.dptid,
+                                      savdptid = mst.savdptid,
+                                      qty = g.Sum(e => e.qty)
+                                  }).ToArray();
+                // 通过idx关联dtls和tps分区不一致的商品
+                var lnkDtlsTps = (from e in dtlsIdxGrp
+                                  join e2 in tpsIdxGrp on e.rcdidx equals e2.rcdidx
+                                  into joinTps
+                                  from e1 in joinTps.DefaultIfEmpty()
+                                  where e.qu != e1.qu
+                                  orderby e1.savdptid, e1.dptid, e1.qu
+                                  select new
+                                  {
+                                      oldbarcode = e.barcode,
+                                      e.bcd,
+                                      e.gdsid,
+                                      e.gdstype,
+                                      e.bthno,
+                                      e.vlddat,
+                                      oldqty = e.qty,
+                                      oldqu = e.qu,
+                                      oldsavdptid = e.savdptid,
+                                      olddptid = e.dptid,
+                                      olddptdes = e.dptdes,
+                                      e.dptid,
+                                      e.dptdes,
+                                      e.rcdidx,
+                                      newsavdptid = e1.savdptid,
+                                      newdptid = e1.dptid,
+                                      newdptdes = e1.dptdes,
+                                      newbarcode = e1.barcode,
+                                      newqty = e1.qty,
+                                      newqu = e1.qu
+                                  }).ToArray();
+                // 如果有调出调入分区不一致的单据就生产调拨单
+                if (lnkDtlsTps.Length > 0)
+                {
+                    // 调拨单单号            
+                    String stkinno = null;
+                    String adptid = null;
+                    String fscprdid = GetCurrentFscprdid();
+                    String bllid = "112";
+                    stkin sin = null;
+                    int i = 1;
+
+                    // 对这些分区不一致的商品，生产经销调拨单（单据类型：112）
+                    foreach (var dp in lnkDtlsTps)
+                    {
+                        //检查调出调入数量是否一致
+                        /*if (dp.oldqty != dp.newqty)
+                        {
+                            return RInfo( "I0012",dp.gdsid.Trim() ,dp.oldqty ,dp.newqty  );
+                        }*/
+                        //判断aqu分区是否有null,为null就为改去分配单号
+                        if (adptid == null || adptid != dp.newdptid)
+                        {
+                            // 序号初始化
+                            i = 1;
+                            // 得到单号
+                            adptid = dp.newdptid;
+                            WmsDc.get_bllno(fscprdid, "01", "002", ref stkinno);
+                            //stkinno = WmsDc.get_wms_sy_bllno(fscprdid, dp.newdptid, dp.newsavdptid.Trim()).FirstOrDefault().Column1;
+                            // 生成主单据
+                            #region 生成主单
+                            sin = new stkin();
+                            sin.stkinno = stkinno;
+                            sin.hndbllno = mst.wmsno;
+                            sin.bllid = bllid;
+                            sin.dptid = dp.newdptid;
+                            sin.savdptid = dp.newsavdptid;
+                            sin.depid = WmsDc.bizdep.Where(e => e.savdptid.Trim() == dp.newsavdptid.Trim()
+                                && e.dptid.Trim() == dp.newdptid.Trim()).Select(e => e.depid.Trim()).FirstOrDefault();
+                            sin.prvid = "";
+                            sin.mkr = mst.mkr;
+                            sin.mkedat = GetCurrentDay();
+                            sin.ckr = "";
+                            sin.chkflg = GetN();
+                            sin.chkdat = "";
+                            sin.bkr = "";
+                            sin.bokflg = GetN();
+                            sin.bokdat = "";
+                            sin.opr = mst.mkr;
+                            sin.rcv = "";
+                            sin.stkindat = GetCurrentDay();
+                            sin.brief = "WMS系统调仓导入";
+                            sin.lnkodrno = "";
+                            sin.lnkivcno = GetCurrentDay();
+                            sin.mctortrust = '0';
+                            sin.stktpid = "";
+                            sin.taxflg = null;
+                            String branchid = GetBranchid(dp.newsavdptid);
+                            sin.branchid = branchid;
+                            sin.sft_branchid = branchid;
+                            sin.drtdpt = null;
+                            sin.outzdflg = GetN();
+                            sin.inzdflg = GetN();
+                            sin.outflg = GetN();
+                            sin.inflg = GetN();
+                            sin.outwmsbllid = "";
+                            sin.inwmsbllid = "";
+                            sin.outwmsno = "";
+                            sin.inwmsno = "";
+                            sin.indat = "";
+                            sin.outdat = "";
+                            sin.inzddat = "";
+                            sin.outzddat = "";
+                            WmsDc.stkin.InsertOnSubmit(sin);
+                            #endregion 生成主单
+
+                            //插入sftdtl表
+                            #region 插入sftdtl表
+                            sftdtl sdtl = new sftdtl();
+                            sdtl.sft_depout = WmsDc.bizdep.Where(e => e.dptid.Trim() == dp.olddptid.Trim() && e.savdptid.Trim() == dp.oldsavdptid).Select(e => e.depid.Trim()).FirstOrDefault();
+                            sdtl.sft_dptout = dp.olddptid;
+                            sdtl.sft_sdtout = dp.oldsavdptid;
+                            sdtl.stkinno = sin.stkinno;
+                            WmsDc.sftdtl.InsertOnSubmit(sdtl);
+                            #endregion 插入sftdtl表
+                        }
+                        //插入明细单据
+                        #region 插入明细单据
+                        // 单号不为空就插入明细
+                        if (stkinno != null && sin != null)
+                        {
+                            stkindtl sindtl = new stkindtl();
+                            sindtl.stkinno = stkinno;
+                            sindtl.rcdidx = i;
+                            sindtl.depid = sin.depid;
+                            sindtl.outdepid = WmsDc.bizdep.Where(e => e.dptid.Trim() == dp.olddptid.Trim()
+                                                && e.savdptid.Trim() == dp.oldsavdptid.Trim()).Select(e => e.depid.Trim()).FirstOrDefault();
+                            f_get_bthprcResult bthprc = WmsDc.f_get_bthprc(fscprdid, sindtl.outdepid, dp.gdsid).First();
+
+                            sindtl.gdsid = dp.gdsid;
+                            sindtl.pkgid = "01";
+                            sindtl.duepkgqty = dp.newqty;
+                            sindtl.dueqty = dp.newqty;
+                            sindtl.pkgqty = dp.newqty;
+                            sindtl.pkgprc = bthprc.prc;  // 计算批次价
+                            sindtl.pkgtaxprc = bthprc.taxprc;
+                            sindtl.qty = dp.newqty;
+                            sindtl.prc = sindtl.pkgprc;
+                            sindtl.amt = Math.Round(sindtl.qty * sindtl.prc.Value, 2, MidpointRounding.AwayFromZero);
+                            sindtl.taxrto = bthprc.taxrto;
+                            //sindtl.taxamt = Math.Round( (bthprc.taxprc.Value * sindtl.qty - bthprc.prc.Value * sindtl.qty) , 2, MidpointRounding.AwayFromZero); 
+                            ///算法就是这样的
+                            ///周胖胖 2016/5/23 14:54:34
+                            ///反正最终出来的结果就是
+                            ///taxamt=prc*taxrto*qty
+                            sindtl.taxamt = Math.Round(bthprc.prc.Value * bthprc.taxrto.Value * sindtl.qty, 2, MidpointRounding.AwayFromZero);
+                            sindtl.taxprc = bthprc.taxprc;
+                            sindtl.patamt = Math.Round(bthprc.taxprc.Value * sindtl.qty, 2, MidpointRounding.AwayFromZero);
+                            sindtl.salprc = dpts.Where(e => e.gdsid.Trim() == dp.gdsid.Trim()).Select(e => e.salprc).FirstOrDefault();
+                            sindtl.salprcamt = sindtl.salprc * dp.newqty;
+                            sindtl.dlvprc = null;
+                            sindtl.dlvamt = null;
+                            sindtl.saltaxrto = bthprc.taxrto;
+                            sindtl.orisalprc = 0;
+                            sindtl.prvid = bthprc.prvid;
+                            sindtl.bthprc = bthprc.prc;
+                            sindtl.stllnkno = null;
+                            sindtl.stllnkidx = null;
+                            sindtl.bthno = dp.bthno.Trim();
+                            sindtl.vlddat = dp.vlddat.Trim();
+                            sindtl.bcd = dp.bcd;
+                            //sindtl.brfdtl = null;
+                            sindtl.brfdtl = "wms";
+                            sindtl.stincstprc = null;
+                            sindtl.stincstamt = null;
+                            sindtl.mctortrust = '0';
+                            sindtl.taxflg = 'y';
+                            sindtl.ctno = null;
+                            sindtl.arcid = null;
+                            sindtl.bthamt = null;
+                            sindtl.bzflg = 'n';
+                            sindtl.bzr = "";
+                            sindtl.bzdat = "";
+                            WmsDc.stkindtl.InsertOnSubmit(sindtl);
+                        }
+                        #endregion 插入明细单据
+
+                        i++;
+                    }
+
+                }
+                #endregion 插入经销调拨单主单和明细(bllid="112")
+
+                try
+                {
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0005");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0074");
+                }
+            }
         }
 
         private wms_blldtl[] GetAdjDtls(String wmsno)
@@ -1077,6 +1101,10 @@ namespace WMS.Controllers
                 {
                     return RInfo( "I0030",gdsid[i],qty[i]  );
                 }
+                if (d == 0)
+                {
+                    return RInfo("I0485", gdsid[i]);
+                }
 
                 JsonResult jr = (JsonResult)AdOldBarcode(wmsno, barcode[i], gdsid[i], gdstype[i], bthno[i], vlddat[i], qty[i]);
                 ResultMessage rm = (ResultMessage)jr.Data;
@@ -1168,6 +1196,10 @@ namespace WMS.Controllers
             if (double.TryParse(qty, out fQty))
             {
                 dtl.qty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
+            }
+            if (fQty == 0)
+            {
+                return RInfo("I0485", gdsid);
             }
             dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
             dtl.gdstype = gdstype;
@@ -1772,6 +1804,137 @@ namespace WMS.Controllers
                 return RNoData("N0027");
             }
             return RSucc("成功", arrqrymst, "S0017");
+        }
+
+        /// <summary>
+        /// 仓位调整查询
+        /// </summary>
+        /// <param name="begindat">查询开始时间</param>
+        /// <param name="enddat">查询结束时间</param>
+        /// <param name="wmsno">调整单单号</param>
+        /// <param name="gdsid">商品货号、条码</param>
+        /// <param name="barcode">仓位</param>
+        /// <param name="mkr">制单人</param>
+        /// <returns></returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整查询, pwrdes = "仓位调整查询")]
+        public ActionResult FindBllNew(String begindat, String enddat, String wmsno, String gdsid, String barcode, String mkr)
+        {
+            //判断分区是否有效
+            /*if (String.IsNullOrEmpty(barcode))
+            {
+                return RInfo("I0049", barcode.Trim());
+            }*/
+            if (!String.IsNullOrEmpty(barcode) && !IsExistBarcode(barcode))
+            {
+                return RInfo("I0049", barcode.Trim());
+            }
+            //判断商品编码是否为空
+            if (String.IsNullOrEmpty(gdsid) && String.IsNullOrEmpty(barcode))
+            {
+                return RInfo("I0484");
+            }
+
+            gdsid = GetGdsidByGdsidOrBcd(gdsid);
+
+            var qry = from e in WmsDc.wms_bllmst
+                      join e1 in WmsDc.wms_blldtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                      join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
+                      join e3 in WmsDc.wms_pkg on e1.gdsid equals e3.gdsid
+                      join e4 in WmsDc.emp on e.ckr equals e4.empid
+                      into joinCkr
+                      from e5 in joinCkr.DefaultIfEmpty()
+                      join e6 in WmsDc.emp on e.mkr equals e6.empid
+                      join ee10 in WmsDc.wms_blltp on new { e1.wmsno, e1.bllid, e1.rcdidx } equals new { ee10.wmsno, ee10.bllid, ee10.rcdidx }
+                      into joinTp
+                      from e10 in joinTp.DefaultIfEmpty()
+                      join e11 in WmsDc.emp on e.ckr equals e11.empid
+                      into joinBkr
+                      from e12 in joinBkr.DefaultIfEmpty()
+                      where  e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                      select new
+                      {
+                          e.wmsno,
+                          e2.gdsid,
+                          e2.gdsdes,
+                          e2.spc,
+                          e2.bsepkg,
+                          e3.cnvrto,
+                          e3.pkgdes,
+                          pkg03 = GetPkgStr(e10.qty, e3.cnvrto, e3.pkgdes),
+                          prepkg03 = GetPkgStr(e1.preqty, e3.cnvrto, e3.pkgdes),
+                          e1.preqty,
+                          qty = e10.qty==null?0:e10.qty,
+                          e.mkedat,
+                          e.mkr,
+                          mkrdes = e6.empdes,
+                          e.chkflg,
+                          e.ckr,
+                          e.chkdat,
+                          bokflg = e10.bokflg==null ? 'n' : e10.bokflg,
+                          e10.bkr,
+                          e10.bokdat,
+                          bkrdes = e12.empdes,
+                          ckrdes = e5.empdes,
+                          rcdidx = e10.bokflg == null ? 0 : e10.bokflg,
+                          newbarcode = e10.barcode,
+                          oldbarcode = e1.barcode
+                      };
+            if (!string.IsNullOrEmpty(gdsid))
+            {
+                qry = qry.Where(e => e.gdsid == gdsid);
+            }
+            if (!string.IsNullOrEmpty(barcode))
+            {
+                qry = qry.Where(e => e.newbarcode == barcode.Trim() || e.oldbarcode == barcode.Trim());
+            }
+            if (!string.IsNullOrEmpty(begindat))
+            {
+                qry = qry.Where(e => e.mkedat.CompareTo(begindat) >= 0);
+            }
+            if (!string.IsNullOrEmpty(enddat))
+            {
+                qry = qry.Where(e => e.mkedat.CompareTo(enddat) < 0);
+            }
+
+            if (!string.IsNullOrEmpty(wmsno))
+            {
+                qry = qry.Where(e => e.wmsno == wmsno );
+            }
+            if (!string.IsNullOrEmpty(mkr))
+            {
+                qry = qry.Where(e => e.mkr == mkr || e.mkrdes.Contains(mkr));
+            }            
+            var arrqrymst = qry.ToArray();
+            var qrykeyarr = arrqrymst.GroupBy(e=>new
+            {
+                e.wmsno, e.spc,e.preqty, e.prepkg03, e.pkgdes, e.oldbarcode, 
+                e.mkrdes,e.mkr,e.mkedat,e.gdsid,e.gdsdes,e.cnvrto,e.ckrdes,e.ckr,e.chkflg,e.chkdat,e.bsepkg                
+            });
+            var qryarr = (from e in qrykeyarr
+                         select new
+                         {
+                             e.Key,
+                             tps = from e1 in arrqrymst
+                                   where e1.wmsno == e.Key.wmsno && e1.spc == e.Key.spc && e1.preqty == e.Key.preqty &&
+                                   e1.prepkg03 == e.Key.prepkg03 && e1.pkgdes == e.Key.pkgdes &&
+                                   e1.oldbarcode == e.Key.oldbarcode && e1.mkrdes == e.Key.mkrdes &&
+                                   e1.mkr == e.Key.mkr && e1.mkedat == e.Key.mkedat && e1.gdsid == e.Key.gdsid &&
+                                   e1.ckr == e.Key.ckr && e1.chkdat == e.Key.chkdat
+                                   select new
+                                   {
+                                       e1.newbarcode,
+                                       e1.qty,
+                                       e1.pkg03,
+                                       e1.rcdidx
+                                   }
+                         }).ToArray();
+
+
+            if (qryarr.Length <= 0)
+            {
+                return RNoData("N0027");
+            }
+            return RSucc("成功", qryarr, "S0017");
         }
     }
 

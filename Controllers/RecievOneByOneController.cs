@@ -1578,6 +1578,10 @@ namespace WMS.Controllers
             else
             {
                 sBarcode = SuggestABarcodeByTpcode(bllno, qu, LoginInfo.DefSavdptid);
+                /*if (sBarcode == "无可推荐仓位")
+                {
+                    return RRInfo("I0486");
+                }*/
             }
             wms_blldtl blldtl = (from e in WmsDc.wms_blldtl
                                  join e1 in WmsDc.wms_blltp on new { e.wmsno, e.bllid, e.gdsid, e.rcdidx } equals new { e1.wmsno, e1.bllid, e1.gdsid, e1.rcdidx }
@@ -1677,6 +1681,10 @@ namespace WMS.Controllers
                                    select 1).Any()                                                                                    //* 把当天所有的wms_cangdtl里面的单据类型为102的给我排除掉
                               orderby e.ceng, e.barcode                                                                               //*
                               select e).ToArray();                                                                             //*
+            if (cws.Length == 0)
+            {
+                return "";
+            }
             wms_cangwei[] arrcw = (from e in cws
                               where e.ceng == (from e1 in cws select e1.ceng).FirstOrDefault()
                               select e).ToArray();

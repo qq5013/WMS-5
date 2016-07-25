@@ -73,12 +73,12 @@ namespace WMS.Controllers
                       join e1 in WmsDc.wms_cang_105 on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                       where
                           //q1.Contains(e.wmsno.Trim()) 
-                      e1.lnkbocino == d.oldbarcode
+                      e1.lnkbocino == d.oldbarcode.Trim()
                       && e.bllid == WMSConst.BLL_TYPE_INVENTORY_CHECK
                       && e1.times == "2"
-                      && e.gdsid == d.gdsid && e.gdstype == d.gdstype //&& e.bthno == d.bthno && e.vlddat == d.vlddat
+                      && e.gdsid == d.gdsid.Trim() && e.gdstype == d.gdstype.Trim() //&& e.bthno == d.bthno && e.vlddat == d.vlddat
                       && (e1.savdptid == LoginInfo.DefSavdptid || e1.savdptid == LoginInfo.DefCsSavdptid)
-                      && e.barcode == d.barcode
+                      && e.barcode == d.barcode.Trim()
                       select e;
             var arrqry = qry.ToArray();
             return arrqry.Length > 0;
@@ -506,7 +506,8 @@ namespace WMS.Controllers
                          && e.gdsid == gdsid && e.rcdidx == rcdidx
                          && e.bllid == WMSConst.BLL_TYPE_INVENTORY_CHECK
                          select e;
-            var arrqrydtl = qrydtl.ToArray();
+            var arrqrydtl = qrydtl.ToArray();            
+
             //单据是否找到
             if (arrqrymst.Length <= 0)
             {
@@ -514,6 +515,9 @@ namespace WMS.Controllers
             }
             //检查是否有数据权限
             wms_cang_105 mst = arrqrymst[0];
+
+            
+
             ////正在生成拣货单，请稍候重试
             //string quRetrv = mst.qu;
             //if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
@@ -666,6 +670,7 @@ namespace WMS.Controllers
             //    return RInfo( "I0152" );
             //}
 
+            
             if (!qus.Contains(mst.qu.Trim()))
             {
                 return RInfo( "I0153" );
@@ -692,6 +697,20 @@ namespace WMS.Controllers
 
             //检查是否已经盘过点了
             foreach(wms_cangdtl_105 d in newdtl){
+                //判断是否该商品是否在该区
+                if (!dtqus.Contains(mst.qu) && d.gdsid.Trim()!="1")
+                {
+                    var hasPwrInQu = (from e in WmsDc.wms_set
+                                      join e1 in WmsDc.gds on e.val2 equals e1.dptid
+                                      where e.setid == "001" && e.val3 == mst.savdptid
+                                      && e1.gdsid == d.gdsid.Trim() && e.val1==GetQuByBarcode(d.barcode.Trim())
+                                      select e.val1.Trim()).FirstOrDefault();
+                    if (hasPwrInQu==null || hasPwrInQu != mst.qu)
+                    {
+                        return RInfo("I486");
+                    }
+                }
+
                 String boci = GetBociByWmsno(d.wmsno);
                 d.oldbarcode = boci;
                 if(HasChecked(d)){
@@ -797,7 +816,7 @@ namespace WMS.Controllers
                              e2.spc,
                              e2.gdsdes,
                              e2.bsepkg,
-                             e4.cnvrto,
+                             cnvrto = e4.cnvrto == null ? 0 : e4.cnvrto,
                              pkgdes = e4.pkgdes.Trim(),
                              pkg03 = GetPkgStr(e.qty, e4.cnvrto, e4.pkgdes),
                              pkg03pre = GetPkgStr(e.preqty, e4.cnvrto, e4.pkgdes)
@@ -1277,7 +1296,7 @@ namespace WMS.Controllers
             //检查明细是否已经审核完毕
             foreach (wms_cangdtl_105 d in arrqrydtl)
             {
-                if(d.bokflg!=GetY()){
+                if(d.bokflg!=GetY() && d.gdsid.Trim()!="1"){
                     return RInfo( "I0171" );
                 }
             }

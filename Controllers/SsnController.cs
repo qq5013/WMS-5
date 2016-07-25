@@ -395,6 +395,16 @@ namespace WMS.Controllers
         /// <returns></returns>
         public GdsInBarcode[] GetGdsQtyInBarcodeComm(String barcode)
         {
+            return GetGdsQtyInBarcodeComm(barcode, null);
+        }
+
+        /// <summary>
+        /// 得到仓位商品数量
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <returns></returns>
+        public GdsInBarcode[] GetGdsQtyInBarcodeComm(String barcode, String gdsid)
+        {
             var qry = from e in WmsDc.wms_cwgdsbs
                       join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                       join e2 in WmsDc.bcd on new { e.gdsid, e.bcd } equals new { gdsid = e2.gdsid, bcd = e2.bcd1 }
@@ -440,12 +450,17 @@ namespace WMS.Controllers
                            vlddat = e.vlddat.Trim(),
                            sqty = Math.Round((e.sqty - (e2.qty == null ? 0 : e2.qty)), 4, MidpointRounding.AwayFromZero)
                        };
-            var arrqry = qry1.ToArray().Where(e => e.sqty >= 0).OrderByDescending(e => e.sqty).ToArray();
+            if (!string.IsNullOrEmpty(gdsid))
+            {
+                qry1 = qry1.Where(e => e.gdsid == gdsid).Select(e=>e);
+            }
+
+            var arrqry = qry1.ToArray().Where(e => e.sqty >= 0).OrderByDescending(e => e.sqty).ToArray();            
             var iNz = arrqry.Where(e => e.sqty > 0).Count();   //不为0的记录
             //如果不为0的记录数==0
-            if (iNz < 5)
+            if (iNz > 20 && string.IsNullOrEmpty(gdsid))
             {
-                arrqry = arrqry.Take(5).ToArray();
+                arrqry = arrqry.Take(20).ToArray();
             }
 
             return arrqry;
@@ -588,9 +603,9 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="barcode">仓位编码</param>
         /// <returns></returns>        
-        public ActionResult GetGdsInBarcode(String barcode)
+        public ActionResult GetGdsInBarcode(String barcode, String gdsid)
         {
-            var arrqry = GetGdsQtyInBarcodeComm(barcode);
+            var arrqry = GetGdsQtyInBarcodeComm(barcode,gdsid);
             if (arrqry.Length < 0)
             {
                 return RNoData("N0192");
@@ -3426,7 +3441,7 @@ namespace WMS.Controllers
         /// <returns></returns>
         protected bool HasQtyInBarcode(String barcode, string gdsid, string gdstype)
         {
-            GdsInBarcode[] gdss = GetGdsQtyInBarcodeComm(barcode).Where(e => e.gdsid == gdsid && e.gdstype == e.gdstype).ToArray();
+            GdsInBarcode[] gdss = GetGdsQtyInBarcodeComm(barcode,gdsid).Where(e => e.gdsid == gdsid && e.gdstype == e.gdstype).ToArray();
             return (gdss != null && gdss.Length > 0);
         }
         #endregion
