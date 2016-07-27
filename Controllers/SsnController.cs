@@ -3321,6 +3321,15 @@ namespace WMS.Controllers
         }
 
         /// <summary>
+        /// 得到当期会计期间
+        /// </summary>
+        /// <returns></returns>
+        protected String GetCurrentFscprdid(int dif)
+        {
+            return DateTime.Now.AddMonths(dif).ToString("yyMM");
+        }
+
+        /// <summary>
         /// 得到当前日期
         /// </summary>
         /// <returns></returns>

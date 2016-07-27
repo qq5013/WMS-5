@@ -604,7 +604,7 @@ namespace WMS.Controllers
                       };
             if (string.IsNullOrEmpty(ckflg))
             {
-                qry = qry.Where(e => e.chkflg == 'y');
+                qry = qry.Where(e => e.chkflg == 'n');
             }
             
             var arrqrymst = qry.ToArray();

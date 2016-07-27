@@ -27,12 +27,17 @@ namespace WMS.Controllers
         {            
             String[] savdptids = GetSavdptidsByStore(prvid);
 
+            // 最近三个月
+            string[] fscprdids = new string[] { GetCurrentFscprdid(-2),
+            GetCurrentFscprdid(-1), GetCurrentFscprdid()};
+
             var qry = from e in WmsDc.stkin
                       join e1 in WmsDc.sftdtl on e.stkinno equals e1.stkinno
                       join e2 in WmsDc.dpt on e1.sft_sdtout equals e2.dptid
                       join e3 in WmsDc.emp on e.mkr equals e3.empid
                       where e.bllid == WMSConst.BLL_TYPE_INNERADJ
-                      //&& savdptids.Contains(e1.sft_sdtout)                      
+                      //&& savdptids.Contains(e1.sft_sdtout)
+                      && fscprdids.Contains(e.mkedat.Substring(2,4))
                       && this.savdpts.Contains(e.savdptid.Trim())
                       && e.inzdflg==GetN()
                       && dpts.Contains(e.dptid.Trim())                      

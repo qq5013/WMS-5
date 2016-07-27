@@ -29,12 +29,16 @@ namespace WMS.Controllers
         /// <returns>ResultMessage对象</returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_收货查询, pwrdes = "收货查询")]
         public ActionResult GetPurchaseByPrv(String prvid)
-        {            
+        {
+            // 最近三个月
+            string[] fscprdids = new string[] { GetCurrentFscprdid(-2),
+            GetCurrentFscprdid(-1), GetCurrentFscprdid()};
             var qry = from e in WmsDc.odr
                       join e1 in WmsDc.prv on e.prvid equals e1.prvid
                       join e2 in WmsDc.dpt on e.dptid  equals e2.dptid
                       where e.bllid == WMSConst.BLL_TYPE_PURCHASE
                       && e.prvid == prvid
+                      && fscprdids.Contains(e.mkedat.Substring(2, 4))
                       && e.savdptid == LoginInfo.DefSavdptid                      
                       && e.ordstu == (char)ORD_STATUS.AUDIT && e.zdflg == GetN()
                       && dpts.Contains(e.dptid.Trim())

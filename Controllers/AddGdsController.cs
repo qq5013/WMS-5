@@ -83,7 +83,7 @@ namespace WMS.Controllers
                     (select bsepkg from gds where gdsid=t1.gdsid) bsepkg,
                     t1.gdsid,
                     isnull(t4.cwqty,0) cwqty,isnull(t1.qty,0) safeqty,
-                    isnull(t4.cwqty,0) - isnull(t1.qty,0) + isnull(t8.qty_108_add,0) bhqty,
+                    round(isnull(t4.cwqty,0) - isnull(t1.qty,0) + isnull(t8.qty_108_add,0),0) bhqty,
                     floor(round((isnull(t4.cwqty,0) - t1.qty + isnull(t8.qty_108_add,0))/isnull((select max(cnvrto) from pkg where iscseorspt='3' and gdsid=t1.gdsid),1),0)) bhjg
 
                     from 
@@ -96,7 +96,7 @@ namespace WMS.Controllers
                     inner join (select * from wms_cangwei where savdptid=@savdptid and qu=@qu and tjflg='n') p1 on wms_cangdtl.barcode=p1.barcode
                     where wms_cang.wmsno=wms_cangdtl.wmsno and wms_cang.bllid=wms_cangdtl.bllid and
                     wms_cang.savdptid=@savdptid and wms_cang.qu=@qu and wms_cang.bllid='103'
-                    and mkedat=@mkedat
+                    and mkedat=@mkedat and wms_cangdtl.tpcode='y'
                     group by wms_cang.savdptid,gdsid) t2
                     on t1.savdptid=t2.savdptid and t1.dptid=t2.dptid and t1.gdsid=t2.gdsid
 
@@ -105,7 +105,7 @@ namespace WMS.Controllers
                     inner join (select * from wms_cangwei where savdptid=@savdptid and qu=@qu and tjflg='n') p1 on wms_cangdtl_115.barcode=p1.barcode
                     where wms_cang_115.wmsno=wms_cangdtl_115.wmsno and wms_cang_115.bllid=wms_cangdtl_115.bllid and
                     wms_cang_115.savdptid=@savdptid and wms_cang_115.qu=@qu and wms_cang_115.bllid='115'
-                    and mkedat=@mkedat
+                    and mkedat=@mkedat and wms_cangdtl_115.tpcode='y'
                     group by wms_cang_115.savdptid,gdsid) t3
                     on t1.savdptid=t3.savdptid and t1.dptid=t3.dptid and t1.gdsid=t3.gdsid
 
@@ -163,11 +163,11 @@ namespace WMS.Controllers
 
                     ----取得补货规则的补货仓位
                     left join (select gdsid gdsid_1,barcode,vlddat,bthno,allqty highqty from wms_cwgdsbs
-                    join (select  a.gdsid+min(a.vlddat+a.bthno+a.barcode) vldbarcode,sum(isnull(a.qty,0) - isnull(b.qty,0)) allqty from wms_cwgdsbs a
+                    join (select  a.gdsid+min(a.vlddat+a.bthno+substring(a.barcode,10,1)+a.barcode) vldbarcode,sum(isnull(a.qty,0) - isnull(b.qty,0)) allqty from wms_cwgdsbs a
                     left join wms_sendbill b on a.barcode=b.barcode and a.gdsid=b.gdsid and a.gdstype=b.gdstype and a.vlddat=b.vlddat and a.bthno=b.bthno
                     inner join (select * from wms_cangwei where savdptid=@savdptid and qu=@qu and tjflg='y') p1 on a.savdptid=p1.savdptid and a.qu=p1.qu and a.barcode=p1.barcode
                     where a.savdptid=@savdptid and a.qu=@qu and isnull(a.qty,0) - isnull(b.qty,0)>0
-                    group by a.gdsid) table_temp1 on gdsid+vlddat+bthno+barcode = table_temp1.vldbarcode
+                    group by a.gdsid) table_temp1 on gdsid+vlddat+bthno+substring(barcode,10,1)+barcode = table_temp1.vldbarcode
                     where qty>0) table2
                     on table1.gdsid=table2.gdsid_1
 

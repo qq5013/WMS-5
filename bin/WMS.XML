@@ -524,6 +524,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.SsnController.GetCurrentFscprdid(System.Int32)">
+            <summary>
+            得到当期会计期间
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.SsnController.GetCurrentDay">
             <summary>
             得到当前日期
