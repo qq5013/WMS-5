@@ -394,15 +394,41 @@ namespace WMS.Controllers
                              && e.wmsno == wmsno
                              select e;
                 var arrmst = qrymst.ToArray();
-                var qrydtl = from e in WmsDc.wms_cangdtl
+                var qrydtl1 = from e in WmsDc.wms_cangdtl                              
                              where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
                              && e.gdsid == gdsid.Trim()                             
                              && e.barcode == barcode.Trim()
                              && e.wmsno == wmsno.Trim()
                              && e.tpcode == "y"
-                             && e.bokflg == 'n'
+                             //&& e.bokflg == 'n'
                              orderby e.gdstype, e.vlddat, e.bthno
                              select e;
+                var qrydtl = from e in qrydtl1
+                             where e.bokflg == GetN()
+                             select e;
+                //判断哪些人已经拣了多少货
+                var qryHasRetrive = from e in qrydtl1
+                                    join e1 in WmsDc.emp on e.bkr equals e1.empid
+                                    where e.bokflg == GetY()
+                                    select new
+                                    {
+                                        e.bkr,
+                                        bkrdes = e1.empdes.Trim(),
+                                        e.qty
+                                    };
+                if (qryHasRetrive.Count() > 0)
+                {
+                    double dHasRetivedQty = qryHasRetrive.Sum(e => e.qty);
+                    double dAllRetirveingQty = (dHasRetivedQty + qty);
+                    double dAllShouldRetriveQty = qrydtl1.Sum(e => e.preqty).Value;
+                    if ( dAllRetirveingQty > dAllShouldRetriveQty )
+                    {
+                        //得到哪些人拣了货
+                        string strRetriveBkrdes = string.Join(",", qryHasRetrive.Select(e => e.bkrdes).ToArray());
+                        return RInfo("I0487", strRetriveBkrdes, dHasRetivedQty, dAllShouldRetriveQty - dHasRetivedQty);
+                    }
+                }
+                             
                 var arrdtl = qrydtl.ToArray();
                 //得到拣货的差异数
                 double diff = arrdtl.Sum(e => e.qty) - qty;

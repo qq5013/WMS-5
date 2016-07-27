@@ -1310,6 +1310,19 @@
             <param name="bzmst">主单</param>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.CheckedBozController.BokBozBllGdss(System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            审核播种商品
+            </summary>
+            <param name="wmsnos">播种单单号</param>
+            <param name="stkounos">配送单单号</param>
+            <param name="gdsids">商品货号</param>      
+            <param name="rcvdptids">发送分店</param>
+            <param name="qtys">实际播种数量</param>
+            <param name="rcdidxs">配送中单据中的序号</param>
+            <param name="checis">车次</param>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.CheckedBozController.BokBozBllGds(System.String,System.String,System.String,System.String,System.Double,System.Nullable{System.Int32},System.String)">
             <summary>
             审核播种商品

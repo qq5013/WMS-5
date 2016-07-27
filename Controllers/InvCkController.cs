@@ -707,7 +707,7 @@ namespace WMS.Controllers
                                       select e.val1.Trim()).FirstOrDefault();
                     if (hasPwrInQu==null || hasPwrInQu != mst.qu)
                     {
-                        return RInfo("I486");
+                        return RInfo("I0488");
                     }
                 }
 

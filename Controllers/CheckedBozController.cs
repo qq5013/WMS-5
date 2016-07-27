@@ -195,6 +195,65 @@ namespace WMS.Controllers
         /// <summary>
         /// 审核播种商品
         /// </summary>
+        /// <param name="wmsnos">播种单单号</param>
+        /// <param name="stkounos">配送单单号</param>
+        /// <param name="gdsids">商品货号</param>      
+        /// <param name="rcvdptids">发送分店</param>
+        /// <param name="qtys">实际播种数量</param>
+        /// <param name="rcdidxs">配送中单据中的序号</param>
+        /// <param name="checis">车次</param>
+        /// <returns></returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_播种确认, pwrdes = "播种确认")]
+        public ActionResult BokBozBllGdss(String wmsnos, String stkounos, String rcvdptids, String gdsids, string qtys, string rcdidxs, String checis)
+        {
+            JsonResult  jr = null;
+            using (TransactionScope scop = new TransactionScope())
+            {
+                string[] awmsno = wmsnos.Split(',');
+                string[] astkouno = stkounos.Split(',');
+                string[] arcvdptid = rcvdptids.Split(',');
+                string[] agdsid = gdsids.Split(',');
+                string[] aqty = qtys.Split(',');
+                string[] arcdidx = rcdidxs.Split(',');
+                string[] acheci = checis.Split(',');
+                if (awmsno.Length != astkouno.Length
+                    && awmsno.Length != arcvdptid.Length
+                    && awmsno.Length != agdsid.Length
+                    && awmsno.Length != aqty.Length
+                    && awmsno.Length != arcdidx.Length
+                    && awmsno.Length != acheci.Length)
+                {
+                    for (int i = 0; i < awmsno.Length; i++)
+                    {
+                        double qty = 0;
+                        int rcdidx = -1;
+                        if (double.TryParse(aqty[i], out qty))
+                        {
+                            RInfo("I0489");
+                        }
+                        if(int.TryParse(arcdidx[i], out rcdidx)){
+                            RInfo("I0490");
+                        }
+
+                        jr = (JsonResult) BokBozBllGds(awmsno[i], astkouno[i], arcvdptid[i], agdsid[i], qty, rcdidx, acheci[i]);
+                        ResultMessage rm = (ResultMessage) jr.Data;
+                        if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                        {
+                            return jr;
+                        }
+                    }
+                }
+
+                WmsDc.SubmitChanges();
+                scop.Complete();
+
+                return jr;
+            }
+        }
+
+        /// <summary>
+        /// 审核播种商品
+        /// </summary>
         /// <param name="wmsno">播种单单号</param>
         /// <param name="stkouno">配送单单号</param>
         /// <param name="gdsid">商品货号</param>      
@@ -206,8 +265,8 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_播种确认, pwrdes = "播种确认")]
         public ActionResult BokBozBllGds(String wmsno, String stkouno, String rcvdptid, String gdsid, double qty, int? rcdidx, String checi)
         {
-            using (TransactionScope scop = new TransactionScope())
-            {
+            //using (TransactionScope scop = new TransactionScope())
+            //{
                 // done 删除临时调试日志
                 //d(wmsno, WMSConst.BLL_TYPE_DISPATCH, "审核播种商品", "wmsno=" + wmsno + "&stkouno=" + stkouno + "&rcvdptid=" + rcvdptid + "&gdsid=" + gdsid + "&qty=" + qty + "&rcdidx=" + rcdidx + "&checi=" + checi, "", "");
 
@@ -223,12 +282,6 @@ namespace WMS.Controllers
                 if (!CanBozByQty(wmsno, stkouno, rcvdptid, gdsid, qty, rcdidx))
                 {
                     return RInfo("I0471");   //拣货未播种数量小于本次应播数量
-                }
-                //通过分店是否允许播种
-                string shouldRcvdptid = CanBozByRcvdptid(wmsno, stkouno, rcvdptid, gdsid, qty, rcdidx);
-                if (shouldRcvdptid != rcvdptid)
-                {
-                    return RInfo("I0472", shouldRcvdptid);   //请先播种shouldRcvdptid分店的商品
                 }
 
                 if (gdsid == null)
@@ -266,6 +319,8 @@ namespace WMS.Controllers
                           join e3 in WmsDc.wms_cang on new { e.wmsno, e.wmsbllid } equals new { e3.wmsno, wmsbllid = e3.bllid }
                           join e4 in WmsDc.wms_boci on new { dh = e3.lnkbocino, sndtmd = e3.lnkbocidat, e3.qu } equals new { e4.dh, e4.sndtmd, e4.qu }
                           join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid, e5.qu }
+                          join e6 in WmsDc.emp on e.ckr equals e6.empid
+                          into joinCkr from e7 in joinCkr.DefaultIfEmpty()
                           where e.stkouno == stkouno
                           && e.bllid == WMSConst.BLL_TYPE_DISPATCH
                           && dpts.Contains(e.dptid.Trim())
@@ -274,7 +329,7 @@ namespace WMS.Controllers
                           && e5.busid.Trim().Substring(e5.busid.Trim().Length - 1, 1) == checi
                           select new
                           {
-                              e.wmsno,e.chkflg, e3.qu, e.wmsbllid,e.dptid, e.stkouno,e.bllid, stkot = e, e.stkotdtl
+                              e.wmsno,e.chkflg, e3.qu, e.wmsbllid,e.dptid, e.stkouno,e.bllid, stkot = e, e.stkotdtl, ckrdes = e7.empdes.Trim()
                           };
                 var arrqry = qry.Distinct().ToArray();
                 if (arrqry.Length <= 0)
@@ -288,7 +343,14 @@ namespace WMS.Controllers
                 }
                 if (stkotgds.chkflg == GetY())
                 {
-                    return RInfo( "I0092" );
+                    return RInfo( "I0092", stkotgds.ckrdes );
+                }
+
+                //通过分店是否允许播种
+                string shouldRcvdptid = CanBozByRcvdptid(wmsno, stkouno, rcvdptid, gdsid, qty, rcdidx);
+                if (shouldRcvdptid != rcvdptid)
+                {
+                    return RInfo("I0472", shouldRcvdptid);   //请先播种shouldRcvdptid分店的商品
                 }
                 /*if (stkotgds.bzflg == GetY())
                 {
@@ -443,14 +505,14 @@ namespace WMS.Controllers
                     WmsDc.SubmitChanges();
                     #endregion 判断是否是该拣货单下的配送单有没有已经播种完了的单据（包括为0的商品），有就修改改配送单下的明细为0的播种标记，和主单播种标记
 
-                    scop.Complete();
+                   // scop.Complete();
                     return RSucc("成功", null, "S0047");
                 }
                 catch (Exception ex)
                 {
                     return RErr(ex.Message, "E0013");
                 }
-            }
+           // }
         }
 
         

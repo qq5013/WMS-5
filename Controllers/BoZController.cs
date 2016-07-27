@@ -45,7 +45,6 @@ namespace WMS.Controllers
             return bzmst.chkflg == GetY();
         }
 
-
         /// <summary>
         /// 审核播种商品
         /// </summary>
@@ -59,6 +58,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_播种确认, pwrdes = "播种确认")]
         public ActionResult BokBozBllGds(String wmsno, String stkouno, String rcvdptid, String gdsid, double qty, int? rcdidx)
         {
+            return RInfo("I0491");
             using (TransactionScope scop = new TransactionScope())
             {
                 gdsid = GetGdsidByGdsidOrBcd(gdsid);                

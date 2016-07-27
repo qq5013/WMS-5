@@ -149,6 +149,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="修改文档\GenReturnInfo.js" />
     <Content Include="修改文档\modify20160309.txt" />
     <Content Include="修改文档\modify20160310.txt" />
     <Content Include="修改文档\modify20160317.txt" />
@@ -216,5 +217,8 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>$(ProjectDir)\修改文档\SyncUp.jse $(ConfigurationName)</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>$(ProjectDir)\修改文档\GenReturnInfo.js</PreBuildEvent>
   </PropertyGroup>
 </Project>

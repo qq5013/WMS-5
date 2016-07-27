@@ -581,7 +581,7 @@ namespace WMS.Controllers
                       where //e.sivcno.Substring(0, 4) == Fscprdid
                       e.mkedat.Substring(2, 4) == Fscprdid
                           //e.mkedat.Substring(0,8) == GetCurrentDay()
-                      && e.outflg == GetN() && e.outzdflg == GetY() && e1.chkflg == GetY()
+                      && e.outflg == GetN() && e.outzdflg == GetY() && e1.chkflg == GetY()                      
                       && e.outwmsno != null && savdpts.Contains(e2.sft_sdtout.Trim())
                       && e.outwmsbllid == WMSConst.BLL_TYPE_RETRIEVE
                       && dpts.Contains(e.dptid.Trim())
@@ -589,8 +589,8 @@ namespace WMS.Controllers
                       && !(from ebz in WmsDc.wms_bzcnv
                            where ebz.sndtmd.Substring(2, 4) == Fscprdid && ebz.savdptid == LoginInfo.DefSavdptid
                                && ebz.wmsno == e1.wmsno && ebz.wmsbllid == e1.bllid
-                           select ebz).Any()
-                      group new { e.outwmsno, e.outwmsbllid, e.outzddat, e1.qu, e3.empdes, e1.chkflg, e.savdptid, e4.dptdes } by new { e.outwmsno, e.outwmsbllid, e.outzddat, e1.qu, e3.empdes, e1.chkflg, e.savdptid, e4.dptdes } into g
+                           select ebz).Any()                      
+                      group new { e.outwmsno, e.outwmsbllid, e.outzddat, e.chkflg, e1.qu, e3.empdes, chkflg1 = e1.chkflg, e.savdptid, e4.dptdes } by new { e.outwmsno, e.outwmsbllid, e.outzddat, e1.qu, e3.empdes, chkflg1 = e.chkflg, e1.chkflg, e.savdptid, e4.dptdes } into g
                       select new
                       {
                           wmsno = g.Key.outwmsno,
@@ -598,13 +598,16 @@ namespace WMS.Controllers
                           zddat = g.Key.outzddat,
                           g.Key.qu,
                           g.Key.chkflg,
+                          g.Key.chkflg1,
                           mkrdes = g.Key.empdes.Trim(),
                           savdptid = g.Key.savdptid.Trim(),
                           savdptdes = g.Key.dptdes.Trim()
                       };
+
+
             if (string.IsNullOrEmpty(ckflg))
             {
-                qry = qry.Where(e => e.chkflg == 'n');
+                qry = qry.Where(e => e.chkflg1 == GetN() );
             }
             
             var arrqrymst = qry.ToArray();
