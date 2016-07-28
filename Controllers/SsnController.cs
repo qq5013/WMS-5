@@ -389,6 +389,91 @@ namespace WMS.Controllers
         }
 
         /// <summary>
+        /// 得到当天查询仓位未拣货的所有明细
+        /// </summary>
+        /// <param name="barcode"></param>
+        /// <returns></returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_拣货查询, pwrdes = "拣货查询")]
+        public ActionResult GetCurrdayAllRetrieveByBarcode(string barcode)
+        {
+            string currday = GetCurrentDay();
+            var qry103 = from e in WmsDc.wms_cang
+                         join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                         join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
+                         join e3 in WmsDc.wms_pkg on e1.gdsid equals e3.gdsid
+                         where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
+                         && e1.barcode == barcode
+                         && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                         && qus.Contains(e.qu)
+                         && e.chkflg == GetN()
+                         && e1.bokflg == GetN()
+                         && e.mkedat.Substring(0, 8) == currday
+                         group e1 by new { e1.barcode, e1.gdsid, e2.gdsdes, e2.spc, e2.bsepkg, e3.pkgdes, e3.cnvrto }
+                             into g
+                             select new
+                             {
+                                 type = WMSConst.BLL_TYPE_RETRIEVE,
+                                 g.Key.barcode,
+                                 g.Key.gdsid,
+                                 g.Key.gdsdes,
+                                 g.Key.spc,
+                                 g.Key.bsepkg,
+                                 g.Key.pkgdes,
+                                 g.Key.cnvrto,
+                                 qty = g.Sum(ee => ee.qty),
+                                 preqty = g.Sum(ee => ee.preqty)
+                             };
+            var qry115 = from e in WmsDc.wms_cang_115
+                         join e1 in WmsDc.wms_cangdtl_115 on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
+                         join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
+                         join e3 in WmsDc.wms_pkg on e1.gdsid equals e3.gdsid
+                         where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
+                         && e1.barcode == barcode
+                      && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
+                      && qus.Contains(e.qu)
+                      && e.chkflg == GetN()
+                      && e1.bokflg == GetN()
+                      && e.mkedat.Substring(0, 8) == currday
+                         group e1 by new { e1.barcode, e1.gdsid, e2.gdsdes, e2.spc, e2.bsepkg, e3.pkgdes, e3.cnvrto }
+                             into g
+                             select new
+                             {
+                                 type = WMSConst.BLL_TYPE_FRUITRETRIEVE,
+                                 g.Key.barcode,
+                                 g.Key.gdsid,
+                                 g.Key.gdsdes,
+                                 g.Key.spc,
+                                 g.Key.bsepkg,
+                                 g.Key.pkgdes,
+                                 g.Key.cnvrto,
+                                 qty = g.Sum(ee => ee.qty),
+                                 preqty = g.Sum(ee => ee.preqty)
+                             };
+            var qry = qry103.Union(qry115).GroupBy(e => new { e.barcode, e.gdsid, e.gdsdes, e.spc, e.bsepkg, e.pkgdes, e.cnvrto })
+                        .Select(g => new
+                        {
+                            g.Key.barcode,
+                            g.Key.gdsdes,
+                            g.Key.gdsid,
+                            g.Key.spc,
+                            g.Key.bsepkg,
+                            g.Key.pkgdes,
+                            g.Key.cnvrto,
+                            qty = g.Sum(ee=>ee.qty),
+                            preqty = g.Sum(ee=>ee.preqty),
+                            pkg03 = GetPkgStr(g.Sum(e => e.qty), g.Key.cnvrto, g.Key.pkgdes),
+                            prepkg03 = GetPkgStr(g.Sum(e => e.preqty), g.Key.cnvrto, g.Key.pkgdes)
+                        });
+            var arrqry = qry.ToArray();
+            if (arrqry.Length == 0)
+            {
+                return RNoData("N0257", barcode);
+            }
+
+            return RSucc("成功", arrqry, "S0232");
+        }
+
+        /// <summary>
         /// 得到仓位商品数量
         /// </summary>
         /// <param name="barcode"></param>

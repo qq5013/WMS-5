@@ -87,9 +87,11 @@ function FindInfoAndReplace(txt) {
 
 GetAllFiles(folderbase);
 for(var i=0; i<files.length; i++){
-    var txt = ReadFileText(files[i]);
-    txt = FindInfoAndReplace(txt);
-    WriteFileText(files[i], txt);
+    var txt1 = ReadFileText(files[i]);
+    var txt = FindInfoAndReplace(txt1);
+    if (txt != txt1) {
+        WriteFileText(files[i], txt);
+    }
 }
 
 /***************  ²âÊÔÇøÓò *************************************************************************

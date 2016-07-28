@@ -341,7 +341,7 @@ namespace WMS.Controllers
                     }
 
 
-                    var qrynewcw = from e in WmsDc.wms_cang
+                    /*var qrynewcw = from e in WmsDc.wms_cang
                                    join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                                    where //e.wmsno == wmsno && 
                                    e.bllid == "102" //上架单
@@ -356,7 +356,7 @@ namespace WMS.Controllers
                         )
                     {
                         return RInfo("I0405", newbarcode);
-                    }
+                    }*/
                     //修改新仓位标记tpflg=GetY()
                     cw.tpflg = GetY();
                     //修改旧仓位tpflg=GetN()

@@ -212,6 +212,29 @@ namespace WMS.Controllers
                             gdsid = g.Key.Trim(),
                             bcd = g.Max(e => e.bcd1).Trim()
                         }).ToArray();
+            // 判断是否所有的待调商品，都已经做了调整
+            var qryHasAllAdj = from e in dtls
+                               select new
+                               {
+                                   e.wmsno,
+                                   e.bllid,
+                                   e.qty,
+                                   adjQty = (from e1 in tps
+                                             where e1.wmsno.Trim() == e.wmsno.Trim() && e1.bllid.Trim() == e.bllid.Trim()
+                                             && e1.rcdidx == e.rcdidx
+                                             group e1 by new { e1.wmsno, e1.bllid, e1.rcdidx } into g
+                                             select new
+                                             {
+                                                 g.Key.wmsno,
+                                                 g.Key.bllid,
+                                                 g.Key.rcdidx,
+                                                 sQty = g.Sum(e1 => e1.qty)
+                                             }).FirstOrDefault()
+                               };
+            if (qryHasAllAdj.Where(e => e.adjQty == null || (e.adjQty != null && e.adjQty.sQty != e.qty)).Any())
+            {
+                return RInfo("I0479");
+            }
 
             // 判断单据是否找到
             if (mst == null)
@@ -352,8 +375,8 @@ namespace WMS.Controllers
             #region 插入经销调拨单主单和明细(bllid="112")
             //得到tps idx分组的查询            
             var tpsIdxGrp = (from e in tps
-                             join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
-                             join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
+                             join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid.Trim() }
+                             join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid.Trim() }
                              group e by new { e.wmsno, e.bllid, e.barcode, e.gdsid, e.gdstype, e.qu, e.rcdidx, e.savdptid, e1.bcd, e2.dptdes, e2.dptid } into g
                              select new
                              {
@@ -370,8 +393,8 @@ namespace WMS.Controllers
                              }).ToArray();
             //得到dtls idx分组的查询
             var dtlsIdxGrp = (from e in dtls
-                              join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid }
-                              join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid }
+                              join e1 in bcds on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e1.gdsid.Trim() }
+                              join e2 in dpts on new { gdsid = e.gdsid.Trim() } equals new { gdsid = e2.gdsid.Trim() }
                               group e by new { e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e.rcdidx, e1.bcd, e2.dptdes, e2.dptid } into g
                               select new
                               {

@@ -217,22 +217,24 @@ namespace WMS.Controllers
                 string[] arcdidx = rcdidxs.Split(',');
                 string[] acheci = checis.Split(',');
                 if (awmsno.Length != astkouno.Length
-                    && awmsno.Length != arcvdptid.Length
-                    && awmsno.Length != agdsid.Length
-                    && awmsno.Length != aqty.Length
-                    && awmsno.Length != arcdidx.Length
-                    && awmsno.Length != acheci.Length)
+                    || awmsno.Length != arcvdptid.Length
+                    || awmsno.Length != agdsid.Length
+                    || awmsno.Length != aqty.Length
+                    || awmsno.Length != arcdidx.Length
+                    || awmsno.Length != acheci.Length)
                 {
+                    return RInfo("I0491");
+                }else{
                     for (int i = 0; i < awmsno.Length; i++)
                     {
                         double qty = 0;
                         int rcdidx = -1;
-                        if (double.TryParse(aqty[i], out qty))
+                        if (!double.TryParse(aqty[i].Trim(), out qty))
                         {
-                            RInfo("I0489");
+                            return RInfo("I0489");
                         }
-                        if(int.TryParse(arcdidx[i], out rcdidx)){
-                            RInfo("I0490");
+                        if(!int.TryParse(arcdidx[i].Trim(), out rcdidx)){
+                            return RInfo("I0490");
                         }
 
                         jr = (JsonResult) BokBozBllGds(awmsno[i], astkouno[i], arcvdptid[i], agdsid[i], qty, rcdidx, acheci[i]);
@@ -247,7 +249,7 @@ namespace WMS.Controllers
                 WmsDc.SubmitChanges();
                 scop.Complete();
 
-                return jr;
+                return jr == null ? RSucc("成功", null, "S0231") : jr;
             }
         }
 

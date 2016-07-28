@@ -263,6 +263,13 @@
             <returns></returns>
         </member>
         <!-- 对于成员“M:WMS.Controllers.SsnController.GetGdsQtyInBarcode(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
+        <member name="M:WMS.Controllers.SsnController.GetCurrdayAllRetrieveByBarcode(System.String)">
+            <summary>
+            得到当天查询仓位未拣货的所有明细
+            </summary>
+            <param name="barcode"></param>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.SsnController.GetGdsQtyInBarcodeComm(System.String)">
             <summary>
             得到仓位商品数量
