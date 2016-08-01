@@ -499,6 +499,7 @@ namespace WMS.Controllers
                       join e3 in WmsDc.dpt on e.rcv equals e3.dptid
                       into joinDpt from e3i in joinDpt.DefaultIfEmpty()
                       join e4 in WmsDc.sftdtl on e.stkinno equals e4.stkinno
+                      join e5 in WmsDc.dpt on e2.dptid equals e5.dptid
                       where e.outwmsno == wmsno
                       && e1.gdsid == gdsid
                       && savdpts.Contains(e4.sft_sdtout)
@@ -513,6 +514,7 @@ namespace WMS.Controllers
                           rcvdptid = e4.sft_sdtout,
                           dptdes = e3i.dptdes.Trim(),
                           e.dptid,
+                          dptdes1 = e5.dptdes,
                           e.savdptid,
                           e.mkedat,
                           e1.gdsid,
@@ -540,6 +542,7 @@ namespace WMS.Controllers
                         e2.bzr,
                         e2.dptdes,
                         e2.dptid,
+                        e2.dptdes1,
                         e2.gdsdes,
                         e2.gdsid,
                         e2.mkedat,

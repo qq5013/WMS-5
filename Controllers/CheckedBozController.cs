@@ -837,6 +837,7 @@ namespace WMS.Controllers
                       join e5 in WmsDc.view_pssndgds on new { e4.dh, e4.clsid, e4.sndtmd, e.rcvdptid, e4.qu } equals new { e5.dh, e5.clsid, e5.sndtmd, e5.rcvdptid, e5.qu }
                       join e6 in WmsDc.dpt on e.rcvdptid equals e6.dptid
                       join e7 in WmsDc.wms_pkg on e2.gdsid equals e7.gdsid
+                      join e8 in WmsDc.dpt on e2.dptid equals e8.dptid
                       where e.wmsno == wmsno
                       && e1.gdsid == gdsid
                       && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
@@ -851,6 +852,7 @@ namespace WMS.Controllers
                           e.stkouno,
                           e.rcvdptid,
                           e.dptid,
+                          dptdes1 = e8.dptdes,
                           e.savdptid,
                           e.mkedat,
                           e1.gdsid,
@@ -914,13 +916,15 @@ namespace WMS.Controllers
                 return RNoData("N0061");
             }
              
-            var extObj = wmsno1.GroupBy(e => new { e.gdsid, e.gdsdes, e.cnvrto, e.pkgdes })
+            var extObj = wmsno1.GroupBy(e => new { e.dptid, e.dptdes1, e.gdsid, e.gdsdes, e.cnvrto, e.pkgdes })
                     .Select(ek => new
                     {
                         sqty = ek.Sum(e1 => e1.qty),
                         ek.Key.gdsid,
                         ek.Key.gdsdes,
-                        ek.Key.cnvrto,
+                        ek.Key.cnvrto,                        
+                        ek.Key.dptid,
+                        ek.Key.dptdes1,
                         pkgdes = ek.Key.pkgdes.Trim(),
                         pkg03 = GetPkgStr(ek.Sum(e1 => e1.qty), ek.Key.cnvrto, ek.Key.pkgdes),
                         pkg03pre = GetPkgStr(ek.Sum(e1 => e1.preqty), ek.Key.cnvrto, ek.Key.pkgdes),

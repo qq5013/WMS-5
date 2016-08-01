@@ -401,6 +401,7 @@ namespace WMS.Controllers
                          join e1 in WmsDc.wms_cangdtl on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                          join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
                          join e3 in WmsDc.wms_pkg on e1.gdsid equals e3.gdsid
+                         join e4 in WmsDc.dpt  on e2.dptid equals e4.dptid
                          where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
                          && e1.barcode == barcode
                          && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
@@ -408,11 +409,13 @@ namespace WMS.Controllers
                          && e.chkflg == GetN()
                          && e1.bokflg == GetN()
                          && e.mkedat.Substring(0, 8) == currday
-                         group e1 by new { e1.barcode, e1.gdsid, e2.gdsdes, e2.spc, e2.bsepkg, e3.pkgdes, e3.cnvrto }
+                         group e1 by new { e4.dptid, e4.dptdes, e1.barcode, e1.gdsid, e2.gdsdes, e2.spc, e2.bsepkg, e3.pkgdes, e3.cnvrto }
                              into g
                              select new
                              {
                                  type = WMSConst.BLL_TYPE_RETRIEVE,
+                                 g.Key.dptid,
+                                 dptdes1 = g.Key.dptdes,
                                  g.Key.barcode,
                                  g.Key.gdsid,
                                  g.Key.gdsdes,
@@ -427,6 +430,7 @@ namespace WMS.Controllers
                          join e1 in WmsDc.wms_cangdtl_115 on new { e.wmsno, e.bllid } equals new { e1.wmsno, e1.bllid }
                          join e2 in WmsDc.gds on e1.gdsid equals e2.gdsid
                          join e3 in WmsDc.wms_pkg on e1.gdsid equals e3.gdsid
+                         join e4 in WmsDc.dpt on e2.dptid equals e4.dptid
                          where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
                          && e1.barcode == barcode
                       && (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
@@ -434,11 +438,13 @@ namespace WMS.Controllers
                       && e.chkflg == GetN()
                       && e1.bokflg == GetN()
                       && e.mkedat.Substring(0, 8) == currday
-                         group e1 by new { e1.barcode, e1.gdsid, e2.gdsdes, e2.spc, e2.bsepkg, e3.pkgdes, e3.cnvrto }
+                         group e1 by new { e4.dptid, e4.dptdes, e1.barcode, e1.gdsid, e2.gdsdes, e2.spc, e2.bsepkg, e3.pkgdes, e3.cnvrto }
                              into g
                              select new
                              {
                                  type = WMSConst.BLL_TYPE_FRUITRETRIEVE,
+                                 g.Key.dptid,
+                                 dptdes1 = g.Key.dptdes,
                                  g.Key.barcode,
                                  g.Key.gdsid,
                                  g.Key.gdsdes,
@@ -449,9 +455,11 @@ namespace WMS.Controllers
                                  qty = g.Sum(ee => ee.qty),
                                  preqty = g.Sum(ee => ee.preqty)
                              };
-            var qry = qry103.Union(qry115).GroupBy(e => new { e.barcode, e.gdsid, e.gdsdes, e.spc, e.bsepkg, e.pkgdes, e.cnvrto })
+            var qry = qry103.Union(qry115).GroupBy(e => new { e.dptdes1, e.dptid, e.barcode, e.gdsid, e.gdsdes, e.spc, e.bsepkg, e.pkgdes, e.cnvrto })
                         .Select(g => new
                         {
+                            g.Key.dptdes1,
+                            g.Key.dptid,
                             g.Key.barcode,
                             g.Key.gdsdes,
                             g.Key.gdsid,

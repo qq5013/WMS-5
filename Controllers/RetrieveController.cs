@@ -118,9 +118,13 @@ namespace WMS.Controllers
         /// </summary>
         /// <param name="wmsno">拣货单号</param>
         /// <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+        /// <param name="parity">奇偶(all, true=奇, false=偶)</param>
+        /// <param name="channel">通道</param>
+        /// <param name="ceng">层(all, true=高层, false=低层)</param>
+        /// <param name="sxjx">升序降序(true, false)</param>        
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货查询, pwrdes = "拣货查询")]
-        public ActionResult GetRetriveBllDtl(String wmsno, String lnkbllid)
+        public ActionResult GetRetriveBllDtl(String wmsno, String lnkbllid, string parity, string channel, string ceng, string sxjx)
         {
             if (lnkbllid == null)
             {
@@ -242,6 +246,16 @@ namespace WMS.Controllers
             {
                 return RNoData("N0171");
             }
+            /*if (!string.IsNullOrEmpty(parity))
+            {
+                if (parity.Trim().ToLower() == "true")
+                {
+                    arrqrydtl.SkipWhile(e=>e.
+                }
+                else if (parity.Trim().ToLower() == "false")
+                {
+                }
+            }*/
 
             return RSucc("成功", arrqrydtl, "S0160");
         }
