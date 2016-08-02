@@ -213,6 +213,25 @@ namespace WMS.Controllers
                             bcd = g.Max(e => e.bcd1).Trim()
                         }).ToArray();
             // 判断是否所有的待调商品，都已经做了调整
+            // 判断是否所有的待调商品，都已经做了调整
+            foreach (wms_blldtl d in WmsDc.wms_blldtl.Where(e => e.wmsno == wmsno && e.bllid == "108"))
+            {
+                var qrytpcompare = (from e in WmsDc.wms_blltp.Where(e => e.wmsno == wmsno && e.bllid == "108")
+                                    where d.wmsno.Trim() == e.wmsno.Trim() && e.bllid.Trim() == d.bllid.Trim()
+                                    && e.rcdidx == d.rcdidx
+                                    group e by new { e.wmsno, e.bllid, e.rcdidx } into g
+                                    select new
+                                    {
+                                        g.Key.wmsno,
+                                        g.Key.bllid,
+                                        g.Key.rcdidx,
+                                        sQty = g.Sum(e1 => e1.qty)
+                                    }).FirstOrDefault();
+                if ((qrytpcompare == null) || (qrytpcompare != null && qrytpcompare.sQty != d.qty))
+                {
+                    return RInfo("I0479");
+                }
+            }
             var qryHasAllAdj = from e in dtls
                                select new
                                {

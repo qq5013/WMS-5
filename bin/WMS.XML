@@ -263,7 +263,7 @@
             <returns></returns>
         </member>
         <!-- 对于成员“M:WMS.Controllers.SsnController.GetGdsQtyInBarcode(System.String,System.String,System.String)”忽略有格式错误的 XML 注释 -->
-        <member name="M:WMS.Controllers.SsnController.GetCurrdayAllRetrieveByBarcode(System.String)">
+        <member name="M:WMS.Controllers.SsnController.GetCurrdayAllRetrieveByBarcode(System.String,System.String)">
             <summary>
             得到当天查询仓位未拣货的所有明细
             </summary>
@@ -1752,7 +1752,7 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.SelectedRetrieveController.GetRetriveBllDtl(System.String,System.String)">
+        <member name="M:WMS.Controllers.SelectedRetrieveController.GetRetriveBllDtl(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             得到拣货单明细
             </summary>
@@ -1875,12 +1875,16 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.RetrieveController.GetRetriveBllDtl(System.String,System.String)">
+        <member name="M:WMS.Controllers.RetrieveController.GetRetriveBllDtl(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             得到拣货单明细
             </summary>
             <param name="wmsno">拣货单号</param>
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
+            <param name="parity">奇偶(all, true=奇, false=偶)</param>
+            <param name="channel">通道</param>
+            <param name="ceng">层(all, true=高层, false=低层)</param>
+            <param name="sxjx">升序降序(true, false)</param>        
             <returns></returns>
         </member>
         <member name="M:WMS.Controllers.RetrieveController.BokRetrieveGdss(System.String,System.String,System.String,System.Double)">
@@ -2811,7 +2815,7 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.CsRetrieveController.GetRetriveBllDtl(System.String,System.String)">
+        <member name="M:WMS.Controllers.CsRetrieveController.GetRetriveBllDtl(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             得到拣货单明细
             </summary>
@@ -3182,7 +3186,7 @@
             <param name="lnkbllid">连接订单（为空/206分店拣货单、501外销单）</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.FruitPickingRetrieveController.GetRetriveBllDtl(System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.GetRetriveBllDtl(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             得到拣货单明细
             </summary>
@@ -3484,6 +3488,11 @@
             <param name="bkr">分货确认人</param>
             <param name="gdsid">商品编码</param>
             <returns></returns>
+        </member>
+        <member name="P:WMS.Controllers.AppVerException.Message">
+            <summary>
+            例外说明
+            </summary>
         </member>
     </members>
 </doc>

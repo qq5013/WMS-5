@@ -212,6 +212,24 @@ namespace WMS.Controllers
                                 bcd = g.Max(e => e.bcd1).Trim()
                             }).ToArray();
                 // 判断是否所有的待调商品，都已经做了调整
+                foreach (wms_blldtl d in WmsDc.wms_blldtl.Where(e=>e.wmsno==wmsno&&e.bllid=="108"))
+                {
+                    var qrytpcompare = (from e in WmsDc.wms_blltp.Where(e => e.wmsno == wmsno && e.bllid == "108")
+                                        where d.wmsno.Trim() == e.wmsno.Trim() && e.bllid.Trim() == d.bllid.Trim()
+                                        && e.rcdidx == d.rcdidx
+                                        group e by new { e.wmsno, e.bllid, e.rcdidx } into g
+                                        select new
+                                        {
+                                            g.Key.wmsno,
+                                            g.Key.bllid,
+                                            g.Key.rcdidx,
+                                            sQty = g.Sum(e1 => e1.qty)
+                                        }).FirstOrDefault();
+                    if ((qrytpcompare == null) || (qrytpcompare != null && qrytpcompare.sQty != d.qty))
+                    {
+                        return RInfo("I0479");
+                    }
+                }
                 var qryHasAllAdj = from e in dtls
                                    select new
                                    {
@@ -263,12 +281,27 @@ namespace WMS.Controllers
                 }
 
                 //审核主单，修改主单标记
-                mst.chkflg = GetY();
+                /*mst.chkflg = GetY();
                 mst.chkdat = GetCurrentDate();
                 mst.ckr = LoginInfo.Usrid;
-                WmsDc.SubmitChanges();
-
-
+                WmsDc.SubmitChanges();*/
+                string sql = @"update wms_bllmst set chkflg='y', ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
+                        where wmsno='" + wmsno + @"' and bllid='108'
+                            and not exists(
+	                            select 1 from wms_blldtl where wmsno='" + wmsno + @"' and bllid='108' 
+	                            and rcdidx not in (select rcdidx from wms_blltp where wmsno='" + wmsno + @"' and bllid='108' )
+	                            union
+	                            select 1 from (
+		                            select a.qty qty1,sum(b.qty) qty from wms_blldtl a inner join wms_blltp b on a.wmsno=b.wmsno and a.bllid=b.bllid  and a.rcdidx=b.rcdidx
+		                            where a.wmsno='" + wmsno + @"' and a.bllid='108'
+		                            group by a.wmsno, a.bllid, a.rcdidx, a.qty
+	                            ) t where t.qty1<>t.qty
+                            ) ";
+                int iCount = WmsDc.ExecuteCommand(sql, null);
+                if (iCount == 0)
+                {
+                    return RInfo("I0479"); 
+                }
 
                 //增加帐表库存
                 #region 增加帐表库存
@@ -1218,6 +1251,8 @@ namespace WMS.Controllers
             dtl.bokflg = GetN();
             dtl.bokdat = GetCurrentDate();
             dtl.brief = "";
+            arrqrymst[0].chkflg = GetN();
+            
 
             //如果是报损，判断是否有库存
             //得到一个商品的库存数量
@@ -1495,6 +1530,7 @@ namespace WMS.Controllers
             }
 
             WmsDc.wms_blltp.DeleteAllOnSubmit(arrqrytpdtl);
+            arrqrymst[0].chkflg = GetN();
             iDelTpDtl(arrqrytpdtl, arrqrymst[0]); 
             try
             {

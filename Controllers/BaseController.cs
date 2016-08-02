@@ -8,6 +8,7 @@ using System.Web.Routing;
 using WMS;
 using WMS.Common;
 using System.Transactions;
+using System.Web.Script.Serialization;
 
 namespace WMS.Controllers
 {
@@ -27,6 +28,14 @@ namespace WMS.Controllers
         {
             //return Flg.Substring(1);
             return Flg.ToArray()[0];
+        }
+
+        const string INTVER = "1.0.0.8";
+        const string APPVER = "158";
+
+        protected bool CheckVer(string ver)
+        {
+            return ver == APPVER;
         }
 
         //扣减stkotdtl里面的库存
@@ -324,7 +333,26 @@ namespace WMS.Controllers
         /// <param name="requestContext"></param>
         protected override void Initialize(RequestContext requestContext)
         {
+            JavaScriptSerializer jss = new JavaScriptSerializer();
+
+
             Init(requestContext);
+
+            //判断版本
+            if (!CheckVer(requestContext.HttpContext.Request["ver"]))
+            {
+                Rm.ResultCode = "-5";
+                Rm.ResultDesc = "APP版本与接口版本不一致，请求失败";
+                Rm.ExtObject = null;
+                Rm.ResultObject = null;
+
+                requestContext.HttpContext.Response.ContentType = "application/json";
+                requestContext.HttpContext.Response.Write(jss.Serialize(Rm));
+                requestContext.HttpContext.Response.End();
+                AppVerException ave = new AppVerException();
+                throw ave;
+            }
+
             base.Initialize(requestContext);            
         }
 

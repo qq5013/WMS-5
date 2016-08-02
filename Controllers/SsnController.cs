@@ -394,7 +394,7 @@ namespace WMS.Controllers
         /// <param name="barcode"></param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货查询, pwrdes = "拣货查询")]
-        public ActionResult GetCurrdayAllRetrieveByBarcode(string barcode)
+        public ActionResult GetCurrdayAllRetrieveByBarcode(string barcode, string gdsid)
         {
             string currday = GetCurrentDay();
             var qry103 = from e in WmsDc.wms_cang
@@ -472,6 +472,10 @@ namespace WMS.Controllers
                             pkg03 = GetPkgStr(g.Sum(e => e.qty), g.Key.cnvrto, g.Key.pkgdes),
                             prepkg03 = GetPkgStr(g.Sum(e => e.preqty), g.Key.cnvrto, g.Key.pkgdes)
                         });
+            if (!string.IsNullOrEmpty(gdsid))
+            {
+                qry = qry.Where(e => e.gdsid == gdsid.Trim());
+            }
             var arrqry = qry.ToArray();
             if (arrqry.Length == 0)
             {
@@ -1186,6 +1190,8 @@ namespace WMS.Controllers
             return RSucc("成功！", arrqry, "S0182");
         }
 
+        
+
         protected override void Initialize(System.Web.Routing.RequestContext requestContext)
         {
             JavaScriptSerializer jss = new JavaScriptSerializer();
@@ -1194,6 +1200,8 @@ namespace WMS.Controllers
 
             base.Initialize(requestContext);            
             Init(requestContext);
+
+            
 
             //判断是否是重复提交
             String _rnd = requestContext.HttpContext.Request["rndre"];

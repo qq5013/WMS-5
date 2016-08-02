@@ -82,6 +82,7 @@
     <Compile Include="Controllers\AdjustBarcodeController.cs" />
     <Compile Include="Controllers\AdjustInRecievController.cs" />
     <Compile Include="Controllers\AdjustOutBozController.cs" />
+    <Compile Include="Controllers\AppVerException.cs" />
     <Compile Include="Controllers\BoZController.cs" />
     <Compile Include="Controllers\CanNotOverQuAdjustBarcodeException.cs" />
     <Compile Include="Controllers\CheckedBozController.cs" />

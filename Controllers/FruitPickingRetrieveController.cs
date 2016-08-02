@@ -193,7 +193,7 @@ namespace WMS.Controllers
         /// <param name="srt">排序（A顺序/D倒序）</param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货查询, pwrdes = "拣货查询")]
-        public ActionResult GetRetriveBllDtl(String wmsno, String lnkbllid, String checi, string rcvdptid, string srt)
+        public ActionResult GetRetriveBllDtl(String wmsno, String lnkbllid, String checi, string rcvdptid, string srt, string parity, string channel, string ceng, string sxjx, string barcode, string gdsid)
         {
             if (lnkbllid == null)
             {
@@ -271,7 +271,7 @@ namespace WMS.Controllers
             {
                 return RNoData("N0084", wmsno);
             }
-            var qrydtl = from e in WmsDc.wms_cangdtl_115
+            var qrydtl1 = from e in WmsDc.wms_cangdtl_115
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                          join e2 in
                              WmsDc.wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
@@ -280,7 +280,7 @@ namespace WMS.Controllers
                          where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
                          && e.checi == checi.Trim() && e.rcvdptid == rcvdptid.Trim()
                          select new
-                         {
+                         {                             
                              e.barcode,
                              e.bcd,
                              e.bkr,
@@ -310,9 +310,115 @@ namespace WMS.Controllers
             //如果是拣货单，需要判断tpcode==GetY(),表示不能修改
             //if (lnkbllid == "206")
             //{
-            qrydtl = qrydtl.Where(e => e.tpcode.ToLower() == "y");
 
-            if (srt == "D")
+            qrydtl1 = qrydtl1.Where(e => e.tpcode.ToLower() == "y");
+
+            //得到未拣货通道数目
+            var arrUnRetrieveTongdao = (from e in qrydtl1
+                                        join e1 in WmsDc.wms_cangwei on e.barcode equals e1.barcode
+                                        where e.bokflg == GetN()
+                                        group e1 by e1.tongdao into g
+                                        select g.Key);
+            //得到未拣货总数
+            int unRetrieve = (from e in qrydtl1
+                              where e.bokflg == GetN()
+                              select e).Count();
+
+            //得到已拣货总数
+            int hasRetrieved = (from e in qrydtl1
+                                where e.bokflg == GetY()
+                                select e).Count();
+
+            var qrydtl = qrydtl1;
+            
+            //barode是否为空
+            if (!string.IsNullOrEmpty(barcode))
+            {
+                qrydtl = qrydtl.Where(e => e.barcode == barcode.Trim());
+            }
+            //gdsid是否为空
+            if (!string.IsNullOrEmpty(gdsid))
+            {
+                qrydtl = qrydtl.Where(e => e.gdsid == gdsid.Trim());
+                if (qrydtl.Where(e => e.bokflg == GetN()).Count() == 0)
+                {
+                    //看看是哪个审核的
+                    string[] whoAdt = (from e in WmsDc.wms_cangdtl_115
+                                       join e1 in WmsDc.emp on e.bkr equals e1.empid
+                                       where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
+                                       && e.gdsid == gdsid
+                                           //&& e.gdstype == gdstype                                    
+                                       && e.wmsno == wmsno
+                                       && e.rcvdptid.Trim() == rcvdptid.Trim()
+                                       && e.bokflg == GetY()
+                                       select e1.empdes).ToArray();
+                    if (whoAdt.Count() > 0)
+                    {
+                        return RInfo("I0125", string.Join(",", whoAdt));
+                    }
+                }
+            }
+
+
+            //判断奇偶
+            if (!string.IsNullOrEmpty(parity))
+            {
+                if (parity.Trim().ToLower() == "true") //奇
+                {
+                    qrydtl = qrydtl.Where(e => Convert.ToInt32(e.barcode.Substring(4, 5)) % 2 == 1);
+                }
+                else if (parity.Trim().ToLower() == "false")    // 偶
+                {
+                    qrydtl = qrydtl.Where(e => Convert.ToInt32(e.barcode.Substring(4, 5)) % 2 == 0);
+                }
+            }
+
+            //判断通道
+            if (!string.IsNullOrEmpty(channel))
+            {
+                qrydtl = qrydtl.Where(e => e.barcode.Substring(2, 2) == channel.Trim());
+            }
+
+            //判断层
+            if (!string.IsNullOrEmpty(ceng))
+            {
+                if (ceng.Trim().ToLower() == "true") //高层
+                {
+                    qrydtl = from e in qrydtl
+                             join e1 in WmsDc.wms_cangwei on e.barcode equals e1.barcode
+                             where e1.tjflg == GetY()
+                             select e;
+                }
+                else if (ceng.Trim().ToLower() == "false") //低层 
+                {
+                    qrydtl = from e in qrydtl
+                             join e1 in WmsDc.wms_cangwei on e.barcode equals e1.barcode
+                             where e1.tjflg == GetN()
+                             select e;
+                }
+            }
+
+            //判断升序还是降序
+            if (!string.IsNullOrEmpty(sxjx))
+            {
+                
+                if (sxjx == "true")  //升序
+                {
+                    qrydtl = qrydtl
+                            .OrderBy(e => e.barcode);
+                }
+                else if (sxjx == "false")
+                {
+                    qrydtl = qrydtl
+                            .OrderByDescending(e => e.barcode);
+                }
+
+                qrydtl = qrydtl.Where(e => e.bokflg == GetN()).Take(20);      
+                          
+            }
+            
+
+            /*if (srt == "D")
             {
                 qrydtl = qrydtl.OrderByDescending(e => e.barcode).OrderBy(e => e.bokflg);
             }
@@ -320,15 +426,52 @@ namespace WMS.Controllers
             {
                 qrydtl = qrydtl
                      .OrderBy(e => e.barcode).OrderBy(e => e.bokflg);
-            }
+            }*/
             //}            
             var arrqrydtl = qrydtl.ToArray();
             if (arrqrydtl.Length <= 0)
             {
-                return RNoData("N0085");
+                string p = "";
+                foreach (string k in Request.Params.Keys)
+                {
+                    p += k + Request[k] + "&";
+                }
+                i(wmsno, WMSConst.BLL_TYPE_RETRIEVE,  p, "N0171","", LoginInfo.DefSavdptid);
+
+                return RNoData("N0171");   // 该拣货单未找到符合条件的明细信息
             }
 
-            return RSucc("成功", arrqrydtl, "S0075");
+            if (!string.IsNullOrEmpty(barcode) )
+            {
+                JsonResult jr = (JsonResult)GetCurrdayAllRetrieveByBarcode(barcode, gdsid);
+                ResultMessage rm = (ResultMessage)jr.Data;
+                if (rm.ResultCode == ResultMessage.RESULTMESSAGE_SUCCESS)
+                {
+                    return RSucc("成功", arrqrydtl, new
+                    {
+                        UnRetrieveTongdao = arrUnRetrieveTongdao,
+                        UnRetrieveCount = unRetrieve,
+                        HasRetrieved = hasRetrieved,
+                        UnRetrieveBarcodeGds = rm.ResultObject
+                    }, "S0173");
+                }
+                else
+                {
+                    return RSucc("成功", arrqrydtl, new
+                    {
+                        UnRetrieveTongdao = arrUnRetrieveTongdao,
+                        UnRetrieveCount = unRetrieve,
+                        HasRetrieved = hasRetrieved
+                    }, "S0173");
+                }
+            }
+
+            return RSucc("成功", arrqrydtl, new
+            {
+                UnRetrieveTongdao = arrUnRetrieveTongdao,
+                UnRetrieveCount = unRetrieve,
+                HasRetrieved = hasRetrieved
+            }, "S0075");
         }
 
         private void CkBzFlg(stkot p)
@@ -408,12 +551,28 @@ namespace WMS.Controllers
                              select e;
                 var arrdtl = qrydtl.ToArray();
                 //得到拣货的差异数
-                double diff = arrdtl.Sum(e => e.qty) - qty;
+                double diff = arrdtl.Where(e => e.bokflg == 'n').Sum(e => e.qty) - qty;
+                if (arrdtl.Where(e => e.bokflg == 'y').Any())
+                {
+                    if (diff < 0)
+                    {
+                        string[] whoAdt = (from e in WmsDc.emp
+                                           where arrdtl.Where(ee => ee.bokflg == 'y').Select(ee => ee.bkr).Contains(e.empid)
+                                           select e.empdes.Trim()).ToArray();
+                        return RInfo("I0492", string.Join(",", whoAdt),
+                            arrdtl.Where(e => e.bokflg == 'y').Sum(e => e.qty),
+                            arrdtl.Where(e => e.bokflg == 'n').Sum(e => e.qty));
+                    }
+                }
+                else if (diff < 0)
+                {
+                    return RInfo("I0480");
+                }
                 //如果差异数为负数，说明拣货数量大于应拣数量，不通过
-                if (diff < 0)
+                /*if (diff < 0)
                 {
                     return RInfo("I0480");   //todo:
-                }
+                }*/
                 //循环审核拣货明细
                 foreach (wms_cangdtl_115 dtl in arrdtl)
                 {
@@ -518,7 +677,17 @@ namespace WMS.Controllers
             int iCnt = qryallbygdsidN1.Count();
             if (mst.lnkbllid.Trim() == "206" && iCnt == 0)
             {
-                return RInfo("I0125");
+                //看看是哪个审核的
+                string[] whoAdt = (from e in WmsDc.wms_cangdtl_115 
+                                 join e1 in WmsDc.emp on e.bkr equals e1.empid
+                                 where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
+                                 && e.gdsid == gdsid
+                                     //&& e.gdstype == gdstype                                    
+                                 && e.wmsno == wmsno
+                                 && e.rcvdptid.Trim() == rcvdptid.Trim()
+                                 && e.bokflg == GetY() && e.tpcode == "y"
+                                 select e1.empdes).ToArray();
+                return RInfo("I0125", string.Join(",", whoAdt));
             }
 
             var arrdtl = qrydtl.ToArray();
@@ -550,6 +719,20 @@ namespace WMS.Controllers
             #endregion
 
             #region 商品登帐
+            //判断是否已经被审核
+            WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, dtl);
+            if (dtl.bokflg == GetY())
+            {
+                //看看是哪个审核的
+                string[] whoAdt = (from e in WmsDc.emp
+                                   where e.empid == dtl.bkr
+                                   select e.empdes).ToArray();
+                if (whoAdt.Count() > 0)
+                {
+                    return RInfo("I0125", string.Join(",", whoAdt));
+                }
+            }
+
             if (dtl.bokflg == GetY() && dtl.bkr.Trim() != LoginInfo.Usrid)
             {
                 return RInfo("I0436", dtl.bkr);
@@ -573,7 +756,21 @@ namespace WMS.Controllers
             dtl.bokflg = GetY();
             dtl.bokdat = DateTime.Now.ToString("yyyyMMddHHmmss");
             dtl.bkr = LoginInfo.Usrid;
-            WmsDc.SubmitChanges();
+            try
+            {
+                WmsDc.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                if (ex.Message.IndexOf("牺牲品") > 0)
+                {
+                    return RInfo("E0075");
+                }
+                else
+                {
+                    return RInfo("E0076", ex.Message);
+                }
+            }
 
             if (dtl.preqty != dtl.qty)
             {
@@ -660,7 +857,21 @@ namespace WMS.Controllers
                             d.bzdat = GetCurrentDate();
                         }
                     }
-                    WmsDc.SubmitChanges();
+                    try
+                    {
+                        WmsDc.SubmitChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (ex.Message.IndexOf("牺牲品") > 0)
+                        {
+                            return RInfo("E0075");
+                        }
+                        else
+                        {
+                            return RInfo("E0076", ex.Message);
+                        }
+                    }
 
                     if (ImmBz(mst.savdptid))
                     {
@@ -693,7 +904,21 @@ namespace WMS.Controllers
                         {
                             CkBzFlg(d);
                         }
-                        WmsDc.SubmitChanges();
+                        try
+                        {
+                            WmsDc.SubmitChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.Message.IndexOf("牺牲品") > 0)
+                            {
+                                return RInfo("E0075");
+                            }
+                            else
+                            {
+                                return RInfo("E0076", ex.Message);
+                            }
+                        }
 
                         //查看有没有明细为空的单据，直接修改播种标记
                         var qryZeroBz = from e in WmsDc.stkotdtl
@@ -719,7 +944,21 @@ namespace WMS.Controllers
                                 dl.bzr = LoginInfo.Usrid;
                             }
                         }
-                        WmsDc.SubmitChanges();
+                        try
+                        {
+                            WmsDc.SubmitChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            if (ex.Message.IndexOf("牺牲品") > 0)
+                            {
+                                return RInfo("E0075");
+                            }
+                            else
+                            {
+                                return RInfo("E0076", ex.Message);
+                            }
+                        }
 
                     }
 
@@ -835,7 +1074,21 @@ namespace WMS.Controllers
 
             try
             {
-                WmsDc.SubmitChanges();
+                try
+                {
+                    WmsDc.SubmitChanges();
+                }
+                catch (Exception ex)
+                {
+                    if (ex.Message.IndexOf("牺牲品") > 0)
+                    {
+                        return RInfo("E0075");
+                    }
+                    else
+                    {
+                        return RInfo("E0076", ex.Message);
+                    }
+                }
 
                 return RSucc("成功", null, "S0214");
 

@@ -49,7 +49,7 @@ function WriteFileText(fName, txt) {
 
 function GetMaxItem(type) {
     var rs = new ActiveXObject("adodb.recordset");
-    var sql = "SELECT   TOP (1) setid, setdes, type, typedes, val1, val2, val3,brief, isvld FROM wms_set WHERE   (setid = '996') AND (setdes LIKE '"+type+"%') ORDER BY type DESC";
+    var sql = "SELECT   TOP (1) setid, setdes, type, typedes, val1, val2, val3,brief, isvld FROM wms_set WHERE   (setid = '996') and val1<>'I486' AND (setdes LIKE '" + type + "%') ORDER BY type DESC";
     rs.open(sql, connstr1);
     var s = rs("val1");
     var m = /(\d+)/.exec(s);
