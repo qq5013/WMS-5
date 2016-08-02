@@ -337,7 +337,7 @@ namespace WMS.Controllers
                 qrydtl = qrydtl.Where(e => e.barcode == barcode.Trim());
             }
             //gdsid是否为空
-            if (!string.IsNullOrEmpty(gdsid))
+            if (!string.IsNullOrEmpty(barcode) && !string.IsNullOrEmpty(gdsid))
             {
                 qrydtl = qrydtl.Where(e => e.gdsid == gdsid.Trim());
                 if (qrydtl.Where(e => e.bokflg == GetN()).Count() == 0)
@@ -346,9 +346,10 @@ namespace WMS.Controllers
                     string[] whoAdt = (from e in WmsDc.wms_cangdtl_115
                                        join e1 in WmsDc.emp on e.bkr equals e1.empid
                                        where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
-                                       && e.gdsid == gdsid
+                                       && e.gdsid == gdsid.Trim()
                                            //&& e.gdstype == gdstype                                    
-                                       && e.wmsno == wmsno
+                                       && e.wmsno == wmsno.Trim()
+                                       && e.barcode == barcode.Trim()
                                        && e.rcvdptid.Trim() == rcvdptid.Trim()
                                        && e.bokflg == GetY()
                                        select e1.empdes).ToArray();

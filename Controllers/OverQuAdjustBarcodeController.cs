@@ -283,9 +283,26 @@ namespace WMS.Controllers
             }
 
             //审核主单，修改主单标记
-            mst.chkflg = GetY();
+            /*mst.chkflg = GetY();
             mst.chkdat = GetCurrentDate();
-            mst.ckr = LoginInfo.Usrid;
+            mst.ckr = LoginInfo.Usrid;*/
+            string sql = @"update wms_bllmst set chkflg={0}, ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
+                        where wmsno='" + wmsno + @"' and bllid='108'
+                            and not exists(
+	                            select 1 from wms_blldtl where wmsno='" + wmsno + @"' and bllid='108' 
+	                            and rcdidx not in (select rcdidx from wms_blltp where wmsno='" + wmsno + @"' and bllid='108' )
+	                            union
+	                            select 1 from (
+		                            select a.qty qty1,sum(b.qty) qty from wms_blldtl a inner join wms_blltp b on a.wmsno=b.wmsno and a.bllid=b.bllid  and a.rcdidx=b.rcdidx
+		                            where a.wmsno='" + wmsno + @"' and a.bllid='108'
+		                            group by a.wmsno, a.bllid, a.rcdidx, a.qty
+	                            ) t where t.qty1<>t.qty
+                            ) ";
+            int iCount = WmsDc.ExecuteCommand(sql, 'y');
+            if (iCount == 0)
+            {
+                return RInfo("I0479");
+            }
 
 
             //增加帐表库存

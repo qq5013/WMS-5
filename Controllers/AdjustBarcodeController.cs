@@ -285,7 +285,7 @@ namespace WMS.Controllers
                 mst.chkdat = GetCurrentDate();
                 mst.ckr = LoginInfo.Usrid;
                 WmsDc.SubmitChanges();*/
-                string sql = @"update wms_bllmst set chkflg='y', ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
+                string sql = @"update wms_bllmst set chkflg={0}, ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
                         where wmsno='" + wmsno + @"' and bllid='108'
                             and not exists(
 	                            select 1 from wms_blldtl where wmsno='" + wmsno + @"' and bllid='108' 
@@ -296,8 +296,8 @@ namespace WMS.Controllers
 		                            where a.wmsno='" + wmsno + @"' and a.bllid='108'
 		                            group by a.wmsno, a.bllid, a.rcdidx, a.qty
 	                            ) t where t.qty1<>t.qty
-                            ) ";
-                int iCount = WmsDc.ExecuteCommand(sql, null);
+                            ) ";                
+                int iCount = WmsDc.ExecuteCommand(sql, 'y');
                 if (iCount == 0)
                 {
                     return RInfo("I0479"); 

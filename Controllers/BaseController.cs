@@ -35,7 +35,7 @@ namespace WMS.Controllers
 
         protected bool CheckVer(string ver)
         {
-            return ver == APPVER;
+            return true;// ver == APPVER;
         }
 
         //扣减stkotdtl里面的库存

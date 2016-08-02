@@ -262,7 +262,7 @@ namespace WMS.Controllers
                 qrydtl = qrydtl.Where(e => e.barcode == barcode.Trim());
             }
             //gdsid是否为空
-            if (!string.IsNullOrEmpty(gdsid))
+            if (!string.IsNullOrEmpty(barcode) &&  !string.IsNullOrEmpty(gdsid))
             {
                 qrydtl = qrydtl.Where(e => e.gdsid == gdsid.Trim());
                 if (qrydtl.Where(e => e.bokflg == GetN() && e.tpcode == "y").Count() == 0)
@@ -271,9 +271,10 @@ namespace WMS.Controllers
                     string[] whoAdt = (from e in WmsDc.wms_cangdtl
                                        join e1 in WmsDc.emp on e.bkr equals e1.empid
                                        where e.bllid == WMSConst.BLL_TYPE_RETRIEVE
-                                       && e.gdsid == gdsid
+                                       && e.gdsid == gdsid.Trim()
                                            //&& e.gdstype == gdstype                                    
-                                       && e.wmsno == wmsno
+                                       && e.wmsno == wmsno.Trim()
+                                       && e.barcode == barcode.Trim()
                                        && e.bokflg == GetY()
                                        select e1.empdes).ToArray();
                     if (whoAdt.Count() > 0)
