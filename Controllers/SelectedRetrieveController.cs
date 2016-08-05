@@ -233,23 +233,14 @@ namespace WMS.Controllers
             qrydtl1 = qrydtl1.Where(e => e.tpcode.ToLower() == "y");
             //}
 
+            var qrydtl = qrydtl1;
+
             //得到未拣货通道数目
-            var arrUnRetrieveTongdao = (from e in qrydtl1
+            var arrUnRetrieveTongdao = (from e in qrydtl
                                         join e1 in WmsDc.wms_cangwei on e.barcode equals e1.barcode
                                         where e.bokflg == GetN()
                                         group e1 by e1.tongdao into g
                                         select g.Key);
-            //得到未拣货总数
-            int unRetrieve = (from e in qrydtl1
-                              where e.bokflg == GetN()
-                              select e).Count();
-
-            //得到已拣货总数
-            int hasRetrieved = (from e in qrydtl1
-                                where e.bokflg == GetY()
-                                select e).Count();
-
-            var qrydtl = qrydtl1;
 
             //barode是否为空
             if (!string.IsNullOrEmpty(barcode))
@@ -317,6 +308,16 @@ namespace WMS.Controllers
                 }
             }
 
+            //得到未拣货总数
+            int unRetrieve = (from e in qrydtl
+                              where e.bokflg == GetN()
+                              select e).Count();
+
+            //得到已拣货总数
+            int hasRetrieved = (from e in qrydtl
+                                where e.bokflg == GetY()
+                                select e).Count();
+
             //判断升序还是降序
             if (!string.IsNullOrEmpty(sxjx))
             {
@@ -333,7 +334,40 @@ namespace WMS.Controllers
                 qrydtl = qrydtl.Where(e => e.bokflg == GetN()).Take(20);
             }
 
+
+            var qrydtl2 = from e in qrydtl
+                          group e by new { e.barcode, e.bkr, e.bllid, e.bokflg, e.bsepkg, e.cnvrto, e.gdsdes, e.gdsid, e.pkgdes, e.pkgid, e.spc, e.wmsno }
+                              into g
+                              select new
+                              {
+                                  g.Key.barcode,
+                                  bcd = "",
+                                  g.Key.bkr,
+                                  g.Key.bllid,
+                                  g.Key.bokflg,
+                                  g.Key.bsepkg,
+                                  g.Key.cnvrto,
+                                  g.Key.gdsdes,
+                                  g.Key.gdsid,
+                                  g.Key.pkgdes,
+                                  g.Key.pkgid,
+                                  pkgqty = g.Sum(ee => ee.pkgqty),
+                                  g.Key.spc,
+                                  g.Key.wmsno,
+                                  oldbarcode = "",
+                                  rcdidx = 0,
+                                  tpcode = "",
+                                  vlddat = "",
+                                  gdstype = "",
+                                  pkg03 = g.Sum(ee => ee.qty),
+                                  prepkg03 = g.Sum(ee => ee.preqty),
+                                  qty = g.Sum(ee => ee.qty),
+                                  preqty = g.Sum(ee => ee.preqty)
+                              };
+
+
             var arrqrydtl = qrydtl.ToArray();
+
             if (arrqrydtl.Length <= 0)
             {
                 string p = "";
@@ -389,7 +423,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货确认, pwrdes = "拣货确认")]
         public ActionResult BokRetrieveGdss(String wmsno, String barcode, String gdsid, double qty)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 //检索主表、明细表
                 var qrymst = from e in WmsDc.wms_cang
@@ -602,7 +636,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货审核, pwrdes = "拣货审核")]
         public ActionResult BokRetrieve(String wmsno)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 Rm.ResultObject = null;
                 //检索捡货单主表、明细表

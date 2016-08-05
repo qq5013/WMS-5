@@ -1293,6 +1293,11 @@
             例外说明
             </summary>
         </member>
+        <member name="T:WMS.Controllers.CheckedBozController">
+            <summary>
+            分货播种
+            </summary>
+        </member>
         <member name="M:WMS.Controllers.CheckedBozController.SetModuleInfo">
             <summary>
             设置模块信息
@@ -3151,6 +3156,11 @@
             <param name="barcode">仓位</param>
             <returns></returns>
         </member>
+        <member name="P:WMS.Controllers.AppVerException.Message">
+            <summary>
+            例外说明
+            </summary>
+        </member>
         <member name="T:WMS.Controllers.FruitPickingRetrieveController">
             <summary>
             摘果播种拣货
@@ -3207,7 +3217,7 @@
             <param name="qty">实收数量</param>
             <returns>wms_blldtl, wms_blltp</returns>
         </member>
-        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String)">
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.BokRetrieveGds(System.String,System.String,System.String,System.String,System.String,System.String,System.Double,System.String,System.String)">
             <summary>
             捡货单商品审核
             </summary>
@@ -3488,11 +3498,6 @@
             <param name="bkr">分货确认人</param>
             <param name="gdsid">商品编码</param>
             <returns></returns>
-        </member>
-        <member name="P:WMS.Controllers.AppVerException.Message">
-            <summary>
-            例外说明
-            </summary>
         </member>
     </members>
 </doc>

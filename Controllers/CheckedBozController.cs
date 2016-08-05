@@ -9,6 +9,9 @@ using System.Transactions;
 
 namespace WMS.Controllers
 {
+    /// <summary>
+    /// 分货播种
+    /// </summary>
     public class CheckedBozController : SsnController
     {
         /// <summary>
@@ -207,7 +210,7 @@ namespace WMS.Controllers
         public ActionResult BokBozBllGdss(String wmsnos, String stkounos, String rcvdptids, String gdsids, string qtys, string rcdidxs, String checis)
         {
             JsonResult  jr = null;
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 string[] awmsno = wmsnos.Split(',');
                 string[] astkouno = stkounos.Split(',');
@@ -267,7 +270,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_播种确认, pwrdes = "播种确认")]
         public ActionResult BokBozBllGds(String wmsno, String stkouno, String rcvdptid, String gdsid, double qty, int? rcdidx, String checi)
         {
-            //using (TransactionScope scop = new TransactionScope())
+            //using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             //{
                 // done 删除临时调试日志
                 //d(wmsno, WMSConst.BLL_TYPE_DISPATCH, "审核播种商品", "wmsno=" + wmsno + "&stkouno=" + stkouno + "&rcvdptid=" + rcvdptid + "&gdsid=" + gdsid + "&qty=" + qty + "&rcdidx=" + rcdidx + "&checi=" + checi, "", "");

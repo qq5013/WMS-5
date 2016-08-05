@@ -390,10 +390,13 @@ namespace WMS.Controllers
                 lstGdsbs.Add(g);
             }
             WmsDc.gdsbs.InsertAllOnSubmit(lstGdsbs);
-            
-            stklst astklst = new stklst();
-            astklst.stkouno = q.sivcno;
-            WmsDc.stklst.InsertOnSubmit(astklst);
+
+            if (!(WmsDc.stklst.Where(e => e.stkouno == q.sivcno)).Any())
+            {
+                stklst astklst = new stklst();
+                astklst.stkouno = q.sivcno;
+                WmsDc.stklst.InsertOnSubmit(astklst);
+            }
         }
 
         /// <summary>

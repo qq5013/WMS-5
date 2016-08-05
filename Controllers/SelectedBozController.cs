@@ -64,7 +64,7 @@ namespace WMS.Controllers
              * 4、判断该商品是否是本人播种             
              * 5、判断这些单据的所有明细是否都已经播种完毕，播种完毕后就修改单据的审核标记，包括修改无货商品的数量
              */
-            using (TransactionScope scop = new TransactionScope())          // 事务逻辑开始
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))          // 事务逻辑开始
             {
             // 得到货号
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
@@ -220,13 +220,17 @@ namespace WMS.Controllers
                     //判断这些单据的所有明细是否都已经播种完毕
                     foreach (stkot s in stkots)
                     {
-                        bool hasAllBz = !(from e1 in WmsDc.stkotdtl
-                                          where e1.stkouno == s.stkouno && e1.bzflg == GetN() && e1.qty > 0
-                                          select 1).Any();
-                        if (hasAllBz)       //如果都已经播种完了
+                        WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, s);
+                        if (s.chkflg == GetN())
                         {
-                            CkBzFlg(s);
-                            i(s.stkouno, s.bllid, "stkouno:" + s.stkouno + ", chkflg:" + s.chkflg + ", bzflg:" + s.bzflg, "", "", "");
+                            bool hasAllBz = !(from e1 in WmsDc.stkotdtl
+                                              where e1.stkouno == s.stkouno && e1.bzflg == GetN() && e1.qty > 0
+                                              select 1).Any();
+                            if (hasAllBz)       //如果都已经播种完了
+                            {
+                                CkBzFlg(s);
+                                i(s.stkouno, s.bllid, "stkouno:" + s.stkouno + ", chkflg:" + s.chkflg + ", bzflg:" + s.bzflg, "", "", "");
+                            }
                         }
                     }
                     WmsDc.SubmitChanges();
@@ -242,7 +246,7 @@ namespace WMS.Controllers
             }                                                           // 事务逻辑结束
 
             #region 老的播种逻辑
-            //using (TransactionScope scop = new TransactionScope())
+            //using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             //{
             //    gdsid = GetGdsidByGdsidOrBcd(gdsid);
             //    if (gdsid == null)
@@ -480,10 +484,15 @@ namespace WMS.Controllers
             }
 
             WmsDc.SubmitChanges();
+            
 
-            stklst astklst = new stklst();
-            astklst.stkouno = p.stkouno;
-            WmsDc.stklst.InsertOnSubmit(astklst);
+            if (!(WmsDc.stklst.Where(e => e.stkouno == p.stkouno)).Any())
+            {
+                stklst astklst = new stklst();
+                astklst.stkouno = p.stkouno;
+                WmsDc.stklst.InsertOnSubmit(astklst);
+                //WmsDc.SubmitChanges();
+            }
 
             WmsDc.SubmitChanges();
         }

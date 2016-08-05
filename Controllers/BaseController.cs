@@ -30,12 +30,14 @@ namespace WMS.Controllers
             return Flg.ToArray()[0];
         }
 
+        protected TransactionOptions options;
+
         const string INTVER = "1.0.0.8";
-        const string APPVER = "158";
+        const string APPVER = "161";
 
         protected bool CheckVer(string ver)
         {
-            return true;// ver == APPVER;
+            return ver.Trim() == APPVER.Trim();
         }
 
         //扣减stkotdtl里面的库存
@@ -48,10 +50,19 @@ namespace WMS.Controllers
         {
             double diff = diffQty;
 
+            if (diffQty == 0)
+            {
+                return;
+            }
+
             //减小数部分
             #region 减小数部分
             foreach (stkotdtl d in stkotdtl)
             {
+                if (diffQty == 0)
+                {
+                    break;
+                }
                 if (d.preqty == null)
                 {
                     d.preqty = d.qty;
@@ -92,6 +103,11 @@ namespace WMS.Controllers
                                  select e).ToArray();
             foreach (stkotdtl d in stkotdtl)
             {
+                if (diffQty == 0)
+                {
+                    break;
+                }
+
                 if (d.preqty == null)
                 {
                     d.preqty = d.qty;
@@ -129,6 +145,10 @@ namespace WMS.Controllers
             #region 减去从大到小的数量
             foreach (stkotdtl d in stkotdtl)
             {
+                if (diffQty == 0)
+                {
+                    break;
+                }
                 if (d.preqty == null)
                 {
                     d.preqty = d.qty;
@@ -223,6 +243,9 @@ namespace WMS.Controllers
         {
             //1.初始化变量
             WmsDc = new WMSDcDataContext();
+            options = new TransactionOptions();
+            options.IsolationLevel = IsolationLevel.ReadCommitted; //默认为Serializable,这里根据参数来进行调整
+
             
             Rm = new ResultMessage();
             Rm.ResultCode = ResultMessage.RESULTMESSAGE_SUCCESS;
@@ -343,7 +366,7 @@ namespace WMS.Controllers
             {
                 Rm.ResultCode = "-5";
                 Rm.ResultDesc = "APP版本与接口版本不一致，请求失败";
-                Rm.ExtObject = null;
+                Rm.ExtObject = "-5";
                 Rm.ResultObject = null;
 
                 requestContext.HttpContext.Response.ContentType = "application/json";

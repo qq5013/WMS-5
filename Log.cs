@@ -42,7 +42,7 @@ namespace WMS
             log.logact = actid;
             log.logdat = DateTime.Now.ToString("yyyyMMddHHmmss");
             log.logman = man;            
-            log.logmdl = "[PDA]"+mdlid;
+            log.logmdl = "[PDA]"+ (mdlid.Length>=5 ? mdlid.Substring(0,5) : mdlid );
             log.qu = qu;
             log.savdptid = savdptid;
             log.wmsno = wmsno;

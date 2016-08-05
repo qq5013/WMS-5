@@ -74,7 +74,7 @@ namespace WMS.Controllers
             String[] tpcode = !String.IsNullOrEmpty(tpcodes) ? tpcodes.Split(',') : null;
             String[] pkgid = !String.IsNullOrEmpty(pkgids) ? pkgids.Split(',') : null;
             String[] gdstype = gdstypes.Split(',');
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
 
                 var qrymst = from e in WmsDc.wms_bllmst
@@ -1310,7 +1310,7 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult BokRecievByTp(String wmsno, String tpcode)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 // done: 查询收货单和明细
                 var qryMst = from e in WmsDc.wms_bllmst
@@ -1456,7 +1456,7 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult AdGdsByTps(String wmsno, String gdsids, String gdstypes, String qtys, String tpcode, String pkgids)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 #region 验证参数
                 if (string.IsNullOrEmpty(tpcode))
@@ -1814,7 +1814,7 @@ namespace WMS.Controllers
                 return RInfo( "I0269",gdsid ,qty  );
             }
 
-            //using (TransactionScope scop = new TransactionScope())
+            //using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             //{
 
             var qrymst = from e in WmsDc.wms_bllmst

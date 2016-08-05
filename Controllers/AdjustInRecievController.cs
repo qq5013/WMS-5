@@ -892,7 +892,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_收货确认, pwrdes = "收货确认")]
         public ActionResult BokRecievGds(String wmsno, String gdsid, String gdstypes, String qtys, String tpcodes, String pkgids, String vlddat)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             if (gdsid == null)

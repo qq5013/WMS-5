@@ -220,6 +220,7 @@
     <PostBuildEvent>$(ProjectDir)\修改文档\SyncUp.jse $(ConfigurationName)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent>$(ProjectDir)\修改文档\GenReturnInfo.js</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

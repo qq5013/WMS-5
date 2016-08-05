@@ -173,7 +173,7 @@ namespace WMS.Controllers
              * 7.插入经销调拨单主单和明细
              * 8.插入sftdtl表
              */
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 wms_bllmst mst = GetAdjMst(wmsno);
                 //正在生成拣货单，请稍候重试            
@@ -285,7 +285,7 @@ namespace WMS.Controllers
                 mst.chkdat = GetCurrentDate();
                 mst.ckr = LoginInfo.Usrid;
                 WmsDc.SubmitChanges();*/
-                string sql = @"update wms_bllmst set chkflg={0}, ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
+                string sql = @"update wms_bllmst set chkflg='y', ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
                         where wmsno='" + wmsno + @"' and bllid='108'
                             and not exists(
 	                            select 1 from wms_blldtl where wmsno='" + wmsno + @"' and bllid='108' 
@@ -297,7 +297,7 @@ namespace WMS.Controllers
 		                            group by a.wmsno, a.bllid, a.rcdidx, a.qty
 	                            ) t where t.qty1<>t.qty
                             ) ";                
-                int iCount = WmsDc.ExecuteCommand(sql, 'y');
+                int iCount = WmsDc.ExecuteCommand(sql);
                 if (iCount == 0)
                 {
                     return RInfo("I0479"); 

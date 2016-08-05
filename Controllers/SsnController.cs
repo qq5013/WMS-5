@@ -2048,7 +2048,7 @@ namespace WMS.Controllers
         {
             if (WMSConst.DEBUG)
             {
-                Log.i(LoginInfo.Usrid, Mdlid, wmsno, bllid, actid, brief, qu, savdptid);
+                //Log.i(LoginInfo.Usrid, Mdlid, wmsno, bllid, actid, brief, qu, savdptid);
             }
         }
 
@@ -3364,7 +3364,7 @@ namespace WMS.Controllers
         /// <param name="func">新建后</param>
         protected ActionResult MakeNewBllNo(String savdptid, String qu, String bllid, Func<String, ResultMessage> func)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 ////正在生成拣货单，请稍候重试                 
                 //string storeid = GetStoreidBySavdptid(savdptid);

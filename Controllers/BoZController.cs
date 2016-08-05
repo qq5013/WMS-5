@@ -59,7 +59,7 @@ namespace WMS.Controllers
         public ActionResult BokBozBllGds(String wmsno, String stkouno, String rcvdptid, String gdsid, double qty, int? rcdidx)
         {
             
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 gdsid = GetGdsidByGdsidOrBcd(gdsid);                
 
@@ -253,7 +253,7 @@ namespace WMS.Controllers
                     return RSucc("成功", null, "S0038");
                 }
                 catch (Exception ex)
-                {
+                {                    
                     return RErr(ex.Message, "E0012");
                 }
             }
@@ -360,11 +360,13 @@ namespace WMS.Controllers
                 dl.rcvdptid = p.rcvdptid;
                 WmsDc.dtrlog.InsertOnSubmit(dl);
             }
-            
-            stklst astklst = new stklst();
-            astklst.stkouno = p.stkouno;
-            WmsDc.stklst.InsertOnSubmit(astklst);
-            WmsDc.SubmitChanges();
+            if (!(WmsDc.stklst.Where(e => e.stkouno == p.stkouno)).Any())
+            {
+                stklst astklst = new stklst();
+                astklst.stkouno = p.stkouno;
+                WmsDc.stklst.InsertOnSubmit(astklst);
+                WmsDc.SubmitChanges();
+            }
         }
 
         /// <summary>

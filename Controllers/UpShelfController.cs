@@ -233,7 +233,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_上架确认, pwrdes = "上架确认")]
         public ActionResult CheckCangwei(String wmsno, String barcode, String newbarcode, String tpcode)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 wms_cangwei oldCw = null;
                 String rqu = GetQuByBarcode(newbarcode);
@@ -626,7 +626,7 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_上架审核, pwrdes = "上架审核")]
         public ActionResult AuditUpShelf(String wmsno)
         {
-            using (TransactionScope scop = new TransactionScope())
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 JsonResult ar = (JsonResult)AdtUpShelf(wmsno);
                 ResultMessage rm = (ResultMessage)ar.Data;
