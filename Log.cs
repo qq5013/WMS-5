@@ -48,7 +48,8 @@ namespace WMS
             log.wmsno = wmsno;
             log.bllid = bllid;
 
-            WmsDc.wms_log.InsertOnSubmit(log);            
+            WmsDc.wms_log.InsertOnSubmit(log);
+            WmsDc.SubmitChanges();
         }
     }
 }

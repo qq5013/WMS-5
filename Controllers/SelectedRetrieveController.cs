@@ -555,7 +555,7 @@ namespace WMS.Controllers
                 //}
                 wms_cangdtl dtl = arrdtl[0];
                 //是否捡货单已经审核
-                if (mst.chkflg == GetY())
+                if (mst!=null && mst.chkflg == GetY())
                 {
                     return RInfo("I0460");
 
@@ -678,7 +678,7 @@ namespace WMS.Controllers
 
                     }
                 }
-                if (mst.chkflg == GetY())
+                if (mst!=null && mst.chkflg == GetY())
                 {
                     return RInfo("I0463");
 

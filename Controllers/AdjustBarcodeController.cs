@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.Mvc;
 using WMS.Models;
 using System.Transactions;
+using System.Data.Linq;
+using System.Text;
 
 namespace WMS.Controllers
 {
@@ -144,7 +146,7 @@ namespace WMS.Controllers
                             select barcode from wms_cangdtl_115,wms_cang_115 where wms_cang_115.wmsno=wms_cangdtl_115.wmsno and wms_cang_115.bllid=wms_cangdtl_115.bllid
 				                            and wms_cang_115.savdptid=@savdptid and wms_cang_115.qu=@qu and wms_cang_115.bllid='115' and wms_cang_115.mkedat>=@mkedat
                             )
-                            and (select isnull(sum(qty),0) from wms_cwgdsbs where barcode=a.barcode) - (select isnull(sum(qty),0) from wms_sendbill where barcode=a.barcode)>0
+                            and (select isnull(sum(qty),0) from wms_cwgdsbs where barcode=a.barcode) - (select isnull(sum(qty),0) from wms_sendbill where barcode=a.barcode and qty>0)>0
 
                             and b.zheng<=@qty
                             order by b.barcode";
@@ -173,12 +175,65 @@ namespace WMS.Controllers
              * 7.插入经销调拨单主单和明细
              * 8.插入sftdtl表
              */
+
+
+
             using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
+            //using (TransactionScope scop = new TransactionScope())
             {
                 wms_bllmst mst = GetAdjMst(wmsno);
+                //判断该单据是否审核
+                if (mst != null && mst.chkflg == GetY())
+                {
+                    return RInfo("I0008");
+                }
+
+                i(wmsno, "0", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整审核", "ab", LoginInfo.DefSavdptid);
+
+                //long ie = Convert.ToInt64(mst.udtdtm);
+                string sql = @"update wms_bllmst set chkflg='y', ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
+                        where wmsno='" + wmsno + @"' and bllid='108' and chkflg='n' and rtrim(ckr)='' and udtdtm={0}
+                            and not exists(
+	                            select 1 from wms_blldtl where wmsno='" + wmsno + @"' and bllid='108' 
+	                            and rcdidx not in (select rcdidx from wms_blltp where wmsno='" + wmsno + @"' and bllid='108' )
+	                            union
+	                            select 1 from (
+		                            select isnull(a.qty,0) qty1, isnull( sum(b.qty), 0) qty from wms_blldtl a inner join wms_blltp b on a.wmsno=b.wmsno and a.bllid=b.bllid  and a.rcdidx=b.rcdidx
+		                            where a.wmsno='" + wmsno + @"' and a.bllid='108'
+		                            group by a.wmsno, a.bllid, a.rcdidx, a.qty
+	                            ) t where isnull(t.qty1,0)<>isnull(t.qty,0)
+                            ) ";
+                try
+                {
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    string log = string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray());
+                    i(wmsno, "1", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整审核", "ab", LoginInfo.DefSavdptid);
+                    WmsDc.SubmitChanges();
+                    if (iEff == 0)
+                    {
+                        //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                        //Rm.ExtCode = "I0479";
+                        //scop.Complete();
+                        return RInfo("I0479");
+                    }
+
+                    //修改主单时间戳
+                    i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整审核", "ab", LoginInfo.DefSavdptid);
+                    WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                    i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整审核", "ab", LoginInfo.DefSavdptid);
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0074");
+                }
+
                 //正在生成拣货单，请稍候重试            
                 if (DoingRetrieve(LoginInfo.DefStoreid, mst.qu))
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                    //Rm.ExtCode = "I0006";
+                    //goto endf;
+
                     return RInfo("I0006");
                 }
 
@@ -212,7 +267,7 @@ namespace WMS.Controllers
                                 bcd = g.Max(e => e.bcd1).Trim()
                             }).ToArray();
                 // 判断是否所有的待调商品，都已经做了调整
-                foreach (wms_blldtl d in WmsDc.wms_blldtl.Where(e=>e.wmsno==wmsno&&e.bllid=="108"))
+                foreach (wms_blldtl d in WmsDc.wms_blldtl.Where(e => e.wmsno == wmsno && e.bllid == "108"))
                 {
                     var qrytpcompare = (from e in WmsDc.wms_blltp.Where(e => e.wmsno == wmsno && e.bllid == "108")
                                         where d.wmsno.Trim() == e.wmsno.Trim() && e.bllid.Trim() == d.bllid.Trim()
@@ -227,6 +282,10 @@ namespace WMS.Controllers
                                         }).FirstOrDefault();
                     if ((qrytpcompare == null) || (qrytpcompare != null && qrytpcompare.sQty != d.qty))
                     {
+                        //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                        //Rm.ExtCode = "I0479";
+                        //goto endf;
+
                         return RInfo("I0479");
                     }
                 }
@@ -250,58 +309,81 @@ namespace WMS.Controllers
                                    };
                 if (qryHasAllAdj.Where(e => e.adjQty == null || (e.adjQty != null && e.adjQty.sQty != e.qty)).Any())
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                    //Rm.ExtCode = "I0479";
+                    //goto endf;
+
                     return RInfo("I0479");
                 }
 
                 // 判断单据是否找到
                 if (mst == null)
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_NODATA;
+                    //Rm.ExtCode = "N0005";
+                    //goto endf;
+
                     return RNoData("N0005");
                 }
                 //判断是否有主单权限
                 if (qus.Contains(mst.qu) && savdpts.Contains(mst.savdptid))
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                    //Rm.ExtCode = "I0007";
+                    //goto endf;
+
                     return RInfo("I0007");
                 }
                 //判断该单据是否审核
-                if (mst.chkflg == GetY())
+                /*if (mst!=null && mst.chkflg == GetY())
                 {
                     return RInfo("I0008");
-                }
+                }*/
                 //判断是否有明细数据权限
                 if (dtls.Length == 0)
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                    //Rm.ExtCode = "N0006";
+                    //goto endf;
+
                     return RNoData("N0006");
                 }
                 // done 检查调出调入是否匹配           
                 //如果明细单不是所有商品的调整数量都为0，审核的时候TP表中的数量必须与明细中的数量一致
                 if (/*!(dtls.Count(e => e.qty == 0) == dtls.Count()) && */dtls.Sum(e => e.qty) != tps.Sum(e => e.qty))
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                    //Rm.ExtCode = "I0009";
+                    //goto endf;
+
                     return RInfo("I0009");
                 }
 
                 //审核主单，修改主单标记
                 /*mst.chkflg = GetY();
                 mst.chkdat = GetCurrentDate();
-                mst.ckr = LoginInfo.Usrid;
-                WmsDc.SubmitChanges();*/
-                string sql = @"update wms_bllmst set chkflg='y', ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
-                        where wmsno='" + wmsno + @"' and bllid='108'
+                mst.ckr = LoginInfo.Usrid;*/
+                //WmsDc.SubmitChanges(System.Data.Linq.ConflictMode.FailOnFirstConflict);
+                /*string sql = @"update wms_bllmst set chkflg='y', ckr='" + LoginInfo.Usrid + @"', chkdat='" + GetCurrentDate() + @"'
+                        where wmsno='" + wmsno + @"' and bllid='108' and chkflg='n' and rtrim(ckr)=''
                             and not exists(
 	                            select 1 from wms_blldtl where wmsno='" + wmsno + @"' and bllid='108' 
 	                            and rcdidx not in (select rcdidx from wms_blltp where wmsno='" + wmsno + @"' and bllid='108' )
 	                            union
 	                            select 1 from (
-		                            select a.qty qty1,sum(b.qty) qty from wms_blldtl a inner join wms_blltp b on a.wmsno=b.wmsno and a.bllid=b.bllid  and a.rcdidx=b.rcdidx
+		                            select isnull(a.qty,0) qty1, isnull( sum(b.qty), 0) qty from wms_blldtl a inner join wms_blltp b on a.wmsno=b.wmsno and a.bllid=b.bllid  and a.rcdidx=b.rcdidx
 		                            where a.wmsno='" + wmsno + @"' and a.bllid='108'
 		                            group by a.wmsno, a.bllid, a.rcdidx, a.qty
-	                            ) t where t.qty1<>t.qty
+	                            ) t where isnull(t.qty1,0)<>isnull(t.qty,0)
                             ) ";                
                 int iCount = WmsDc.ExecuteCommand(sql);
                 if (iCount == 0)
                 {
-                    return RInfo("I0479"); 
-                }
+                    Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                    Rm.ExtCode = "I0479";
+                    goto endf;
+                    //return RInfo("I0479"); 
+                }*/
 
                 //增加帐表库存
                 #region 增加帐表库存
@@ -347,7 +429,8 @@ namespace WMS.Controllers
                     gdsbs.vlddat = ag.vlddat;
                     //如果没有就增加库存
                     wms_cwgdsbs egdsbs = WmsDc.wms_cwgdsbs.Where(e => e.barcode == gdsbs.barcode && e.gdsid == gdsbs.gdsid
-                        && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid && e.qu == gdsbs.qu && e.bthno == gdsbs.bthno.Trim() && e.vlddat == gdsbs.vlddat.Trim()).Select(e => e).FirstOrDefault();
+                        && e.gdstype == gdsbs.gdstype && e.savdptid == gdsbs.savdptid
+                        && e.qu == gdsbs.qu && e.bthno == gdsbs.bthno.Trim() && e.vlddat == gdsbs.vlddat.Trim()).Select(e => e).FirstOrDefault();
                     if (egdsbs == null)
                     {
                         WmsDc.wms_cwgdsbs.InsertOnSubmit(gdsbs);
@@ -394,6 +477,9 @@ namespace WMS.Controllers
                         .Select(e => e).FirstOrDefault();
                     if (egdsbs == null)
                     {
+                        //Rm.ResultCode = ResultMessage.RESULTMESSAGE_INFO;
+                        //Rm.ExtCode = "I0011";
+                        //goto endf;
                         return RInfo("I0011", gdsbs.gdsid, gdsbs.gdstype);
                     }
                     else
@@ -484,7 +570,7 @@ namespace WMS.Controllers
                     String fscprdid = GetCurrentFscprdid();
                     String bllid = "112";
                     stkin sin = null;
-                    int i = 1;
+                    int _i = 1;
 
                     // 对这些分区不一致的商品，生产经销调拨单（单据类型：112）
                     foreach (var dp in lnkDtlsTps)
@@ -498,7 +584,7 @@ namespace WMS.Controllers
                         if (adptid == null || adptid != dp.newdptid)
                         {
                             // 序号初始化
-                            i = 1;
+                            _i = 1;
                             // 得到单号
                             adptid = dp.newdptid;
                             WmsDc.get_bllno(fscprdid, "01", "002", ref stkinno);
@@ -567,7 +653,7 @@ namespace WMS.Controllers
                         {
                             stkindtl sindtl = new stkindtl();
                             sindtl.stkinno = stkinno;
-                            sindtl.rcdidx = i;
+                            sindtl.rcdidx = _i;
                             sindtl.depid = sin.depid;
                             sindtl.outdepid = WmsDc.bizdep.Where(e => e.dptid.Trim() == dp.olddptid.Trim()
                                                 && e.savdptid.Trim() == dp.oldsavdptid.Trim()).Select(e => e.depid.Trim()).FirstOrDefault();
@@ -621,7 +707,7 @@ namespace WMS.Controllers
                         }
                         #endregion 插入明细单据
 
-                        i++;
+                        _i++;
                     }
 
                 }
@@ -629,14 +715,32 @@ namespace WMS.Controllers
 
                 try
                 {
-                    WmsDc.SubmitChanges();
+                    WmsDc.SubmitChanges(System.Data.Linq.ConflictMode.FailOnFirstConflict);
                     scop.Complete();
                     return RSucc("成功", null, "S0005");
                 }
                 catch (Exception ex)
                 {
+                    //Rm.ResultCode = ResultMessage.RESULTMESSAGE_ERRORS;
+                    //Rm.ExtCode = "E0074";
+                    //goto endf;
                     return RErr(ex.Message, "E0074");
                 }
+
+                //endf:
+                //    try
+                //    {
+                //        mst.chkflg = GetN();
+                //        mst.chkdat = GetCurrentDate();
+                //        mst.ckr = "";
+                //        WmsDc.SubmitChanges();
+                //        return Json(Rm, JsonRequestBehavior.AllowGet);
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        iFile("AdtAdjBll," + ex.Message);
+                //        return RErr(ex.Message, "E0074");                    
+                //    }
             }
         }
 
@@ -735,7 +839,9 @@ namespace WMS.Controllers
                 }  
 
                 WmsDc.wms_bllmst.InsertOnSubmit(mst);
+                WmsDc.SubmitChanges();
                 WmsDc.wms_blldtl.InsertAllOnSubmit(dtls);
+                WmsDc.SubmitChanges();
 
                 try
                 {
@@ -759,68 +865,73 @@ namespace WMS.Controllers
         /// <returns></returns>
         public ActionResult BokOldBarcodeGdsid(String wmsno, String gdsid, int rcdidx)
         {
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                return RInfo( "I0014" );
-            }
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0014");
+                }
 
-            //检查是否存在单据
-            var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid && 
-                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.lnknewbllid == "108"
-                         select e;
-            var arrqrymst = qrymst.ToArray();
-            var qrydtl = from e in WmsDc.wms_blldtl
-                         where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.gdsid == gdsid && e.rcdidx == rcdidx
-                         select e;
-            var arrqrydtl = qrydtl.ToArray();
-            var qrytpdtl = from e in WmsDc.wms_blltp
-                           where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                           && e.gdsid == gdsid && e.rcdidx == rcdidx
-                           orderby e.rcdidxtp descending
-                           select e;
-            var arrqrytpdtl = qrytpdtl.ToArray();
-            if (arrqrymst.Length <= 0)
-            {
-                return RNoData("N0007");
-            }
-            if (arrqrydtl.Length <= 0)
-            {
-                return RNoData("N0008");
-            }
-            if (arrqrytpdtl.Count()>0)
-            {
-                return RInfo( "I0015" );
-            }
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.gdsid == gdsid && e.rcdidx == rcdidx
+                             select e;
+                var arrqrydtl = qrydtl.ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid && e.rcdidx == rcdidx
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0007");
+                }
+                if (arrqrydtl.Length <= 0)
+                {
+                    return RNoData("N0008");
+                }
+                if (arrqrytpdtl.Count() > 0)
+                {
+                    return RInfo("I0015");
+                }
 
-            //检查单据是否已经审核
-            wms_bllmst mst = arrqrymst[0];
-            if (mst.chkflg == GetY())
-            {
-                return RInfo( "I0016" );
-            }
-            //是否是同一个人制单
-            if (!IsSameLogin(mst.mkr))
-            {
-                return RInfo( "I0017",mst.mkr ,LoginInfo.Usrid  );
-            }
-            foreach(wms_blldtl d in arrqrydtl){
-                d.bokflg = GetY();
-                d.bkr = LoginInfo.Usrid;
-                d.bokdat = GetCurrentDate();
-            }
-            try
-            {
-                WmsDc.SubmitChanges();
-                return RSucc("成功", null, "S0006");
-            }
-            catch (Exception ex)
-            {
-                return RErr(ex.Message, "E0001");
+                //检查单据是否已经审核
+                wms_bllmst mst = arrqrymst[0];
+                if (mst != null && mst.chkflg == GetY())
+                {
+                    return RInfo("I0016");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(mst.mkr))
+                {
+                    return RInfo("I0017", mst.mkr, LoginInfo.Usrid);
+                }
+                foreach (wms_blldtl d in arrqrydtl)
+                {
+                    d.bokflg = GetY();
+                    d.bkr = LoginInfo.Usrid;
+                    d.bokdat = GetCurrentDate();
+                }
+                try
+                {
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0006");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0001");
+                }
             }
         }
 
@@ -835,155 +946,192 @@ namespace WMS.Controllers
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult AdAdjBarcode(String wmsno, String gdsid, int rcdidx, String newbarcode, double qty)
-        {                       
-            gdsid = GetGdsidByGdsidOrBcd(gdsid);
+        {
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
+            {
+                gdsid = GetGdsidByGdsidOrBcd(gdsid);
 
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo( "I0018" );
-            }
-
-            //判断仓位是否存在
-            if (!IsExistBarcode(newbarcode))
-            {
-                return RInfo( "I0019",newbarcode );
-            }
-            //检查是否存在单据
-            var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid && 
-                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.lnknewbllid=="108"
-                         select e;
-            var arrqrymst = qrymst.ToArray();
-            var qrydtl = from e in WmsDc.wms_blldtl
-                         where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.gdsid == gdsid && e.rcdidx == rcdidx
-                         select e;
-            var arrqrydtl = qrydtl.ToArray();
-            var qrytpdtl = from e in WmsDc.wms_blltp
-                           where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                           && e.gdsid == gdsid && e.rcdidx == rcdidx
-                           orderby e.rcdidxtp descending
-                           select e;
-            var arrqrytpdtl = qrytpdtl.ToArray();
-            if (arrqrymst.Length <= 0)
-            {
-                return RNoData("N0009");
-            }
-            if (arrqrydtl.Length <= 0)
-            {
-                return RNoData("N0010");
-            }
-            //判断是否已经增加了该新仓位
-            if (arrqrytpdtl.Where(e => e.barcode == newbarcode.Trim()).Any())
-            {
-                return RInfo("I0477");
-            }
-
-            String rqu = GetQuByBarcode(newbarcode);
-            String oqu = GetQuByBarcode(arrqrydtl[0].barcode);
-            //如果调入不在堆头区，就判断一下区域间能不能互相调用
-            if (!dtqus.Contains(rqu))
-            {
-                // 判断调出的区是不是堆头区，是堆头区的话，根据商品判断应该调入那个分区
-                if (dtqus.Contains(oqu))
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
                 {
-                    String[] shouldInQu = (from e in WmsDc.wms_set
-                                join e1 in WmsDc.gds on e.val2 equals e1.dptid
-                                where e.setid == "001" && (e.val3.Trim() == LoginInfo.DefSavdptid.Trim() || e.val3.Trim() == LoginInfo.DefCsSavdptid.Trim())
-                                && e.isvld == GetY()
-                                && e1.gdsid == arrqrydtl[0].gdsid.Trim()
-                                select e.val1.Trim()).ToArray();
-                    if (shouldInQu.Length==0)
-                    {
-                        return RInfo("I0474", arrqrydtl[0].gdsid.Trim());
-                    }
-                    // 调入分区{0}与商品所在分区{1}不一致
-                    if (!shouldInQu.Contains(rqu))
-                    {
-                        return RInfo("I0475", rqu, String.Join(",", shouldInQu)  );
-                    }
+                    return RInfo("I0018");
+                }
 
-                }else{
-                    // 判断是否是同一个区能不能互调
-                    wms_set[] sets = (from e in WmsDc.wms_set
-                                      join e1 in WmsDc.wms_cangwei
-                                        on new { qu = e.val1, savdptid = e.val3, e.setid }
-                                        equals new { e1.qu, e1.savdptid, setid = "006" }
-                                      where e1.barcode == arrqrydtl[0].barcode || e1.barcode == newbarcode
-                                      select e).ToArray();
-                    if (sets.Length == 2)
+                //判断仓位是否存在
+                if (!IsExistBarcode(newbarcode))
+                {
+                    return RInfo("I0019", newbarcode);
+                }
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.gdsid == gdsid && e.rcdidx == rcdidx
+                             select e;
+                var arrqrydtl = qrydtl.ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid && e.rcdidx == rcdidx
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0009");
+                }
+                if (arrqrydtl.Length <= 0)
+                {
+                    return RNoData("N0010");
+                }
+                //判断是否已经增加了该新仓位
+                if (arrqrytpdtl.Where(e => e.barcode == newbarcode.Trim()).Any())
+                {
+                    return RInfo("I0477");
+                }
+
+                String rqu = GetQuByBarcode(newbarcode);
+                String oqu = GetQuByBarcode(arrqrydtl[0].barcode);
+                //如果调入不在堆头区，就判断一下区域间能不能互相调用
+                if (!dtqus.Contains(rqu))
+                {
+                    // 判断调出的区是不是堆头区，是堆头区的话，根据商品判断应该调入那个分区
+                    if (dtqus.Contains(oqu))
                     {
-                        if (sets[0].brief.Trim() != sets[1].brief.Trim())
+                        String[] shouldInQu = (from e in WmsDc.wms_set
+                                               join e1 in WmsDc.gds on e.val2 equals e1.dptid
+                                               where e.setid == "001" && (e.val3.Trim() == LoginInfo.DefSavdptid.Trim() || e.val3.Trim() == LoginInfo.DefCsSavdptid.Trim())
+                                               && e.isvld == GetY()
+                                               && e1.gdsid == arrqrydtl[0].gdsid.Trim()
+                                               select e.val1.Trim()).ToArray();
+                        if (shouldInQu.Length == 0)
                         {
-                            return RInfo("I0020", sets[0].val1, sets[1].val1);
+                            return RInfo("I0474", arrqrydtl[0].gdsid.Trim());
                         }
+                        // 调入分区{0}与商品所在分区{1}不一致
+                        if (!shouldInQu.Contains(rqu))
+                        {
+                            return RInfo("I0475", rqu, String.Join(",", shouldInQu));
+                        }
+
                     }
                     else
                     {
-                        return RInfo("I0021");
+                        // 判断是否是同一个区能不能互调
+                        wms_set[] sets = (from e in WmsDc.wms_set
+                                          join e1 in WmsDc.wms_cangwei
+                                            on new { qu = e.val1, savdptid = e.val3, e.setid }
+                                            equals new { e1.qu, e1.savdptid, setid = "006" }
+                                          where e1.barcode == arrqrydtl[0].barcode || e1.barcode == newbarcode
+                                          select e).ToArray();
+                        if (sets.Length == 2)
+                        {
+                            if (sets[0].brief.Trim() != sets[1].brief.Trim())
+                            {
+                                return RInfo("I0020", sets[0].val1, sets[1].val1);
+                            }
+                        }
+                        else
+                        {
+                            return RInfo("I0021");
+                        }
                     }
                 }
-            }            
 
-            //检查单据是否已经审核
-            wms_bllmst mst = arrqrymst[0];
-            if (mst.chkflg == GetY())
-            {
-                return RInfo( "I0022" );
-            }
-            //是否是同一个人制单
-            if (!IsSameLogin(mst.mkr))
-            {
-                return RInfo( "I0023",mst.mkr ,LoginInfo.Usrid  );
-            }
-            int iTp = 1;
-            if (arrqrytpdtl.Length > 0)
-            {
-                iTp = arrqrytpdtl[0].rcdidxtp + 1;
-            }
-            // done: 跨区调整单据时，判断是否有权限
-            /*if (!HasPwrAdjDiffQu(mst.qu, newbarcode))
-            {
-                return RInfo( "I0024" );
-            }*/
+                //检查单据是否已经审核
+                wms_bllmst mst = arrqrymst[0];
+                if (mst != null && mst.chkflg == GetY())
+                {
+                    return RInfo("I0022");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(mst.mkr))
+                {
+                    return RInfo("I0023", mst.mkr, LoginInfo.Usrid);
+                }
+                int iTp = 1;
+                if (arrqrytpdtl.Length > 0)
+                {
+                    iTp = arrqrytpdtl[0].rcdidxtp + 1;
+                }
+                // done: 跨区调整单据时，判断是否有权限
+                /*if (!HasPwrAdjDiffQu(mst.qu, newbarcode))
+                {
+                    return RInfo( "I0024" );
+                }*/
 
-            // done: 需要调整的商品是否已经经过确认
-            /*if (arrqrydtl[0].bokflg!=GetY())
-            {
-                return RInfo( "I0025" );
-            }*/
+                // done: 需要调整的商品是否已经经过确认
+                /*if (arrqrydtl[0].bokflg!=GetY())
+                {
+                    return RInfo( "I0025" );
+                }*/
 
-            wms_blltp tp = new wms_blltp();
-            tp.wmsno = wmsno;
-            tp.bllid = WMSConst.BLL_TYPE_ADJCANG;
-            wms_cangwei cw = GetCangweiByBarcode(newbarcode);
-            tp.qu = cw.qu;
-            tp.rcdidx = rcdidx;
-            tp.rcdidxtp = iTp;
-            tp.barcode = cw.barcode;
-            tp.gdsid = gdsid;
-            tp.pkgid = "01";
-            tp.qty = Math.Round(qty, 4, MidpointRounding.AwayFromZero);
-            tp.tpcode = "";
-            tp.savdptid = cw.savdptid;
-            tp.gdstype = arrqrydtl[0].gdstype;
-            tp.bkr = LoginInfo.Usrid;
-            tp.bokdat = GetCurrentDate();
-            tp.bokflg = GetN();
+                wms_blltp tp = new wms_blltp();
+                tp.wmsno = wmsno;
+                tp.bllid = WMSConst.BLL_TYPE_ADJCANG;
+                wms_cangwei cw = GetCangweiByBarcode(newbarcode);
+                tp.qu = cw.qu;
+                tp.rcdidx = rcdidx;
+                tp.rcdidxtp = iTp;
+                tp.barcode = cw.barcode;
+                tp.gdsid = gdsid;
+                tp.pkgid = "01";
+                tp.qty = Math.Round(qty, 4, MidpointRounding.AwayFromZero);
+                tp.tpcode = "";
+                tp.savdptid = cw.savdptid;
+                tp.gdstype = arrqrydtl[0].gdstype;
+                tp.bkr = LoginInfo.Usrid;
+                tp.bokdat = GetCurrentDate();
+                tp.bokflg = GetN();
 
-            WmsDc.wms_blltp.InsertOnSubmit(tp);
-            try
-            {
+                WmsDc.wms_blltp.InsertOnSubmit(tp);
                 WmsDc.SubmitChanges();
+                try
+                {
+                    /*string sql = @"insert into wms_blltp(wmsno, bllid, qu, rcdidx, rcdidxtp, barcode, gdsid, pkgid, qty, tpcode, savdptid, gdstype, bkr, bokflg, bokdat)
+                            select '" + tp.wmsno + @"' wmsno, '" + tp.bllid + @"' bllid,'" + tp.qu + @"' qu,
+                            '" + tp.rcdidx + @"' rcdidx, '" + tp.rcdidxtp + @"' rcdidxtp, '" + tp.barcode + @"' barcode, '" + tp.gdsid + @"' gdsid, '" + tp.pkgid + @"' pkgid, 
+                            '" + tp.qty + @"' qty, '" + tp.tpcode + @"' tpcode, '" + tp.savdptid + @"' savdptid, '" + tp.gdstype + @"' gdstype, '" + tp.bkr + @"' bkr,
+                            '" + tp.bokflg + @"' bokflg, '" + tp.bokdat + @"' bokdat 
+                            from wms_bllmst where wmsno='" + tp.wmsno + @"' and bllid='108' and chkflg='n' and udtdtm={0}";
+                    i(wmsno, "0", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整新增调整商品", "ab", LoginInfo.DefSavdptid);
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    i(wmsno, "1", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整新增调整商品", "ab", LoginInfo.DefSavdptid);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }*/
+                    //修改主单时间戳
+                    string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                    i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整新增调整商品", "ab", LoginInfo.DefSavdptid);
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                    i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整新增调整商品", "ab", LoginInfo.DefSavdptid);
 
-                return RSucc("成功", null, "S0007");
-            }
-            catch (Exception ex)
-            {
-                return RErr(ex.Message, "E0002");
+
+                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //检查单号是否已经审核
+                    if (mst != null && mst.chkflg == GetY())
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0007");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0002");
+                }
             }
         }
 
@@ -1042,61 +1190,72 @@ namespace WMS.Controllers
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult DlAdjBll(String wmsno)
-        {            
-            //检查是否存在单据
-            var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid  &&
-                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.lnknewbllid=="108"
-                         select e;
-            
-            var arrqrymst = qrymst.ToArray();
-            var qrydtl = from e in WmsDc.wms_blldtl
-                         where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         select e;
-            var arrqrydtl = qrydtl.ToArray();
-            var qrytpdtl = from e in WmsDc.wms_blltp
-                           where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG                           
-                           orderby e.rcdidxtp descending
-                           select e;
-            var arrqrytpdtl = qrytpdtl.ToArray();
-            if (arrqrymst.Length <= 0)
+        {
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                return RNoData("N0011");
-            }
-            if (arrqrymst[0].chkflg == GetY())
-            {
-                return RInfo( "I0026" );
-            }
-            //是否是同一个人制单
-            if (!IsSameLogin(arrqrymst[0].mkr))
-            {
-                return RInfo( "I0027",arrqrymst[0].mkr ,LoginInfo.Usrid  );
-            }
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
 
-            //正在生成拣货单，请稍候重试
-            string quRetrv = arrqrymst[0].qu;
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo( "I0028" );
-            }
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             select e;
+                var arrqrydtl = qrydtl.ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0011");
+                }
+                if (arrqrymst[0].chkflg == GetY())
+                {
+                    return RInfo("I0026");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(arrqrymst[0].mkr))
+                {
+                    return RInfo("I0027", arrqrymst[0].mkr, LoginInfo.Usrid);
+                }
 
-            WmsDc.wms_blltp.DeleteAllOnSubmit(qrytpdtl);            
-            WmsDc.wms_blldtl.DeleteAllOnSubmit(arrqrydtl);
-            WmsDc.wms_bllmst.DeleteAllOnSubmit(arrqrymst);
-            //写删除日志
-            iDelTpDtl(qrytpdtl, arrqrymst[0]);
-            iDelBllDtl(qrydtl, arrqrymst[0]);
-            iDelBllMst(arrqrymst[0]);
+                //正在生成拣货单，请稍候重试
+                string quRetrv = arrqrymst[0].qu;
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0028");
+                }
 
-            try
-            {
-                WmsDc.SubmitChanges();
-                return RSucc("成功", null, "S0008");
-            }
-            catch (Exception ex)
-            {
-                return RErr(ex.Message, "E0003");
+                WmsDc.wms_blltp.DeleteAllOnSubmit(qrytpdtl);
+                WmsDc.wms_blldtl.DeleteAllOnSubmit(arrqrydtl);
+                WmsDc.wms_bllmst.DeleteAllOnSubmit(arrqrymst);
+                wms_bllmst mst = arrqrymst[0];
+                //写删除日志
+                iDelTpDtl(qrytpdtl, arrqrymst[0]);
+                iDelBllDtl(qrydtl, arrqrymst[0]);
+                iDelBllMst(arrqrymst[0]);
+
+                try
+                {
+                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //检查单号是否已经审核
+                    if (mst != null && mst.chkflg == GetY())
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0008");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0003");
+                }
             }
         }
 
@@ -1109,46 +1268,58 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult AdOldBarcodes(String wmsno, String barcodes, String gdsids, String gdstypes, String bthnos, String vlddats, String qtys)
         {
-            //判断barcodes、gdsids、gdstypes、qtys是否数量一致
-            String[] barcode = barcodes.Split(',');
-            String[] gdsid = gdsids.Split(',');
-            String[] qty = qtys.Split(',');
-            String[] gdstype = gdstypes.Split(',');
-            String[] bthno = bthnos.Split(',');
-            String[] vlddat = vlddats.Split(',');            
-            List<object> retObjs = new List<object>();
-            if (
-                (barcode.Length != gdsid.Length)
-            || (barcode.Length != qty.Length)
-                || (gdsid.Length != qty.Length)
-            || (gdstype.Length != gdsid.Length)               
-                )
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                return RInfo( "I0029" );
+                //判断barcodes、gdsids、gdstypes、qtys是否数量一致
+                String[] barcode = barcodes.Split(',');
+                String[] gdsid = gdsids.Split(',');
+                String[] qty = qtys.Split(',');
+                String[] gdstype = gdstypes.Split(',');
+                String[] bthno = bthnos.Split(',');
+                String[] vlddat = vlddats.Split(',');
+                List<object> retObjs = new List<object>();
+                if (
+                    (barcode.Length != gdsid.Length)
+                || (barcode.Length != qty.Length)
+                    || (gdsid.Length != qty.Length)
+                || (gdstype.Length != gdsid.Length)
+                    )
+                {
+                    return RInfo("I0029");
+                }
+
+                for (int i = 0; i < gdsid.Length; i++)
+                {
+                    double d = 0;
+                    if (!double.TryParse(qty[i], out d))
+                    {
+                        return RInfo("I0030", gdsid[i], qty[i]);
+                    }
+                    if (d == 0)
+                    {
+                        return RInfo("I0485", gdsid[i]);
+                    }
+
+                    JsonResult jr = (JsonResult)AdOldBarcode(wmsno, barcode[i], gdsid[i], gdstype[i], bthno[i], vlddat[i], qty[i]);
+                    ResultMessage rm = (ResultMessage)jr.Data;
+                    if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                    {
+                        return jr;
+                    }
+                    retObjs.Add(rm.ResultObject);
+                }
+                try
+                {
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", retObjs, "S0009");
+                    
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0009");
+                }
             }
-
-            for (int i = 0; i < gdsid.Length; i++)
-            {
-                double d = 0;
-                if (!double.TryParse(qty[i], out d))
-                {
-                    return RInfo( "I0030",gdsid[i],qty[i]  );
-                }
-                if (d == 0)
-                {
-                    return RInfo("I0485", gdsid[i]);
-                }
-
-                JsonResult jr = (JsonResult)AdOldBarcode(wmsno, barcode[i], gdsid[i], gdstype[i], bthno[i], vlddat[i], qty[i]);
-                ResultMessage rm = (ResultMessage)jr.Data;
-                if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
-                {
-                    return jr;
-                }
-                retObjs.Add(rm.ResultObject);
-            }
-
-            return RSucc("成功", retObjs, "S0009");
         }
 
         /// <summary>
@@ -1160,123 +1331,393 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult AdOldBarcode(String wmsno, String barcode, String gdsid, String gdstype, String bthno, String vlddat, String qty)
         {
-            gdsid = GetGdsidByGdsidOrBcd(gdsid);
+            //using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
+            //{
+                gdsid = GetGdsidByGdsidOrBcd(gdsid);
 
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
-            {
-                return RInfo( "I0031" );
-            }
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0031");
+                }
 
-            //判断gdsid和barcode是否是一个区
-            String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
-            if ( !qu.Contains(barcode.Substring(0, 2)) )
-            {
-                return RInfo("I0032", gdsid, string.Join(",", qu));
-            }
-            //判断分区是否有效
-            if (!IsExistBarcode(barcode))
-            {
-                return RInfo( "I0033",barcode.Trim()  );
-            }
+                //判断gdsid和barcode是否是一个区
+                String[] qu = GetQuByGdsid(gdsid, LoginInfo.DefStoreid);
+                if (!qu.Contains(barcode.Substring(0, 2)))
+                {
+                    return RInfo("I0032", gdsid, string.Join(",", qu));
+                }
+                //判断分区是否有效
+                if (!IsExistBarcode(barcode))
+                {
+                    return RInfo("I0033", barcode.Trim());
+                }
 
-            //检查是否存在单据
-            var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid                         && 
-                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.lnknewbllid=="108"
-                         && barcode.Substring(0, 2) == e.qu
-                         select e;
-            
-            var arrqrymst = qrymst.ToArray();
-            var qrydtl = from e in WmsDc.wms_blldtl
-                         where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG //&& e.barcode == barcode
-                         select e;
-            var arrqrydtl = qrydtl.OrderByDescending(e => e.rcdidx).ToArray();
-            var arrqrydtl1 = qrydtl.Where(e => e.gdsid == gdsid && e.gdstype == gdstype.Trim() && e.barcode == barcode.Trim() && e.bthno==bthno.Trim() && e.vlddat==vlddat.Trim()).ToArray();
-            var qrytpdtl = from e in WmsDc.wms_blltp
-                           where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                           && e.gdsid == gdsid
-                           orderby e.rcdidxtp descending
-                           select e;
-            var arrqrytpdtl = qrytpdtl.ToArray();
-            if (arrqrymst.Length <= 0)
-            {
-                return RNoData("N0012");
-            }
-            if (arrqrydtl1.Length > 0)
-            {
-                return RNoData("N0013");
-            }
-            /*if (arrqrytpdtl.Length <= 0)
-            {
-                return RInfo( "I0034" );
-            }*/
-            if (arrqrymst[0].chkflg == GetY())
-            {
-                return RInfo( "I0035" );
-            }
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             && barcode.Substring(0, 2) == e.qu
+                             select e;
 
-            wms_blldtl dtl = new wms_blldtl();
-            dtl.wmsno = wmsno;
-            dtl.bllid = WMSConst.BLL_TYPE_ADJCANG;
-            dtl.rcdidx = arrqrydtl[0].rcdidx + 1;
-            dtl.barcode = barcode;
-            dtl.gdsid = gdsid;
-            dtl.pkgid = "01";
-            double fQty = 0;
-            if (double.TryParse(qty, out fQty))
-            {
-                dtl.qty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
-            }
-            if (fQty == 0)
-            {
-                return RInfo("I0485", gdsid);
-            }
-            dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
-            dtl.gdstype = gdstype;
-            dtl.bthno = bthno;
-            dtl.vlddat = vlddat;
-            JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid);
-            ResultMessage rm = (ResultMessage)jr.Data;
-            if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
-            {
-                return RInfo( "I0036",gdsid );
-            }
-            bcd[] b = (bcd[])rm.ResultObject;
-            dtl.bcd = b[0].bcd1;
-            dtl.prvid = "";
-            dtl.bkr = LoginInfo.Usrid;
-            dtl.bokflg = GetN();
-            dtl.bokdat = GetCurrentDate();
-            dtl.brief = "";
-            arrqrymst[0].chkflg = GetN();
-            
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG //&& e.barcode == barcode
+                             select e;
+                var arrqrydtl = qrydtl.OrderByDescending(e => e.rcdidx).ToArray();
+                var arrqrydtl1 = qrydtl.Where(e => e.gdsid == gdsid && e.gdstype == gdstype.Trim() && e.barcode == barcode.Trim() && e.bthno == bthno.Trim() && e.vlddat == vlddat.Trim()).ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0012");
+                }
+                if (arrqrydtl1.Length > 0)
+                {
+                    return RNoData("N0013");
+                }
+                /*if (arrqrytpdtl.Length <= 0)
+                {
+                    return RInfo( "I0034" );
+                }*/
+                if (arrqrymst[0].chkflg == GetY())
+                {
+                    return RInfo("I0035");
+                }
 
-            //如果是报损，判断是否有库存
-            //得到一个商品的库存数量
-            GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, dtl.gdsid, dtl.gdstype)
-                                .Where(e => e.vlddat == dtl.vlddat.Trim() && e.bthno == dtl.bthno.Trim())
-                                .ToArray();
-            double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
-            double ktqty = bqty;  //可调数量 = 库存数量
-            //如果 需调整数量 > 可调数量
-            if (dtl.qty > ktqty)
-            {
-                return RNoData("N0014", dtl.qty.ToString(), ktqty.ToString());
-            }
+                wms_blldtl dtl = new wms_blldtl();
+                dtl.wmsno = wmsno;
+                dtl.bllid = WMSConst.BLL_TYPE_ADJCANG;
+                dtl.rcdidx = arrqrydtl[0].rcdidx + 1;
+                dtl.barcode = barcode;
+                dtl.gdsid = gdsid;
+                dtl.pkgid = "01";
+                double fQty = 0;
+                if (double.TryParse(qty, out fQty))
+                {
+                    dtl.qty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
+                }
+                if (fQty == 0)
+                {
+                    return RInfo("I0485", gdsid);
+                }
+                dtl.preqty = Math.Round(fQty, 4, MidpointRounding.AwayFromZero);
+                dtl.gdstype = gdstype;
+                dtl.bthno = bthno;
+                dtl.vlddat = vlddat;
+                JsonResult jr = (JsonResult)GetBcdByGdsid(gdsid);
+                ResultMessage rm = (ResultMessage)jr.Data;
+                if (rm.ResultCode != ResultMessage.RESULTMESSAGE_SUCCESS)
+                {
+                    return RInfo("I0036", gdsid);
+                }
+                bcd[] b = (bcd[])rm.ResultObject;
+                dtl.bcd = b[0].bcd1;
+                dtl.prvid = "";
+                dtl.bkr = LoginInfo.Usrid;
+                dtl.bokflg = GetN();
+                dtl.bokdat = GetCurrentDate();
+                dtl.brief = "";                
+                wms_bllmst mst = arrqrymst[0];
 
-            WmsDc.wms_blldtl.InsertOnSubmit(dtl);
 
-            try
+                //如果是报损，判断是否有库存
+                //得到一个商品的库存数量
+                GdsInBarcode[] gb = GetAGdsQtyInBarcode(dtl.barcode, dtl.gdsid, dtl.gdstype)
+                                    .Where(e => e.vlddat == dtl.vlddat.Trim() && e.bthno == dtl.bthno.Trim())
+                                    .ToArray();
+                double bqty = (gb == null || gb.Length <= 0) ? 0 : gb[0].sqty;
+                double ktqty = bqty;  //可调数量 = 库存数量
+                //如果 需调整数量 > 可调数量
+                if (dtl.qty > ktqty)
+                {
+                    return RNoData("N0014", dtl.qty.ToString(), ktqty.ToString());
+                }
+
+                WmsDc.wms_blldtl.InsertOnSubmit(dtl);                
+                /*string sql = @"
+insert into wms_blldtl(
+barcode,
+bcd,
+bkr,
+bllid,
+bokdat,
+bokflg,
+brief,
+bthno,
+gdsid,
+gdstype,
+pkgid,
+preqty,
+prvid,
+qty,
+rcdidx,
+vlddat,
+wmsno)
+select '" + dtl.barcode + @"',
+'" + dtl.bcd + @"',
+'" + dtl.bkr + @"',
+'" + dtl.bllid + @"',
+'" + dtl.bokdat + @"',
+'" + dtl.bokflg + @"',
+'" + dtl.brief + @"',
+'" + dtl.bthno + @"',
+'" + dtl.gdsid + @"',
+'" + dtl.gdstype + @"',
+'" + dtl.pkgid + @"',
+'" + dtl.preqty + @"',
+'" + dtl.prvid + @"',
+'" + dtl.qty + @"',
+'" + dtl.rcdidx + @"',
+'" + dtl.vlddat + @"',
+'" + dtl.wmsno + @"' from wms_bllmst where wmsno='" + dtl.wmsno + @"' and bllid='108' and chkflg='n' and udtdtm={0}";*/
+                
+
+                try
+                {
+                    /*i(wmsno, "0", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整加调整商品", "ab", LoginInfo.DefSavdptid);
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    i(wmsno, "1", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整加调整商品", "ab", LoginInfo.DefSavdptid);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }*/
+
+                    //修改主单时间戳
+                    string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                    i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整加调整商品", "ab", LoginInfo.DefSavdptid);
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                    i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整加调整商品", "ab", LoginInfo.DefSavdptid);
+                    
+
+                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //检查单号是否已经审核
+                    if (mst != null && mst.chkflg == GetY())
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.SubmitChanges(System.Data.Linq.ConflictMode.ContinueOnConflict);
+                    //scop.Complete();
+                    return RSucc("成功", qrydtl.ToArray(), "S0010");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0004");
+                }
+            //}
+        }
+
+        /// <summary>
+        /// 修改新仓位
+        /// </summary>
+        /// <param name="wmsno"></param>
+        /// <param name="gdsid"></param>
+        /// <param name="rcdidx"></param>
+        /// <param name="rcdidxtp"></param>
+        /// <param name="barcode"></param>
+        /// <param name="qty"></param>
+        /// <returns></returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
+        public ActionResult MdNewBarcode(string wmsno, string gdsid, int rcdidx, int rcdidxtp, string barcode, double qty)
+        {
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                WmsDc.SubmitChanges();
-                return RSucc("成功", qrydtl.ToArray(), "S0010");
+                gdsid = GetGdsidByGdsidOrBcd(gdsid);
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0037");
+                }
+
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
+
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             select e;
+                var arrqrydtl = qrydtl.Where(e => e.gdsid == gdsid && e.rcdidx == rcdidx).ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid && e.rcdidx == rcdidx && e.rcdidxtp == rcdidxtp
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();                
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0015");
+                }
+                wms_bllmst mst = arrqrymst[0];
+                if (arrqrydtl.Length <= 0)
+                {
+                    return RNoData("N0016");
+                }
+                /*if (arrqrytpdtl.Length <= 0)
+                {
+                    return RInfo( "I0038" );
+                }*/
+                if (arrqrymst[0].chkflg == GetY())
+                {
+                    return RInfo("I0039");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(arrqrymst[0].mkr))
+                {
+                    return RInfo("I0040", arrqrymst[0].mkr, LoginInfo.Usrid);
+                }
+                int iArrDtlCnt = qrydtl.Count();
+
+ 
+                arrqrytpdtl[0].barcode = barcode.Trim();                
+                arrqrytpdtl[0].qty = qty;
+                arrqrytpdtl[0].bokdat = GetCurrentDate();
+                /*try
+                {
+                    WmsDc.SubmitChanges();                    
+                    //return RSucc("成功", null, "S0234");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0077");
+                }*/
+
+                /*string sql = "update wms_blltp set barcode='" + barcode.Trim() + "', qty=" + qty + ", bokdat='"
+                    + GetCurrentDate() + "' where wmsno='" + wmsno + "' and bllid='108' and rcdidx=" + rcdidx + " and rcdidxtp=" + rcdidxtp
+                    + " and wmsno in (select wmsno from wms_bllmst where wmsno='" + wmsno + "' and bllid='108' and chkflg='n'  and udtdtm={0} ) ";
+                i(wmsno, "0", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整第一次加调整商品", "ab", LoginInfo.DefSavdptid);
+                int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                i(wmsno, "1", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整第一次加调整商品", "ab", LoginInfo.DefSavdptid);
+                if (iEff == 0)
+                {
+                    return RInfo("I0207");
+                }*/
+
+                
+                try
+                {
+
+                    WmsDc.SubmitChanges();
+
+                    //修改主单时间戳
+                    i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整第一次加调整商品", "ab", LoginInfo.DefSavdptid);
+                    string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                    i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整第一次加调整商品", "ab", LoginInfo.DefSavdptid);
+
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0234");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0077");
+                }
             }
-            catch (Exception ex)
+        }
+
+
+        /// <summary>
+        /// 修改待调整仓位
+        /// 
+        /// </summary>
+        /// <param name="wmsno"></param>
+        /// <param name="gdsid"></param>
+        /// <param name="rcdidx"></param>
+        /// <param name="barcode"></param>
+        /// <param name="qty"></param>
+        /// <returns></returns>
+        [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
+        public ActionResult MdOldBarcode(string wmsno, string gdsid, int rcdidx, string barcode, double qty)
+        {
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                return RErr(ex.Message, "E0004");
+                gdsid = GetGdsidByGdsidOrBcd(gdsid);
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0037");
+                }
+
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
+
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             select e;
+                var arrqrydtl = qrydtl.Where(e => e.gdsid == gdsid && e.rcdidx == rcdidx).ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid && e.rcdidx == rcdidx
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = arrqrydtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0015");
+                }
+                if (arrqrydtl.Length <= 0)
+                {
+                    return RNoData("N0016");
+                }
+                /*if (arrqrytpdtl.Length <= 0)
+                {
+                    return RInfo( "I0038" );
+                }*/
+                if (arrqrymst[0].chkflg == GetY())
+                {
+                    return RInfo("I0039");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(arrqrymst[0].mkr))
+                {
+                    return RInfo("I0040", arrqrymst[0].mkr, LoginInfo.Usrid);
+                }
+                int iArrDtlCnt = qrydtl.Count();
+
+                if (arrqrytpdtl.Count() > 0)
+                {
+                    return RInfo("I0494");
+                }
+
+                arrqrydtl[0].barcode = barcode.Trim();
+                arrqrydtl[0].preqty = qty;
+                arrqrydtl[0].qty = qty;
+
+                try
+                {
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0235");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0078");
+                }
             }
         }
 
@@ -1290,73 +1731,115 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult DlOldBarcode(String wmsno, String gdsid, int rcdidx)
         {
-            gdsid = GetGdsidByGdsidOrBcd(gdsid);
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                return RInfo( "I0037" );
-            }
+                gdsid = GetGdsidByGdsidOrBcd(gdsid);
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0037");
+                }
 
-            //检查是否存在单据
-            var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid &&
-                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.lnknewbllid=="108"
-                         select e;
-            
-            var arrqrymst = qrymst.ToArray();
-            var qrydtl = from e in WmsDc.wms_blldtl
-                         where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG                         
-                         select e;
-            var arrqrydtl = qrydtl.Where(e=>e.gdsid==gdsid && e.rcdidx==rcdidx).ToArray();
-            var qrytpdtl = from e in WmsDc.wms_blltp
-                           where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                           && e.gdsid == gdsid && e.rcdidx == rcdidx 
-                           orderby e.rcdidxtp descending
-                           select e;
-            var arrqrytpdtl = qrytpdtl.ToArray();
-            if (arrqrymst.Length <= 0)
-            {
-                return RNoData("N0015");
-            }
-            if (arrqrydtl.Length <= 0)
-            {
-                return RNoData("N0016");
-            }
-            /*if (arrqrytpdtl.Length <= 0)
-            {
-                return RInfo( "I0038" );
-            }*/
-            if (arrqrymst[0].chkflg == GetY())
-            {
-                return RInfo( "I0039" );
-            }
-            //是否是同一个人制单
-            if (!IsSameLogin(arrqrymst[0].mkr))
-            {
-                return RInfo( "I0040",arrqrymst[0].mkr ,LoginInfo.Usrid  );
-            }
-            int iArrDtlCnt = qrydtl.Count();
-            WmsDc.wms_blltp.DeleteAllOnSubmit(arrqrytpdtl);
-            WmsDc.wms_blldtl.DeleteAllOnSubmit(arrqrydtl);
-            iDelTpDtl(arrqrytpdtl, arrqrymst[0]);
-            iDelBllDtl(qrydtl, arrqrymst[0]);
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
 
-            //如果明细单没有数据了，就删除主表
-            if (iArrDtlCnt == 1)
-            {
-                WmsDc.wms_bllmst.DeleteOnSubmit(arrqrymst[0]);
-                iDelBllMst(arrqrymst[0]);
-            }
-            try
-            {
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             select e;
+                var arrqrydtl = qrydtl.Where(e => e.gdsid == gdsid && e.rcdidx == rcdidx).ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid && e.rcdidx == rcdidx
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0015");
+                }
+                if (arrqrydtl.Length <= 0)
+                {
+                    return RNoData("N0016");
+                }
+                /*if (arrqrytpdtl.Length <= 0)
+                {
+                    return RInfo( "I0038" );
+                }*/
+                if (arrqrymst[0].chkflg == GetY())
+                {
+                    return RInfo("I0039");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(arrqrymst[0].mkr))
+                {
+                    return RInfo("I0040", arrqrymst[0].mkr, LoginInfo.Usrid);
+                }
+                int iArrDtlCnt = qrydtl.Count();
+                WmsDc.wms_blltp.DeleteAllOnSubmit(arrqrytpdtl);
+                WmsDc.wms_blldtl.DeleteAllOnSubmit(arrqrydtl);
+                wms_bllmst mst = arrqrymst[0];
                 WmsDc.SubmitChanges();
-                return RSucc("成功", null, "S0011");
-            }
-            catch (Exception ex)
-            {
-                return RErr(ex.Message, "E0005");
+
+                /*string sql = @"
+delete wms_blltp from wms_blltp a inner join wms_bllmst b on a.wmsno=b.wmsno and a.bllid=b.bllid where a.wmsno='" + wmsno + @"' and a.bllid='108' and b.chkflg='n' and a.rcdidx='" + rcdidx + @"' and udtdtm={0} 
+delete wms_blldtl from wms_blldtl a inner join wms_bllmst b on a.wmsno=b.wmsno and a.bllid=b.bllid where a.wmsno='" + wmsno + @"' and a.bllid='108' and b.chkflg='n' and a.rcdidx='" + rcdidx + @"' and udtdtm={1}";
+                i(wmsno, "0", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
+                int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm, mst.udtdtm);
+                i(wmsno, "1", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
+                if (iEff == 0)
+                {
+                    return RInfo("I0207");
+                }*/
+
+                //修改主单时间戳
+                i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
+                string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                if (iEff == 0)
+                {
+                    return RInfo("I0207");
+                }
+
+                WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
+
+                iDelTpDtl(arrqrytpdtl, arrqrymst[0]);
+                iDelBllDtl(qrydtl, arrqrymst[0]);                
+
+                //如果明细单没有数据了，就删除主表
+                if (iArrDtlCnt == 1)
+                {
+                    WmsDc.wms_bllmst.DeleteOnSubmit(arrqrymst[0]);
+                    /*sql = "delete wms_bllmst where wmsno='" + arrqrymst[0].wmsno + @"' and bllid='108' and chkflg='n'";
+                    iEff = WmsDc.ExecuteCommand(sql);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }*/
+                    iDelBllMst(arrqrymst[0]);
+                }
+                try
+                {
+                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //检查单号是否已经审核
+                    if (mst != null && mst.chkflg == GetY())
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0011");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0005");
+                }
             }
         }
 
@@ -1401,6 +1884,7 @@ namespace WMS.Controllers
                          where (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
                          && qu.Contains(e.qu.Trim()) && qus.Contains(e.qu.Trim())
                          && e.gdsid == gdsid && e.barcode != oldbarcode
+                         && e.qty>0
                          group e by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e1.gdsdes, e1.spc, e1.bsepkg, e1.dptid } into g
                          select new
                          {
@@ -1417,7 +1901,7 @@ namespace WMS.Controllers
                          };
             //减去开单量
             var qry1 = from e in qcwgds
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype }
+                       join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -1474,74 +1958,111 @@ namespace WMS.Controllers
         [PWR(Pwrid = WMSConst.WMS_BACK_仓位调整制单, pwrdes = "仓位调整制单")]
         public ActionResult DlNewBarcode(String wmsno, String gdsid, int rcdidx, String newbarcode, int tprcdidx)
         {
-            gdsid = GetGdsidByGdsidOrBcd(gdsid);
-            //正在生成拣货单，请稍候重试
-            string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
-            if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+            using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
-                return RInfo( "I0043" );
-            }
+                gdsid = GetGdsidByGdsidOrBcd(gdsid);
+                //正在生成拣货单，请稍候重试
+                string quRetrv = GetQuByGdsid(gdsid, LoginInfo.DefStoreid).FirstOrDefault();
+                if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
+                {
+                    return RInfo("I0043");
+                }
 
-            //判断仓位是否存在
-            if (!IsExistBarcode(newbarcode))
-            {
-                return RInfo( "I0044",newbarcode  );
-            }
+                //判断仓位是否存在
+                if (!IsExistBarcode(newbarcode))
+                {
+                    return RInfo("I0044", newbarcode);
+                }
 
-            //检查是否存在单据
-            var qrymst = from e in WmsDc.wms_bllmst
-                         where e.mkr == LoginInfo.Usrid  &&
-                         e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.lnknewbllid=="108"
-                         select e;
-            
-            var arrqrymst = qrymst.ToArray();
-            var qrydtl = from e in WmsDc.wms_blldtl
-                         where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                         && e.gdsid == gdsid && e.rcdidx == rcdidx
-                         select e;
-            var arrqrydtl = qrydtl.ToArray();
-            var qrytpdtl = from e in WmsDc.wms_blltp
-                           where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
-                           && e.gdsid == gdsid && e.rcdidx == rcdidx && e.rcdidxtp == tprcdidx
-                           orderby e.rcdidxtp descending
-                           select e;
-            var arrqrytpdtl = qrytpdtl.ToArray();
-            if (arrqrymst.Length <= 0)
-            {
-                return RNoData("N0018");
-            }
-            if (arrqrydtl.Length <= 0)
-            {
-                return RNoData("N0019");
-            }
-            if (arrqrytpdtl.Length <= 0)
-            {
-                return RNoData("N0020");
-            }
-            if (arrqrymst[0].chkflg == GetY())
-            {
-                return RInfo( "I0045" );
-            }
-            //是否是同一个人制单
-            if (!IsSameLogin(arrqrymst[0].mkr))
-            {
-                return RInfo( "I0046",arrqrymst[0].mkr ,LoginInfo.Usrid  );
-            }
+                //检查是否存在单据
+                var qrymst = from e in WmsDc.wms_bllmst
+                             where e.mkr == LoginInfo.Usrid &&
+                             e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.lnknewbllid == "108"
+                             select e;
 
-            WmsDc.wms_blltp.DeleteAllOnSubmit(arrqrytpdtl);
-            arrqrymst[0].chkflg = GetN();
-            iDelTpDtl(arrqrytpdtl, arrqrymst[0]); 
-            try
-            {
-                WmsDc.SubmitChanges();
-                return RSucc("成功", null, "S0013");
+                var arrqrymst = qrymst.ToArray();
+                var qrydtl = from e in WmsDc.wms_blldtl
+                             where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                             && e.gdsid == gdsid && e.rcdidx == rcdidx
+                             select e;
+                var arrqrydtl = qrydtl.ToArray();
+                var qrytpdtl = from e in WmsDc.wms_blltp
+                               where e.wmsno == wmsno && e.bllid == WMSConst.BLL_TYPE_ADJCANG
+                               && e.gdsid == gdsid && e.rcdidx == rcdidx && e.rcdidxtp == tprcdidx
+                               orderby e.rcdidxtp descending
+                               select e;
+                var arrqrytpdtl = qrytpdtl.ToArray();
+                if (arrqrymst.Length <= 0)
+                {
+                    return RNoData("N0018");
+                }
+                if (arrqrydtl.Length <= 0)
+                {
+                    return RNoData("N0019");
+                }
+                if (arrqrytpdtl.Length <= 0)
+                {
+                    return RNoData("N0020");
+                }
+                if (arrqrymst[0].chkflg == GetY())
+                {
+                    return RInfo("I0045");
+                }
+                //是否是同一个人制单
+                if (!IsSameLogin(arrqrymst[0].mkr))
+                {
+                    return RInfo("I0046", arrqrymst[0].mkr, LoginInfo.Usrid);
+                }
+
+                
+
+                wms_bllmst mst = arrqrymst[0];
+                iDelTpDtl(arrqrytpdtl, arrqrymst[0]);
+                try
+                {
+
+                    WmsDc.wms_blltp.DeleteAllOnSubmit(arrqrytpdtl);
+                    WmsDc.SubmitChanges();
+                    /*string sql = @"delete wms_blltp where wmsno='" + wmsno + @"' and gdsid='" + gdsid + @"' and rcdidx='" + rcdidx + @"' and rcdidxtp=" + tprcdidx
+                        + @"
+                            and bllid='108' and wmsno in (select wmsno from wms_bllmst where wmsno='" + wmsno + @"' and bllid='108' and chkflg='n' and udtdtm={0}" + @" )
+                        ";
+                    i(wmsno, "0", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    i(wmsno, "1", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }*/
+
+                    //修改主单时间戳
+                    string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                    i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                    i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+
+                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //检查单号是否已经审核
+                    if (mst != null && mst.chkflg == GetY())
+                    {
+                        return RInfo("I0207");
+                    }
+                    WmsDc.SubmitChanges();
+                    scop.Complete();
+                    return RSucc("成功", null, "S0013");
+                }
+                catch (Exception ex)
+                {
+                    return RErr(ex.Message, "E0006");
+                }
+                return null;
             }
-            catch (Exception ex)
-            {
-                return RErr(ex.Message, "E0006");
-            }
-            return null;
         }
 
         /// <summary>
@@ -1596,7 +2117,7 @@ namespace WMS.Controllers
 
             //检查单据是否已经审核
             /*var mst = arrqrymst[0];
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0047" );
             }*/
@@ -1806,7 +2327,7 @@ namespace WMS.Controllers
             }
             //检查单据是否已经审核
             wms_bllmst mst = arrqrymst[0];
-            /*if (mst.chkflg == GetY())
+            /*if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0048" );
             }*/

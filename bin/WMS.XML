@@ -2427,6 +2427,30 @@
             <param name="gdsid"></param>
             <returns></returns>
         </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.MdNewBarcode(System.String,System.String,System.Int32,System.Int32,System.String,System.Double)">
+            <summary>
+            修改新仓位
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <param name="rcdidxtp"></param>
+            <param name="barcode"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WMS.Controllers.AdjustBarcodeController.MdOldBarcode(System.String,System.String,System.Int32,System.String,System.Double)">
+            <summary>
+            修改待调整仓位
+            
+            </summary>
+            <param name="wmsno"></param>
+            <param name="gdsid"></param>
+            <param name="rcdidx"></param>
+            <param name="barcode"></param>
+            <param name="qty"></param>
+            <returns></returns>
+        </member>
         <member name="M:WMS.Controllers.AdjustBarcodeController.DlOldBarcode(System.String,System.String,System.Int32)">
             <summary>
             删除旧仓位
@@ -3236,7 +3260,7 @@
             <param name="wmsno">捡货单号</param>
             <returns></returns>
         </member>
-        <member name="M:WMS.Controllers.FruitPickingRetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String)">
+        <member name="M:WMS.Controllers.FruitPickingRetrieveController.FindBll(System.String,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             拣货查询
             </summary>

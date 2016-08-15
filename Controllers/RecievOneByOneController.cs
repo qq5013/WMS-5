@@ -188,7 +188,7 @@ namespace WMS.Controllers
                 //5.修改实收数量，并登帐
                 arrqry2[0].qty = tpcodes != null ? Math.Round(blltps.Sum(s => s.qty), 4, MidpointRounding.AwayFromZero) : 0;
                 arrqry2[0].bokflg = GetY();
-                arrqry2[0].bokdat = DateTime.Now.ToString("yyyyMMddhhmmss");
+                arrqry2[0].bokdat = DateTime.Now.ToString("yyyyMMddHHmmss");
                 arrqry2[0].bkr = LoginInfo.Usrid;
                 WmsDc.SubmitChanges();
                 //如果明细实收数据为0，就直接审核, 不在生成上架单
@@ -694,7 +694,7 @@ namespace WMS.Controllers
                     bllmst.odrdat = odr.mst.odrdat;
                     bllmst.arvdat = odr.mst.arvdat;
                     bllmst.mkr = LoginInfo.Usrid;
-                    bllmst.mkedat = DateTime.Now.ToString("yyyyMMddhhmmss");
+                    bllmst.mkedat = DateTime.Now.ToString("yyyyMMddHHmmss");
                     bllmst.ckr = "";
                     bllmst.chkflg = GetN();
                     bllmst.chkdat = "";
@@ -727,7 +727,7 @@ namespace WMS.Controllers
                             blldtl.prvid = bllmst.prvid == null ? "" : dtl.prvid;
                             blldtl.bkr = "";
                             blldtl.bokflg = GetN();
-                            blldtl.bokdat = "";
+                            blldtl.bokdat = GetCurrentDate();
                             blldtl.brief = "";
 
                             WmsBllGds gds = WmsDc.gds
@@ -919,7 +919,7 @@ namespace WMS.Controllers
             if(mst==null){
                 return RNoData("N0134");
             }
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0245" );
             }
@@ -1334,7 +1334,7 @@ namespace WMS.Controllers
                 //    return RInfo( "I0258" );
                 //}
                 if (dtltpcode == null || dtltpcode.Length == 0) { return RNoData("N0142"); }
-                if (mst.chkflg == GetY()) { return RInfo("I0259"); }
+                if (mst!=null && mst.chkflg == GetY()) { return RInfo("I0259"); }
                 if (qryDtlTpCode.Where(e => e.bokflg == GetY()).Any()) { return RInfo("I0260", qryDtlTp.First().tpcode); }
 
                 //上架单单号
@@ -1610,7 +1610,7 @@ namespace WMS.Controllers
             newdtl.tpcode = tpcode;
             newdtl.bkr = "";
             newdtl.bokflg = GetN();
-            newdtl.bokdat = "";
+            newdtl.bokdat = GetCurrentDate();
             newdtl.preqty = null;
             newdtl.losreason = null;
             WmsDc.wms_cangdtl.InsertOnSubmit(newdtl);
@@ -1831,7 +1831,7 @@ namespace WMS.Controllers
                 return RInfo("I0271", LoginInfo.Usrid, mst.mkr);
             }
             //1.判断收货单是否已经审核，如果审核则退出
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0272" );
             }
@@ -1928,7 +1928,7 @@ namespace WMS.Controllers
                 return Json(Rm);
             }
             //done: 判断收货单据是否已经审核，已经审核不能删除
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0278" );
             }

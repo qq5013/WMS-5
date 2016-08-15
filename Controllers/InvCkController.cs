@@ -188,7 +188,7 @@ namespace WMS.Controllers
                     }
                     dtl.bkr = "";
                     dtl.bokflg = GetN();
-                    dtl.bokdat = "";
+                    dtl.bokdat = GetCurrentDate();
 
                     lstDtl.Add(dtl);
                     i++;
@@ -451,7 +451,7 @@ namespace WMS.Controllers
                 return RInfo( "I0141" );
             }
             //检查单号是否已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0142" );
             }
@@ -530,7 +530,7 @@ namespace WMS.Controllers
                 return RInfo( "I0145" );
             }
             //检查单号是否已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0146" );
             }
@@ -595,7 +595,7 @@ namespace WMS.Controllers
                 return RInfo( "I0149" );
             }
             //检查单号是否已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0150" );
             }
@@ -616,6 +616,7 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
+
                 return RSucc("成功", null, "S0082");
             }
             catch (Exception ex)
@@ -676,7 +677,7 @@ namespace WMS.Controllers
                 return RInfo( "I0153" );
             }
             //检查单号是否已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0154" );
             }
@@ -1145,7 +1146,7 @@ namespace WMS.Controllers
             }*/
             // 判断有无重新复核的权限
             // 检查单号是否已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0163" );
             }
@@ -1156,7 +1157,7 @@ namespace WMS.Controllers
             wms_cangdtl_105 dtl = arrqrydtl[0];
 
             dtl.bokflg = GetN();
-            dtl.bokdat = "";
+            dtl.bokdat = GetCurrentDate();
             dtl.bkr = "";
             try
             {
@@ -1284,7 +1285,7 @@ namespace WMS.Controllers
                 return RInfo( "I0169" );
             }*/
             //检查单号是否已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0170" );
             }

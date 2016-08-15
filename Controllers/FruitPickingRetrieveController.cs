@@ -582,13 +582,13 @@ namespace WMS.Controllers
             foreach (string k in Request.Form.Keys)
             {
                 sparams += k + "=" + Request[k].Trim();
-            }
+            }            
             sparams = "srnd="+srnd+"&barcode="+barcode.Trim()+"&gdsid="+gdsid.Trim()+"&rcvdptid="+rcvdptid.Trim();
 
             using (TransactionScope scop = new TransactionScope(TransactionScopeOption.Required, options))
             {
                 
-                i(wmsno, "S", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), sparams, "", LoginInfo.DefSavdptid);
+                //i(wmsno, "S", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), sparams, "", LoginInfo.DefSavdptid);
                 //检索主表、明细表
                 var qrymst = from e in WmsDc.wms_cang_115
                              where e.bllid == WMSConst.BLL_TYPE_FRUITRETRIEVE
@@ -656,7 +656,7 @@ namespace WMS.Controllers
                 }
                 try
                 {
-                    i(wmsno, "E", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), sparams, "", LoginInfo.DefSavdptid);
+                    //i(wmsno, "E", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), sparams, "", LoginInfo.DefSavdptid);
 
                     WmsDc.SubmitChanges();                    
                     scop.Complete();
@@ -693,7 +693,7 @@ namespace WMS.Controllers
             //}
             if (string.IsNullOrEmpty(srnd)) { srnd = ""; }
             //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), sparams, "", LoginInfo.DefSavdptid);
-            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "1", LoginInfo.DefSavdptid);
+            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "1", LoginInfo.DefSavdptid);
 
             //判断是否为散货，不是散货qty不允许为小数
             if (!(from e in WmsDc.cpngds where e.gdsid == gdsid select 1).Any())
@@ -711,7 +711,7 @@ namespace WMS.Controllers
                          select e;
             var arrmst = qrymst.ToArray();
             wms_cang_115 mst = arrmst[0];
-            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "2", LoginInfo.DefSavdptid);
+            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "2", LoginInfo.DefSavdptid);
 
 
             //如果是206的单据，同一个商品的最后一条确认完后就不能再修改
@@ -737,7 +737,7 @@ namespace WMS.Controllers
                          select e;
             int iCnt = qryallbygdsidN1.Count();
 
-            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "3", LoginInfo.DefSavdptid);
+            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "3", LoginInfo.DefSavdptid);
 
             if (mst.lnkbllid.Trim() == "206" && iCnt == 0)
             {
@@ -765,7 +765,7 @@ namespace WMS.Controllers
             }
 
             var arrdtl = qrydtl.ToArray();
-            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "4", LoginInfo.DefSavdptid);
+            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "4", LoginInfo.DefSavdptid);
 
             #region 检查输入参数
             if (arrmst.Length <= 0)
@@ -786,7 +786,7 @@ namespace WMS.Controllers
 
             wms_cangdtl_115 dtl = arrdtl[0];
             //是否捡货单已经审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo("I0435");
 
@@ -807,7 +807,7 @@ namespace WMS.Controllers
                     return RInfo("I0125", string.Join(",", whoAdt));
                 }
             }
-            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "5", LoginInfo.DefSavdptid);
+            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "5", LoginInfo.DefSavdptid);
 
             if (dtl.bokflg == GetY() && dtl.bkr.Trim() != LoginInfo.Usrid)
             {
@@ -844,7 +844,7 @@ namespace WMS.Controllers
             try
             {
                 WmsDc.SubmitChanges();
-                i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "6", LoginInfo.DefSavdptid);
+                //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "6", LoginInfo.DefSavdptid);
             }
             catch (Exception ex)
             {
@@ -877,7 +877,7 @@ namespace WMS.Controllers
                                      && e.bokflg == GetN() && e.tpcode == "y"
                                      select e;
                 iCnt = qryallbygdsidN.Count();
-                i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "7", LoginInfo.DefSavdptid);
+                //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "7", LoginInfo.DefSavdptid);
                 if (iCnt == 0)
                 {
                     var qryAllByGdsidCang = from e in WmsDc.wms_cangdtl_115
@@ -920,7 +920,7 @@ namespace WMS.Controllers
                     #region 如果拣货的数量不够的话,要去修改配送单的数量和金额
                     var cutgds = qryAllByGdsidCang.FirstOrDefault();
 
-                    i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "8", LoginInfo.DefSavdptid);
+                    //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "8", LoginInfo.DefSavdptid);
 
                     var qrystkdtl = (from e in WmsDc.stkotdtl
                                      join e1 in WmsDc.wms_pkg on e.gdsid equals e1.gdsid
@@ -932,12 +932,12 @@ namespace WMS.Controllers
                                      select e).ToArray();
                     double q = qrystkdtl.Sum(e => e.qty) - cutgds.qty;
 
-                    i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "9", LoginInfo.DefSavdptid);
+                    //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "9", LoginInfo.DefSavdptid);
 
                     //扣减stkotdtl里面的库存
                     RedcStkotQty(qrystkdtl, q);
 
-                    i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "10", LoginInfo.DefSavdptid);
+                    //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "10", LoginInfo.DefSavdptid);
 
                     foreach (stkotdtl d in qrystkdtl)
                     {
@@ -954,7 +954,7 @@ namespace WMS.Controllers
                     try
                     {                        
                         WmsDc.SubmitChanges();
-                        i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "11", LoginInfo.DefSavdptid);
+                        //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "11", LoginInfo.DefSavdptid);
                     }
                     catch (Exception ex)
                     {
@@ -993,7 +993,7 @@ namespace WMS.Controllers
 
                         string[] qrystkalldtl = qrystkalldtl1.Union(qrystkalldtl2).ToArray();
 
-                        i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "12", LoginInfo.DefSavdptid);
+                        //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "12", LoginInfo.DefSavdptid);
 
                         var qrystkall = from e in WmsDc.stkot
                                         where qrystkalldtl.Contains(e.stkouno)
@@ -1006,7 +1006,7 @@ namespace WMS.Controllers
                         try
                         {                            
                             WmsDc.SubmitChanges();
-                            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "13", LoginInfo.DefSavdptid);
+                            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "13", LoginInfo.DefSavdptid);
                         }
                         catch (Exception ex)
                         {
@@ -1047,7 +1047,7 @@ namespace WMS.Controllers
                         try
                         {
                             WmsDc.SubmitChanges();
-                            i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "14", LoginInfo.DefSavdptid);
+                            //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "14", LoginInfo.DefSavdptid);
                         }
                         catch (Exception ex)
                         {
@@ -1178,7 +1178,7 @@ namespace WMS.Controllers
                 try
                 {
                     WmsDc.SubmitChanges();
-                    i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "15", LoginInfo.DefSavdptid);
+                    //i(wmsno, "", System.DateTime.Now.ToString("yyyyMMddHHmmss.fff"), srnd, "15", LoginInfo.DefSavdptid);
                 }
                 catch (Exception ex)
                 {
@@ -1254,7 +1254,7 @@ namespace WMS.Controllers
 
                     }
                 }
-                if (mst.chkflg == GetY())
+                if (mst!=null && mst.chkflg == GetY())
                 {
                     return RInfo("I0438");
 
@@ -1516,7 +1516,7 @@ namespace WMS.Controllers
         /// <param name="gdsid">商品编码</param>
         /// <returns></returns>
         [PWR(Pwrid = WMSConst.WMS_BACK_拣货查询, pwrdes = "拣货查询")]
-        public ActionResult FindBll(String begindat, String enddat, String barcode, String bllid, String bkr, String gdsid)
+        public ActionResult FindBll(String begindat, String enddat, String barcode, String bllid, String bkr, String gdsid, string rcvdptid, string qu)
         {
             //判断分区是否有效
             if (!String.IsNullOrEmpty(barcode) && !IsExistBarcode(barcode))
@@ -1524,7 +1524,7 @@ namespace WMS.Controllers
                 return RInfo( "I0130",barcode.Trim()  );
             }
 
-            var arrqrymst = FindBllFromCangMst115(begindat, enddat, barcode, bllid, bkr, gdsid);
+            var arrqrymst = FindBllFromCangMst115(begindat, enddat, barcode, bllid, bkr, gdsid, rcvdptid, qu);
             if (arrqrymst.Length <= 0)
             {
                 return RNoData("N0086");

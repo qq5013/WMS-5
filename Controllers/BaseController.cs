@@ -33,7 +33,7 @@ namespace WMS.Controllers
         protected TransactionOptions options;
 
         const string INTVER = "1.0.0.8";
-        const string APPVER = "161";
+        const string APPVER = "163";
 
         protected bool CheckVer(string ver)
         {
@@ -229,6 +229,8 @@ namespace WMS.Controllers
         protected Log Log = null;
 
         protected wms_set[] set996 = null;
+
+        
 
         public ActionResult Index()
         {

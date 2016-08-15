@@ -266,7 +266,7 @@ namespace WMS.Controllers
                 return RInfo("I0007");
             }
             //判断该单据是否审核
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo("I0008");
             }
@@ -792,7 +792,7 @@ namespace WMS.Controllers
 
             //检查单据是否已经审核
             wms_bllmst mst = arrqrymst[0];
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo("I0016");
             }
@@ -876,7 +876,7 @@ namespace WMS.Controllers
 
             //检查单据是否已经审核
             wms_bllmst mst = arrqrymst[0];
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo("I0022");
             }
@@ -1337,6 +1337,7 @@ namespace WMS.Controllers
                          where (e.savdptid == LoginInfo.DefSavdptid || e.savdptid == LoginInfo.DefCsSavdptid)
                          && qu.Contains(e.qu.Trim()) && qus.Contains(e.qu.Trim())
                          && e.gdsid == gdsid && e.barcode != oldbarcode
+                         && e.qty>0
                          group e by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e1.gdsdes, e1.spc, e1.bsepkg, e1.dptid } into g
                          select new
                          {
@@ -1353,7 +1354,7 @@ namespace WMS.Controllers
                          };
             //减去开单量
             var qry1 = from e in qcwgds
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype }
+                       join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -1531,7 +1532,7 @@ namespace WMS.Controllers
 
             //检查单据是否已经审核
             /*var mst = arrqrymst[0];
-            if (mst.chkflg == GetY())
+            if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0047" );
             }*/
@@ -1741,7 +1742,7 @@ namespace WMS.Controllers
             }
             //检查单据是否已经审核
             wms_bllmst mst = arrqrymst[0];
-            /*if (mst.chkflg == GetY())
+            /*if (mst!=null && mst.chkflg == GetY())
             {
                 return RInfo( "I0048" );
             }*/

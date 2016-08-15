@@ -49,7 +49,7 @@ namespace WMS.Controllers
 	select @ls_savdptid='" + savdptid + @"'
 	select @ls_peisong='" + LoginInfo.DefStoreid + @"'*/
 	
-	insert into wms_savegds
+	/*insert into wms_savegds
 	select @ls_savdptid,dptid,clsid,gdsid,isnull((select max(cnvrto)  from pkg where pkg.gdsid=gds.gdsid ),0)*5,'system',convert(char(8),getdate(),112)+replace(convert(char(8),getdate(),108),':',''),'y','y' 
 	from gds 
 	where isstpsal='n'
@@ -64,16 +64,16 @@ namespace WMS.Controllers
 	join (select gdsid,max(cnvrto) cvnrto from pkg group by gdsid) t4 on t1.gdsid=t4.gdsid
 	where t1.savdptid=@ls_savdptid 
 	and t1.calflg='y' and t1.isvld='y'
-	and isnull(qty103,0)+isnull(qty115,0)>0;
+	and isnull(qty103,0)+isnull(qty115,0)>0;*/
 ";
             sql = sql.Replace("@ls_savdptid", "'" + savdptid + "'");
             sql = sql.Replace("@ls_peisong", "'" + LoginInfo.DefStoreid + "'");
 
-            sql += @"/*declare @mkedat varchar(8),@savdptid varchar(6),@qu varchar(6)
+            sql += @"declare @mkedat varchar(8),@savdptid varchar(6),@qu varchar(6)
 
                     select @mkedat='" + mkedat + @"'
                     select @qu='" + qu + @"'
-                    select @savdptid='" + savdptid + @"'*/
+                    select @savdptid='" + savdptid + @"'
 
                          
                     select * from 
@@ -173,9 +173,9 @@ namespace WMS.Controllers
 
                     order by table2.barcode";
 
-            sql = sql.Replace("@mkedat", "'" + mkedat + "'");
+            /*sql = sql.Replace("@mkedat", "'" + mkedat + "'");
             sql = sql.Replace("@qu", "'" + qu + "'");
-            sql = sql.Replace("@savdptid", "'" + savdptid + "'");
+            sql = sql.Replace("@savdptid", "'" + savdptid + "'");*/
                 #endregion 得到需要补货的数据
 
             IEnumerable<GetBhRet> retobj =  WmsDc.ExecuteQuery<GetBhRet>(sql);

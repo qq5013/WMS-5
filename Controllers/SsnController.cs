@@ -330,7 +330,8 @@ namespace WMS.Controllers
                       into joinBcd
                       from e3 in joinBcd.DefaultIfEmpty()
                       where e.barcode == barcode
-                      && e.gdsid == gdsid && e.gdstype == gdstype                      
+                      && e.gdsid == gdsid && e.gdstype == gdstype      
+                      && e.qty>0
                       //&& dpts.Contains(e1.dptid.Trim())                                           
                       group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1, e1.dptid } into g
                       select new
@@ -351,7 +352,7 @@ namespace WMS.Controllers
                       };
             //减去开单量
             var qry1 = from e in qry
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
+                       join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -509,6 +510,7 @@ namespace WMS.Controllers
                       from e3 in joinBcd.DefaultIfEmpty()
                       where e.barcode == barcode
                       && e.qu == e.barcode.Substring(0,2)
+                      && e.qty>0
                       //&& dpts.Contains(e1.dptid.Trim())
                       group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1 } into g
                       select new
@@ -528,7 +530,7 @@ namespace WMS.Controllers
                       };
             //减去开单量
             var qry1 = from e in qry
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
+                       join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -582,6 +584,7 @@ namespace WMS.Controllers
                       from e3 in joinBcd.DefaultIfEmpty()
                       where e.barcode == barcode
                       && e.qu == e.barcode.Substring(0, 2)
+                      && e.qty>0
                       //&& dpts.Contains(e1.dptid.Trim())
                       group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1 } into g
                       select new
@@ -601,7 +604,7 @@ namespace WMS.Controllers
                       };
             //减去开单量
             var qry1 = from e in qry
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
+                       join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -758,7 +761,13 @@ namespace WMS.Controllers
                 Log.mdlid = this.Mdlid;
                 Log.WmsDc = WmsDc;
 
-                
+                //写请求日志
+                String sparams = "";
+                foreach (string k in Request.Form.Keys)
+                {
+                    sparams += k + "=" + Request[k].Trim() + "&";
+                }                
+                iFile(UsrId + ", " + requestContext.HttpContext.Request.Url + ", " + sparams);
                                    
             }
         }
@@ -1036,6 +1045,7 @@ namespace WMS.Controllers
                         into joinBcd
                         from e3 in joinBcd.DefaultIfEmpty()
                         where e.gdsid == gdsid && (e.savdptid == LoginInfo.DefCsSavdptid)
+                        && e.qty>0
                         group new { e, e1, e3 } by new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e1.gdsdes, e1.spc, e1.bsepkg, e3.bcd1, e.vlddat, e.bthno } into g
                         select new
                         {
@@ -1053,7 +1063,7 @@ namespace WMS.Controllers
                             sqty = Math.Round(g.Sum(ge => ge.e.qty), 4, MidpointRounding.AwayFromZero)
                         };
             var qrysp1 = from e in qrysp
-                         join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
+                         join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                           into JoinedEmpQry
                          from e2 in JoinedEmpQry.DefaultIfEmpty()
                          where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -1095,6 +1105,7 @@ namespace WMS.Controllers
                       where
                       (e2.savdptid == LoginInfo.DefCsSavdptid || e2.savdptid == LoginInfo.DefSavdptid)
                       && qus.Contains(e2.qu)
+                      && e2.qty>0
                       select new
                       {
                           gdsid = e.gdsid.Trim(),
@@ -1133,7 +1144,7 @@ namespace WMS.Controllers
                     };
             //减去开单量
             var qry1 = from e in  q
-                       join e1 in WmsDc.wms_sendbill on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
+                       join e1 in WmsDc.wms_sendbill.Where(ee=>ee.qty>0) on new { e.savdptid, e.qu, e.barcode, e.gdsid, e.gdstype, e.bthno, e.vlddat } equals new { e1.savdptid, e1.qu, e1.barcode, e1.gdsid, e1.gdstype, e1.bthno, e1.vlddat }
                         into JoinedEmpQry
                        from e2 in JoinedEmpQry.DefaultIfEmpty()
                        //where e.sqty - (e2.qty == null ? 0 : e2.qty) > 0
@@ -1814,7 +1825,7 @@ namespace WMS.Controllers
             }
         }
 
-        protected Object[] FindBllFromCangMst115(String begindat, String enddat, String barcode, String bllid, String bkr, String gdsid)
+        protected Object[] FindBllFromCangMst115(String begindat, String enddat, String barcode, String bllid, String bkr, String gdsid, string rcvdptid, string qu)
         {
             String fscprdid = GetCurrentFscprdid();
 
@@ -1841,8 +1852,18 @@ namespace WMS.Controllers
                           e.bkr,
                           e.bokflg,
                           e.bokdat,
+                          e.rcvdptid,
+                          e1.qu,
                           bkrdes = e4.empdes
                       };
+            if (!string.IsNullOrEmpty(qu))
+            {
+                qry = qry.Where(e => e.qu == qu.Trim());
+            }
+            if (!string.IsNullOrEmpty(rcvdptid))
+            {
+                qry = qry.Where(e => e.rcvdptid == rcvdptid.Trim());
+            }
             //如果没有时间查询条件就查询当前会计期间的单据
             if (string.IsNullOrEmpty(begindat) && string.IsNullOrEmpty(enddat))
             {
@@ -1873,6 +1894,8 @@ namespace WMS.Controllers
 
             var qrymst = from e in WmsDc.wms_cang_115
                          join e4 in WmsDc.wms_cangdtl_115 on new { e.wmsno, e.bllid } equals new { e4.wmsno, e4.bllid }
+                         join e9 in WmsDc.wms_bll on new { fscprdid = GetCurrentFscprdid(), e.bllid, savdptid = (String.IsNullOrEmpty(LoginInfo.DefSavdptid) ? LoginInfo.DefCsSavdptid : LoginInfo.DefSavdptid) }
+                         equals new { e9.fscprdid, e9.bllid, e9.savdptid }
                          join e1 in WmsDc.emp on e4.bkr equals e1.empid
                          join e2 in WmsDc.prv on e.prvid equals e2.prvid
                          into JoinedEmpPrv
@@ -1895,6 +1918,7 @@ namespace WMS.Controllers
                          {
                              e.wmsno,
                              e.bllid,
+                             blltypedes = e9.brief,
                              e4.gdsid,
                              e6.gdsdes,
                              e6.spc,
@@ -1912,9 +1936,20 @@ namespace WMS.Controllers
                              e4.barcode,
                              e4.bokflg,
                              e4.bokdat,
+                             e4.rcvdptid,
+                             e4.checi,
+                             e.qu,
                              pkg03 = GetPkgStr(e4.qty, e8.cnvrto, e8.pkgdes),
                              pkg03pre = GetPkgStr(e4.preqty, e8.cnvrto, e8.pkgdes)
                          };
+            if (!string.IsNullOrEmpty(rcvdptid))
+            {
+                qrymst = qrymst.Where(e => e.rcvdptid == rcvdptid.Trim());
+            }
+            if (!string.IsNullOrEmpty(qu))
+            {
+                qrymst = qrymst.Where(e => e.qu == qu.Trim());
+            }
             qrymst = qrymst.Distinct();
             var arrqrymst = qrymst.ToArray();
             return arrqrymst;
@@ -2052,16 +2087,18 @@ namespace WMS.Controllers
             }
         }
 
+        protected string sLogDir = System.Web.Configuration.WebConfigurationManager.AppSettings["logDir"];
         protected void iFile(string desc)
         {
             if (WMSConst.DEBUG)
             {
                 try
                 {
-                    string filename = Mdlid + "_" + RouteData.Values["action"] + "_" + GetCurrentDay() + "_" + LoginInfo.Usrid.Trim() + ".txt";
-                    filename = Server.MapPath("/WMS") + "\\" + filename;
+                    String filename = sLogDir + "/" + GetCurrentDay() + ".log";
+                    //string filename = Mdlid + "_" + RouteData.Values["action"] + "_" + GetCurrentDay() + "_" + LoginInfo.Usrid.Trim() + ".txt";
+                    //filename = Server.MapPath("/WMS") + "\\" + filename;
                     StreamWriter sw = null;
-                    if (System.IO.File.Exists(filename))
+                    if (!System.IO.File.Exists(filename))
                     {
                         sw = System.IO.File.CreateText(filename);
                     }
@@ -2070,8 +2107,8 @@ namespace WMS.Controllers
                         FileStream fs = System.IO.File.OpenWrite(filename);
                         fs.Seek(0, SeekOrigin.End);
                         sw = new StreamWriter(fs);
-                    }                    
-                    sw.WriteLine("[" + GetCurrentDate() + "]    " + desc);
+                    }
+                    sw.WriteLine("[" + GetCurrentDate() + "]    " + desc + "\r\n");
                     sw.Close();
                 }
                 catch (Exception ex)
@@ -2079,6 +2116,8 @@ namespace WMS.Controllers
                 }
             }
         }
+
+        
 
         protected void i(String wmsno, String bllid, String actid, String brief, String qu, String savdptid)
         {

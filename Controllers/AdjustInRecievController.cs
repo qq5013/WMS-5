@@ -474,7 +474,7 @@ namespace WMS.Controllers
                         blldtl.prvid = bllmst.prvid == null ? "" : dtl.prvid;
                         blldtl.bkr = "";
                         blldtl.bokflg = GetN();
-                        blldtl.bokdat = "";
+                        blldtl.bokdat = GetCurrentDate();
                         blldtl.brief = "";
                         
                         WmsBllGds gds = WmsDc.gds                                   
@@ -782,7 +782,7 @@ namespace WMS.Controllers
                         cwdtl.barcode = "";
                         cwdtl.bkr = "";
                         cwdtl.bokflg = GetN();
-                        cwdtl.bokdat = "";
+                        cwdtl.bokdat = GetCurrentDate();
                         lstcwdtl.Add(cwdtl);
                     }
                     WmsDc.wms_cang.InsertOnSubmit(cwmst);
@@ -1020,7 +1020,7 @@ namespace WMS.Controllers
                 //5.修改实收数量，并登帐
                 arrqry2[0].qty = Math.Round(blltps.Sum(s => s.qty), 4, MidpointRounding.AwayFromZero);
                 arrqry2[0].bokflg = GetY();
-                arrqry2[0].bokdat = DateTime.Now.ToString("yyyyMMddhhmmss");
+                arrqry2[0].bokdat = DateTime.Now.ToString("yyyyMMddHHmmss");
                 arrqry2[0].bkr = LoginInfo.Usrid;
 
                 //6.判断实收是否大于应收

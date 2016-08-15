@@ -22,7 +22,7 @@ namespace WMS.Models
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="newshop")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="test_newshop")]
 	public partial class WMSDcDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,12 +30,6 @@ namespace WMS.Models
 		
     #region 可扩展性方法定义
     partial void OnCreated();
-    partial void Insertwms_blldtl(wms_blldtl instance);
-    partial void Updatewms_blldtl(wms_blldtl instance);
-    partial void Deletewms_blldtl(wms_blldtl instance);
-    partial void Insertwms_bllmst(wms_bllmst instance);
-    partial void Updatewms_bllmst(wms_bllmst instance);
-    partial void Deletewms_bllmst(wms_bllmst instance);
     partial void Insertwms_bzmst(wms_bzmst instance);
     partial void Updatewms_bzmst(wms_bzmst instance);
     partial void Deletewms_bzmst(wms_bzmst instance);
@@ -141,18 +135,6 @@ namespace WMS.Models
     partial void Insertwms_pdsetdtl(wms_pdsetdtl instance);
     partial void Updatewms_pdsetdtl(wms_pdsetdtl instance);
     partial void Deletewms_pdsetdtl(wms_pdsetdtl instance);
-    partial void Insertwms_cangdtl_109(wms_cangdtl_109 instance);
-    partial void Updatewms_cangdtl_109(wms_cangdtl_109 instance);
-    partial void Deletewms_cangdtl_109(wms_cangdtl_109 instance);
-    partial void Insertwms_cangdtl_110(wms_cangdtl_110 instance);
-    partial void Updatewms_cangdtl_110(wms_cangdtl_110 instance);
-    partial void Deletewms_cangdtl_110(wms_cangdtl_110 instance);
-    partial void Insertwms_cangdtl_111(wms_cangdtl_111 instance);
-    partial void Updatewms_cangdtl_111(wms_cangdtl_111 instance);
-    partial void Deletewms_cangdtl_111(wms_cangdtl_111 instance);
-    partial void Insertwms_cangdtl_105(wms_cangdtl_105 instance);
-    partial void Updatewms_cangdtl_105(wms_cangdtl_105 instance);
-    partial void Deletewms_cangdtl_105(wms_cangdtl_105 instance);
     partial void Insertgdsbs(gdsbs instance);
     partial void Updategdsbs(gdsbs instance);
     partial void Deletegdsbs(gdsbs instance);
@@ -177,30 +159,6 @@ namespace WMS.Models
     partial void InsertpsSndGds_dpt_dtl(psSndGds_dpt_dtl instance);
     partial void UpdatepsSndGds_dpt_dtl(psSndGds_dpt_dtl instance);
     partial void DeletepsSndGds_dpt_dtl(psSndGds_dpt_dtl instance);
-    partial void Insertwms_cang(wms_cang instance);
-    partial void Updatewms_cang(wms_cang instance);
-    partial void Deletewms_cang(wms_cang instance);
-    partial void Insertwms_cang_111(wms_cang_111 instance);
-    partial void Updatewms_cang_111(wms_cang_111 instance);
-    partial void Deletewms_cang_111(wms_cang_111 instance);
-    partial void Insertwms_cang_105(wms_cang_105 instance);
-    partial void Updatewms_cang_105(wms_cang_105 instance);
-    partial void Deletewms_cang_105(wms_cang_105 instance);
-    partial void Insertwms_cang_109(wms_cang_109 instance);
-    partial void Updatewms_cang_109(wms_cang_109 instance);
-    partial void Deletewms_cang_109(wms_cang_109 instance);
-    partial void Insertwms_cang_110(wms_cang_110 instance);
-    partial void Updatewms_cang_110(wms_cang_110 instance);
-    partial void Deletewms_cang_110(wms_cang_110 instance);
-    partial void Insertwms_blltp(wms_blltp instance);
-    partial void Updatewms_blltp(wms_blltp instance);
-    partial void Deletewms_blltp(wms_blltp instance);
-    partial void Insertwms_cang_115(wms_cang_115 instance);
-    partial void Updatewms_cang_115(wms_cang_115 instance);
-    partial void Deletewms_cang_115(wms_cang_115 instance);
-    partial void Insertwms_cangdtl_115(wms_cangdtl_115 instance);
-    partial void Updatewms_cangdtl_115(wms_cangdtl_115 instance);
-    partial void Deletewms_cangdtl_115(wms_cangdtl_115 instance);
     partial void Insertwms_addgds(wms_addgds instance);
     partial void Updatewms_addgds(wms_addgds instance);
     partial void Deletewms_addgds(wms_addgds instance);
@@ -219,6 +177,51 @@ namespace WMS.Models
     partial void Insertwms_pkg(wms_pkg instance);
     partial void Updatewms_pkg(wms_pkg instance);
     partial void Deletewms_pkg(wms_pkg instance);
+    partial void Insertwms_cang(wms_cang instance);
+    partial void Updatewms_cang(wms_cang instance);
+    partial void Deletewms_cang(wms_cang instance);
+    partial void Insertwms_cangdtl_115(wms_cangdtl_115 instance);
+    partial void Updatewms_cangdtl_115(wms_cangdtl_115 instance);
+    partial void Deletewms_cangdtl_115(wms_cangdtl_115 instance);
+    partial void Insertwms_cang_105(wms_cang_105 instance);
+    partial void Updatewms_cang_105(wms_cang_105 instance);
+    partial void Deletewms_cang_105(wms_cang_105 instance);
+    partial void Insertwms_cang_109(wms_cang_109 instance);
+    partial void Updatewms_cang_109(wms_cang_109 instance);
+    partial void Deletewms_cang_109(wms_cang_109 instance);
+    partial void Insertwms_cang_110(wms_cang_110 instance);
+    partial void Updatewms_cang_110(wms_cang_110 instance);
+    partial void Deletewms_cang_110(wms_cang_110 instance);
+    partial void Insertwms_cang_111(wms_cang_111 instance);
+    partial void Updatewms_cang_111(wms_cang_111 instance);
+    partial void Deletewms_cang_111(wms_cang_111 instance);
+    partial void Insertwms_cang_115(wms_cang_115 instance);
+    partial void Updatewms_cang_115(wms_cang_115 instance);
+    partial void Deletewms_cang_115(wms_cang_115 instance);
+    partial void Insertwms_cangdtl1(wms_cangdtl1 instance);
+    partial void Updatewms_cangdtl1(wms_cangdtl1 instance);
+    partial void Deletewms_cangdtl1(wms_cangdtl1 instance);
+    partial void Insertwms_cangdtl_105(wms_cangdtl_105 instance);
+    partial void Updatewms_cangdtl_105(wms_cangdtl_105 instance);
+    partial void Deletewms_cangdtl_105(wms_cangdtl_105 instance);
+    partial void Insertwms_cangdtl_109(wms_cangdtl_109 instance);
+    partial void Updatewms_cangdtl_109(wms_cangdtl_109 instance);
+    partial void Deletewms_cangdtl_109(wms_cangdtl_109 instance);
+    partial void Insertwms_cangdtl_110(wms_cangdtl_110 instance);
+    partial void Updatewms_cangdtl_110(wms_cangdtl_110 instance);
+    partial void Deletewms_cangdtl_110(wms_cangdtl_110 instance);
+    partial void Insertwms_cangdtl_111(wms_cangdtl_111 instance);
+    partial void Updatewms_cangdtl_111(wms_cangdtl_111 instance);
+    partial void Deletewms_cangdtl_111(wms_cangdtl_111 instance);
+    partial void Insertwms_blltp(wms_blltp instance);
+    partial void Updatewms_blltp(wms_blltp instance);
+    partial void Deletewms_blltp(wms_blltp instance);
+    partial void Insertwms_bllmst(wms_bllmst instance);
+    partial void Updatewms_bllmst(wms_bllmst instance);
+    partial void Deletewms_bllmst(wms_bllmst instance);
+    partial void Insertwms_blldtl(wms_blldtl instance);
+    partial void Updatewms_blldtl(wms_blldtl instance);
+    partial void Deletewms_blldtl(wms_blldtl instance);
     #endregion
 		
 		public WMSDcDataContext() : 
@@ -249,22 +252,6 @@ namespace WMS.Models
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<wms_blldtl> wms_blldtl
-		{
-			get
-			{
-				return this.GetTable<wms_blldtl>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_bllmst> wms_bllmst
-		{
-			get
-			{
-				return this.GetTable<wms_bllmst>();
-			}
 		}
 		
 		public System.Data.Linq.Table<wms_bzmst> wms_bzmst
@@ -547,38 +534,6 @@ namespace WMS.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<wms_cangdtl_109> wms_cangdtl_109
-		{
-			get
-			{
-				return this.GetTable<wms_cangdtl_109>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cangdtl_110> wms_cangdtl_110
-		{
-			get
-			{
-				return this.GetTable<wms_cangdtl_110>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cangdtl_111> wms_cangdtl_111
-		{
-			get
-			{
-				return this.GetTable<wms_cangdtl_111>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cangdtl_105> wms_cangdtl_105
-		{
-			get
-			{
-				return this.GetTable<wms_cangdtl_105>();
-			}
-		}
-		
 		public System.Data.Linq.Table<gdsbs> gdsbs
 		{
 			get
@@ -643,75 +598,11 @@ namespace WMS.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<wms_cang> wms_cang
-		{
-			get
-			{
-				return this.GetTable<wms_cang>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cang_111> wms_cang_111
-		{
-			get
-			{
-				return this.GetTable<wms_cang_111>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cang_105> wms_cang_105
-		{
-			get
-			{
-				return this.GetTable<wms_cang_105>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cang_109> wms_cang_109
-		{
-			get
-			{
-				return this.GetTable<wms_cang_109>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cang_110> wms_cang_110
-		{
-			get
-			{
-				return this.GetTable<wms_cang_110>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_blltp> wms_blltp
-		{
-			get
-			{
-				return this.GetTable<wms_blltp>();
-			}
-		}
-		
 		public System.Data.Linq.Table<v_wms_pkg> v_wms_pkg
 		{
 			get
 			{
 				return this.GetTable<v_wms_pkg>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cang_115> wms_cang_115
-		{
-			get
-			{
-				return this.GetTable<wms_cang_115>();
-			}
-		}
-		
-		public System.Data.Linq.Table<wms_cangdtl_115> wms_cangdtl_115
-		{
-			get
-			{
-				return this.GetTable<wms_cangdtl_115>();
 			}
 		}
 		
@@ -771,6 +662,126 @@ namespace WMS.Models
 			}
 		}
 		
+		public System.Data.Linq.Table<wms_cang> wms_cang
+		{
+			get
+			{
+				return this.GetTable<wms_cang>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cangdtl_115> wms_cangdtl_115
+		{
+			get
+			{
+				return this.GetTable<wms_cangdtl_115>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cang_105> wms_cang_105
+		{
+			get
+			{
+				return this.GetTable<wms_cang_105>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cang_109> wms_cang_109
+		{
+			get
+			{
+				return this.GetTable<wms_cang_109>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cang_110> wms_cang_110
+		{
+			get
+			{
+				return this.GetTable<wms_cang_110>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cang_111> wms_cang_111
+		{
+			get
+			{
+				return this.GetTable<wms_cang_111>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cang_115> wms_cang_115
+		{
+			get
+			{
+				return this.GetTable<wms_cang_115>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cangdtl1> wms_cangdtl1
+		{
+			get
+			{
+				return this.GetTable<wms_cangdtl1>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cangdtl_105> wms_cangdtl_105
+		{
+			get
+			{
+				return this.GetTable<wms_cangdtl_105>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cangdtl_109> wms_cangdtl_109
+		{
+			get
+			{
+				return this.GetTable<wms_cangdtl_109>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cangdtl_110> wms_cangdtl_110
+		{
+			get
+			{
+				return this.GetTable<wms_cangdtl_110>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_cangdtl_111> wms_cangdtl_111
+		{
+			get
+			{
+				return this.GetTable<wms_cangdtl_111>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_blltp> wms_blltp
+		{
+			get
+			{
+				return this.GetTable<wms_blltp>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_bllmst> wms_bllmst
+		{
+			get
+			{
+				return this.GetTable<wms_bllmst>();
+			}
+		}
+		
+		public System.Data.Linq.Table<wms_blldtl> wms_blldtl
+		{
+			get
+			{
+				return this.GetTable<wms_blldtl>();
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.fnGetBigProLssBll", IsComposable=true)]
 		public string fnGetBigProLssBll([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8)")] string savdptid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8)")] string dptid, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(4)")] string fscprdid)
 		{
@@ -811,970 +822,6 @@ namespace WMS.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), fscprdid, bllclsid, caclsid, bllno);
 			bllno = ((string)(result.GetParameterValue(3)));
 			return ((ISingleResult<get_bllnoResult>)(result.ReturnValue));
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_blldtl")]
-	public partial class wms_blldtl : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private int _rcdidx;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private double _qty;
-		
-		private double _preqty;
-		
-		private string _gdstype;
-		
-		private string _bthno;
-		
-		private string _vlddat;
-		
-		private string _bcd;
-		
-		private string _prvid;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-		private string _brief;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OnpreqtyChanging(double value);
-    partial void OnpreqtyChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbthnoChanging(string value);
-    partial void OnbthnoChanged();
-    partial void OnvlddatChanging(string value);
-    partial void OnvlddatChanged();
-    partial void OnbcdChanging(string value);
-    partial void OnbcdChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    #endregion
-		
-		public wms_blldtl()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(14) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13)")]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float NOT NULL")]
-		public double preqty
-		{
-			get
-			{
-				return this._preqty;
-			}
-			set
-			{
-				if ((this._preqty != value))
-				{
-					this.OnpreqtyChanging(value);
-					this.SendPropertyChanging();
-					this._preqty = value;
-					this.SendPropertyChanged("preqty");
-					this.OnpreqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
-		public string bthno
-		{
-			get
-			{
-				return this._bthno;
-			}
-			set
-			{
-				if ((this._bthno != value))
-				{
-					this.OnbthnoChanging(value);
-					this.SendPropertyChanging();
-					this._bthno = value;
-					this.SendPropertyChanged("bthno");
-					this.OnbthnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
-		public string vlddat
-		{
-			get
-			{
-				return this._vlddat;
-			}
-			set
-			{
-				if ((this._vlddat != value))
-				{
-					this.OnvlddatChanging(value);
-					this.SendPropertyChanging();
-					this._vlddat = value;
-					this.SendPropertyChanged("vlddat");
-					this.OnvlddatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
-		public string bcd
-		{
-			get
-			{
-				return this._bcd;
-			}
-			set
-			{
-				if ((this._bcd != value))
-				{
-					this.OnbcdChanging(value);
-					this.SendPropertyChanging();
-					this._bcd = value;
-					this.SendPropertyChanged("bcd");
-					this.OnbcdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_bllmst")]
-	public partial class wms_bllmst : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _hndbllno;
-		
-		private string _bllid;
-		
-		private string _prvid;
-		
-		private string _savdptid;
-		
-		private string _qu;
-		
-		private string _tongdao;
-		
-		private string _huojia;
-		
-		private string _odrdat;
-		
-		private string _arvdat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnknewbllid;
-		
-		private string _lnknewno;
-		
-		private string _lnknewbrief;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnhndbllnoChanging(string value);
-    partial void OnhndbllnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OntongdaoChanging(string value);
-    partial void OntongdaoChanged();
-    partial void OnhuojiaChanging(string value);
-    partial void OnhuojiaChanged();
-    partial void OnodrdatChanging(string value);
-    partial void OnodrdatChanged();
-    partial void OnarvdatChanging(string value);
-    partial void OnarvdatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnknewbllidChanging(string value);
-    partial void OnlnknewbllidChanged();
-    partial void OnlnknewnoChanging(string value);
-    partial void OnlnknewnoChanged();
-    partial void OnlnknewbriefChanging(string value);
-    partial void OnlnknewbriefChanged();
-    #endregion
-		
-		public wms_bllmst()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(14) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hndbllno", DbType="VarChar(20)")]
-		public string hndbllno
-		{
-			get
-			{
-				return this._hndbllno;
-			}
-			set
-			{
-				if ((this._hndbllno != value))
-				{
-					this.OnhndbllnoChanging(value);
-					this.SendPropertyChanging();
-					this._hndbllno = value;
-					this.SendPropertyChanged("hndbllno");
-					this.OnhndbllnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tongdao", DbType="VarChar(2)")]
-		public string tongdao
-		{
-			get
-			{
-				return this._tongdao;
-			}
-			set
-			{
-				if ((this._tongdao != value))
-				{
-					this.OntongdaoChanging(value);
-					this.SendPropertyChanging();
-					this._tongdao = value;
-					this.SendPropertyChanged("tongdao");
-					this.OntongdaoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_huojia", DbType="VarChar(5)")]
-		public string huojia
-		{
-			get
-			{
-				return this._huojia;
-			}
-			set
-			{
-				if ((this._huojia != value))
-				{
-					this.OnhuojiaChanging(value);
-					this.SendPropertyChanging();
-					this._huojia = value;
-					this.SendPropertyChanged("huojia");
-					this.OnhuojiaChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_odrdat", DbType="Char(8)")]
-		public string odrdat
-		{
-			get
-			{
-				return this._odrdat;
-			}
-			set
-			{
-				if ((this._odrdat != value))
-				{
-					this.OnodrdatChanging(value);
-					this.SendPropertyChanging();
-					this._odrdat = value;
-					this.SendPropertyChanged("odrdat");
-					this.OnodrdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_arvdat", DbType="Char(8)")]
-		public string arvdat
-		{
-			get
-			{
-				return this._arvdat;
-			}
-			set
-			{
-				if ((this._arvdat != value))
-				{
-					this.OnarvdatChanging(value);
-					this.SendPropertyChanging();
-					this._arvdat = value;
-					this.SendPropertyChanged("arvdat");
-					this.OnarvdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnknewbllid", DbType="Char(3)")]
-		public string lnknewbllid
-		{
-			get
-			{
-				return this._lnknewbllid;
-			}
-			set
-			{
-				if ((this._lnknewbllid != value))
-				{
-					this.OnlnknewbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnknewbllid = value;
-					this.SendPropertyChanged("lnknewbllid");
-					this.OnlnknewbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnknewno", DbType="VarChar(14)")]
-		public string lnknewno
-		{
-			get
-			{
-				return this._lnknewno;
-			}
-			set
-			{
-				if ((this._lnknewno != value))
-				{
-					this.OnlnknewnoChanging(value);
-					this.SendPropertyChanging();
-					this._lnknewno = value;
-					this.SendPropertyChanged("lnknewno");
-					this.OnlnknewnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnknewbrief", DbType="VarChar(40)")]
-		public string lnknewbrief
-		{
-			get
-			{
-				return this._lnknewbrief;
-			}
-			set
-			{
-				if ((this._lnknewbrief != value))
-				{
-					this.OnlnknewbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnknewbrief = value;
-					this.SendPropertyChanged("lnknewbrief");
-					this.OnlnknewbriefChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -18773,1934 +17820,6 @@ namespace WMS.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_109")]
-	public partial class wms_cangdtl_109 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private int _rcdidx;
-		
-		private string _oldbarcode;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private System.Nullable<double> _pkgqty;
-		
-		private double _qty;
-		
-		private string _gdstype;
-		
-		private string _bthno;
-		
-		private string _vlddat;
-		
-		private string _bcd;
-		
-		private string _tpcode;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-		private System.Nullable<double> _preqty;
-		
-		private string _brfdtl;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnoldbarcodeChanging(string value);
-    partial void OnoldbarcodeChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnpkgqtyChanging(System.Nullable<double> value);
-    partial void OnpkgqtyChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbthnoChanging(string value);
-    partial void OnbthnoChanged();
-    partial void OnvlddatChanging(string value);
-    partial void OnvlddatChanged();
-    partial void OnbcdChanging(string value);
-    partial void OnbcdChanged();
-    partial void OntpcodeChanging(string value);
-    partial void OntpcodeChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    partial void OnpreqtyChanging(System.Nullable<double> value);
-    partial void OnpreqtyChanged();
-    partial void OnbrfdtlChanging(string value);
-    partial void OnbrfdtlChanged();
-    #endregion
-		
-		public wms_cangdtl_109()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
-		public string oldbarcode
-		{
-			get
-			{
-				return this._oldbarcode;
-			}
-			set
-			{
-				if ((this._oldbarcode != value))
-				{
-					this.OnoldbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._oldbarcode = value;
-					this.SendPropertyChanged("oldbarcode");
-					this.OnoldbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
-		public System.Nullable<double> pkgqty
-		{
-			get
-			{
-				return this._pkgqty;
-			}
-			set
-			{
-				if ((this._pkgqty != value))
-				{
-					this.OnpkgqtyChanging(value);
-					this.SendPropertyChanging();
-					this._pkgqty = value;
-					this.SendPropertyChanged("pkgqty");
-					this.OnpkgqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
-		public string bthno
-		{
-			get
-			{
-				return this._bthno;
-			}
-			set
-			{
-				if ((this._bthno != value))
-				{
-					this.OnbthnoChanging(value);
-					this.SendPropertyChanging();
-					this._bthno = value;
-					this.SendPropertyChanged("bthno");
-					this.OnbthnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
-		public string vlddat
-		{
-			get
-			{
-				return this._vlddat;
-			}
-			set
-			{
-				if ((this._vlddat != value))
-				{
-					this.OnvlddatChanging(value);
-					this.SendPropertyChanging();
-					this._vlddat = value;
-					this.SendPropertyChanged("vlddat");
-					this.OnvlddatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
-		public string bcd
-		{
-			get
-			{
-				return this._bcd;
-			}
-			set
-			{
-				if ((this._bcd != value))
-				{
-					this.OnbcdChanging(value);
-					this.SendPropertyChanging();
-					this._bcd = value;
-					this.SendPropertyChanged("bcd");
-					this.OnbcdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
-		public string tpcode
-		{
-			get
-			{
-				return this._tpcode;
-			}
-			set
-			{
-				if ((this._tpcode != value))
-				{
-					this.OntpcodeChanging(value);
-					this.SendPropertyChanging();
-					this._tpcode = value;
-					this.SendPropertyChanged("tpcode");
-					this.OntpcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
-		public System.Nullable<double> preqty
-		{
-			get
-			{
-				return this._preqty;
-			}
-			set
-			{
-				if ((this._preqty != value))
-				{
-					this.OnpreqtyChanging(value);
-					this.SendPropertyChanging();
-					this._preqty = value;
-					this.SendPropertyChanged("preqty");
-					this.OnpreqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brfdtl", DbType="VarChar(40)")]
-		public string brfdtl
-		{
-			get
-			{
-				return this._brfdtl;
-			}
-			set
-			{
-				if ((this._brfdtl != value))
-				{
-					this.OnbrfdtlChanging(value);
-					this.SendPropertyChanging();
-					this._brfdtl = value;
-					this.SendPropertyChanged("brfdtl");
-					this.OnbrfdtlChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_110")]
-	public partial class wms_cangdtl_110 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private int _rcdidx;
-		
-		private string _oldbarcode;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private System.Nullable<double> _pkgqty;
-		
-		private double _qty;
-		
-		private string _gdstype;
-		
-		private string _bthno;
-		
-		private string _vlddat;
-		
-		private string _bcd;
-		
-		private string _tpcode;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-		private System.Nullable<double> _preqty;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnoldbarcodeChanging(string value);
-    partial void OnoldbarcodeChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnpkgqtyChanging(System.Nullable<double> value);
-    partial void OnpkgqtyChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbthnoChanging(string value);
-    partial void OnbthnoChanged();
-    partial void OnvlddatChanging(string value);
-    partial void OnvlddatChanged();
-    partial void OnbcdChanging(string value);
-    partial void OnbcdChanged();
-    partial void OntpcodeChanging(string value);
-    partial void OntpcodeChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    partial void OnpreqtyChanging(System.Nullable<double> value);
-    partial void OnpreqtyChanged();
-    #endregion
-		
-		public wms_cangdtl_110()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
-		public string oldbarcode
-		{
-			get
-			{
-				return this._oldbarcode;
-			}
-			set
-			{
-				if ((this._oldbarcode != value))
-				{
-					this.OnoldbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._oldbarcode = value;
-					this.SendPropertyChanged("oldbarcode");
-					this.OnoldbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
-		public System.Nullable<double> pkgqty
-		{
-			get
-			{
-				return this._pkgqty;
-			}
-			set
-			{
-				if ((this._pkgqty != value))
-				{
-					this.OnpkgqtyChanging(value);
-					this.SendPropertyChanging();
-					this._pkgqty = value;
-					this.SendPropertyChanged("pkgqty");
-					this.OnpkgqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
-		public string bthno
-		{
-			get
-			{
-				return this._bthno;
-			}
-			set
-			{
-				if ((this._bthno != value))
-				{
-					this.OnbthnoChanging(value);
-					this.SendPropertyChanging();
-					this._bthno = value;
-					this.SendPropertyChanged("bthno");
-					this.OnbthnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
-		public string vlddat
-		{
-			get
-			{
-				return this._vlddat;
-			}
-			set
-			{
-				if ((this._vlddat != value))
-				{
-					this.OnvlddatChanging(value);
-					this.SendPropertyChanging();
-					this._vlddat = value;
-					this.SendPropertyChanged("vlddat");
-					this.OnvlddatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
-		public string bcd
-		{
-			get
-			{
-				return this._bcd;
-			}
-			set
-			{
-				if ((this._bcd != value))
-				{
-					this.OnbcdChanging(value);
-					this.SendPropertyChanging();
-					this._bcd = value;
-					this.SendPropertyChanged("bcd");
-					this.OnbcdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
-		public string tpcode
-		{
-			get
-			{
-				return this._tpcode;
-			}
-			set
-			{
-				if ((this._tpcode != value))
-				{
-					this.OntpcodeChanging(value);
-					this.SendPropertyChanging();
-					this._tpcode = value;
-					this.SendPropertyChanged("tpcode");
-					this.OntpcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
-		public System.Nullable<double> preqty
-		{
-			get
-			{
-				return this._preqty;
-			}
-			set
-			{
-				if ((this._preqty != value))
-				{
-					this.OnpreqtyChanging(value);
-					this.SendPropertyChanging();
-					this._preqty = value;
-					this.SendPropertyChanged("preqty");
-					this.OnpreqtyChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_111")]
-	public partial class wms_cangdtl_111 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private int _rcdidx;
-		
-		private string _oldbarcode;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private System.Nullable<double> _pkgqty;
-		
-		private double _qty;
-		
-		private string _gdstype;
-		
-		private string _bthno;
-		
-		private string _vlddat;
-		
-		private string _bcd;
-		
-		private string _tpcode;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-		private System.Nullable<double> _preqty;
-		
-		private string _brfdtl;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnoldbarcodeChanging(string value);
-    partial void OnoldbarcodeChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnpkgqtyChanging(System.Nullable<double> value);
-    partial void OnpkgqtyChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbthnoChanging(string value);
-    partial void OnbthnoChanged();
-    partial void OnvlddatChanging(string value);
-    partial void OnvlddatChanged();
-    partial void OnbcdChanging(string value);
-    partial void OnbcdChanged();
-    partial void OntpcodeChanging(string value);
-    partial void OntpcodeChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    partial void OnpreqtyChanging(System.Nullable<double> value);
-    partial void OnpreqtyChanged();
-    partial void OnbrfdtlChanging(string value);
-    partial void OnbrfdtlChanged();
-    #endregion
-		
-		public wms_cangdtl_111()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
-		public string oldbarcode
-		{
-			get
-			{
-				return this._oldbarcode;
-			}
-			set
-			{
-				if ((this._oldbarcode != value))
-				{
-					this.OnoldbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._oldbarcode = value;
-					this.SendPropertyChanged("oldbarcode");
-					this.OnoldbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
-		public System.Nullable<double> pkgqty
-		{
-			get
-			{
-				return this._pkgqty;
-			}
-			set
-			{
-				if ((this._pkgqty != value))
-				{
-					this.OnpkgqtyChanging(value);
-					this.SendPropertyChanging();
-					this._pkgqty = value;
-					this.SendPropertyChanged("pkgqty");
-					this.OnpkgqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
-		public string bthno
-		{
-			get
-			{
-				return this._bthno;
-			}
-			set
-			{
-				if ((this._bthno != value))
-				{
-					this.OnbthnoChanging(value);
-					this.SendPropertyChanging();
-					this._bthno = value;
-					this.SendPropertyChanged("bthno");
-					this.OnbthnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
-		public string vlddat
-		{
-			get
-			{
-				return this._vlddat;
-			}
-			set
-			{
-				if ((this._vlddat != value))
-				{
-					this.OnvlddatChanging(value);
-					this.SendPropertyChanging();
-					this._vlddat = value;
-					this.SendPropertyChanged("vlddat");
-					this.OnvlddatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
-		public string bcd
-		{
-			get
-			{
-				return this._bcd;
-			}
-			set
-			{
-				if ((this._bcd != value))
-				{
-					this.OnbcdChanging(value);
-					this.SendPropertyChanging();
-					this._bcd = value;
-					this.SendPropertyChanged("bcd");
-					this.OnbcdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
-		public string tpcode
-		{
-			get
-			{
-				return this._tpcode;
-			}
-			set
-			{
-				if ((this._tpcode != value))
-				{
-					this.OntpcodeChanging(value);
-					this.SendPropertyChanging();
-					this._tpcode = value;
-					this.SendPropertyChanged("tpcode");
-					this.OntpcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
-		public System.Nullable<double> preqty
-		{
-			get
-			{
-				return this._preqty;
-			}
-			set
-			{
-				if ((this._preqty != value))
-				{
-					this.OnpreqtyChanging(value);
-					this.SendPropertyChanging();
-					this._preqty = value;
-					this.SendPropertyChanged("preqty");
-					this.OnpreqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brfdtl", DbType="VarChar(40)")]
-		public string brfdtl
-		{
-			get
-			{
-				return this._brfdtl;
-			}
-			set
-			{
-				if ((this._brfdtl != value))
-				{
-					this.OnbrfdtlChanging(value);
-					this.SendPropertyChanging();
-					this._brfdtl = value;
-					this.SendPropertyChanged("brfdtl");
-					this.OnbrfdtlChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_105")]
-	public partial class wms_cangdtl_105 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private int _rcdidx;
-		
-		private string _oldbarcode;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private System.Nullable<double> _pkgqty;
-		
-		private double _qty;
-		
-		private string _gdstype;
-		
-		private string _bthno;
-		
-		private string _vlddat;
-		
-		private string _bcd;
-		
-		private string _tpcode;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-		private System.Nullable<double> _preqty;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnoldbarcodeChanging(string value);
-    partial void OnoldbarcodeChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnpkgqtyChanging(System.Nullable<double> value);
-    partial void OnpkgqtyChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbthnoChanging(string value);
-    partial void OnbthnoChanged();
-    partial void OnvlddatChanging(string value);
-    partial void OnvlddatChanged();
-    partial void OnbcdChanging(string value);
-    partial void OnbcdChanged();
-    partial void OntpcodeChanging(string value);
-    partial void OntpcodeChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    partial void OnpreqtyChanging(System.Nullable<double> value);
-    partial void OnpreqtyChanged();
-    #endregion
-		
-		public wms_cangdtl_105()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
-		public string oldbarcode
-		{
-			get
-			{
-				return this._oldbarcode;
-			}
-			set
-			{
-				if ((this._oldbarcode != value))
-				{
-					this.OnoldbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._oldbarcode = value;
-					this.SendPropertyChanged("oldbarcode");
-					this.OnoldbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
-		public System.Nullable<double> pkgqty
-		{
-			get
-			{
-				return this._pkgqty;
-			}
-			set
-			{
-				if ((this._pkgqty != value))
-				{
-					this.OnpkgqtyChanging(value);
-					this.SendPropertyChanging();
-					this._pkgqty = value;
-					this.SendPropertyChanged("pkgqty");
-					this.OnpkgqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
-		public string bthno
-		{
-			get
-			{
-				return this._bthno;
-			}
-			set
-			{
-				if ((this._bthno != value))
-				{
-					this.OnbthnoChanging(value);
-					this.SendPropertyChanging();
-					this._bthno = value;
-					this.SendPropertyChanged("bthno");
-					this.OnbthnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
-		public string vlddat
-		{
-			get
-			{
-				return this._vlddat;
-			}
-			set
-			{
-				if ((this._vlddat != value))
-				{
-					this.OnvlddatChanging(value);
-					this.SendPropertyChanging();
-					this._vlddat = value;
-					this.SendPropertyChanged("vlddat");
-					this.OnvlddatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
-		public string bcd
-		{
-			get
-			{
-				return this._bcd;
-			}
-			set
-			{
-				if ((this._bcd != value))
-				{
-					this.OnbcdChanging(value);
-					this.SendPropertyChanging();
-					this._bcd = value;
-					this.SendPropertyChanged("bcd");
-					this.OnbcdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
-		public string tpcode
-		{
-			get
-			{
-				return this._tpcode;
-			}
-			set
-			{
-				if ((this._tpcode != value))
-				{
-					this.OntpcodeChanging(value);
-					this.SendPropertyChanging();
-					this._tpcode = value;
-					this.SendPropertyChanged("tpcode");
-					this.OntpcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
-		public System.Nullable<double> preqty
-		{
-			get
-			{
-				return this._preqty;
-			}
-			set
-			{
-				if ((this._preqty != value))
-				{
-					this.OnpreqtyChanging(value);
-					this.SendPropertyChanging();
-					this._preqty = value;
-					this.SendPropertyChanged("preqty");
-					this.OnpreqtyChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.gdsbs")]
 	public partial class gdsbs : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -22925,2994 +20044,6 @@ namespace WMS.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang")]
-	public partial class wms_cang : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _savdptid;
-		
-		private string _prvid;
-		
-		private string _qu;
-		
-		private string _rcvdptid;
-		
-		private string _times;
-		
-		private string _lnkbocino;
-		
-		private string _lnkbocidat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnkbllid;
-		
-		private string _lnkno;
-		
-		private string _lnkbrief;
-		
-		private string _mkedat2;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OntimesChanging(string value);
-    partial void OntimesChanged();
-    partial void OnlnkbocinoChanging(string value);
-    partial void OnlnkbocinoChanged();
-    partial void OnlnkbocidatChanging(string value);
-    partial void OnlnkbocidatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnkbllidChanging(string value);
-    partial void OnlnkbllidChanged();
-    partial void OnlnknoChanging(string value);
-    partial void OnlnknoChanged();
-    partial void OnlnkbriefChanging(string value);
-    partial void OnlnkbriefChanged();
-    partial void Onmkedat2Changing(string value);
-    partial void Onmkedat2Changed();
-    #endregion
-		
-		public wms_cang()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)")]
-		public string times
-		{
-			get
-			{
-				return this._times;
-			}
-			set
-			{
-				if ((this._times != value))
-				{
-					this.OntimesChanging(value);
-					this.SendPropertyChanging();
-					this._times = value;
-					this.SendPropertyChanged("times");
-					this.OntimesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)")]
-		public string lnkbocino
-		{
-			get
-			{
-				return this._lnkbocino;
-			}
-			set
-			{
-				if ((this._lnkbocino != value))
-				{
-					this.OnlnkbocinoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocino = value;
-					this.SendPropertyChanged("lnkbocino");
-					this.OnlnkbocinoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)")]
-		public string lnkbocidat
-		{
-			get
-			{
-				return this._lnkbocidat;
-			}
-			set
-			{
-				if ((this._lnkbocidat != value))
-				{
-					this.OnlnkbocidatChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocidat = value;
-					this.SendPropertyChanged("lnkbocidat");
-					this.OnlnkbocidatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)")]
-		public string lnkbllid
-		{
-			get
-			{
-				return this._lnkbllid;
-			}
-			set
-			{
-				if ((this._lnkbllid != value))
-				{
-					this.OnlnkbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbllid = value;
-					this.SendPropertyChanged("lnkbllid");
-					this.OnlnkbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)")]
-		public string lnkno
-		{
-			get
-			{
-				return this._lnkno;
-			}
-			set
-			{
-				if ((this._lnkno != value))
-				{
-					this.OnlnknoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkno = value;
-					this.SendPropertyChanged("lnkno");
-					this.OnlnknoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)")]
-		public string lnkbrief
-		{
-			get
-			{
-				return this._lnkbrief;
-			}
-			set
-			{
-				if ((this._lnkbrief != value))
-				{
-					this.OnlnkbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbrief = value;
-					this.SendPropertyChanged("lnkbrief");
-					this.OnlnkbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat2
-		{
-			get
-			{
-				return this._mkedat2;
-			}
-			set
-			{
-				if ((this._mkedat2 != value))
-				{
-					this.Onmkedat2Changing(value);
-					this.SendPropertyChanging();
-					this._mkedat2 = value;
-					this.SendPropertyChanged("mkedat2");
-					this.Onmkedat2Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_111")]
-	public partial class wms_cang_111 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _savdptid;
-		
-		private string _prvid;
-		
-		private string _qu;
-		
-		private string _rcvdptid;
-		
-		private string _times;
-		
-		private string _lnkbocino;
-		
-		private string _lnkbocidat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnkbllid;
-		
-		private string _lnkno;
-		
-		private string _lnkbrief;
-		
-		private string _mkedat2;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OntimesChanging(string value);
-    partial void OntimesChanged();
-    partial void OnlnkbocinoChanging(string value);
-    partial void OnlnkbocinoChanged();
-    partial void OnlnkbocidatChanging(string value);
-    partial void OnlnkbocidatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnkbllidChanging(string value);
-    partial void OnlnkbllidChanged();
-    partial void OnlnknoChanging(string value);
-    partial void OnlnknoChanged();
-    partial void OnlnkbriefChanging(string value);
-    partial void OnlnkbriefChanged();
-    partial void Onmkedat2Changing(string value);
-    partial void Onmkedat2Changed();
-    #endregion
-		
-		public wms_cang_111()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)")]
-		public string times
-		{
-			get
-			{
-				return this._times;
-			}
-			set
-			{
-				if ((this._times != value))
-				{
-					this.OntimesChanging(value);
-					this.SendPropertyChanging();
-					this._times = value;
-					this.SendPropertyChanged("times");
-					this.OntimesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)")]
-		public string lnkbocino
-		{
-			get
-			{
-				return this._lnkbocino;
-			}
-			set
-			{
-				if ((this._lnkbocino != value))
-				{
-					this.OnlnkbocinoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocino = value;
-					this.SendPropertyChanged("lnkbocino");
-					this.OnlnkbocinoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)")]
-		public string lnkbocidat
-		{
-			get
-			{
-				return this._lnkbocidat;
-			}
-			set
-			{
-				if ((this._lnkbocidat != value))
-				{
-					this.OnlnkbocidatChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocidat = value;
-					this.SendPropertyChanged("lnkbocidat");
-					this.OnlnkbocidatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)")]
-		public string lnkbllid
-		{
-			get
-			{
-				return this._lnkbllid;
-			}
-			set
-			{
-				if ((this._lnkbllid != value))
-				{
-					this.OnlnkbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbllid = value;
-					this.SendPropertyChanged("lnkbllid");
-					this.OnlnkbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)")]
-		public string lnkno
-		{
-			get
-			{
-				return this._lnkno;
-			}
-			set
-			{
-				if ((this._lnkno != value))
-				{
-					this.OnlnknoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkno = value;
-					this.SendPropertyChanged("lnkno");
-					this.OnlnknoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)")]
-		public string lnkbrief
-		{
-			get
-			{
-				return this._lnkbrief;
-			}
-			set
-			{
-				if ((this._lnkbrief != value))
-				{
-					this.OnlnkbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbrief = value;
-					this.SendPropertyChanged("lnkbrief");
-					this.OnlnkbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat2
-		{
-			get
-			{
-				return this._mkedat2;
-			}
-			set
-			{
-				if ((this._mkedat2 != value))
-				{
-					this.Onmkedat2Changing(value);
-					this.SendPropertyChanging();
-					this._mkedat2 = value;
-					this.SendPropertyChanged("mkedat2");
-					this.Onmkedat2Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_105")]
-	public partial class wms_cang_105 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _savdptid;
-		
-		private string _prvid;
-		
-		private string _qu;
-		
-		private string _rcvdptid;
-		
-		private string _times;
-		
-		private string _lnkbocino;
-		
-		private string _lnkbocidat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnkbllid;
-		
-		private string _lnkno;
-		
-		private string _lnkbrief;
-		
-		private string _mkedat2;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OntimesChanging(string value);
-    partial void OntimesChanged();
-    partial void OnlnkbocinoChanging(string value);
-    partial void OnlnkbocinoChanged();
-    partial void OnlnkbocidatChanging(string value);
-    partial void OnlnkbocidatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnkbllidChanging(string value);
-    partial void OnlnkbllidChanged();
-    partial void OnlnknoChanging(string value);
-    partial void OnlnknoChanged();
-    partial void OnlnkbriefChanging(string value);
-    partial void OnlnkbriefChanged();
-    partial void Onmkedat2Changing(string value);
-    partial void Onmkedat2Changed();
-    #endregion
-		
-		public wms_cang_105()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)")]
-		public string times
-		{
-			get
-			{
-				return this._times;
-			}
-			set
-			{
-				if ((this._times != value))
-				{
-					this.OntimesChanging(value);
-					this.SendPropertyChanging();
-					this._times = value;
-					this.SendPropertyChanged("times");
-					this.OntimesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)")]
-		public string lnkbocino
-		{
-			get
-			{
-				return this._lnkbocino;
-			}
-			set
-			{
-				if ((this._lnkbocino != value))
-				{
-					this.OnlnkbocinoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocino = value;
-					this.SendPropertyChanged("lnkbocino");
-					this.OnlnkbocinoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)")]
-		public string lnkbocidat
-		{
-			get
-			{
-				return this._lnkbocidat;
-			}
-			set
-			{
-				if ((this._lnkbocidat != value))
-				{
-					this.OnlnkbocidatChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocidat = value;
-					this.SendPropertyChanged("lnkbocidat");
-					this.OnlnkbocidatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)")]
-		public string lnkbllid
-		{
-			get
-			{
-				return this._lnkbllid;
-			}
-			set
-			{
-				if ((this._lnkbllid != value))
-				{
-					this.OnlnkbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbllid = value;
-					this.SendPropertyChanged("lnkbllid");
-					this.OnlnkbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)")]
-		public string lnkno
-		{
-			get
-			{
-				return this._lnkno;
-			}
-			set
-			{
-				if ((this._lnkno != value))
-				{
-					this.OnlnknoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkno = value;
-					this.SendPropertyChanged("lnkno");
-					this.OnlnknoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)")]
-		public string lnkbrief
-		{
-			get
-			{
-				return this._lnkbrief;
-			}
-			set
-			{
-				if ((this._lnkbrief != value))
-				{
-					this.OnlnkbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbrief = value;
-					this.SendPropertyChanged("lnkbrief");
-					this.OnlnkbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat2
-		{
-			get
-			{
-				return this._mkedat2;
-			}
-			set
-			{
-				if ((this._mkedat2 != value))
-				{
-					this.Onmkedat2Changing(value);
-					this.SendPropertyChanging();
-					this._mkedat2 = value;
-					this.SendPropertyChanged("mkedat2");
-					this.Onmkedat2Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_109")]
-	public partial class wms_cang_109 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _savdptid;
-		
-		private string _prvid;
-		
-		private string _qu;
-		
-		private string _rcvdptid;
-		
-		private string _times;
-		
-		private string _lnkbocino;
-		
-		private string _lnkbocidat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnkbllid;
-		
-		private string _lnkno;
-		
-		private string _lnkbrief;
-		
-		private string _mkedat2;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OntimesChanging(string value);
-    partial void OntimesChanged();
-    partial void OnlnkbocinoChanging(string value);
-    partial void OnlnkbocinoChanged();
-    partial void OnlnkbocidatChanging(string value);
-    partial void OnlnkbocidatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnkbllidChanging(string value);
-    partial void OnlnkbllidChanged();
-    partial void OnlnknoChanging(string value);
-    partial void OnlnknoChanged();
-    partial void OnlnkbriefChanging(string value);
-    partial void OnlnkbriefChanged();
-    partial void Onmkedat2Changing(string value);
-    partial void Onmkedat2Changed();
-    #endregion
-		
-		public wms_cang_109()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)")]
-		public string times
-		{
-			get
-			{
-				return this._times;
-			}
-			set
-			{
-				if ((this._times != value))
-				{
-					this.OntimesChanging(value);
-					this.SendPropertyChanging();
-					this._times = value;
-					this.SendPropertyChanged("times");
-					this.OntimesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)")]
-		public string lnkbocino
-		{
-			get
-			{
-				return this._lnkbocino;
-			}
-			set
-			{
-				if ((this._lnkbocino != value))
-				{
-					this.OnlnkbocinoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocino = value;
-					this.SendPropertyChanged("lnkbocino");
-					this.OnlnkbocinoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)")]
-		public string lnkbocidat
-		{
-			get
-			{
-				return this._lnkbocidat;
-			}
-			set
-			{
-				if ((this._lnkbocidat != value))
-				{
-					this.OnlnkbocidatChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocidat = value;
-					this.SendPropertyChanged("lnkbocidat");
-					this.OnlnkbocidatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)")]
-		public string lnkbllid
-		{
-			get
-			{
-				return this._lnkbllid;
-			}
-			set
-			{
-				if ((this._lnkbllid != value))
-				{
-					this.OnlnkbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbllid = value;
-					this.SendPropertyChanged("lnkbllid");
-					this.OnlnkbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)")]
-		public string lnkno
-		{
-			get
-			{
-				return this._lnkno;
-			}
-			set
-			{
-				if ((this._lnkno != value))
-				{
-					this.OnlnknoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkno = value;
-					this.SendPropertyChanged("lnkno");
-					this.OnlnknoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)")]
-		public string lnkbrief
-		{
-			get
-			{
-				return this._lnkbrief;
-			}
-			set
-			{
-				if ((this._lnkbrief != value))
-				{
-					this.OnlnkbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbrief = value;
-					this.SendPropertyChanged("lnkbrief");
-					this.OnlnkbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat2
-		{
-			get
-			{
-				return this._mkedat2;
-			}
-			set
-			{
-				if ((this._mkedat2 != value))
-				{
-					this.Onmkedat2Changing(value);
-					this.SendPropertyChanging();
-					this._mkedat2 = value;
-					this.SendPropertyChanged("mkedat2");
-					this.Onmkedat2Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_110")]
-	public partial class wms_cang_110 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _savdptid;
-		
-		private string _prvid;
-		
-		private string _qu;
-		
-		private string _rcvdptid;
-		
-		private string _times;
-		
-		private string _lnkbocino;
-		
-		private string _lnkbocidat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnkbllid;
-		
-		private string _lnkno;
-		
-		private string _lnkbrief;
-		
-		private string _mkedat2;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OntimesChanging(string value);
-    partial void OntimesChanged();
-    partial void OnlnkbocinoChanging(string value);
-    partial void OnlnkbocinoChanged();
-    partial void OnlnkbocidatChanging(string value);
-    partial void OnlnkbocidatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnkbllidChanging(string value);
-    partial void OnlnkbllidChanged();
-    partial void OnlnknoChanging(string value);
-    partial void OnlnknoChanged();
-    partial void OnlnkbriefChanging(string value);
-    partial void OnlnkbriefChanged();
-    partial void Onmkedat2Changing(string value);
-    partial void Onmkedat2Changed();
-    #endregion
-		
-		public wms_cang_110()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)")]
-		public string times
-		{
-			get
-			{
-				return this._times;
-			}
-			set
-			{
-				if ((this._times != value))
-				{
-					this.OntimesChanging(value);
-					this.SendPropertyChanging();
-					this._times = value;
-					this.SendPropertyChanged("times");
-					this.OntimesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)")]
-		public string lnkbocino
-		{
-			get
-			{
-				return this._lnkbocino;
-			}
-			set
-			{
-				if ((this._lnkbocino != value))
-				{
-					this.OnlnkbocinoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocino = value;
-					this.SendPropertyChanged("lnkbocino");
-					this.OnlnkbocinoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)")]
-		public string lnkbocidat
-		{
-			get
-			{
-				return this._lnkbocidat;
-			}
-			set
-			{
-				if ((this._lnkbocidat != value))
-				{
-					this.OnlnkbocidatChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocidat = value;
-					this.SendPropertyChanged("lnkbocidat");
-					this.OnlnkbocidatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)")]
-		public string lnkbllid
-		{
-			get
-			{
-				return this._lnkbllid;
-			}
-			set
-			{
-				if ((this._lnkbllid != value))
-				{
-					this.OnlnkbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbllid = value;
-					this.SendPropertyChanged("lnkbllid");
-					this.OnlnkbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)")]
-		public string lnkno
-		{
-			get
-			{
-				return this._lnkno;
-			}
-			set
-			{
-				if ((this._lnkno != value))
-				{
-					this.OnlnknoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkno = value;
-					this.SendPropertyChanged("lnkno");
-					this.OnlnknoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)")]
-		public string lnkbrief
-		{
-			get
-			{
-				return this._lnkbrief;
-			}
-			set
-			{
-				if ((this._lnkbrief != value))
-				{
-					this.OnlnkbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbrief = value;
-					this.SendPropertyChanged("lnkbrief");
-					this.OnlnkbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat2
-		{
-			get
-			{
-				return this._mkedat2;
-			}
-			set
-			{
-				if ((this._mkedat2 != value))
-				{
-					this.Onmkedat2Changing(value);
-					this.SendPropertyChanging();
-					this._mkedat2 = value;
-					this.SendPropertyChanged("mkedat2");
-					this.Onmkedat2Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_blltp")]
-	public partial class wms_blltp : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _qu;
-		
-		private int _rcdidx;
-		
-		private int _rcdidxtp;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private double _qty;
-		
-		private string _tpcode;
-		
-		private string _savdptid;
-		
-		private string _gdstype;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnrcdidxtpChanging(int value);
-    partial void OnrcdidxtpChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OntpcodeChanging(string value);
-    partial void OntpcodeChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    #endregion
-		
-		public wms_blltp()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidxtp", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidxtp
-		{
-			get
-			{
-				return this._rcdidxtp;
-			}
-			set
-			{
-				if ((this._rcdidxtp != value))
-				{
-					this.OnrcdidxtpChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidxtp = value;
-					this.SendPropertyChanged("rcdidxtp");
-					this.OnrcdidxtpChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13)")]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string tpcode
-		{
-			get
-			{
-				return this._tpcode;
-			}
-			set
-			{
-				if ((this._tpcode != value))
-				{
-					this.OntpcodeChanging(value);
-					this.SendPropertyChanging();
-					this._tpcode = value;
-					this.SendPropertyChanged("tpcode");
-					this.OntpcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8)")]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.v_wms_pkg")]
 	public partial class v_wms_pkg
 	{
@@ -25972,1066 +20103,6 @@ namespace WMS.Models
 				{
 					this._cnvrto = value;
 				}
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_115")]
-	public partial class wms_cang_115 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private string _savdptid;
-		
-		private string _prvid;
-		
-		private string _qu;
-		
-		private string _rcvdptid;
-		
-		private string _times;
-		
-		private string _lnkbocino;
-		
-		private string _lnkbocidat;
-		
-		private string _mkr;
-		
-		private string _mkedat;
-		
-		private string _ckr;
-		
-		private char _chkflg;
-		
-		private string _chkdat;
-		
-		private string _opr;
-		
-		private string _brief;
-		
-		private string _lnkbllid;
-		
-		private string _lnkno;
-		
-		private string _lnkbrief;
-		
-		private string _mkedat2;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnsavdptidChanging(string value);
-    partial void OnsavdptidChanged();
-    partial void OnprvidChanging(string value);
-    partial void OnprvidChanged();
-    partial void OnquChanging(string value);
-    partial void OnquChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OntimesChanging(string value);
-    partial void OntimesChanged();
-    partial void OnlnkbocinoChanging(string value);
-    partial void OnlnkbocinoChanged();
-    partial void OnlnkbocidatChanging(string value);
-    partial void OnlnkbocidatChanged();
-    partial void OnmkrChanging(string value);
-    partial void OnmkrChanged();
-    partial void OnmkedatChanging(string value);
-    partial void OnmkedatChanged();
-    partial void OnckrChanging(string value);
-    partial void OnckrChanged();
-    partial void OnchkflgChanging(char value);
-    partial void OnchkflgChanged();
-    partial void OnchkdatChanging(string value);
-    partial void OnchkdatChanged();
-    partial void OnoprChanging(string value);
-    partial void OnoprChanged();
-    partial void OnbriefChanging(string value);
-    partial void OnbriefChanged();
-    partial void OnlnkbllidChanging(string value);
-    partial void OnlnkbllidChanged();
-    partial void OnlnknoChanging(string value);
-    partial void OnlnknoChanged();
-    partial void OnlnkbriefChanging(string value);
-    partial void OnlnkbriefChanged();
-    partial void Onmkedat2Changing(string value);
-    partial void Onmkedat2Changed();
-    #endregion
-		
-		public wms_cang_115()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string savdptid
-		{
-			get
-			{
-				return this._savdptid;
-			}
-			set
-			{
-				if ((this._savdptid != value))
-				{
-					this.OnsavdptidChanging(value);
-					this.SendPropertyChanging();
-					this._savdptid = value;
-					this.SendPropertyChanged("savdptid");
-					this.OnsavdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)")]
-		public string prvid
-		{
-			get
-			{
-				return this._prvid;
-			}
-			set
-			{
-				if ((this._prvid != value))
-				{
-					this.OnprvidChanging(value);
-					this.SendPropertyChanging();
-					this._prvid = value;
-					this.SendPropertyChanged("prvid");
-					this.OnprvidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
-		public string qu
-		{
-			get
-			{
-				return this._qu;
-			}
-			set
-			{
-				if ((this._qu != value))
-				{
-					this.OnquChanging(value);
-					this.SendPropertyChanging();
-					this._qu = value;
-					this.SendPropertyChanged("qu");
-					this.OnquChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)")]
-		public string times
-		{
-			get
-			{
-				return this._times;
-			}
-			set
-			{
-				if ((this._times != value))
-				{
-					this.OntimesChanging(value);
-					this.SendPropertyChanging();
-					this._times = value;
-					this.SendPropertyChanged("times");
-					this.OntimesChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)")]
-		public string lnkbocino
-		{
-			get
-			{
-				return this._lnkbocino;
-			}
-			set
-			{
-				if ((this._lnkbocino != value))
-				{
-					this.OnlnkbocinoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocino = value;
-					this.SendPropertyChanged("lnkbocino");
-					this.OnlnkbocinoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)")]
-		public string lnkbocidat
-		{
-			get
-			{
-				return this._lnkbocidat;
-			}
-			set
-			{
-				if ((this._lnkbocidat != value))
-				{
-					this.OnlnkbocidatChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbocidat = value;
-					this.SendPropertyChanged("lnkbocidat");
-					this.OnlnkbocidatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkr
-		{
-			get
-			{
-				return this._mkr;
-			}
-			set
-			{
-				if ((this._mkr != value))
-				{
-					this.OnmkrChanging(value);
-					this.SendPropertyChanging();
-					this._mkr = value;
-					this.SendPropertyChanged("mkr");
-					this.OnmkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string mkedat
-		{
-			get
-			{
-				return this._mkedat;
-			}
-			set
-			{
-				if ((this._mkedat != value))
-				{
-					this.OnmkedatChanging(value);
-					this.SendPropertyChanging();
-					this._mkedat = value;
-					this.SendPropertyChanged("mkedat");
-					this.OnmkedatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string ckr
-		{
-			get
-			{
-				return this._ckr;
-			}
-			set
-			{
-				if ((this._ckr != value))
-				{
-					this.OnckrChanging(value);
-					this.SendPropertyChanging();
-					this._ckr = value;
-					this.SendPropertyChanged("ckr");
-					this.OnckrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL")]
-		public char chkflg
-		{
-			get
-			{
-				return this._chkflg;
-			}
-			set
-			{
-				if ((this._chkflg != value))
-				{
-					this.OnchkflgChanging(value);
-					this.SendPropertyChanging();
-					this._chkflg = value;
-					this.SendPropertyChanged("chkflg");
-					this.OnchkflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string chkdat
-		{
-			get
-			{
-				return this._chkdat;
-			}
-			set
-			{
-				if ((this._chkdat != value))
-				{
-					this.OnchkdatChanging(value);
-					this.SendPropertyChanging();
-					this._chkdat = value;
-					this.SendPropertyChanged("chkdat");
-					this.OnchkdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)")]
-		public string opr
-		{
-			get
-			{
-				return this._opr;
-			}
-			set
-			{
-				if ((this._opr != value))
-				{
-					this.OnoprChanging(value);
-					this.SendPropertyChanging();
-					this._opr = value;
-					this.SendPropertyChanged("opr");
-					this.OnoprChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)")]
-		public string brief
-		{
-			get
-			{
-				return this._brief;
-			}
-			set
-			{
-				if ((this._brief != value))
-				{
-					this.OnbriefChanging(value);
-					this.SendPropertyChanging();
-					this._brief = value;
-					this.SendPropertyChanged("brief");
-					this.OnbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)")]
-		public string lnkbllid
-		{
-			get
-			{
-				return this._lnkbllid;
-			}
-			set
-			{
-				if ((this._lnkbllid != value))
-				{
-					this.OnlnkbllidChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbllid = value;
-					this.SendPropertyChanged("lnkbllid");
-					this.OnlnkbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)")]
-		public string lnkno
-		{
-			get
-			{
-				return this._lnkno;
-			}
-			set
-			{
-				if ((this._lnkno != value))
-				{
-					this.OnlnknoChanging(value);
-					this.SendPropertyChanging();
-					this._lnkno = value;
-					this.SendPropertyChanged("lnkno");
-					this.OnlnknoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)")]
-		public string lnkbrief
-		{
-			get
-			{
-				return this._lnkbrief;
-			}
-			set
-			{
-				if ((this._lnkbrief != value))
-				{
-					this.OnlnkbriefChanging(value);
-					this.SendPropertyChanging();
-					this._lnkbrief = value;
-					this.SendPropertyChanged("lnkbrief");
-					this.OnlnkbriefChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string mkedat2
-		{
-			get
-			{
-				return this._mkedat2;
-			}
-			set
-			{
-				if ((this._mkedat2 != value))
-				{
-					this.Onmkedat2Changing(value);
-					this.SendPropertyChanging();
-					this._mkedat2 = value;
-					this.SendPropertyChanged("mkedat2");
-					this.Onmkedat2Changed();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_115")]
-	public partial class wms_cangdtl_115 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private string _wmsno;
-		
-		private string _bllid;
-		
-		private int _rcdidx;
-		
-		private string _oldbarcode;
-		
-		private string _barcode;
-		
-		private string _gdsid;
-		
-		private string _pkgid;
-		
-		private System.Nullable<double> _pkgqty;
-		
-		private double _qty;
-		
-		private string _gdstype;
-		
-		private string _bthno;
-		
-		private string _vlddat;
-		
-		private string _bcd;
-		
-		private string _tpcode;
-		
-		private string _bkr;
-		
-		private char _bokflg;
-		
-		private string _bokdat;
-		
-		private System.Nullable<double> _preqty;
-		
-		private string _losreason;
-		
-		private string _rcvdptid;
-		
-		private string _checi;
-		
-    #region 可扩展性方法定义
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnwmsnoChanging(string value);
-    partial void OnwmsnoChanged();
-    partial void OnbllidChanging(string value);
-    partial void OnbllidChanged();
-    partial void OnrcdidxChanging(int value);
-    partial void OnrcdidxChanged();
-    partial void OnoldbarcodeChanging(string value);
-    partial void OnoldbarcodeChanged();
-    partial void OnbarcodeChanging(string value);
-    partial void OnbarcodeChanged();
-    partial void OngdsidChanging(string value);
-    partial void OngdsidChanged();
-    partial void OnpkgidChanging(string value);
-    partial void OnpkgidChanged();
-    partial void OnpkgqtyChanging(System.Nullable<double> value);
-    partial void OnpkgqtyChanged();
-    partial void OnqtyChanging(double value);
-    partial void OnqtyChanged();
-    partial void OngdstypeChanging(string value);
-    partial void OngdstypeChanged();
-    partial void OnbthnoChanging(string value);
-    partial void OnbthnoChanged();
-    partial void OnvlddatChanging(string value);
-    partial void OnvlddatChanged();
-    partial void OnbcdChanging(string value);
-    partial void OnbcdChanged();
-    partial void OntpcodeChanging(string value);
-    partial void OntpcodeChanged();
-    partial void OnbkrChanging(string value);
-    partial void OnbkrChanged();
-    partial void OnbokflgChanging(char value);
-    partial void OnbokflgChanged();
-    partial void OnbokdatChanging(string value);
-    partial void OnbokdatChanged();
-    partial void OnpreqtyChanging(System.Nullable<double> value);
-    partial void OnpreqtyChanged();
-    partial void OnlosreasonChanging(string value);
-    partial void OnlosreasonChanged();
-    partial void OnrcvdptidChanging(string value);
-    partial void OnrcvdptidChanged();
-    partial void OncheciChanging(string value);
-    partial void OncheciChanged();
-    #endregion
-		
-		public wms_cangdtl_115()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string wmsno
-		{
-			get
-			{
-				return this._wmsno;
-			}
-			set
-			{
-				if ((this._wmsno != value))
-				{
-					this.OnwmsnoChanging(value);
-					this.SendPropertyChanging();
-					this._wmsno = value;
-					this.SendPropertyChanged("wmsno");
-					this.OnwmsnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
-		public string bllid
-		{
-			get
-			{
-				return this._bllid;
-			}
-			set
-			{
-				if ((this._bllid != value))
-				{
-					this.OnbllidChanging(value);
-					this.SendPropertyChanging();
-					this._bllid = value;
-					this.SendPropertyChanged("bllid");
-					this.OnbllidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
-		public int rcdidx
-		{
-			get
-			{
-				return this._rcdidx;
-			}
-			set
-			{
-				if ((this._rcdidx != value))
-				{
-					this.OnrcdidxChanging(value);
-					this.SendPropertyChanging();
-					this._rcdidx = value;
-					this.SendPropertyChanged("rcdidx");
-					this.OnrcdidxChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string oldbarcode
-		{
-			get
-			{
-				return this._oldbarcode;
-			}
-			set
-			{
-				if ((this._oldbarcode != value))
-				{
-					this.OnoldbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._oldbarcode = value;
-					this.SendPropertyChanged("oldbarcode");
-					this.OnoldbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string barcode
-		{
-			get
-			{
-				return this._barcode;
-			}
-			set
-			{
-				if ((this._barcode != value))
-				{
-					this.OnbarcodeChanging(value);
-					this.SendPropertyChanging();
-					this._barcode = value;
-					this.SendPropertyChanged("barcode");
-					this.OnbarcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string gdsid
-		{
-			get
-			{
-				return this._gdsid;
-			}
-			set
-			{
-				if ((this._gdsid != value))
-				{
-					this.OngdsidChanging(value);
-					this.SendPropertyChanging();
-					this._gdsid = value;
-					this.SendPropertyChanged("gdsid");
-					this.OngdsidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string pkgid
-		{
-			get
-			{
-				return this._pkgid;
-			}
-			set
-			{
-				if ((this._pkgid != value))
-				{
-					this.OnpkgidChanging(value);
-					this.SendPropertyChanging();
-					this._pkgid = value;
-					this.SendPropertyChanged("pkgid");
-					this.OnpkgidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
-		public System.Nullable<double> pkgqty
-		{
-			get
-			{
-				return this._pkgqty;
-			}
-			set
-			{
-				if ((this._pkgqty != value))
-				{
-					this.OnpkgqtyChanging(value);
-					this.SendPropertyChanging();
-					this._pkgqty = value;
-					this.SendPropertyChanged("pkgqty");
-					this.OnpkgqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
-		public double qty
-		{
-			get
-			{
-				return this._qty;
-			}
-			set
-			{
-				if ((this._qty != value))
-				{
-					this.OnqtyChanging(value);
-					this.SendPropertyChanging();
-					this._qty = value;
-					this.SendPropertyChanged("qty");
-					this.OnqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
-		public string gdstype
-		{
-			get
-			{
-				return this._gdstype;
-			}
-			set
-			{
-				if ((this._gdstype != value))
-				{
-					this.OngdstypeChanging(value);
-					this.SendPropertyChanging();
-					this._gdstype = value;
-					this.SendPropertyChanged("gdstype");
-					this.OngdstypeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20) NOT NULL", CanBeNull=false)]
-		public string bthno
-		{
-			get
-			{
-				return this._bthno;
-			}
-			set
-			{
-				if ((this._bthno != value))
-				{
-					this.OnbthnoChanging(value);
-					this.SendPropertyChanging();
-					this._bthno = value;
-					this.SendPropertyChanged("bthno");
-					this.OnbthnoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string vlddat
-		{
-			get
-			{
-				return this._vlddat;
-			}
-			set
-			{
-				if ((this._vlddat != value))
-				{
-					this.OnvlddatChanging(value);
-					this.SendPropertyChanging();
-					this._vlddat = value;
-					this.SendPropertyChanged("vlddat");
-					this.OnvlddatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string bcd
-		{
-			get
-			{
-				return this._bcd;
-			}
-			set
-			{
-				if ((this._bcd != value))
-				{
-					this.OnbcdChanging(value);
-					this.SendPropertyChanging();
-					this._bcd = value;
-					this.SendPropertyChanged("bcd");
-					this.OnbcdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
-		public string tpcode
-		{
-			get
-			{
-				return this._tpcode;
-			}
-			set
-			{
-				if ((this._tpcode != value))
-				{
-					this.OntpcodeChanging(value);
-					this.SendPropertyChanging();
-					this._tpcode = value;
-					this.SendPropertyChanged("tpcode");
-					this.OntpcodeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
-		public string bkr
-		{
-			get
-			{
-				return this._bkr;
-			}
-			set
-			{
-				if ((this._bkr != value))
-				{
-					this.OnbkrChanging(value);
-					this.SendPropertyChanging();
-					this._bkr = value;
-					this.SendPropertyChanged("bkr");
-					this.OnbkrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
-		public char bokflg
-		{
-			get
-			{
-				return this._bokflg;
-			}
-			set
-			{
-				if ((this._bokflg != value))
-				{
-					this.OnbokflgChanging(value);
-					this.SendPropertyChanging();
-					this._bokflg = value;
-					this.SendPropertyChanged("bokflg");
-					this.OnbokflgChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
-		public string bokdat
-		{
-			get
-			{
-				return this._bokdat;
-			}
-			set
-			{
-				if ((this._bokdat != value))
-				{
-					this.OnbokdatChanging(value);
-					this.SendPropertyChanging();
-					this._bokdat = value;
-					this.SendPropertyChanged("bokdat");
-					this.OnbokdatChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
-		public System.Nullable<double> preqty
-		{
-			get
-			{
-				return this._preqty;
-			}
-			set
-			{
-				if ((this._preqty != value))
-				{
-					this.OnpreqtyChanging(value);
-					this.SendPropertyChanging();
-					this._preqty = value;
-					this.SendPropertyChanged("preqty");
-					this.OnpreqtyChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_losreason", DbType="Char(2)")]
-		public string losreason
-		{
-			get
-			{
-				return this._losreason;
-			}
-			set
-			{
-				if ((this._losreason != value))
-				{
-					this.OnlosreasonChanging(value);
-					this.SendPropertyChanging();
-					this._losreason = value;
-					this.SendPropertyChanged("losreason");
-					this.OnlosreasonChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(6)")]
-		public string rcvdptid
-		{
-			get
-			{
-				return this._rcvdptid;
-			}
-			set
-			{
-				if ((this._rcvdptid != value))
-				{
-					this.OnrcvdptidChanging(value);
-					this.SendPropertyChanging();
-					this._rcvdptid = value;
-					this.SendPropertyChanged("rcvdptid");
-					this.OnrcvdptidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_checi", DbType="VarChar(10)")]
-		public string checi
-		{
-			get
-			{
-				return this._checi;
-			}
-			set
-			{
-				if ((this._checi != value))
-				{
-					this.OncheciChanging(value);
-					this.SendPropertyChanging();
-					this._checi = value;
-					this.SendPropertyChanged("checi");
-					this.OncheciChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}
@@ -28705,6 +21776,7608 @@ namespace WMS.Models
 					this._cnvrto = value;
 					this.SendPropertyChanged("cnvrto");
 					this.OncnvrtoChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang")]
+	public partial class wms_cang : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _savdptid;
+		
+		private string _prvid;
+		
+		private string _qu;
+		
+		private string _rcvdptid;
+		
+		private string _times;
+		
+		private string _lnkbocino;
+		
+		private string _lnkbocidat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnkbllid;
+		
+		private string _lnkno;
+		
+		private string _lnkbrief;
+		
+		private string _mkedat2;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OntimesChanging(string value);
+    partial void OntimesChanged();
+    partial void OnlnkbocinoChanging(string value);
+    partial void OnlnkbocinoChanged();
+    partial void OnlnkbocidatChanging(string value);
+    partial void OnlnkbocidatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnkbllidChanging(string value);
+    partial void OnlnkbllidChanged();
+    partial void OnlnknoChanging(string value);
+    partial void OnlnknoChanged();
+    partial void OnlnkbriefChanging(string value);
+    partial void OnlnkbriefChanged();
+    partial void Onmkedat2Changing(string value);
+    partial void Onmkedat2Changed();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_cang()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)", UpdateCheck=UpdateCheck.Never)]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)", UpdateCheck=UpdateCheck.Never)]
+		public string times
+		{
+			get
+			{
+				return this._times;
+			}
+			set
+			{
+				if ((this._times != value))
+				{
+					this.OntimesChanging(value);
+					this.SendPropertyChanging();
+					this._times = value;
+					this.SendPropertyChanged("times");
+					this.OntimesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocino
+		{
+			get
+			{
+				return this._lnkbocino;
+			}
+			set
+			{
+				if ((this._lnkbocino != value))
+				{
+					this.OnlnkbocinoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocino = value;
+					this.SendPropertyChanged("lnkbocino");
+					this.OnlnkbocinoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocidat
+		{
+			get
+			{
+				return this._lnkbocidat;
+			}
+			set
+			{
+				if ((this._lnkbocidat != value))
+				{
+					this.OnlnkbocidatChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocidat = value;
+					this.SendPropertyChanged("lnkbocidat");
+					this.OnlnkbocidatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbllid
+		{
+			get
+			{
+				return this._lnkbllid;
+			}
+			set
+			{
+				if ((this._lnkbllid != value))
+				{
+					this.OnlnkbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbllid = value;
+					this.SendPropertyChanged("lnkbllid");
+					this.OnlnkbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkno
+		{
+			get
+			{
+				return this._lnkno;
+			}
+			set
+			{
+				if ((this._lnkno != value))
+				{
+					this.OnlnknoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkno = value;
+					this.SendPropertyChanged("lnkno");
+					this.OnlnknoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbrief
+		{
+			get
+			{
+				return this._lnkbrief;
+			}
+			set
+			{
+				if ((this._lnkbrief != value))
+				{
+					this.OnlnkbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbrief = value;
+					this.SendPropertyChanged("lnkbrief");
+					this.OnlnkbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat2
+		{
+			get
+			{
+				return this._mkedat2;
+			}
+			set
+			{
+				if ((this._mkedat2 != value))
+				{
+					this.Onmkedat2Changing(value);
+					this.SendPropertyChanging();
+					this._mkedat2 = value;
+					this.SendPropertyChanged("mkedat2");
+					this.Onmkedat2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_115")]
+	public partial class wms_cangdtl_115 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _oldbarcode;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private System.Nullable<double> _pkgqty;
+		
+		private double _qty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _tpcode;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private System.Nullable<double> _preqty;
+		
+		private string _losreason;
+		
+		private string _rcvdptid;
+		
+		private string _checi;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnoldbarcodeChanging(string value);
+    partial void OnoldbarcodeChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnpkgqtyChanging(System.Nullable<double> value);
+    partial void OnpkgqtyChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnpreqtyChanging(System.Nullable<double> value);
+    partial void OnpreqtyChanged();
+    partial void OnlosreasonChanging(string value);
+    partial void OnlosreasonChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OncheciChanging(string value);
+    partial void OncheciChanged();
+    #endregion
+		
+		public wms_cangdtl_115()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string oldbarcode
+		{
+			get
+			{
+				return this._oldbarcode;
+			}
+			set
+			{
+				if ((this._oldbarcode != value))
+				{
+					this.OnoldbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._oldbarcode = value;
+					this.SendPropertyChanged("oldbarcode");
+					this.OnoldbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
+		public System.Nullable<double> pkgqty
+		{
+			get
+			{
+				return this._pkgqty;
+			}
+			set
+			{
+				if ((this._pkgqty != value))
+				{
+					this.OnpkgqtyChanging(value);
+					this.SendPropertyChanging();
+					this._pkgqty = value;
+					this.SendPropertyChanged("pkgqty");
+					this.OnpkgqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20) NOT NULL", CanBeNull=false)]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
+		public System.Nullable<double> preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_losreason", DbType="Char(2)")]
+		public string losreason
+		{
+			get
+			{
+				return this._losreason;
+			}
+			set
+			{
+				if ((this._losreason != value))
+				{
+					this.OnlosreasonChanging(value);
+					this.SendPropertyChanging();
+					this._losreason = value;
+					this.SendPropertyChanged("losreason");
+					this.OnlosreasonChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(6)")]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_checi", DbType="VarChar(10)")]
+		public string checi
+		{
+			get
+			{
+				return this._checi;
+			}
+			set
+			{
+				if ((this._checi != value))
+				{
+					this.OncheciChanging(value);
+					this.SendPropertyChanging();
+					this._checi = value;
+					this.SendPropertyChanged("checi");
+					this.OncheciChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_105")]
+	public partial class wms_cang_105 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _savdptid;
+		
+		private string _prvid;
+		
+		private string _qu;
+		
+		private string _rcvdptid;
+		
+		private string _times;
+		
+		private string _lnkbocino;
+		
+		private string _lnkbocidat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnkbllid;
+		
+		private string _lnkno;
+		
+		private string _lnkbrief;
+		
+		private string _mkedat2;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OntimesChanging(string value);
+    partial void OntimesChanged();
+    partial void OnlnkbocinoChanging(string value);
+    partial void OnlnkbocinoChanged();
+    partial void OnlnkbocidatChanging(string value);
+    partial void OnlnkbocidatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnkbllidChanging(string value);
+    partial void OnlnkbllidChanged();
+    partial void OnlnknoChanging(string value);
+    partial void OnlnknoChanged();
+    partial void OnlnkbriefChanging(string value);
+    partial void OnlnkbriefChanged();
+    partial void Onmkedat2Changing(string value);
+    partial void Onmkedat2Changed();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_cang_105()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)", UpdateCheck=UpdateCheck.Never)]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)", UpdateCheck=UpdateCheck.Never)]
+		public string times
+		{
+			get
+			{
+				return this._times;
+			}
+			set
+			{
+				if ((this._times != value))
+				{
+					this.OntimesChanging(value);
+					this.SendPropertyChanging();
+					this._times = value;
+					this.SendPropertyChanged("times");
+					this.OntimesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocino
+		{
+			get
+			{
+				return this._lnkbocino;
+			}
+			set
+			{
+				if ((this._lnkbocino != value))
+				{
+					this.OnlnkbocinoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocino = value;
+					this.SendPropertyChanged("lnkbocino");
+					this.OnlnkbocinoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocidat
+		{
+			get
+			{
+				return this._lnkbocidat;
+			}
+			set
+			{
+				if ((this._lnkbocidat != value))
+				{
+					this.OnlnkbocidatChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocidat = value;
+					this.SendPropertyChanged("lnkbocidat");
+					this.OnlnkbocidatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbllid
+		{
+			get
+			{
+				return this._lnkbllid;
+			}
+			set
+			{
+				if ((this._lnkbllid != value))
+				{
+					this.OnlnkbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbllid = value;
+					this.SendPropertyChanged("lnkbllid");
+					this.OnlnkbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkno
+		{
+			get
+			{
+				return this._lnkno;
+			}
+			set
+			{
+				if ((this._lnkno != value))
+				{
+					this.OnlnknoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkno = value;
+					this.SendPropertyChanged("lnkno");
+					this.OnlnknoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbrief
+		{
+			get
+			{
+				return this._lnkbrief;
+			}
+			set
+			{
+				if ((this._lnkbrief != value))
+				{
+					this.OnlnkbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbrief = value;
+					this.SendPropertyChanged("lnkbrief");
+					this.OnlnkbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat2
+		{
+			get
+			{
+				return this._mkedat2;
+			}
+			set
+			{
+				if ((this._mkedat2 != value))
+				{
+					this.Onmkedat2Changing(value);
+					this.SendPropertyChanging();
+					this._mkedat2 = value;
+					this.SendPropertyChanged("mkedat2");
+					this.Onmkedat2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_109")]
+	public partial class wms_cang_109 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _savdptid;
+		
+		private string _prvid;
+		
+		private string _qu;
+		
+		private string _rcvdptid;
+		
+		private string _times;
+		
+		private string _lnkbocino;
+		
+		private string _lnkbocidat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnkbllid;
+		
+		private string _lnkno;
+		
+		private string _lnkbrief;
+		
+		private string _mkedat2;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OntimesChanging(string value);
+    partial void OntimesChanged();
+    partial void OnlnkbocinoChanging(string value);
+    partial void OnlnkbocinoChanged();
+    partial void OnlnkbocidatChanging(string value);
+    partial void OnlnkbocidatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnkbllidChanging(string value);
+    partial void OnlnkbllidChanged();
+    partial void OnlnknoChanging(string value);
+    partial void OnlnknoChanged();
+    partial void OnlnkbriefChanging(string value);
+    partial void OnlnkbriefChanged();
+    partial void Onmkedat2Changing(string value);
+    partial void Onmkedat2Changed();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_cang_109()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)", UpdateCheck=UpdateCheck.Never)]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)", UpdateCheck=UpdateCheck.Never)]
+		public string times
+		{
+			get
+			{
+				return this._times;
+			}
+			set
+			{
+				if ((this._times != value))
+				{
+					this.OntimesChanging(value);
+					this.SendPropertyChanging();
+					this._times = value;
+					this.SendPropertyChanged("times");
+					this.OntimesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocino
+		{
+			get
+			{
+				return this._lnkbocino;
+			}
+			set
+			{
+				if ((this._lnkbocino != value))
+				{
+					this.OnlnkbocinoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocino = value;
+					this.SendPropertyChanged("lnkbocino");
+					this.OnlnkbocinoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocidat
+		{
+			get
+			{
+				return this._lnkbocidat;
+			}
+			set
+			{
+				if ((this._lnkbocidat != value))
+				{
+					this.OnlnkbocidatChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocidat = value;
+					this.SendPropertyChanged("lnkbocidat");
+					this.OnlnkbocidatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbllid
+		{
+			get
+			{
+				return this._lnkbllid;
+			}
+			set
+			{
+				if ((this._lnkbllid != value))
+				{
+					this.OnlnkbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbllid = value;
+					this.SendPropertyChanged("lnkbllid");
+					this.OnlnkbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkno
+		{
+			get
+			{
+				return this._lnkno;
+			}
+			set
+			{
+				if ((this._lnkno != value))
+				{
+					this.OnlnknoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkno = value;
+					this.SendPropertyChanged("lnkno");
+					this.OnlnknoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbrief
+		{
+			get
+			{
+				return this._lnkbrief;
+			}
+			set
+			{
+				if ((this._lnkbrief != value))
+				{
+					this.OnlnkbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbrief = value;
+					this.SendPropertyChanged("lnkbrief");
+					this.OnlnkbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat2
+		{
+			get
+			{
+				return this._mkedat2;
+			}
+			set
+			{
+				if ((this._mkedat2 != value))
+				{
+					this.Onmkedat2Changing(value);
+					this.SendPropertyChanging();
+					this._mkedat2 = value;
+					this.SendPropertyChanged("mkedat2");
+					this.Onmkedat2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_110")]
+	public partial class wms_cang_110 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _savdptid;
+		
+		private string _prvid;
+		
+		private string _qu;
+		
+		private string _rcvdptid;
+		
+		private string _times;
+		
+		private string _lnkbocino;
+		
+		private string _lnkbocidat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnkbllid;
+		
+		private string _lnkno;
+		
+		private string _lnkbrief;
+		
+		private string _mkedat2;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OntimesChanging(string value);
+    partial void OntimesChanged();
+    partial void OnlnkbocinoChanging(string value);
+    partial void OnlnkbocinoChanged();
+    partial void OnlnkbocidatChanging(string value);
+    partial void OnlnkbocidatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnkbllidChanging(string value);
+    partial void OnlnkbllidChanged();
+    partial void OnlnknoChanging(string value);
+    partial void OnlnknoChanged();
+    partial void OnlnkbriefChanging(string value);
+    partial void OnlnkbriefChanged();
+    partial void Onmkedat2Changing(string value);
+    partial void Onmkedat2Changed();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_cang_110()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)", UpdateCheck=UpdateCheck.Never)]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)", UpdateCheck=UpdateCheck.Never)]
+		public string times
+		{
+			get
+			{
+				return this._times;
+			}
+			set
+			{
+				if ((this._times != value))
+				{
+					this.OntimesChanging(value);
+					this.SendPropertyChanging();
+					this._times = value;
+					this.SendPropertyChanged("times");
+					this.OntimesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocino
+		{
+			get
+			{
+				return this._lnkbocino;
+			}
+			set
+			{
+				if ((this._lnkbocino != value))
+				{
+					this.OnlnkbocinoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocino = value;
+					this.SendPropertyChanged("lnkbocino");
+					this.OnlnkbocinoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocidat
+		{
+			get
+			{
+				return this._lnkbocidat;
+			}
+			set
+			{
+				if ((this._lnkbocidat != value))
+				{
+					this.OnlnkbocidatChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocidat = value;
+					this.SendPropertyChanged("lnkbocidat");
+					this.OnlnkbocidatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbllid
+		{
+			get
+			{
+				return this._lnkbllid;
+			}
+			set
+			{
+				if ((this._lnkbllid != value))
+				{
+					this.OnlnkbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbllid = value;
+					this.SendPropertyChanged("lnkbllid");
+					this.OnlnkbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkno
+		{
+			get
+			{
+				return this._lnkno;
+			}
+			set
+			{
+				if ((this._lnkno != value))
+				{
+					this.OnlnknoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkno = value;
+					this.SendPropertyChanged("lnkno");
+					this.OnlnknoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbrief
+		{
+			get
+			{
+				return this._lnkbrief;
+			}
+			set
+			{
+				if ((this._lnkbrief != value))
+				{
+					this.OnlnkbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbrief = value;
+					this.SendPropertyChanged("lnkbrief");
+					this.OnlnkbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat2
+		{
+			get
+			{
+				return this._mkedat2;
+			}
+			set
+			{
+				if ((this._mkedat2 != value))
+				{
+					this.Onmkedat2Changing(value);
+					this.SendPropertyChanging();
+					this._mkedat2 = value;
+					this.SendPropertyChanged("mkedat2");
+					this.Onmkedat2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_111")]
+	public partial class wms_cang_111 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _savdptid;
+		
+		private string _prvid;
+		
+		private string _qu;
+		
+		private string _rcvdptid;
+		
+		private string _times;
+		
+		private string _lnkbocino;
+		
+		private string _lnkbocidat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnkbllid;
+		
+		private string _lnkno;
+		
+		private string _lnkbrief;
+		
+		private string _mkedat2;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OntimesChanging(string value);
+    partial void OntimesChanged();
+    partial void OnlnkbocinoChanging(string value);
+    partial void OnlnkbocinoChanged();
+    partial void OnlnkbocidatChanging(string value);
+    partial void OnlnkbocidatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnkbllidChanging(string value);
+    partial void OnlnkbllidChanged();
+    partial void OnlnknoChanging(string value);
+    partial void OnlnknoChanged();
+    partial void OnlnkbriefChanging(string value);
+    partial void OnlnkbriefChanged();
+    partial void Onmkedat2Changing(string value);
+    partial void Onmkedat2Changed();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_cang_111()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)", UpdateCheck=UpdateCheck.Never)]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)", UpdateCheck=UpdateCheck.Never)]
+		public string times
+		{
+			get
+			{
+				return this._times;
+			}
+			set
+			{
+				if ((this._times != value))
+				{
+					this.OntimesChanging(value);
+					this.SendPropertyChanging();
+					this._times = value;
+					this.SendPropertyChanged("times");
+					this.OntimesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocino
+		{
+			get
+			{
+				return this._lnkbocino;
+			}
+			set
+			{
+				if ((this._lnkbocino != value))
+				{
+					this.OnlnkbocinoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocino = value;
+					this.SendPropertyChanged("lnkbocino");
+					this.OnlnkbocinoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocidat
+		{
+			get
+			{
+				return this._lnkbocidat;
+			}
+			set
+			{
+				if ((this._lnkbocidat != value))
+				{
+					this.OnlnkbocidatChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocidat = value;
+					this.SendPropertyChanged("lnkbocidat");
+					this.OnlnkbocidatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbllid
+		{
+			get
+			{
+				return this._lnkbllid;
+			}
+			set
+			{
+				if ((this._lnkbllid != value))
+				{
+					this.OnlnkbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbllid = value;
+					this.SendPropertyChanged("lnkbllid");
+					this.OnlnkbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkno
+		{
+			get
+			{
+				return this._lnkno;
+			}
+			set
+			{
+				if ((this._lnkno != value))
+				{
+					this.OnlnknoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkno = value;
+					this.SendPropertyChanged("lnkno");
+					this.OnlnknoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbrief
+		{
+			get
+			{
+				return this._lnkbrief;
+			}
+			set
+			{
+				if ((this._lnkbrief != value))
+				{
+					this.OnlnkbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbrief = value;
+					this.SendPropertyChanged("lnkbrief");
+					this.OnlnkbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat2
+		{
+			get
+			{
+				return this._mkedat2;
+			}
+			set
+			{
+				if ((this._mkedat2 != value))
+				{
+					this.Onmkedat2Changing(value);
+					this.SendPropertyChanging();
+					this._mkedat2 = value;
+					this.SendPropertyChanged("mkedat2");
+					this.Onmkedat2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cang_115")]
+	public partial class wms_cang_115 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _savdptid;
+		
+		private string _prvid;
+		
+		private string _qu;
+		
+		private string _rcvdptid;
+		
+		private string _times;
+		
+		private string _lnkbocino;
+		
+		private string _lnkbocidat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnkbllid;
+		
+		private string _lnkno;
+		
+		private string _lnkbrief;
+		
+		private string _mkedat2;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcvdptidChanging(string value);
+    partial void OnrcvdptidChanged();
+    partial void OntimesChanging(string value);
+    partial void OntimesChanged();
+    partial void OnlnkbocinoChanging(string value);
+    partial void OnlnkbocinoChanged();
+    partial void OnlnkbocidatChanging(string value);
+    partial void OnlnkbocidatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnkbllidChanging(string value);
+    partial void OnlnkbllidChanged();
+    partial void OnlnknoChanging(string value);
+    partial void OnlnknoChanged();
+    partial void OnlnkbriefChanging(string value);
+    partial void OnlnkbriefChanged();
+    partial void Onmkedat2Changing(string value);
+    partial void Onmkedat2Changed();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_cang_115()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcvdptid", DbType="Char(4)", UpdateCheck=UpdateCheck.Never)]
+		public string rcvdptid
+		{
+			get
+			{
+				return this._rcvdptid;
+			}
+			set
+			{
+				if ((this._rcvdptid != value))
+				{
+					this.OnrcvdptidChanging(value);
+					this.SendPropertyChanging();
+					this._rcvdptid = value;
+					this.SendPropertyChanged("rcvdptid");
+					this.OnrcvdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_times", DbType="Char(2)", UpdateCheck=UpdateCheck.Never)]
+		public string times
+		{
+			get
+			{
+				return this._times;
+			}
+			set
+			{
+				if ((this._times != value))
+				{
+					this.OntimesChanging(value);
+					this.SendPropertyChanging();
+					this._times = value;
+					this.SendPropertyChanged("times");
+					this.OntimesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocino", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocino
+		{
+			get
+			{
+				return this._lnkbocino;
+			}
+			set
+			{
+				if ((this._lnkbocino != value))
+				{
+					this.OnlnkbocinoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocino = value;
+					this.SendPropertyChanged("lnkbocino");
+					this.OnlnkbocinoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbocidat", DbType="Char(10)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbocidat
+		{
+			get
+			{
+				return this._lnkbocidat;
+			}
+			set
+			{
+				if ((this._lnkbocidat != value))
+				{
+					this.OnlnkbocidatChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbocidat = value;
+					this.SendPropertyChanged("lnkbocidat");
+					this.OnlnkbocidatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbllid
+		{
+			get
+			{
+				return this._lnkbllid;
+			}
+			set
+			{
+				if ((this._lnkbllid != value))
+				{
+					this.OnlnkbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbllid = value;
+					this.SendPropertyChanged("lnkbllid");
+					this.OnlnkbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkno", DbType="Char(20)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkno
+		{
+			get
+			{
+				return this._lnkno;
+			}
+			set
+			{
+				if ((this._lnkno != value))
+				{
+					this.OnlnknoChanging(value);
+					this.SendPropertyChanging();
+					this._lnkno = value;
+					this.SendPropertyChanged("lnkno");
+					this.OnlnknoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnkbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnkbrief
+		{
+			get
+			{
+				return this._lnkbrief;
+			}
+			set
+			{
+				if ((this._lnkbrief != value))
+				{
+					this.OnlnkbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnkbrief = value;
+					this.SendPropertyChanged("lnkbrief");
+					this.OnlnkbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat2", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat2
+		{
+			get
+			{
+				return this._mkedat2;
+			}
+			set
+			{
+				if ((this._mkedat2 != value))
+				{
+					this.Onmkedat2Changing(value);
+					this.SendPropertyChanging();
+					this._mkedat2 = value;
+					this.SendPropertyChanged("mkedat2");
+					this.Onmkedat2Changed();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl")]
+	public partial class wms_cangdtl1 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _oldbarcode;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private System.Nullable<double> _pkgqty;
+		
+		private double _qty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _tpcode;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private System.Nullable<double> _preqty;
+		
+		private string _losreason;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnoldbarcodeChanging(string value);
+    partial void OnoldbarcodeChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnpkgqtyChanging(System.Nullable<double> value);
+    partial void OnpkgqtyChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnpreqtyChanging(System.Nullable<double> value);
+    partial void OnpreqtyChanged();
+    partial void OnlosreasonChanging(string value);
+    partial void OnlosreasonChanged();
+    #endregion
+		
+		public wms_cangdtl1()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string oldbarcode
+		{
+			get
+			{
+				return this._oldbarcode;
+			}
+			set
+			{
+				if ((this._oldbarcode != value))
+				{
+					this.OnoldbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._oldbarcode = value;
+					this.SendPropertyChanged("oldbarcode");
+					this.OnoldbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
+		public System.Nullable<double> pkgqty
+		{
+			get
+			{
+				return this._pkgqty;
+			}
+			set
+			{
+				if ((this._pkgqty != value))
+				{
+					this.OnpkgqtyChanging(value);
+					this.SendPropertyChanging();
+					this._pkgqty = value;
+					this.SendPropertyChanged("pkgqty");
+					this.OnpkgqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20) NOT NULL", CanBeNull=false)]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
+		public System.Nullable<double> preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_losreason", DbType="Char(2)")]
+		public string losreason
+		{
+			get
+			{
+				return this._losreason;
+			}
+			set
+			{
+				if ((this._losreason != value))
+				{
+					this.OnlosreasonChanging(value);
+					this.SendPropertyChanging();
+					this._losreason = value;
+					this.SendPropertyChanged("losreason");
+					this.OnlosreasonChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_105")]
+	public partial class wms_cangdtl_105 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _oldbarcode;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private System.Nullable<double> _pkgqty;
+		
+		private double _qty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _tpcode;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private System.Nullable<double> _preqty;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnoldbarcodeChanging(string value);
+    partial void OnoldbarcodeChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnpkgqtyChanging(System.Nullable<double> value);
+    partial void OnpkgqtyChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnpreqtyChanging(System.Nullable<double> value);
+    partial void OnpreqtyChanged();
+    #endregion
+		
+		public wms_cangdtl_105()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
+		public string oldbarcode
+		{
+			get
+			{
+				return this._oldbarcode;
+			}
+			set
+			{
+				if ((this._oldbarcode != value))
+				{
+					this.OnoldbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._oldbarcode = value;
+					this.SendPropertyChanged("oldbarcode");
+					this.OnoldbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
+		public System.Nullable<double> pkgqty
+		{
+			get
+			{
+				return this._pkgqty;
+			}
+			set
+			{
+				if ((this._pkgqty != value))
+				{
+					this.OnpkgqtyChanging(value);
+					this.SendPropertyChanging();
+					this._pkgqty = value;
+					this.SendPropertyChanged("pkgqty");
+					this.OnpkgqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
+		public System.Nullable<double> preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_109")]
+	public partial class wms_cangdtl_109 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _oldbarcode;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private System.Nullable<double> _pkgqty;
+		
+		private double _qty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _tpcode;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private System.Nullable<double> _preqty;
+		
+		private string _brfdtl;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnoldbarcodeChanging(string value);
+    partial void OnoldbarcodeChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnpkgqtyChanging(System.Nullable<double> value);
+    partial void OnpkgqtyChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnpreqtyChanging(System.Nullable<double> value);
+    partial void OnpreqtyChanged();
+    partial void OnbrfdtlChanging(string value);
+    partial void OnbrfdtlChanged();
+    #endregion
+		
+		public wms_cangdtl_109()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
+		public string oldbarcode
+		{
+			get
+			{
+				return this._oldbarcode;
+			}
+			set
+			{
+				if ((this._oldbarcode != value))
+				{
+					this.OnoldbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._oldbarcode = value;
+					this.SendPropertyChanged("oldbarcode");
+					this.OnoldbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
+		public System.Nullable<double> pkgqty
+		{
+			get
+			{
+				return this._pkgqty;
+			}
+			set
+			{
+				if ((this._pkgqty != value))
+				{
+					this.OnpkgqtyChanging(value);
+					this.SendPropertyChanging();
+					this._pkgqty = value;
+					this.SendPropertyChanged("pkgqty");
+					this.OnpkgqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
+		public System.Nullable<double> preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brfdtl", DbType="VarChar(40)")]
+		public string brfdtl
+		{
+			get
+			{
+				return this._brfdtl;
+			}
+			set
+			{
+				if ((this._brfdtl != value))
+				{
+					this.OnbrfdtlChanging(value);
+					this.SendPropertyChanging();
+					this._brfdtl = value;
+					this.SendPropertyChanged("brfdtl");
+					this.OnbrfdtlChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_110")]
+	public partial class wms_cangdtl_110 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _oldbarcode;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private System.Nullable<double> _pkgqty;
+		
+		private double _qty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _tpcode;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private System.Nullable<double> _preqty;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnoldbarcodeChanging(string value);
+    partial void OnoldbarcodeChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnpkgqtyChanging(System.Nullable<double> value);
+    partial void OnpkgqtyChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnpreqtyChanging(System.Nullable<double> value);
+    partial void OnpreqtyChanged();
+    #endregion
+		
+		public wms_cangdtl_110()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
+		public string oldbarcode
+		{
+			get
+			{
+				return this._oldbarcode;
+			}
+			set
+			{
+				if ((this._oldbarcode != value))
+				{
+					this.OnoldbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._oldbarcode = value;
+					this.SendPropertyChanged("oldbarcode");
+					this.OnoldbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
+		public System.Nullable<double> pkgqty
+		{
+			get
+			{
+				return this._pkgqty;
+			}
+			set
+			{
+				if ((this._pkgqty != value))
+				{
+					this.OnpkgqtyChanging(value);
+					this.SendPropertyChanging();
+					this._pkgqty = value;
+					this.SendPropertyChanged("pkgqty");
+					this.OnpkgqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
+		public System.Nullable<double> preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_cangdtl_111")]
+	public partial class wms_cangdtl_111 : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _oldbarcode;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private System.Nullable<double> _pkgqty;
+		
+		private double _qty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _tpcode;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private System.Nullable<double> _preqty;
+		
+		private string _brfdtl;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnoldbarcodeChanging(string value);
+    partial void OnoldbarcodeChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnpkgqtyChanging(System.Nullable<double> value);
+    partial void OnpkgqtyChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnpreqtyChanging(System.Nullable<double> value);
+    partial void OnpreqtyChanged();
+    partial void OnbrfdtlChanging(string value);
+    partial void OnbrfdtlChanged();
+    #endregion
+		
+		public wms_cangdtl_111()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_oldbarcode", DbType="Char(13)")]
+		public string oldbarcode
+		{
+			get
+			{
+				return this._oldbarcode;
+			}
+			set
+			{
+				if ((this._oldbarcode != value))
+				{
+					this.OnoldbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._oldbarcode = value;
+					this.SendPropertyChanged("oldbarcode");
+					this.OnoldbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgqty", DbType="Float")]
+		public System.Nullable<double> pkgqty
+		{
+			get
+			{
+				return this._pkgqty;
+			}
+			set
+			{
+				if ((this._pkgqty != value))
+				{
+					this.OnpkgqtyChanging(value);
+					this.SendPropertyChanging();
+					this._pkgqty = value;
+					this.SendPropertyChanged("pkgqty");
+					this.OnpkgqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20)")]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8)")]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13)")]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13)")]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8)")]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14)")]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float")]
+		public System.Nullable<double> preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brfdtl", DbType="VarChar(40)")]
+		public string brfdtl
+		{
+			get
+			{
+				return this._brfdtl;
+			}
+			set
+			{
+				if ((this._brfdtl != value))
+				{
+					this.OnbrfdtlChanging(value);
+					this.SendPropertyChanging();
+					this._brfdtl = value;
+					this.SendPropertyChanged("brfdtl");
+					this.OnbrfdtlChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_blltp")]
+	public partial class wms_blltp : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private string _qu;
+		
+		private int _rcdidx;
+		
+		private int _rcdidxtp;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private double _qty;
+		
+		private string _tpcode;
+		
+		private string _savdptid;
+		
+		private string _gdstype;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnrcdidxtpChanging(int value);
+    partial void OnrcdidxtpChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OntpcodeChanging(string value);
+    partial void OntpcodeChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    #endregion
+		
+		public wms_blltp()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidxtp", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidxtp
+		{
+			get
+			{
+				return this._rcdidxtp;
+			}
+			set
+			{
+				if ((this._rcdidxtp != value))
+				{
+					this.OnrcdidxtpChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidxtp = value;
+					this.SendPropertyChanged("rcdidxtp");
+					this.OnrcdidxtpChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13)")]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tpcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string tpcode
+		{
+			get
+			{
+				return this._tpcode;
+			}
+			set
+			{
+				if ((this._tpcode != value))
+				{
+					this.OntpcodeChanging(value);
+					this.SendPropertyChanging();
+					this._tpcode = value;
+					this.SendPropertyChanged("tpcode");
+					this.OntpcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8)")]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_bllmst")]
+	public partial class wms_bllmst : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _hndbllno;
+		
+		private string _bllid;
+		
+		private string _prvid;
+		
+		private string _savdptid;
+		
+		private string _qu;
+		
+		private string _tongdao;
+		
+		private string _huojia;
+		
+		private string _odrdat;
+		
+		private string _arvdat;
+		
+		private string _mkr;
+		
+		private string _mkedat;
+		
+		private string _ckr;
+		
+		private char _chkflg;
+		
+		private string _chkdat;
+		
+		private string _opr;
+		
+		private string _brief;
+		
+		private string _lnknewbllid;
+		
+		private string _lnknewno;
+		
+		private string _lnknewbrief;
+		
+		private System.Data.Linq.Binary _udtdtm;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnhndbllnoChanging(string value);
+    partial void OnhndbllnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnsavdptidChanging(string value);
+    partial void OnsavdptidChanged();
+    partial void OnquChanging(string value);
+    partial void OnquChanged();
+    partial void OntongdaoChanging(string value);
+    partial void OntongdaoChanged();
+    partial void OnhuojiaChanging(string value);
+    partial void OnhuojiaChanged();
+    partial void OnodrdatChanging(string value);
+    partial void OnodrdatChanged();
+    partial void OnarvdatChanging(string value);
+    partial void OnarvdatChanged();
+    partial void OnmkrChanging(string value);
+    partial void OnmkrChanged();
+    partial void OnmkedatChanging(string value);
+    partial void OnmkedatChanged();
+    partial void OnckrChanging(string value);
+    partial void OnckrChanged();
+    partial void OnchkflgChanging(char value);
+    partial void OnchkflgChanged();
+    partial void OnchkdatChanging(string value);
+    partial void OnchkdatChanged();
+    partial void OnoprChanging(string value);
+    partial void OnoprChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    partial void OnlnknewbllidChanging(string value);
+    partial void OnlnknewbllidChanged();
+    partial void OnlnknewnoChanging(string value);
+    partial void OnlnknewnoChanged();
+    partial void OnlnknewbriefChanging(string value);
+    partial void OnlnknewbriefChanged();
+    partial void OnudtdtmChanging(System.Data.Linq.Binary value);
+    partial void OnudtdtmChanged();
+    #endregion
+		
+		public wms_bllmst()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_hndbllno", DbType="VarChar(20)", UpdateCheck=UpdateCheck.Never)]
+		public string hndbllno
+		{
+			get
+			{
+				return this._hndbllno;
+			}
+			set
+			{
+				if ((this._hndbllno != value))
+				{
+					this.OnhndbllnoChanging(value);
+					this.SendPropertyChanging();
+					this._hndbllno = value;
+					this.SendPropertyChanged("hndbllno");
+					this.OnhndbllnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_savdptid", DbType="Char(8) NOT NULL", CanBeNull=false, IsPrimaryKey=true, UpdateCheck=UpdateCheck.Never)]
+		public string savdptid
+		{
+			get
+			{
+				return this._savdptid;
+			}
+			set
+			{
+				if ((this._savdptid != value))
+				{
+					this.OnsavdptidChanging(value);
+					this.SendPropertyChanging();
+					this._savdptid = value;
+					this.SendPropertyChanged("savdptid");
+					this.OnsavdptidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qu", DbType="VarChar(2) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string qu
+		{
+			get
+			{
+				return this._qu;
+			}
+			set
+			{
+				if ((this._qu != value))
+				{
+					this.OnquChanging(value);
+					this.SendPropertyChanging();
+					this._qu = value;
+					this.SendPropertyChanged("qu");
+					this.OnquChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tongdao", DbType="VarChar(2)", UpdateCheck=UpdateCheck.Never)]
+		public string tongdao
+		{
+			get
+			{
+				return this._tongdao;
+			}
+			set
+			{
+				if ((this._tongdao != value))
+				{
+					this.OntongdaoChanging(value);
+					this.SendPropertyChanging();
+					this._tongdao = value;
+					this.SendPropertyChanged("tongdao");
+					this.OntongdaoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_huojia", DbType="VarChar(5)", UpdateCheck=UpdateCheck.Never)]
+		public string huojia
+		{
+			get
+			{
+				return this._huojia;
+			}
+			set
+			{
+				if ((this._huojia != value))
+				{
+					this.OnhuojiaChanging(value);
+					this.SendPropertyChanging();
+					this._huojia = value;
+					this.SendPropertyChanged("huojia");
+					this.OnhuojiaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_odrdat", DbType="Char(8)", UpdateCheck=UpdateCheck.Never)]
+		public string odrdat
+		{
+			get
+			{
+				return this._odrdat;
+			}
+			set
+			{
+				if ((this._odrdat != value))
+				{
+					this.OnodrdatChanging(value);
+					this.SendPropertyChanging();
+					this._odrdat = value;
+					this.SendPropertyChanged("odrdat");
+					this.OnodrdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_arvdat", DbType="Char(8)", UpdateCheck=UpdateCheck.Never)]
+		public string arvdat
+		{
+			get
+			{
+				return this._arvdat;
+			}
+			set
+			{
+				if ((this._arvdat != value))
+				{
+					this.OnarvdatChanging(value);
+					this.SendPropertyChanging();
+					this._arvdat = value;
+					this.SendPropertyChanged("arvdat");
+					this.OnarvdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkr
+		{
+			get
+			{
+				return this._mkr;
+			}
+			set
+			{
+				if ((this._mkr != value))
+				{
+					this.OnmkrChanging(value);
+					this.SendPropertyChanging();
+					this._mkr = value;
+					this.SendPropertyChanged("mkr");
+					this.OnmkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_mkedat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string mkedat
+		{
+			get
+			{
+				return this._mkedat;
+			}
+			set
+			{
+				if ((this._mkedat != value))
+				{
+					this.OnmkedatChanging(value);
+					this.SendPropertyChanging();
+					this._mkedat = value;
+					this.SendPropertyChanged("mkedat");
+					this.OnmkedatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ckr", DbType="Char(8) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string ckr
+		{
+			get
+			{
+				return this._ckr;
+			}
+			set
+			{
+				if ((this._ckr != value))
+				{
+					this.OnckrChanging(value);
+					this.SendPropertyChanging();
+					this._ckr = value;
+					this.SendPropertyChanged("ckr");
+					this.OnckrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkflg", DbType="Char(1) NOT NULL", UpdateCheck=UpdateCheck.Never)]
+		public char chkflg
+		{
+			get
+			{
+				return this._chkflg;
+			}
+			set
+			{
+				if ((this._chkflg != value))
+				{
+					this.OnchkflgChanging(value);
+					this.SendPropertyChanging();
+					this._chkflg = value;
+					this.SendPropertyChanged("chkflg");
+					this.OnchkflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_chkdat", DbType="Char(14) NOT NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public string chkdat
+		{
+			get
+			{
+				return this._chkdat;
+			}
+			set
+			{
+				if ((this._chkdat != value))
+				{
+					this.OnchkdatChanging(value);
+					this.SendPropertyChanging();
+					this._chkdat = value;
+					this.SendPropertyChanged("chkdat");
+					this.OnchkdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_opr", DbType="Char(6)", UpdateCheck=UpdateCheck.Never)]
+		public string opr
+		{
+			get
+			{
+				return this._opr;
+			}
+			set
+			{
+				if ((this._opr != value))
+				{
+					this.OnoprChanging(value);
+					this.SendPropertyChanging();
+					this._opr = value;
+					this.SendPropertyChanged("opr");
+					this.OnoprChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnknewbllid", DbType="Char(3)", UpdateCheck=UpdateCheck.Never)]
+		public string lnknewbllid
+		{
+			get
+			{
+				return this._lnknewbllid;
+			}
+			set
+			{
+				if ((this._lnknewbllid != value))
+				{
+					this.OnlnknewbllidChanging(value);
+					this.SendPropertyChanging();
+					this._lnknewbllid = value;
+					this.SendPropertyChanged("lnknewbllid");
+					this.OnlnknewbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnknewno", DbType="VarChar(14)", UpdateCheck=UpdateCheck.Never)]
+		public string lnknewno
+		{
+			get
+			{
+				return this._lnknewno;
+			}
+			set
+			{
+				if ((this._lnknewno != value))
+				{
+					this.OnlnknewnoChanging(value);
+					this.SendPropertyChanging();
+					this._lnknewno = value;
+					this.SendPropertyChanged("lnknewno");
+					this.OnlnknewnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_lnknewbrief", DbType="VarChar(40)", UpdateCheck=UpdateCheck.Never)]
+		public string lnknewbrief
+		{
+			get
+			{
+				return this._lnknewbrief;
+			}
+			set
+			{
+				if ((this._lnknewbrief != value))
+				{
+					this.OnlnknewbriefChanging(value);
+					this.SendPropertyChanging();
+					this._lnknewbrief = value;
+					this.SendPropertyChanged("lnknewbrief");
+					this.OnlnknewbriefChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_udtdtm", AutoSync=AutoSync.Always, DbType="rowversion NOT NULL", CanBeNull=false, IsDbGenerated=true, IsVersion=true, UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary udtdtm
+		{
+			get
+			{
+				return this._udtdtm;
+			}
+			set
+			{
+				if ((this._udtdtm != value))
+				{
+					this.OnudtdtmChanging(value);
+					this.SendPropertyChanging();
+					this._udtdtm = value;
+					this.SendPropertyChanged("udtdtm");
+					this.OnudtdtmChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.wms_blldtl")]
+	public partial class wms_blldtl : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private string _wmsno;
+		
+		private string _bllid;
+		
+		private int _rcdidx;
+		
+		private string _barcode;
+		
+		private string _gdsid;
+		
+		private string _pkgid;
+		
+		private double _qty;
+		
+		private double _preqty;
+		
+		private string _gdstype;
+		
+		private string _bthno;
+		
+		private string _vlddat;
+		
+		private string _bcd;
+		
+		private string _prvid;
+		
+		private string _bkr;
+		
+		private char _bokflg;
+		
+		private string _bokdat;
+		
+		private string _brief;
+		
+    #region 可扩展性方法定义
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnwmsnoChanging(string value);
+    partial void OnwmsnoChanged();
+    partial void OnbllidChanging(string value);
+    partial void OnbllidChanged();
+    partial void OnrcdidxChanging(int value);
+    partial void OnrcdidxChanged();
+    partial void OnbarcodeChanging(string value);
+    partial void OnbarcodeChanged();
+    partial void OngdsidChanging(string value);
+    partial void OngdsidChanged();
+    partial void OnpkgidChanging(string value);
+    partial void OnpkgidChanged();
+    partial void OnqtyChanging(double value);
+    partial void OnqtyChanged();
+    partial void OnpreqtyChanging(double value);
+    partial void OnpreqtyChanged();
+    partial void OngdstypeChanging(string value);
+    partial void OngdstypeChanged();
+    partial void OnbthnoChanging(string value);
+    partial void OnbthnoChanged();
+    partial void OnvlddatChanging(string value);
+    partial void OnvlddatChanged();
+    partial void OnbcdChanging(string value);
+    partial void OnbcdChanged();
+    partial void OnprvidChanging(string value);
+    partial void OnprvidChanged();
+    partial void OnbkrChanging(string value);
+    partial void OnbkrChanged();
+    partial void OnbokflgChanging(char value);
+    partial void OnbokflgChanged();
+    partial void OnbokdatChanging(string value);
+    partial void OnbokdatChanged();
+    partial void OnbriefChanging(string value);
+    partial void OnbriefChanged();
+    #endregion
+		
+		public wms_blldtl()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_wmsno", DbType="VarChar(20) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string wmsno
+		{
+			get
+			{
+				return this._wmsno;
+			}
+			set
+			{
+				if ((this._wmsno != value))
+				{
+					this.OnwmsnoChanging(value);
+					this.SendPropertyChanging();
+					this._wmsno = value;
+					this.SendPropertyChanged("wmsno");
+					this.OnwmsnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bllid", DbType="Char(3) NOT NULL", CanBeNull=false, IsPrimaryKey=true)]
+		public string bllid
+		{
+			get
+			{
+				return this._bllid;
+			}
+			set
+			{
+				if ((this._bllid != value))
+				{
+					this.OnbllidChanging(value);
+					this.SendPropertyChanging();
+					this._bllid = value;
+					this.SendPropertyChanged("bllid");
+					this.OnbllidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_rcdidx", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int rcdidx
+		{
+			get
+			{
+				return this._rcdidx;
+			}
+			set
+			{
+				if ((this._rcdidx != value))
+				{
+					this.OnrcdidxChanging(value);
+					this.SendPropertyChanging();
+					this._rcdidx = value;
+					this.SendPropertyChanged("rcdidx");
+					this.OnrcdidxChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_barcode", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string barcode
+		{
+			get
+			{
+				return this._barcode;
+			}
+			set
+			{
+				if ((this._barcode != value))
+				{
+					this.OnbarcodeChanging(value);
+					this.SendPropertyChanging();
+					this._barcode = value;
+					this.SendPropertyChanged("barcode");
+					this.OnbarcodeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdsid", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string gdsid
+		{
+			get
+			{
+				return this._gdsid;
+			}
+			set
+			{
+				if ((this._gdsid != value))
+				{
+					this.OngdsidChanging(value);
+					this.SendPropertyChanging();
+					this._gdsid = value;
+					this.SendPropertyChanged("gdsid");
+					this.OngdsidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_pkgid", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string pkgid
+		{
+			get
+			{
+				return this._pkgid;
+			}
+			set
+			{
+				if ((this._pkgid != value))
+				{
+					this.OnpkgidChanging(value);
+					this.SendPropertyChanging();
+					this._pkgid = value;
+					this.SendPropertyChanged("pkgid");
+					this.OnpkgidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_qty", DbType="Float NOT NULL")]
+		public double qty
+		{
+			get
+			{
+				return this._qty;
+			}
+			set
+			{
+				if ((this._qty != value))
+				{
+					this.OnqtyChanging(value);
+					this.SendPropertyChanging();
+					this._qty = value;
+					this.SendPropertyChanged("qty");
+					this.OnqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_preqty", DbType="Float NOT NULL")]
+		public double preqty
+		{
+			get
+			{
+				return this._preqty;
+			}
+			set
+			{
+				if ((this._preqty != value))
+				{
+					this.OnpreqtyChanging(value);
+					this.SendPropertyChanging();
+					this._preqty = value;
+					this.SendPropertyChanged("preqty");
+					this.OnpreqtyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_gdstype", DbType="Char(2) NOT NULL", CanBeNull=false)]
+		public string gdstype
+		{
+			get
+			{
+				return this._gdstype;
+			}
+			set
+			{
+				if ((this._gdstype != value))
+				{
+					this.OngdstypeChanging(value);
+					this.SendPropertyChanging();
+					this._gdstype = value;
+					this.SendPropertyChanged("gdstype");
+					this.OngdstypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bthno", DbType="Char(20) NOT NULL", CanBeNull=false)]
+		public string bthno
+		{
+			get
+			{
+				return this._bthno;
+			}
+			set
+			{
+				if ((this._bthno != value))
+				{
+					this.OnbthnoChanging(value);
+					this.SendPropertyChanging();
+					this._bthno = value;
+					this.SendPropertyChanged("bthno");
+					this.OnbthnoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_vlddat", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string vlddat
+		{
+			get
+			{
+				return this._vlddat;
+			}
+			set
+			{
+				if ((this._vlddat != value))
+				{
+					this.OnvlddatChanging(value);
+					this.SendPropertyChanging();
+					this._vlddat = value;
+					this.SendPropertyChanged("vlddat");
+					this.OnvlddatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bcd", DbType="Char(13) NOT NULL", CanBeNull=false)]
+		public string bcd
+		{
+			get
+			{
+				return this._bcd;
+			}
+			set
+			{
+				if ((this._bcd != value))
+				{
+					this.OnbcdChanging(value);
+					this.SendPropertyChanging();
+					this._bcd = value;
+					this.SendPropertyChanged("bcd");
+					this.OnbcdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_prvid", DbType="Char(6) NOT NULL", CanBeNull=false)]
+		public string prvid
+		{
+			get
+			{
+				return this._prvid;
+			}
+			set
+			{
+				if ((this._prvid != value))
+				{
+					this.OnprvidChanging(value);
+					this.SendPropertyChanging();
+					this._prvid = value;
+					this.SendPropertyChanged("prvid");
+					this.OnprvidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bkr", DbType="Char(8) NOT NULL", CanBeNull=false)]
+		public string bkr
+		{
+			get
+			{
+				return this._bkr;
+			}
+			set
+			{
+				if ((this._bkr != value))
+				{
+					this.OnbkrChanging(value);
+					this.SendPropertyChanging();
+					this._bkr = value;
+					this.SendPropertyChanged("bkr");
+					this.OnbkrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokflg", DbType="Char(1) NOT NULL")]
+		public char bokflg
+		{
+			get
+			{
+				return this._bokflg;
+			}
+			set
+			{
+				if ((this._bokflg != value))
+				{
+					this.OnbokflgChanging(value);
+					this.SendPropertyChanging();
+					this._bokflg = value;
+					this.SendPropertyChanged("bokflg");
+					this.OnbokflgChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_bokdat", DbType="Char(14) NOT NULL", CanBeNull=false)]
+		public string bokdat
+		{
+			get
+			{
+				return this._bokdat;
+			}
+			set
+			{
+				if ((this._bokdat != value))
+				{
+					this.OnbokdatChanging(value);
+					this.SendPropertyChanging();
+					this._bokdat = value;
+					this.SendPropertyChanged("bokdat");
+					this.OnbokdatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_brief", DbType="VarChar(40) NOT NULL", CanBeNull=false)]
+		public string brief
+		{
+			get
+			{
+				return this._brief;
+			}
+			set
+			{
+				if ((this._brief != value))
+				{
+					this.OnbriefChanging(value);
+					this.SendPropertyChanging();
+					this._brief = value;
+					this.SendPropertyChanged("brief");
+					this.OnbriefChanged();
 				}
 			}
 		}
