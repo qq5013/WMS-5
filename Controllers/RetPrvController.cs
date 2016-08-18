@@ -385,12 +385,24 @@ namespace WMS.Controllers
                 //删除主单据
                 try
                 {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
+
+                    if (iDtlCnt > 1)
+                    {
+                        //修改主单时间戳
+                        string sql = @"update wms_cang_110 set bllid='110' where wmsno='" + mst.wmsno + "' and bllid='110' and udtdtm={0}";
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
+                    }
+
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0150");
@@ -423,6 +435,7 @@ namespace WMS.Controllers
                              && e.bllid == WMSConst.BLL_TYPE_RETPRV
                              select e;
                 var arrqrydtl = qrydtl.ToArray();
+                int iDtlCount = arrqrydtl.Length;
                 //单据是否找到
                 if (arrqrymst.Length <= 0)
                 {
@@ -458,12 +471,24 @@ namespace WMS.Controllers
                 //删除主单据
                 try
                 {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
+
+                    if (iDtlCount > 1)
+                    {
+                        //修改主单时间戳
+                        string sql = @"update wms_cang_110 set bllid='110' where wmsno='" + mst.wmsno + "' and bllid='110' and udtdtm={0}";
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
+                    }
+
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0151");
@@ -556,12 +581,21 @@ namespace WMS.Controllers
 
                 try
                 {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
+
+                    //修改主单时间戳
+                    string sql = @"update wms_cang_110 set bllid='110' where wmsno='" + mst.wmsno + "' and bllid='110' and udtdtm={0}";
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }
+
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", arrqrydtl[0], "S0152");
@@ -620,6 +654,24 @@ namespace WMS.Controllers
                         return jr;
                     }
                     retObjs.Add(rm.ResultObject);
+                }
+
+                //修改主单时间戳
+                //检查单号是否存在
+                var qrymst = from e in WmsDc.wms_cang_110
+                             where e.wmsno == wmsno
+                             && e.bllid == WMSConst.BLL_TYPE_RETPRV
+                             select e;
+                wms_cang_110 mst = qrymst.FirstOrDefault();
+                if (mst == null)
+                {
+                    return RNoData("N0258");
+                }
+                string sql = @"update wms_cang_110 set bllid='110' where wmsno='" + mst.wmsno + "' and bllid='110' and udtdtm={0}";
+                int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                if (iEff == 0)
+                {
+                    return RInfo("I0207");
                 }
 
                 WmsDc.SubmitChanges();
@@ -748,12 +800,14 @@ namespace WMS.Controllers
             WmsDc.wms_cangdtl_110.InsertOnSubmit(dtl);
             try
             {
-                WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                 //检查单号是否已经审核
                 if (mst!=null && mst.chkflg == GetY())
                 {
                     return RInfo("I0207");
                 }
+
+                
                 WmsDc.SubmitChanges();
                 return RSucc("成功", dtl, "S0154");
             }
@@ -857,12 +911,21 @@ namespace WMS.Controllers
 
                 try
                 {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
+
+                    //修改主单时间戳
+                    string sql = @"update wms_cang_110 set bllid='110' where wmsno='" + mst.wmsno + "' and bllid='110' and udtdtm={0}";
+                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                    if (iEff == 0)
+                    {
+                        return RInfo("I0207");
+                    }
+
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", newdtl, "S0155");
@@ -889,13 +952,21 @@ namespace WMS.Controllers
                          select e;
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_cangdtl_110
+                         join e4 in WmsDc.wms_cang_110 on new { e.wmsno, e.bllid } equals new { e4.wmsno, e4.bllid }
+                         join e5 in WmsDc.emp on e4.ckr equals e5.empid
+                         into empJoin from e6 in empJoin.DefaultIfEmpty()
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                          join e2 in WmsDc.wms_pkg on new { e1.gdsid } equals new { e2.gdsid }
-                         into joinPkg from e3 in joinPkg.DefaultIfEmpty()
+                         into joinPkg
+                         from e3 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno
                          && e.bllid == WMSConst.BLL_TYPE_RETPRV
                          select new
                          {
+                             e4.chkflg,
+                             e4.ckr,
+                             e4.chkdat,
+                             ckrdes = e6.empdes.Trim(),
                              e.barcode,
                              e.bcd,
                              e.bkr,
@@ -917,7 +988,7 @@ namespace WMS.Controllers
                              e1.gdsdes,
                              e1.spc,
                              e1.bsepkg,
-                             pkg03 = GetPkgStr(e.qty,e3.cnvrto,e3.pkgdes),
+                             pkg03 = GetPkgStr(e.qty, e3.cnvrto, e3.pkgdes),
                              pkg03pre = GetPkgStr(e.preqty, e3.cnvrto, e3.pkgdes),
                          };
             var arrqrydtl = qrydtl.ToArray();

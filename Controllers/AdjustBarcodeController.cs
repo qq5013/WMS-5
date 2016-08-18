@@ -223,7 +223,7 @@ namespace WMS.Controllers
                     i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整审核", "ab", LoginInfo.DefSavdptid);
                 }
                 catch (Exception ex)
-                {
+                {                 
                     return RErr(ex.Message, "E0074");
                 }
 
@@ -715,7 +715,7 @@ namespace WMS.Controllers
 
                 try
                 {
-                    WmsDc.SubmitChanges(System.Data.Linq.ConflictMode.FailOnFirstConflict);
+                    WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0005");
                 }
@@ -1229,25 +1229,37 @@ namespace WMS.Controllers
                 if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
                 {
                     return RInfo("I0028");
-                }
+                }                
 
                 WmsDc.wms_blltp.DeleteAllOnSubmit(qrytpdtl);
                 WmsDc.wms_blldtl.DeleteAllOnSubmit(arrqrydtl);
                 WmsDc.wms_bllmst.DeleteAllOnSubmit(arrqrymst);
-                wms_bllmst mst = arrqrymst[0];
+                
                 //写删除日志
                 iDelTpDtl(qrytpdtl, arrqrymst[0]);
                 iDelBllDtl(qrydtl, arrqrymst[0]);
                 iDelBllMst(arrqrymst[0]);
 
                 try
-                {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
-                    //检查单号是否已经审核
-                    if (mst != null && mst.chkflg == GetY())
+                {                    
+                    wms_bllmst mst = arrqrymst.FirstOrDefault();
+                    if (qrymst.Count()>0)
                     {
-                        return RInfo("I0207");
-                    }
+                        //修改主单时间戳
+                        string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                        i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
+
+                        //检查单号是否已经审核
+                        if (mst != null && mst.chkflg == GetY())
+                        {
+                            return RInfo("I0207");
+                        }
+                    }                    
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0008");
@@ -1540,6 +1552,11 @@ select '" + dtl.barcode + @"',
                     return RInfo("I0037");
                 }
 
+                if (!IsExistBarcode(barcode))
+                {
+                    return RInfo("I0495");
+                }
+
                 //检查是否存在单据
                 var qrymst = from e in WmsDc.wms_bllmst
                              where e.mkr == LoginInfo.Usrid &&
@@ -1586,6 +1603,55 @@ select '" + dtl.barcode + @"',
                 arrqrytpdtl[0].barcode = barcode.Trim();                
                 arrqrytpdtl[0].qty = qty;
                 arrqrytpdtl[0].bokdat = GetCurrentDate();
+
+                String rqu = GetQuByBarcode(barcode);
+                String oqu = GetQuByBarcode(arrqrydtl[0].barcode);
+                //如果调入不在堆头区，就判断一下区域间能不能互相调用
+                if (!dtqus.Contains(rqu))
+                {
+                    // 判断调出的区是不是堆头区，是堆头区的话，根据商品判断应该调入那个分区
+                    if (dtqus.Contains(oqu))
+                    {
+                        String[] shouldInQu = (from e in WmsDc.wms_set
+                                               join e1 in WmsDc.gds on e.val2 equals e1.dptid
+                                               where e.setid == "001" && (e.val3.Trim() == LoginInfo.DefSavdptid.Trim() || e.val3.Trim() == LoginInfo.DefCsSavdptid.Trim())
+                                               && e.isvld == GetY()
+                                               && e1.gdsid == arrqrydtl[0].gdsid.Trim()
+                                               select e.val1.Trim()).ToArray();
+                        if (shouldInQu.Length == 0)
+                        {
+                            return RInfo("I0474", arrqrydtl[0].gdsid.Trim());
+                        }
+                        // 调入分区{0}与商品所在分区{1}不一致
+                        if (!shouldInQu.Contains(rqu))
+                        {
+                            return RInfo("I0475", rqu, String.Join(",", shouldInQu));
+                        }
+
+                    }
+                    else
+                    {
+                        // 判断是否是同一个区能不能互调
+                        wms_set[] sets = (from e in WmsDc.wms_set
+                                          join e1 in WmsDc.wms_cangwei
+                                            on new { qu = e.val1, savdptid = e.val3, e.setid }
+                                            equals new { e1.qu, e1.savdptid, setid = "006" }
+                                          where e1.barcode == arrqrydtl[0].barcode || e1.barcode == barcode
+                                          select e).ToArray();
+                        if (sets.Length == 2)
+                        {
+                            if (sets[0].brief.Trim() != sets[1].brief.Trim())
+                            {
+                                return RInfo("I0020", sets[0].val1, sets[1].val1);
+                            }
+                        }
+                        else
+                        {
+                            return RInfo("I0021");
+                        }
+                    }
+                }
+
                 /*try
                 {
                     WmsDc.SubmitChanges();                    
@@ -1656,6 +1722,11 @@ select '" + dtl.barcode + @"',
                 if (DoingRetrieve(LoginInfo.DefStoreid, quRetrv))
                 {
                     return RInfo("I0037");
+                }
+
+                if (!IsExistBarcode(barcode))
+                {
+                    return RInfo("I0496");
                 }
 
                 //检查是否存在单据
@@ -1797,14 +1868,7 @@ delete wms_blldtl from wms_blldtl a inner join wms_bllmst b on a.wmsno=b.wmsno a
                     return RInfo("I0207");
                 }*/
 
-                //修改主单时间戳
-                i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
-                string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
-                int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
-                if (iEff == 0)
-                {
-                    return RInfo("I0207");
-                }
+                
 
                 WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
                 i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
@@ -1826,12 +1890,28 @@ delete wms_blldtl from wms_blldtl a inner join wms_bllmst b on a.wmsno=b.wmsno a
                 }
                 try
                 {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
-                    //检查单号是否已经审核
-                    if (mst != null && mst.chkflg == GetY())
+                    if (qrymst.Count() > 1)
                     {
-                        return RInfo("I0207");
+                        WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                        //检查单号是否已经审核
+                        if (mst != null && mst.chkflg == GetY())
+                        {
+                            return RInfo("I0207");
+                        }
+                        
+                        if (iArrDtlCnt > 1)
+                        {
+                            //修改主单时间戳
+                            i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整删除旧商品", "ab", LoginInfo.DefSavdptid);
+                            string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                            int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                            if (iEff == 0)
+                            {
+                                return RInfo("I0207");
+                            }
+                        }
                     }
+
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0011");
@@ -1993,6 +2073,7 @@ delete wms_blldtl from wms_blldtl a inner join wms_bllmst b on a.wmsno=b.wmsno a
                                orderby e.rcdidxtp descending
                                select e;
                 var arrqrytpdtl = qrytpdtl.ToArray();
+                int iTpdtlCount = arrqrytpdtl.Length;
                 if (arrqrymst.Length <= 0)
                 {
                     return RNoData("N0018");
@@ -2035,24 +2116,28 @@ delete wms_blldtl from wms_blldtl a inner join wms_bllmst b on a.wmsno=b.wmsno a
                     {
                         return RInfo("I0207");
                     }*/
-
-                    //修改主单时间戳
-                    string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
-                    i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
-                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
-                    if (iEff == 0)
+                    if (qrymst.Count() > 0)
                     {
-                        return RInfo("I0207");
-                    }
-                    WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
-                    i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e=>e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+                        WmsDc.Refresh(RefreshMode.OverwriteCurrentValues, mst);
+                        i(wmsno, "3", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
 
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
-                    //检查单号是否已经审核
-                    if (mst != null && mst.chkflg == GetY())
-                    {
-                        return RInfo("I0207");
+                        WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                        //检查单号是否已经审核
+                        if (mst != null && mst.chkflg == GetY())
+                        {
+                            return RInfo("I0207");
+                        }
+
+                        //修改主单时间戳
+                        string sql = @"update wms_bllmst set bllid='108' where wmsno='" + mst.wmsno + "' and bllid='108' and udtdtm={0}";
+                        i(wmsno, "2", string.Join("", mst.udtdtm.ToArray().Select(e => e.ToString("X")).ToArray()), "仓位调整删除新商品", "ab", LoginInfo.DefSavdptid);
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
                     }
+
                     WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0013");

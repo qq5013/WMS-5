@@ -32,8 +32,8 @@ namespace WMS.Controllers
 
         protected TransactionOptions options;
 
-        const string INTVER = "1.0.0.8";
-        const string APPVER = "163";
+        const string INTVER = "1.0.0.9";
+        const string APPVER = "164";
 
         protected bool CheckVer(string ver)
         {

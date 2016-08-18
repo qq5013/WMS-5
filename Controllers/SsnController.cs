@@ -1002,6 +1002,14 @@ namespace WMS.Controllers
                       {
                           qu = e.val1,
                           qudes = e.typedes,
+                          barcode =  (from ee1 in WmsDc.wms_cangwei
+                                      where ee1.qu==e.val1 && ee1.savdptid==e.val3
+                                      && (from ee in WmsDc.wms_cangwei
+                                     where ee.qu == ee1.qu && ee.savdptid == ee1.savdptid
+                                     group ee by new {ee.savdptid, ee.qu } into g
+                                     where g.Count()==1
+                                     select g.Key.qu).Any()
+                                     select ee1.barcode).FirstOrDefault()
                       };
             if (pwrFlg == "y")
             {
@@ -1025,7 +1033,9 @@ namespace WMS.Controllers
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             var qry = from e in WmsDc.gds
-                      join e1 in WmsDc.bcd on e.gdsid equals e1.gdsid
+                      join ee1 in WmsDc.bcd on e.gdsid equals ee1.gdsid
+                      into joinBcd
+                      from e1 in joinBcd.DefaultIfEmpty()
                       join e2 in WmsDc.mctdtl on e.gdsid equals e2.gdsid
                       join e3 in WmsDc.mctct on e2.ctno equals e3.ctno
                       where (e.gdsid == gdsid
@@ -2994,7 +3004,8 @@ namespace WMS.Controllers
         {
             gdsid = GetGdsidByGdsidOrBcd(gdsid);
             var qry = from e in WmsDc.gds
-                      join e1 in WmsDc.bcd on e.gdsid equals e1.gdsid
+                      join ee1 in WmsDc.bcd on e.gdsid equals ee1.gdsid
+                      into bcdjoin from e1 in bcdjoin.DefaultIfEmpty()
                       join e2 in WmsDc.wms_set on new { e.dptid, setid = WMSConst.SET_TYPE_RELATEDPT } equals new { dptid = e2.val2, e2.setid }
                       join e3 in WmsDc.wms_pkg on new { e.gdsid } equals new { e3.gdsid }
                       where

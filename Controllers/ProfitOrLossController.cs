@@ -406,22 +406,26 @@ namespace WMS.Controllers
                 }
                 //删除主单据
                 try
-                {                    
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                {                                        
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
 
-                    //修改主单时间戳
-                    string sql = @"update wms_cang_111 set bllid='111' where wmsno='" + mst.wmsno + "' and bllid='111' and udtdtm={0}";
-                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
-                    if (iEff == 0)
-                    {
-                        return RInfo("I0207");
-                    }
+                    WmsDc.SubmitChanges();
 
+                    if (iDtlCnt > 1)
+                    {
+                        //修改主单时间戳
+                        //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                        string sql = @"update wms_cang_111 set bllid='111' where wmsno='" + mst.wmsno + "' and bllid='111' and udtdtm={0}";
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
+                    }
 
                     WmsDc.SubmitChanges();
                     scop.Complete();
@@ -455,8 +459,9 @@ namespace WMS.Controllers
                 var qrydtl = from e in WmsDc.wms_cangdtl_111
                              where e.wmsno == wmsno
                              && e.bllid == WMSConst.BLL_TYPE_PROFITORLOSS
-                             select e;
+                             select e;                
                 var arrqrydtl = qrydtl.ToArray();
+                int iDtlCount = arrqrydtl.Length;
                 //单据是否找到
                 if (arrqrymst.Length <= 0)
                 {
@@ -495,22 +500,26 @@ namespace WMS.Controllers
                 //删除主单据
                 try
                 {
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
 
-                    //修改主单时间戳
-                    string sql = @"update wms_cang_111 set bllid='111' where wmsno='" + mst.wmsno + "' and bllid='111' and udtdtm={0}";
-                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
-                    if (iEff == 0)
+                    WmsDc.SubmitChanges();
+
+                    if (iDtlCount > 1)
                     {
-                        return RInfo("I0207");
+                        //修改主单时间戳
+                        WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                        string sql = @"update wms_cang_111 set bllid='111' where wmsno='" + mst.wmsno + "' and bllid='111' and udtdtm={0}";
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
                     }
 
-                    WmsDc.SubmitChanges();
                     scop.Complete();
                     return RSucc("成功", null, "S0100");
                 }
@@ -653,6 +662,8 @@ namespace WMS.Controllers
                         return RInfo("I0207");
                     }
 
+                    WmsDc.SubmitChanges();
+
                     //修改主单时间戳
                     string sql = @"update wms_cang_111 set bllid='111' where wmsno='" + mst.wmsno + "' and bllid='111' and udtdtm={0}";
                     int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
@@ -661,7 +672,7 @@ namespace WMS.Controllers
                         return RInfo("I0207");
                     }
 
-                    WmsDc.SubmitChanges();
+                    
                     scop.Complete();
                     return RSucc("成功", arrqrydtl[0], "S0101");
                 }
@@ -998,6 +1009,8 @@ namespace WMS.Controllers
                         return RInfo("I0207");
                     }
 
+                    WmsDc.SubmitChanges();
+
                     //修改主单时间戳
                     string sql = @"update wms_cang_111 set bllid='111' where wmsno='" + mst.wmsno + "' and bllid='111' and udtdtm={0}";
                     int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
@@ -1006,7 +1019,7 @@ namespace WMS.Controllers
                         return RInfo("I0207");
                     }
 
-                    WmsDc.SubmitChanges();
+                    
                     scop.Complete();
                     return RSucc("成功", newdtl, "S0104");
                 }
@@ -1034,16 +1047,24 @@ namespace WMS.Controllers
                          select e;
             var arrqrymst = qrymst.ToArray();
             var qrydtl = from e in WmsDc.wms_cangdtl_111
+                         join em in WmsDc.wms_cang_111 on new { e.wmsno, e.bllid } equals new { em.wmsno, em.bllid }
+                         join eckr1 in WmsDc.emp on em.ckr equals eckr1.empid
+                         into  eckrJoin from eckr in eckrJoin.DefaultIfEmpty()
                          join e1 in WmsDc.gds on e.gdsid equals e1.gdsid
                          join e2 in WmsDc.losrsn on e.brfdtl.Trim() equals e2.losrsnid.Trim()
                          into joinLosrsnDef
                          from e3 in joinLosrsnDef.DefaultIfEmpty()
                          join e4 in WmsDc.wms_pkg on new { e1.gdsid } equals new { e4.gdsid }
-                         into joinPkg from e5 in joinPkg.DefaultIfEmpty()
+                         into joinPkg
+                         from e5 in joinPkg.DefaultIfEmpty()
                          where e.wmsno == wmsno
                          && e.bllid == WMSConst.BLL_TYPE_PROFITORLOSS
                          select new
                          {
+                             em.chkflg,
+                             em.ckr,
+                             em.chkdat,
+                             ckrdes = eckr.empdes.Trim(),
                              e.barcode,
                              e.bcd,
                              e.bkr,
@@ -1069,7 +1090,7 @@ namespace WMS.Controllers
                              e3.losrsndes,
                              e5.cnvrto,
                              pkgdes = e5.pkgdes.Trim(),
-                             pkg03 = GetPkgStr(Math.Round(e.qty, 4, MidpointRounding.AwayFromZero), e5.cnvrto,e5.pkgdes),
+                             pkg03 = GetPkgStr(Math.Round(e.qty, 4, MidpointRounding.AwayFromZero), e5.cnvrto, e5.pkgdes),
                              pkg03pre = GetPkgStr(Math.Round(e.preqty.Value, 4, MidpointRounding.AwayFromZero), e5.cnvrto, e5.pkgdes),
                          };
             var arrqrydtl = qrydtl.ToArray();

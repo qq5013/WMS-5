@@ -261,25 +261,29 @@ namespace WMS.Controllers
                     iDelCangDtl109(dlarrdtl, mst);
                     //查询明细删除后，是否已经没有明细，没有明细就删除主单据
                     var arrqrydtl = qrydtl.ToArray();
-                    if (arrqrydtl.Length <= 1)
+                    int iDtlCount = arrqrydtl.Length;
+                    if (iDtlCount <= 1)
                     {
                         WmsDc.wms_cang_109.DeleteOnSubmit(mst);
                         iDelCangMst109(mst);
                     }
 
-                    WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
+                    //WmsDc.Refresh(System.Data.Linq.RefreshMode.OverwriteCurrentValues, mst);
                     //检查单号是否已经审核
                     if (mst!=null && mst.chkflg == GetY())
                     {
                         return RInfo("I0207");
                     }
 
-                    //修改主单时间戳
-                    string sql = @"update wms_cang_109 set bllid='109' where wmsno='" + mst.wmsno + "' and bllid='109' and udtdtm={0}";
-                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
-                    if (iEff == 0)
+                    if (iDtlCount > 1)
                     {
-                        return RInfo("I0207");
+                        //修改主单时间戳
+                        string sql = @"update wms_cang_109 set bllid='109' where wmsno='" + mst.wmsno + "' and bllid='109' and udtdtm={0}";
+                        int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                        if (iEff == 0)
+                        {
+                            return RInfo("I0207");
+                        }
                     }
 
                     WmsDc.SubmitChanges();
@@ -314,6 +318,7 @@ namespace WMS.Controllers
                                      && e.bllid == WMSConst.BLL_TYPE_RETCANG
                                      select e;
                         var arrqrydtl = qrydtl.ToArray();
+                        int iDtlCount = arrqrydtl.Count();
                         var qrymst = from e in WmsDc.wms_cang_109
                                      where e.wmsno == s && e.bllid == WMSConst.BLL_TYPE_RETCANG
                                      && qus.Contains(e.qu.Trim())
@@ -357,12 +362,15 @@ namespace WMS.Controllers
                                 }
                                 WmsDc.SubmitChanges();
 
-                                //修改主单时间戳
-                                string sql = @"update wms_cang_109 set bllid='109' where wmsno='" + mst.wmsno + "' and bllid='109' and udtdtm={0}";
-                                int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
-                                if (iEff == 0)
+                                if (iDtlCount > 1)
                                 {
-                                    return RInfo("I0207");
+                                    //修改主单时间戳
+                                    string sql = @"update wms_cang_109 set bllid='109' where wmsno='" + mst.wmsno + "' and bllid='109' and udtdtm={0}";
+                                    int iEff = WmsDc.ExecuteCommand(sql, mst.udtdtm);
+                                    if (iEff == 0)
+                                    {
+                                        return RInfo("I0207");
+                                    }
                                 }
 
                                 iDelCangDtl109(arrqrydtl, mst);
@@ -878,6 +886,7 @@ namespace WMS.Controllers
                 mddtl.pkgqty = lstDtl[0].pkgqty;
                 mddtl.qty = lstDtl[0].qty;
                 mddtl.brfdtl = rsn;
+                mddtl.bokdat = GetCurrentDate();
 
                 /*WmsDc.wms_cangdtl_109.DeleteAllOnSubmit(arrqrydtl);
                 if (lstDtl.Count > 0)
